@@ -78,6 +78,11 @@ export enum AttributeEntityTypeEnum {
   PRODUCT = "PRODUCT",
 }
 
+export enum StoreSortField {
+  NAME="NAME"
+}
+
+
 export enum AttributeErrorCode {
   ALREADY_EXISTS = "ALREADY_EXISTS",
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
