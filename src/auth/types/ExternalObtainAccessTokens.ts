@@ -27,6 +27,8 @@ export interface ExternalObtainAccessTokens_externalObtainAccessTokens_user {
   firstName: string;
   lastName: string;
   isStaff: boolean;
+  isSupplier?: boolean;
+
   userPermissions: (ExternalObtainAccessTokens_externalObtainAccessTokens_user_userPermissions | null)[] | null;
   avatar: ExternalObtainAccessTokens_externalObtainAccessTokens_user_avatar | null;
 }

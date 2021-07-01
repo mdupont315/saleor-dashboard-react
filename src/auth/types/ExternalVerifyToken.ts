@@ -27,6 +27,8 @@ export interface ExternalVerifyToken_externalVerify_user {
   firstName: string;
   lastName: string;
   isStaff: boolean;
+  isSupplier?: boolean;
+
   userPermissions: (ExternalVerifyToken_externalVerify_user_userPermissions | null)[] | null;
   avatar: ExternalVerifyToken_externalVerify_user_avatar | null;
 }

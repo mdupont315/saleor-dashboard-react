@@ -21,12 +21,14 @@ export interface User_avatar {
 }
 
 export interface User {
+  isSupplier?: boolean;
   __typename: "User";
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   isStaff: boolean;
+  
   userPermissions: (User_userPermissions | null)[] | null;
   avatar: User_avatar | null;
 }

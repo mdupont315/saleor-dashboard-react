@@ -95,7 +95,7 @@ export function useExternalAuthProvider({
         username: `${firstName} ${lastName}`
       });
 
-      if (!userContext.isStaff) {
+      if (!userContext.isStaff && !userContext.isSupplier) {
         logout();
         notify({
           status: "error",
