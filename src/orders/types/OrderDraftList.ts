@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { OrderDraftFilterInput, OrderSortingInput, PaymentChargeStatusEnum, OrderStatus } from "./../../types/globalTypes";
@@ -47,9 +48,9 @@ export interface OrderDraftList_draftOrders_edges_node {
   created: any;
   id: string;
   number: string | null;
-  paymentStatus: PaymentChargeStatusEnum | null;
+  paymentStatus: PaymentChargeStatusEnum;
   status: OrderStatus;
-  total: OrderDraftList_draftOrders_edges_node_total | null;
+  total: OrderDraftList_draftOrders_edges_node_total;
   userEmail: string | null;
 }
 

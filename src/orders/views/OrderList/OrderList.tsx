@@ -4,18 +4,19 @@ import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
 import SaveFilterTabDialog, {
   SaveFilterTabDialogFormData
 } from "@saleor/components/SaveFilterTabDialog";
+import { useShopLimitsQuery } from "@saleor/components/Shop/query";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
-import { getStringOrPlaceholder, maybe } from "@saleor/misc";
+import { getStringOrPlaceholder } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createFilterHandlers from "@saleor/utils/handlers/filterHandlers";
 import createSortHandler from "@saleor/utils/handlers/sortHandler";
-import { mapNodeToChoice } from "@saleor/utils/maps";
+import { mapEdgesToItems, mapNodeToChoice } from "@saleor/utils/maps";
 import { getSortParams } from "@saleor/utils/sort";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -71,6 +72,11 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
   });
 
   const { channel, availableChannels } = useAppChannel();
+  const limitOpts = useShopLimitsQuery({
+    variables: {
+      orders: true
+    }
+  });
 
   const noChannel = !channel && typeof channel !== "undefined";
   const channelOpts = availableChannels
@@ -150,7 +156,8 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
         currentTab={currentTab}
         disabled={loading}
         filterOpts={getFilterOpts(params, channelOpts)}
-        orders={maybe(() => data.orders.edges.map(edge => edge.node))}
+        limits={limitOpts.data?.shop.limits}
+        orders={mapEdgesToItems(data?.orders)}
         pageInfo={pageInfo}
         sort={getSortParams(params)}
         onAdd={() => openModal("create-order")}
@@ -189,10 +196,10 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
           defaultChoice={channel.id}
           open={params.action === "create-order"}
           onClose={closeModal}
-          onConfirm={channel =>
+          onConfirm={channelId =>
             createOrder({
               variables: {
-                input: { channel }
+                input: { channelId }
               }
             })
           }

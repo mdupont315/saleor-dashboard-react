@@ -1,8 +1,8 @@
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import { ChannelVoucherData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailability from "@saleor/components/ChannelsAvailability";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import CountryList from "@saleor/components/CountryList";
@@ -11,8 +11,11 @@ import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { Tab, TabContainer } from "@saleor/components/Tab";
-import { createChannelsChangeHandler } from "@saleor/discounts/handlers";
-import { RequirementsPicker } from "@saleor/discounts/types";
+import {
+  createChannelsChangeHandler,
+  createDiscountTypeChangeHandler
+} from "@saleor/discounts/handlers";
+import { DiscountTypeEnum, RequirementsPicker } from "@saleor/discounts/types";
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
 import { sectionNames } from "@saleor/intl";
 import { validatePrice } from "@saleor/products/utils/validation";
@@ -23,6 +26,7 @@ import { maybe, splitDateTime } from "../../../misc";
 import { ChannelProps, ListProps, TabListActions } from "../../../types";
 import {
   DiscountValueTypeEnum,
+  PermissionEnum,
   VoucherTypeEnum
 } from "../../../types/globalTypes";
 import { VoucherDetails_voucher } from "../../types/VoucherDetails";
@@ -54,9 +58,10 @@ export function voucherDetailsPageTab(tab: string): VoucherDetailsPageTab {
 export interface VoucherDetailsPageFormData {
   applyOncePerCustomer: boolean;
   applyOncePerOrder: boolean;
+  onlyForStaff: boolean;
   channelListings: ChannelVoucherData[];
   code: string;
-  discountType: DiscountValueTypeEnum;
+  discountType: DiscountTypeEnum;
   endDate: string;
   endTime: string;
   hasEndDate: boolean;
@@ -156,15 +161,20 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
     requirementsPickerInitValue = RequirementsPicker.NONE;
   }
 
+  const discountType =
+    voucher?.type === VoucherTypeEnum.SHIPPING
+      ? DiscountTypeEnum.SHIPPING
+      : voucher?.discountValueType === DiscountValueTypeEnum.PERCENTAGE
+      ? DiscountTypeEnum.VALUE_PERCENTAGE
+      : DiscountTypeEnum.VALUE_FIXED;
+
   const initialForm: VoucherDetailsPageFormData = {
     applyOncePerCustomer: voucher?.applyOncePerCustomer || false,
     applyOncePerOrder: voucher?.applyOncePerOrder || false,
+    onlyForStaff: voucher?.onlyForStaff || false,
     channelListings,
     code: voucher?.code || "",
-    discountType: maybe(
-      () => voucher.discountValueType,
-      DiscountValueTypeEnum.FIXED
-    ),
+    discountType,
     endDate: splitDateTime(maybe(() => voucher.endDate, "")).date,
     endTime: splitDateTime(maybe(() => voucher.endDate, "")).time,
     hasEndDate: maybe(() => !!voucher.endDate),
@@ -183,17 +193,22 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
   return (
     <Form initial={initialForm} onSubmit={onSubmit}>
       {({ change, data, hasChanged, submit, triggerChange }) => {
+        const handleDiscountTypeChange = createDiscountTypeChangeHandler(
+          change
+        );
         const handleChannelChange = createChannelsChangeHandler(
           data.channelListings,
           onChannelsChange,
           triggerChange
         );
-        const formDisabled = data.channelListings?.some(
-          channel =>
-            validatePrice(channel.discountValue) ||
-            (data.requirementsPicker === RequirementsPicker.ORDER &&
-              validatePrice(channel.minSpent))
-        );
+        const formDisabled =
+          data.discountType.toString() !== "SHIPPING" &&
+          data.channelListings?.some(
+            channel =>
+              validatePrice(channel.discountValue) ||
+              (data.requirementsPicker === RequirementsPicker.ORDER &&
+                validatePrice(channel.minSpent))
+          );
         return (
           <Container>
             <AppHeader onBack={onBack}>
@@ -214,7 +229,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   data={data}
                   disabled={disabled}
                   errors={errors}
-                  onChange={change}
+                  onChange={event => handleDiscountTypeChange(data, event)}
                 />
                 <CardSpacer />
                 {data.discountType.toString() !== "SHIPPING" ? (
@@ -394,7 +409,8 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   selectedChannelId={selectedChannelId}
                 />
                 <CardSpacer />
-                <ChannelsAvailability
+                <ChannelsAvailabilityCard
+                  managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
                   allChannelsCount={allChannelsCount}
                   channelsList={data.channelListings.map(channel => ({

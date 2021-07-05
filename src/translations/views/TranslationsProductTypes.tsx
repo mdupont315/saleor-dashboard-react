@@ -1,16 +1,19 @@
+import { OutputData } from "@editorjs/editorjs";
+import useListSettings from "@saleor/hooks/useListSettings";
+import useLocalPaginator, {
+  useLocalPaginationState
+} from "@saleor/hooks/useLocalPaginator";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import useShop from "@saleor/hooks/useShop";
 import { commonMessages } from "@saleor/intl";
+import { ListViews, Pagination } from "@saleor/types";
 import { stringify as stringifyQs } from "qs";
 import React from "react";
 import { useIntl } from "react-intl";
 
 import { getMutationState, maybe } from "../../misc";
-import {
-  LanguageCodeEnum,
-  NameTranslationInput
-} from "../../types/globalTypes";
+import { LanguageCodeEnum } from "../../types/globalTypes";
 import TranslationsProductTypesPage, {
   fieldNames
 } from "../components/TranslationsProductTypesPage";
@@ -27,7 +30,7 @@ import {
   TranslatableEntities
 } from "../urls";
 
-export interface TranslationsProductTypesQueryParams {
+export interface TranslationsProductTypesQueryParams extends Pagination {
   activeField: string;
 }
 export interface TranslationsProductTypesProps {
@@ -46,9 +49,35 @@ const TranslationsProductTypes: React.FC<TranslationsProductTypesProps> = ({
   const shop = useShop();
   const intl = useIntl();
 
+  const { updateListSettings, settings } = useListSettings(
+    ListViews.TRANSLATION_ATTRIBUTE_VALUE_LIST
+  );
+  const [
+    valuesPaginationState,
+    setValuesPaginationState
+  ] = useLocalPaginationState(settings?.rowNumber);
+
   const attributeTranslations = useAttributeTranslationDetails({
-    variables: { id, language: languageCode }
+    variables: {
+      id,
+      language: languageCode,
+      firstValues: valuesPaginationState.first,
+      lastValues: valuesPaginationState.last,
+      afterValues: valuesPaginationState.after,
+      beforeValues: valuesPaginationState.before
+    }
   });
+  const translationData = attributeTranslations?.data?.translation;
+  const translation =
+    translationData?.__typename === "AttributeTranslatableContent"
+      ? translationData
+      : null;
+
+  const paginateValues = useLocalPaginator(setValuesPaginationState);
+  const { loadNextPage, loadPreviousPage, pageInfo } = paginateValues(
+    translation?.attribute?.choices?.pageInfo,
+    valuesPaginationState
+  );
 
   const onEdit = (field: string) =>
     navigate(
@@ -92,24 +121,27 @@ const TranslationsProductTypes: React.FC<TranslationsProductTypesProps> = ({
             updateAttributeValueTranslations,
             updateAttributeValueTranslationsOpts
           ) => {
-            const handleSubmit = (field: string, data: string) => {
-              const input: NameTranslationInput = {};
+            const handleSubmit = (field: string, data: string | OutputData) => {
               const [fieldName, fieldId] = field.split(":");
+
               if (fieldName === fieldNames.attribute) {
-                input.name = data;
                 updateAttributeTranslations({
                   variables: {
                     id: fieldId,
-                    input,
+                    input: { name: data as string },
                     language: languageCode
                   }
                 });
-              } else if (fieldName === fieldNames.value) {
-                input.name = data;
+              } else if (
+                [fieldNames.value, fieldNames.richTextValue].includes(fieldName)
+              ) {
+                const isRichText = fieldName === fieldNames.richTextValue;
                 updateAttributeValueTranslations({
                   variables: {
                     id: fieldId,
-                    input,
+                    input: isRichText
+                      ? { richText: JSON.stringify(data) }
+                      : { name: data as string },
                     language: languageCode
                   }
                 });
@@ -134,7 +166,6 @@ const TranslationsProductTypes: React.FC<TranslationsProductTypesProps> = ({
                 []
               )
             );
-            const translation = attributeTranslations?.data?.translation;
 
             return (
               <TranslationsProductTypesPage
@@ -166,11 +197,12 @@ const TranslationsProductTypes: React.FC<TranslationsProductTypesProps> = ({
                   )
                 }
                 onSubmit={handleSubmit}
-                data={
-                  translation?.__typename === "AttributeTranslatableContent"
-                    ? translation
-                    : null
-                }
+                data={translation}
+                settings={settings}
+                onUpdateListSettings={updateListSettings}
+                pageInfo={pageInfo}
+                onNextPage={loadNextPage}
+                onPreviousPage={loadPreviousPage}
               />
             );
           }}

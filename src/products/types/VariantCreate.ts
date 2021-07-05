@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { ProductVariantCreateInput, ProductErrorCode, AttributeInputTypeEnum, AttributeEntityTypeEnum, WeightUnitsEnum } from "./../../types/globalTypes";
+import { ProductVariantCreateInput, ProductErrorCode, AttributeInputTypeEnum, AttributeEntityTypeEnum, MeasurementUnitsEnum, ProductMediaType, WeightUnitsEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: VariantCreate
@@ -27,19 +28,41 @@ export interface VariantCreate_productVariantCreate_productVariant_privateMetada
   value: string;
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_values_file {
+export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_values {
+export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_values_file | null;
+  file: VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_edges_node;
+}
+
+export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_pageInfo;
+  edges: VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices_edges[];
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute {
@@ -50,7 +73,8 @@ export interface VariantCreate_productVariantCreate_productVariant_selectionAttr
   inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   valueRequired: boolean;
-  values: (VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_values | null)[] | null;
+  unit: MeasurementUnitsEnum | null;
+  choices: VariantCreate_productVariantCreate_productVariant_selectionAttributes_attribute_choices | null;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes_values_file {
@@ -66,6 +90,8 @@ export interface VariantCreate_productVariantCreate_productVariant_selectionAttr
   slug: string | null;
   file: VariantCreate_productVariantCreate_productVariant_selectionAttributes_values_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_selectionAttributes {
@@ -74,19 +100,41 @@ export interface VariantCreate_productVariantCreate_productVariant_selectionAttr
   values: (VariantCreate_productVariantCreate_productVariant_selectionAttributes_values | null)[];
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_values_file {
+export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_values {
+export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_values_file | null;
+  file: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_edges_node;
+}
+
+export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_pageInfo;
+  edges: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices_edges[];
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute {
@@ -97,7 +145,8 @@ export interface VariantCreate_productVariantCreate_productVariant_nonSelectionA
   inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   valueRequired: boolean;
-  values: (VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_values | null)[] | null;
+  unit: MeasurementUnitsEnum | null;
+  choices: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_attribute_choices | null;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_values_file {
@@ -113,6 +162,8 @@ export interface VariantCreate_productVariantCreate_productVariant_nonSelectionA
   slug: string | null;
   file: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_values_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes {
@@ -121,10 +172,12 @@ export interface VariantCreate_productVariantCreate_productVariant_nonSelectionA
   values: (VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes_values | null)[];
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_images {
-  __typename: "ProductImage";
+export interface VariantCreate_productVariantCreate_productVariant_media {
+  __typename: "ProductMedia";
   id: string;
   url: string;
+  type: ProductMediaType;
+  oembedData: any;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_product_defaultVariant {
@@ -132,12 +185,14 @@ export interface VariantCreate_productVariantCreate_productVariant_product_defau
   id: string;
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_product_images {
-  __typename: "ProductImage";
+export interface VariantCreate_productVariantCreate_productVariant_product_media {
+  __typename: "ProductMedia";
   id: string;
   alt: string;
   sortOrder: number | null;
   url: string;
+  type: ProductMediaType;
+  oembedData: any;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_product_thumbnail {
@@ -187,14 +242,18 @@ export interface VariantCreate_productVariantCreate_productVariant_product_chann
 
 export interface VariantCreate_productVariantCreate_productVariant_product_channelListings {
   __typename: "ProductChannelListing";
+  publicationDate: any | null;
+  isPublished: boolean;
   channel: VariantCreate_productVariantCreate_productVariant_product_channelListings_channel;
   pricing: VariantCreate_productVariantCreate_productVariant_product_channelListings_pricing | null;
 }
 
-export interface VariantCreate_productVariantCreate_productVariant_product_variants_images {
-  __typename: "ProductImage";
+export interface VariantCreate_productVariantCreate_productVariant_product_variants_media {
+  __typename: "ProductMedia";
   id: string;
   url: string;
+  type: ProductMediaType;
+  oembedData: any;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_product_variants {
@@ -202,14 +261,14 @@ export interface VariantCreate_productVariantCreate_productVariant_product_varia
   id: string;
   name: string;
   sku: string;
-  images: (VariantCreate_productVariantCreate_productVariant_product_variants_images | null)[] | null;
+  media: VariantCreate_productVariantCreate_productVariant_product_variants_media[] | null;
 }
 
 export interface VariantCreate_productVariantCreate_productVariant_product {
   __typename: "Product";
   id: string;
   defaultVariant: VariantCreate_productVariantCreate_productVariant_product_defaultVariant | null;
-  images: (VariantCreate_productVariantCreate_productVariant_product_images | null)[] | null;
+  media: VariantCreate_productVariantCreate_productVariant_product_media[] | null;
   name: string;
   thumbnail: VariantCreate_productVariantCreate_productVariant_product_thumbnail | null;
   channelListings: VariantCreate_productVariantCreate_productVariant_product_channelListings[] | null;
@@ -269,7 +328,7 @@ export interface VariantCreate_productVariantCreate_productVariant {
   privateMetadata: (VariantCreate_productVariantCreate_productVariant_privateMetadata | null)[];
   selectionAttributes: VariantCreate_productVariantCreate_productVariant_selectionAttributes[];
   nonSelectionAttributes: VariantCreate_productVariantCreate_productVariant_nonSelectionAttributes[];
-  images: (VariantCreate_productVariantCreate_productVariant_images | null)[] | null;
+  media: VariantCreate_productVariantCreate_productVariant_media[] | null;
   name: string;
   product: VariantCreate_productVariantCreate_productVariant_product;
   channelListings: VariantCreate_productVariantCreate_productVariant_channelListings[] | null;
@@ -291,4 +350,8 @@ export interface VariantCreate {
 
 export interface VariantCreateVariables {
   input: ProductVariantCreateInput;
+  firstValues?: number | null;
+  afterValues?: string | null;
+  lastValues?: number | null;
+  beforeValues?: string | null;
 }

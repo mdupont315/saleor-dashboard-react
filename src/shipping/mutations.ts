@@ -4,7 +4,6 @@ import {
 } from "@saleor/fragments/errors";
 import {
   shippingMethodFragment,
-  shippingMethodWithZipCodesFragment,
   shippingZoneDetailsFragment
 } from "@saleor/fragments/shipping";
 import { countryFragment } from "@saleor/fragments/taxes";
@@ -40,14 +39,6 @@ import {
   ShippingMethodChannelListingUpdateVariables
 } from "./types/ShippingMethodChannelListingUpdate";
 import {
-  ShippingMethodZipCodeRangeAssign,
-  ShippingMethodZipCodeRangeAssignVariables
-} from "./types/ShippingMethodZipCodeRangeAssign";
-import {
-  ShippingMethodZipCodeRangeUnassign,
-  ShippingMethodZipCodeRangeUnassignVariables
-} from "./types/ShippingMethodZipCodeRangeUnassign";
-import {
   ShippingPriceExcludeProduct,
   ShippingPriceExcludeProductVariables
 } from "./types/ShippingPriceExcludeProduct";
@@ -72,7 +63,7 @@ const deleteShippingZone = gql`
   ${shippingErrorFragment}
   mutation DeleteShippingZone($id: ID!) {
     shippingZoneDelete(id: $id) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
     }
@@ -87,7 +78,7 @@ const bulkDeleteShippingZone = gql`
   ${shippingErrorFragment}
   mutation BulkDeleteShippingZone($ids: [ID]!) {
     shippingZoneBulkDelete(ids: $ids) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
     }
@@ -121,7 +112,7 @@ const createShippingZone = gql`
   ${shippingErrorFragment}
   mutation CreateShippingZone($input: ShippingZoneCreateInput!) {
     shippingZoneCreate(input: $input) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
       shippingZone {
@@ -145,7 +136,7 @@ const updateShippingZone = gql`
   ${shippingErrorFragment}
   mutation UpdateShippingZone($id: ID!, $input: ShippingZoneUpdateInput!) {
     shippingZoneUpdate(id: $id, input: $input) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
       shippingZone {
@@ -169,7 +160,7 @@ const updateShippingRate = gql`
   ${shippingMethodFragment}
   mutation UpdateShippingRate($id: ID!, $input: ShippingPriceInput!) {
     shippingPriceUpdate(id: $id, input: $input) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
       shippingMethod {
@@ -189,7 +180,7 @@ const createShippingRate = gql`
   ${shippingZoneDetailsFragment}
   mutation CreateShippingRate($input: ShippingPriceInput!) {
     shippingPriceCreate(input: $input) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
       shippingZone {
@@ -211,7 +202,7 @@ const deleteShippingRate = gql`
   ${shippingZoneDetailsFragment}
   mutation DeleteShippingRate($id: ID!) {
     shippingPriceDelete(id: $id) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
       shippingZone {
@@ -229,7 +220,7 @@ const bulkDeleteShippingRate = gql`
   ${shippingErrorFragment}
   mutation BulkDeleteShippingRate($ids: [ID]!) {
     shippingPriceBulkDelete(ids: $ids) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
     }
@@ -251,7 +242,7 @@ export const shippingMethodChannelListingUpdate = gql`
       shippingMethod {
         ...ShippingMethodFragment
       }
-      errors: shippingErrors {
+      errors {
         ...ShippingChannelsErrorFragment
       }
     }
@@ -263,49 +254,6 @@ export const useShippingMethodChannelListingUpdate = makeMutation<
   ShippingMethodChannelListingUpdateVariables
 >(shippingMethodChannelListingUpdate);
 
-export const shippingMethodZipCodeRangeAssign = gql`
-  ${shippingChannelsErrorFragment}
-  ${shippingMethodWithZipCodesFragment}
-  mutation ShippingMethodZipCodeRangeAssign(
-    $id: ID!
-    $input: ShippingZipCodeRulesCreateInput!
-  ) {
-    shippingMethodZipCodeRulesCreate(shippingMethodId: $id, input: $input) {
-      errors: shippingErrors {
-        ...ShippingChannelsErrorFragment
-      }
-      shippingMethod {
-        ...ShippingMethodWithZipCodesFragment
-      }
-    }
-  }
-`;
-
-export const useShippingMethodZipCodeRangeAssign = makeMutation<
-  ShippingMethodZipCodeRangeAssign,
-  ShippingMethodZipCodeRangeAssignVariables
->(shippingMethodZipCodeRangeAssign);
-
-export const shippingMethodZipCodeRulesDelete = gql`
-  ${shippingChannelsErrorFragment}
-  ${shippingMethodWithZipCodesFragment}
-  mutation ShippingMethodZipCodeRangeUnassign($id: ID!) {
-    shippingMethodZipCodeRulesDelete(id: $id) {
-      errors: shippingErrors {
-        ...ShippingChannelsErrorFragment
-      }
-      shippingMethod {
-        ...ShippingMethodWithZipCodesFragment
-      }
-    }
-  }
-`;
-
-export const useShippingMethodZipCodeRangeUnassign = makeMutation<
-  ShippingMethodZipCodeRangeUnassign,
-  ShippingMethodZipCodeRangeUnassignVariables
->(shippingMethodZipCodeRulesDelete);
-
 export const shippingPriceExcludeProducts = gql`
   ${shippingErrorFragment}
   mutation ShippingPriceExcludeProduct(
@@ -313,7 +261,7 @@ export const shippingPriceExcludeProducts = gql`
     $input: ShippingPriceExcludeProductsInput!
   ) {
     shippingPriceExcludeProducts(id: $id, input: $input) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
     }
@@ -329,7 +277,7 @@ export const shippingPriceRemoveProductsFromExclude = gql`
   ${shippingErrorFragment}
   mutation ShippingPriceRemoveProductFromExclude($id: ID!, $products: [ID]!) {
     shippingPriceRemoveProductFromExclude(id: $id, products: $products) {
-      errors: shippingErrors {
+      errors {
         ...ShippingErrorFragment
       }
     }

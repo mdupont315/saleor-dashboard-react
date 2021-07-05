@@ -1,24 +1,46 @@
 import AppHeader from "@saleor/components/AppHeader";
+import CardSpacer from "@saleor/components/CardSpacer";
 import Container from "@saleor/components/Container";
 import LanguageSwitch from "@saleor/components/LanguageSwitch";
 import PageHeader from "@saleor/components/PageHeader";
-import { AttributeTranslationFragment } from "@saleor/fragments/types/AttributeTranslationFragment";
+import { ListSettingsUpdate } from "@saleor/components/TablePagination";
+import { AttributeTranslationDetailsFragment } from "@saleor/fragments/types/AttributeTranslationDetailsFragment";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { TranslationsEntitiesPageProps } from "@saleor/translations/types";
+import { ListSettings } from "@saleor/types";
 import React from "react";
-import { useIntl } from "react-intl";
+import { defineMessages, useIntl } from "react-intl";
 
-import { LanguageCodeEnum } from "../../../types/globalTypes";
-import TranslationFields from "../TranslationFields";
+import {
+  AttributeInputTypeEnum,
+  LanguageCodeEnum
+} from "../../../types/globalTypes";
+import TranslationFields, { TranslationField } from "../TranslationFields";
+
+export const messages = defineMessages({
+  values: {
+    defaultMessage: "Values",
+    description: "section name"
+  }
+});
 
 export interface TranslationsProductTypesPageProps
   extends TranslationsEntitiesPageProps {
-  data: AttributeTranslationFragment;
+  data: AttributeTranslationDetailsFragment;
+  settings?: ListSettings;
+  onUpdateListSettings?: ListSettingsUpdate;
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+  onNextPage: () => void;
+  onPreviousPage: () => void;
 }
 
 export const fieldNames = {
   attribute: "attribute",
-  value: "attributeValue"
+  value: "attributeValue",
+  richTextValue: "attributeRichTextValue"
 };
 
 const TranslationsProductTypesPage: React.FC<TranslationsProductTypesPageProps> = ({
@@ -32,7 +54,12 @@ const TranslationsProductTypesPage: React.FC<TranslationsProductTypesPageProps> 
   onDiscard,
   onEdit,
   onLanguageChange,
-  onSubmit
+  onSubmit,
+  settings,
+  onUpdateListSettings,
+  pageInfo,
+  onNextPage,
+  onPreviousPage
 }) => {
   const intl = useIntl();
 
@@ -74,26 +101,66 @@ const TranslationsProductTypesPage: React.FC<TranslationsProductTypesPageProps> 
             translation: data?.translation?.name || null,
             type: "short" as "short",
             value: data?.attribute?.name
-          },
-          ...(data?.attribute?.values?.map(
-            (attributeValue, attributeValueIndex) => ({
-              displayName: intl.formatMessage(
-                {
-                  defaultMessage: "Value {number}",
-                  description: "attribute values"
-                },
-                {
-                  number: attributeValueIndex + 1
-                }
-              ),
-              name: fieldNames.value + ":" + attributeValue.id,
-              translation: attributeValue?.translation?.name || null,
-              type: "short" as "short",
-              value: attributeValue?.name
-            })
-          ) || [])
+          }
         ]}
         saveButtonState={saveButtonState}
+        onEdit={onEdit}
+        onDiscard={onDiscard}
+        onSubmit={onSubmit}
+      />
+      <CardSpacer />
+      <TranslationFields
+        activeField={activeField}
+        disabled={disabled}
+        initialState={true}
+        title={intl.formatMessage(messages.values)}
+        fields={
+          data?.attribute?.choices?.edges?.map(
+            ({ node: attributeValue }, attributeValueIndex) => {
+              const isRichText =
+                attributeValue?.inputType === AttributeInputTypeEnum.RICH_TEXT;
+              const displayName = isRichText
+                ? intl.formatMessage({
+                    defaultMessage: "Text",
+                    description: "attribute richtext value"
+                  })
+                : intl.formatMessage(
+                    {
+                      defaultMessage: "Value {number}",
+                      description: "attribute values"
+                    },
+                    {
+                      number: attributeValueIndex + 1
+                    }
+                  );
+
+              return {
+                displayName,
+                name: `${
+                  isRichText ? fieldNames.richTextValue : fieldNames.value
+                }:${attributeValue.id}`,
+                translation:
+                  (isRichText
+                    ? attributeValue?.translation?.richText
+                    : attributeValue?.translation?.name) || null,
+                type: (isRichText
+                  ? "rich"
+                  : "short") as TranslationField["type"],
+                value: isRichText
+                  ? attributeValue?.richText
+                  : attributeValue?.name
+              };
+            }
+          ) || []
+        }
+        saveButtonState={saveButtonState}
+        pagination={{
+          settings,
+          onUpdateListSettings,
+          pageInfo,
+          onNextPage,
+          onPreviousPage
+        }}
         onEdit={onEdit}
         onDiscard={onDiscard}
         onSubmit={onSubmit}

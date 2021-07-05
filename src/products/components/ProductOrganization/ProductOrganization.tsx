@@ -1,7 +1,4 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import { FormSpacer } from "@saleor/components/FormSpacer";
@@ -15,6 +12,7 @@ import SingleAutocompleteSelectField, {
 import { ProductErrorFragment } from "@saleor/fragments/types/ProductErrorFragment";
 import { ChangeEvent } from "@saleor/hooks/useForm";
 import { maybe } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps } from "@saleor/types";
 import { getFormErrors, getProductErrorMessage } from "@saleor/utils/errors";
 import React from "react";
@@ -196,6 +194,7 @@ const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
           onChange={onCollectionChange}
           fetchChoices={fetchCollections}
           data-test="collections"
+          testId="collection"
           {...fetchMoreCollections}
         />
       </CardContent>

@@ -1,3 +1,4 @@
+import { AttributeDetails_attribute_choices } from "@saleor/attributes/types/AttributeDetails";
 import { ATTRIBUTE_TYPES_WITH_DEDICATED_VALUES } from "@saleor/attributes/utils/data";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
@@ -9,20 +10,19 @@ import Metadata from "@saleor/components/Metadata/Metadata";
 import { MetadataFormData } from "@saleor/components/Metadata/types";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import {
-  AttributeDetailsFragment,
-  AttributeDetailsFragment_values
-} from "@saleor/fragments/types/AttributeDetailsFragment";
+import { ListSettingsUpdate } from "@saleor/components/TablePagination";
+import { AttributeDetailsFragment } from "@saleor/fragments/types/AttributeDetailsFragment";
 import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFragment";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
-import { ReorderAction } from "@saleor/types";
+import { ListSettings, ReorderAction } from "@saleor/types";
 import {
   AttributeEntityTypeEnum,
   AttributeInputTypeEnum,
-  AttributeTypeEnum
+  AttributeTypeEnum,
+  MeasurementUnitsEnum
 } from "@saleor/types/globalTypes";
-import { mapMetadataItemToInput } from "@saleor/utils/maps";
+import { mapEdgesToItems, mapMetadataItemToInput } from "@saleor/utils/maps";
 import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -38,7 +38,7 @@ export interface AttributePageProps {
   disabled: boolean;
   errors: AttributeErrorFragment[];
   saveButtonBarState: ConfirmButtonTransitionState;
-  values: AttributeDetailsFragment_values[];
+  values: AttributeDetails_attribute_choices;
   onBack: () => void;
   onDelete: () => void;
   onSubmit: (data: AttributePageFormData) => void;
@@ -46,6 +46,14 @@ export interface AttributePageProps {
   onValueDelete: (id: string) => void;
   onValueReorder: ReorderAction;
   onValueUpdate: (id: string) => void;
+  settings?: ListSettings;
+  onUpdateListSettings?: ListSettingsUpdate;
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+  };
+  onNextPage: () => void;
+  onPreviousPage: () => void;
 }
 
 export interface AttributePageFormData extends MetadataFormData {
@@ -59,13 +67,14 @@ export interface AttributePageFormData extends MetadataFormData {
   slug: string;
   storefrontSearchPosition: string;
   valueRequired: boolean;
+  unit: MeasurementUnitsEnum | null | undefined;
   visibleInStorefront: boolean;
 }
 
 const AttributePage: React.FC<AttributePageProps> = ({
   attribute,
   disabled,
-  errors,
+  errors: apiErrors,
   saveButtonBarState,
   values,
   onBack,
@@ -74,7 +83,12 @@ const AttributePage: React.FC<AttributePageProps> = ({
   onValueAdd,
   onValueDelete,
   onValueReorder,
-  onValueUpdate
+  onValueUpdate,
+  settings,
+  onUpdateListSettings,
+  pageInfo,
+  onNextPage,
+  onPreviousPage
 }) => {
   const intl = useIntl();
   const {
@@ -98,36 +112,27 @@ const AttributePage: React.FC<AttributePageProps> = ({
           storefrontSearchPosition: "",
           type: AttributeTypeEnum.PRODUCT_TYPE,
           valueRequired: true,
-          visibleInStorefront: true
+          visibleInStorefront: true,
+          unit: undefined
         }
       : {
-          availableInGrid: maybe(() => attribute.availableInGrid, true),
+          availableInGrid: attribute?.availableInGrid ?? true,
           entityType: attribute?.entityType ?? null,
-          filterableInDashboard: maybe(
-            () => attribute.filterableInDashboard,
-            true
-          ),
-          filterableInStorefront: maybe(
-            () => attribute.filterableInStorefront,
-            true
-          ),
-          inputType: maybe(
-            () => attribute.inputType,
-            AttributeInputTypeEnum.DROPDOWN
-          ),
+          filterableInDashboard: attribute?.filterableInDashboard ?? true,
+          filterableInStorefront: attribute?.filterableInStorefront ?? true,
+          inputType: attribute?.inputType ?? AttributeInputTypeEnum.DROPDOWN,
           metadata: attribute?.metadata?.map(mapMetadataItemToInput),
-          name: maybe(() => attribute.name, ""),
+          name: attribute?.name ?? "",
           privateMetadata: attribute?.privateMetadata?.map(
             mapMetadataItemToInput
           ),
-          slug: maybe(() => attribute.slug, ""),
-          storefrontSearchPosition: maybe(
-            () => attribute.storefrontSearchPosition.toString(),
-            ""
-          ),
+          slug: attribute?.slug ?? "",
+          storefrontSearchPosition:
+            attribute?.storefrontSearchPosition.toString() ?? "",
           type: attribute?.type || AttributeTypeEnum.PRODUCT_TYPE,
-          valueRequired: maybe(() => attribute.valueRequired, true),
-          visibleInStorefront: maybe(() => attribute.visibleInStorefront, true)
+          valueRequired: !!attribute?.valueRequired ?? true,
+          visibleInStorefront: attribute?.visibleInStorefront ?? true,
+          unit: attribute?.unit || null
         };
 
   const handleSubmit = (data: AttributePageFormData) => {
@@ -150,7 +155,16 @@ const AttributePage: React.FC<AttributePageProps> = ({
 
   return (
     <Form initial={initialForm} onSubmit={handleSubmit}>
-      {({ change, data, hasChanged, submit }) => {
+      {({
+        change,
+        set,
+        data,
+        hasChanged,
+        submit,
+        errors,
+        setError,
+        clearErrors
+      }) => {
         const changeMetadata = makeMetadataChangeHandler(change);
 
         return (
@@ -174,8 +188,12 @@ const AttributePage: React.FC<AttributePageProps> = ({
                   canChangeType={attribute === null}
                   data={data}
                   disabled={disabled}
-                  errors={errors}
+                  apiErrors={apiErrors}
                   onChange={change}
+                  set={set}
+                  errors={errors}
+                  setError={setError}
+                  clearErrors={clearErrors}
                 />
                 {ATTRIBUTE_TYPES_WITH_DEDICATED_VALUES.includes(
                   data.inputType
@@ -184,11 +202,16 @@ const AttributePage: React.FC<AttributePageProps> = ({
                     <CardSpacer />
                     <AttributeValues
                       disabled={disabled}
-                      values={values}
+                      values={mapEdgesToItems(values)}
                       onValueAdd={onValueAdd}
                       onValueDelete={onValueDelete}
                       onValueReorder={onValueReorder}
                       onValueUpdate={onValueUpdate}
+                      settings={settings}
+                      onUpdateListSettings={onUpdateListSettings}
+                      pageInfo={pageInfo}
+                      onNextPage={onNextPage}
+                      onPreviousPage={onPreviousPage}
                     />
                   </>
                 )}
@@ -205,7 +228,7 @@ const AttributePage: React.FC<AttributePageProps> = ({
                 <CardSpacer />
                 <AttributeProperties
                   data={data}
-                  errors={errors}
+                  errors={apiErrors}
                   disabled={disabled}
                   onChange={change}
                 />

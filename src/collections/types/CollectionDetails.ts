@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -102,7 +103,7 @@ export interface CollectionDetails_collection {
   privateMetadata: (CollectionDetails_collection_privateMetadata | null)[];
   backgroundImage: CollectionDetails_collection_backgroundImage | null;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   products: CollectionDetails_collection_products | null;

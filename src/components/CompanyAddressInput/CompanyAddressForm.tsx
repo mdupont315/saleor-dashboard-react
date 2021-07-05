@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { TextField } from "@material-ui/core";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
 import SingleAutocompleteSelectField, {
@@ -10,6 +9,7 @@ import { AccountErrorFragment } from "@saleor/fragments/types/AccountErrorFragme
 import { ShopErrorFragment } from "@saleor/fragments/types/ShopErrorFragment";
 import { WarehouseErrorFragment } from "@saleor/fragments/types/WarehouseErrorFragment";
 import { ChangeEvent } from "@saleor/hooks/useForm";
+import { makeStyles } from "@saleor/theme";
 import { getFormErrors } from "@saleor/utils/errors";
 import getAccountErrorMessage from "@saleor/utils/errors/account";
 import getShopErrorMessage from "@saleor/utils/errors/shop";

@@ -1,9 +1,10 @@
-import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  Card,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableRow
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Checkbox from "@saleor/components/Checkbox";
 import IconButtonTableCell from "@saleor/components/IconButtonTableCell";
@@ -14,6 +15,7 @@ import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { maybe, renderCollection } from "@saleor/misc";
 import { MenuListUrlSortField } from "@saleor/navigation/urls";
+import { makeStyles } from "@saleor/theme";
 import { ListActions, ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import { getFooterColSpanWithBulkActions } from "@saleor/utils/tables";

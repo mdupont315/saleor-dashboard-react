@@ -2,6 +2,8 @@ import { ChannelPriceData } from "@saleor/channels/utils";
 import { WarehouseFragment } from "@saleor/fragments/types/WarehouseFragment";
 import { ProductDetails_product_productType_variantAttributes } from "@saleor/products/types/ProductDetails";
 import { ProductVariantBulkCreate_productVariantBulkCreate_errors } from "@saleor/products/types/ProductVariantBulkCreate";
+import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
+import { FetchMoreProps } from "@saleor/types";
 import { isSelected } from "@saleor/utils/lists";
 import React from "react";
 
@@ -17,21 +19,29 @@ import { ProductVariantCreatorStep } from "./types";
 
 export interface ProductVariantCreatorContentProps {
   attributes: ProductDetails_product_productType_variantAttributes[];
+  attributeValues: SearchAttributeValues_attribute_choices_edges_node[];
   channelListings: ChannelPriceData[];
   data: ProductVariantCreateFormData;
   dispatchFormDataAction: React.Dispatch<ProductVariantCreateReducerAction>;
   errors: ProductVariantBulkCreate_productVariantBulkCreate_errors[];
   step: ProductVariantCreatorStep;
+  variantsLeft: number | null;
   warehouses: WarehouseFragment[];
+  fetchAttributeValues: (query: string, attributeId: string) => void;
+  fetchMoreAttributeValues?: FetchMoreProps;
 }
 
 const ProductVariantCreatorContent: React.FC<ProductVariantCreatorContentProps> = ({
   attributes,
+  attributeValues,
+  fetchAttributeValues,
+  fetchMoreAttributeValues,
   channelListings,
   data,
   dispatchFormDataAction,
   errors,
   step,
+  variantsLeft,
   warehouses
 }) => {
   const selectedAttributes = attributes.filter(attribute =>
@@ -47,12 +57,16 @@ const ProductVariantCreatorContent: React.FC<ProductVariantCreatorContentProps> 
       {step === ProductVariantCreatorStep.values && (
         <ProductVariantCreateValues
           attributes={selectedAttributes}
+          attributeValues={attributeValues}
+          fetchAttributeValues={fetchAttributeValues}
+          fetchMoreAttributeValues={fetchMoreAttributeValues}
           data={data}
-          onValueClick={(attributeId, valueId) =>
+          variantsLeft={variantsLeft}
+          onValueClick={(attributeId, value) =>
             dispatchFormDataAction({
               selectValue: {
                 attributeId,
-                valueId
+                value
               },
               type: ProductVariantCreateReducerActionType.selectValue
             })

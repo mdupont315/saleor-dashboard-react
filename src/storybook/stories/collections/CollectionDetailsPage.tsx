@@ -1,6 +1,5 @@
 import placeholderCollectionImage from "@assets/images/block1.jpg";
 import placeholderProductImage from "@assets/images/placeholder60x60.png";
-import { Omit } from "@material-ui/core";
 import { createCollectionChannelsData } from "@saleor/channels/utils";
 import { CollectionErrorCode } from "@saleor/types/globalTypes";
 import { storiesOf } from "@storybook/react";
@@ -41,7 +40,7 @@ const props: Omit<CollectionDetailsPageProps, "classes"> = {
   selectedChannelId: "123"
 };
 
-storiesOf("Views / Collections / Collection details", module)
+storiesOf("Views / Collections / Collection detailsCollection details", module)
   .addDecorator(Decorator)
   .add("default", () => <CollectionDetailsPage {...props} />)
   .add("loading", () => (
@@ -57,7 +56,7 @@ storiesOf("Views / Collections / Collection details", module)
         },
         {
           code: CollectionErrorCode.REQUIRED,
-          field: "descriptionJson"
+          field: "description"
         }
       ].map(err => ({
         __typename: "CollectionError",

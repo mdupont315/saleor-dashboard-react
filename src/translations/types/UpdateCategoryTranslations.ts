@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { TranslationInput, LanguageCodeEnum } from "./../../types/globalTypes";
@@ -9,7 +10,7 @@ import { TranslationInput, LanguageCodeEnum } from "./../../types/globalTypes";
 // ====================================================
 
 export interface UpdateCategoryTranslations_categoryTranslate_errors {
-  __typename: "Error";
+  __typename: "TranslationError";
   field: string | null;
   message: string | null;
 }
@@ -22,9 +23,9 @@ export interface UpdateCategoryTranslations_categoryTranslate_category_translati
 export interface UpdateCategoryTranslations_categoryTranslate_category_translation {
   __typename: "CategoryTranslation";
   id: string;
-  descriptionJson: any;
+  description: any | null;
   language: UpdateCategoryTranslations_categoryTranslate_category_translation_language;
-  name: string;
+  name: string | null;
   seoDescription: string | null;
   seoTitle: string | null;
 }
@@ -33,7 +34,7 @@ export interface UpdateCategoryTranslations_categoryTranslate_category {
   __typename: "Category";
   id: string;
   name: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   translation: UpdateCategoryTranslations_categoryTranslate_category_translation | null;

@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { DraftOrderCreateInput, OrderErrorCode } from "./../../types/globalTypes";
+import { DraftOrderCreateInput, OrderErrorCode, AddressTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: OrderDraftCreate
@@ -12,6 +13,7 @@ export interface OrderDraftCreate_draftOrderCreate_errors {
   __typename: "OrderError";
   code: OrderErrorCode;
   field: string | null;
+  addressType: AddressTypeEnum | null;
 }
 
 export interface OrderDraftCreate_draftOrderCreate_order {

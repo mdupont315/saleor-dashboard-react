@@ -1,8 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
+import { TableBody, TableCell, TableFooter, TableRow } from "@material-ui/core";
 import { AttributeListUrlSortField } from "@saleor/attributes/urls";
 import Checkbox from "@saleor/components/Checkbox";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
@@ -12,6 +8,7 @@ import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { translateBoolean } from "@saleor/intl";
 import { maybe, renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { ListActions, ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";
@@ -195,9 +192,6 @@ const AttributeList: React.FC<AttributeListProps> = ({
                 className={classes.link}
                 data-test="id"
                 data-test-id={maybe(() => attribute.id)}
-                data-test-values={JSON.stringify(
-                  maybe(() => attribute.values, [])
-                )}
               >
                 <TableCell padding="checkbox">
                   <Checkbox

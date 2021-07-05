@@ -1,12 +1,14 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import {
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import { CollectionErrorFragment } from "@saleor/fragments/types/CollectionErrorFragment";
 import { PageErrorFragment } from "@saleor/fragments/types/PageErrorFragment";
 import { ProductErrorFragment } from "@saleor/fragments/types/ProductErrorFragment";
+import { makeStyles } from "@saleor/theme";
 import { getFieldError, getProductErrorMessage } from "@saleor/utils/errors";
 import getPageErrorMessage from "@saleor/utils/errors/page";
 import classNames from "classnames";
@@ -79,7 +81,7 @@ const useStyles = makeStyles(
 );
 
 interface SeoFormProps {
-  description?: string;
+  description?: string | null;
   descriptionPlaceholder: string;
   disabled?: boolean;
   errors?: Array<
@@ -88,7 +90,7 @@ interface SeoFormProps {
   loading?: boolean;
   helperText?: string;
   allowEmptySlug?: boolean;
-  title: string;
+  title: string | null;
   slug: string;
   slugPlaceholder?: string;
   titlePlaceholder: string;
@@ -163,7 +165,12 @@ const SeoForm: React.FC<SeoFormProps> = props => {
           defaultMessage: "Search Engine Preview"
         })}
         toolbar={
-          <Button color="primary" variant="text" onClick={toggleExpansion}>
+          <Button
+            color="primary"
+            variant="text"
+            onClick={toggleExpansion}
+            data-test-id="edit-seo"
+          >
             <FormattedMessage
               defaultMessage="Edit website SEO"
               description="button"
@@ -217,7 +224,7 @@ const SeoForm: React.FC<SeoFormProps> = props => {
             />
             <FormSpacer />
             <TextField
-              error={title.length > maxTitleLength}
+              error={title?.length > maxTitleLength}
               name={SeoField.title}
               label={
                 <div className={classes.labelContainer}>
@@ -244,7 +251,7 @@ const SeoForm: React.FC<SeoFormProps> = props => {
                 }
               }}
               helperText={intl.formatMessage(seoFieldMessage)}
-              value={title}
+              value={title ?? ""}
               disabled={loading || disabled}
               placeholder={titlePlaceholder}
               onChange={onChange}
@@ -252,7 +259,7 @@ const SeoForm: React.FC<SeoFormProps> = props => {
             />
             <FormSpacer />
             <TextField
-              error={description.length > maxDescriptionLength}
+              error={description?.length > maxDescriptionLength}
               name={SeoField.description}
               label={
                 <div className={classes.labelContainer}>
@@ -279,7 +286,7 @@ const SeoForm: React.FC<SeoFormProps> = props => {
                   maxLength: maxDescriptionLength
                 }
               }}
-              value={description}
+              value={description ?? ""}
               onChange={onChange}
               disabled={loading || disabled}
               fullWidth

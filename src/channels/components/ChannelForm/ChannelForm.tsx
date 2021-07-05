@@ -1,8 +1,10 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardContent,
+  InputAdornment,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
@@ -20,11 +22,14 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { useStyles } from "../styles";
+import { ExtendedFormHelperTextProps } from "./types";
 
 export interface FormData {
   name: string;
   currencyCode: string;
   slug: string;
+  shippingZonesIdsToAdd: string[];
+  shippingZonesIdsToRemove: string[];
 }
 
 export interface ChannelFormProps {
@@ -80,6 +85,11 @@ export const ChannelForm: React.FC<ChannelFormProps> = ({
             helperText={getChannelsErrorMessage(formErrors?.slug, intl)}
             disabled={disabled}
             fullWidth
+            FormHelperTextProps={
+              {
+                "data-testid": "slug-text-input-helper-text"
+              } as ExtendedFormHelperTextProps
+            }
             label={intl.formatMessage({
               defaultMessage: "Slug",
               description: "channel slug"
@@ -124,8 +134,14 @@ export const ChannelForm: React.FC<ChannelFormProps> = ({
         <CardContent>
           {!!currencyCodes ? (
             <SingleAutocompleteSelectField
+              data-test-id="channel-currency-select-input"
               allowCustomValues
               error={!!formErrors.currencyCode}
+              FormHelperTextProps={
+                {
+                  "data-testid": "currency-text-input-helper-text"
+                } as ExtendedFormHelperTextProps
+              }
               helperText={getChannelsErrorMessage(
                 formErrors?.currencyCode,
                 intl

@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { LanguageCodeEnum } from "./../../types/globalTypes";
@@ -29,6 +30,7 @@ export interface VoucherTranslationFragment_translation {
 
 export interface VoucherTranslationFragment {
   __typename: "VoucherTranslatableContent";
+  name: string | null;
   voucher: VoucherTranslationFragment_voucher | null;
   translation: VoucherTranslationFragment_translation | null;
 }

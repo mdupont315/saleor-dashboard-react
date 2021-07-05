@@ -1,14 +1,15 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TableBody,
+  TableCell,
+  TableRow,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import Checkbox from "@saleor/components/Checkbox";
 import ConfirmButton, {
   ConfirmButtonTransitionState
@@ -19,6 +20,7 @@ import Hr from "@saleor/components/Hr";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { ShopInfo_shop_countries } from "@saleor/components/Shop/types/ShopInfo";
 import { buttonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import { filter } from "fuzzaldrin";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";

@@ -1,8 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
-
-import { TaxRateType } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL query operation: CountryList
@@ -10,7 +9,7 @@ import { TaxRateType } from "./../../types/globalTypes";
 
 export interface CountryList_shop_countries_vat_reducedRates {
   __typename: "ReducedRate";
-  rateType: TaxRateType;
+  rateType: string;
   rate: number;
 }
 

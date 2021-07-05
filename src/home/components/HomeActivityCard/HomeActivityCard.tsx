@@ -1,12 +1,14 @@
-import Card from "@material-ui/core/Card";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  List,
+  ListItem,
+  ListItemText,
+  Typography
+} from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { DateTime } from "@saleor/components/Date";
 import Skeleton from "@saleor/components/Skeleton";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -30,16 +32,17 @@ const useStyles = makeStyles(
 
 interface HomeActivityCardProps {
   activities: Home_activities_edges_node[];
+  testId?: string;
 }
 
 const HomeActivityCard: React.FC<HomeActivityCardProps> = props => {
-  const { activities } = props;
+  const { activities, testId } = props;
   const classes = useStyles(props);
 
   const intl = useIntl();
 
   return (
-    <Card>
+    <Card data-test-id={testId}>
       <CardTitle
         title={intl.formatMessage({
           defaultMessage: "Activity",

@@ -1,13 +1,14 @@
-import { Omit } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
 import TablePagination from "@saleor/components/TablePagination";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -101,17 +102,18 @@ const TranslationsEntitiesList: React.FC<TranslationsEntitiesListProps> = props 
             >
               <TableCell>{entity?.name || <Skeleton />}</TableCell>
               <TableCell className={classes.textRight}>
-                {maybe<React.ReactNode>(
-                  () =>
-                    intl.formatMessage(
-                      {
-                        defaultMessage: "{current} of {max}",
-                        description: "translation progress"
-                      },
-                      entity.completion
-                    ),
-                  <Skeleton />
-                )}
+                {entity.completion !== null &&
+                  maybe<React.ReactNode>(
+                    () =>
+                      intl.formatMessage(
+                        {
+                          defaultMessage: "{current} of {max}",
+                          description: "translation progress"
+                        },
+                        entity.completion
+                      ),
+                    <Skeleton />
+                  )}
               </TableCell>
             </TableRow>
           ),

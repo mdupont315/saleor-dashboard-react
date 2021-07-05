@@ -1,10 +1,9 @@
-import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
+import { Card, TableBody } from "@material-ui/core";
 import CardMenu from "@saleor/components/CardMenu";
 import CardSpacer from "@saleor/components/CardSpacer";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { mergeRepeatedOrderLines } from "@saleor/orders/utils/data";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -83,7 +82,8 @@ const OrderFulfilledProductsCard: React.FC<OrderFulfilledProductsCardProps> = pr
                       defaultMessage: "Cancel Fulfillment",
                       description: "button"
                     }),
-                    onSelect: onOrderFulfillmentCancel
+                    onSelect: onOrderFulfillmentCancel,
+                    testId: "cancelFulfillmentButton"
                   }
                 ]}
               />

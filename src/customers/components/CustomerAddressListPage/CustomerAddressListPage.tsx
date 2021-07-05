@@ -1,10 +1,9 @@
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Button, Typography } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import Container from "@saleor/components/Container";
 import PageHeader from "@saleor/components/PageHeader";
 import { renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
 
@@ -23,6 +22,14 @@ export interface CustomerAddressListPageProps {
 }
 
 const messages = defineMessages({
+  addAddress: {
+    defaultMessage: "Add address",
+    description: "button"
+  },
+  doesntHaveAddresses: {
+    defaultMessage:
+      "This customer doesn’t have any adresses added to his address book. You can add address using the button below."
+  },
   fullNameAddress: {
     defaultMessage: "{fullName}'s Address Book",
     description: "customer's address book, header"
@@ -31,16 +38,8 @@ const messages = defineMessages({
     defaultMessage: "{fullName} Details",
     description: "customer details, header"
   },
-  addAddress: {
-    defaultMessage: "Add address",
-    description: "button"
-  },
   noAddressToShow: {
     defaultMessage: "There is no address to show for this customer"
-  },
-  doesntHaveAddresses: {
-    defaultMessage:
-      "This customer doesn’t have any adresses added to his address book. You can add address using the button below."
   }
 });
 

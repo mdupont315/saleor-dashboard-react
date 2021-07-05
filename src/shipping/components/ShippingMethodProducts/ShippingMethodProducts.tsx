@@ -1,12 +1,13 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
+import {
+  Button,
+  Card,
+  IconButton,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableRow,
+  Typography
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import Checkbox from "@saleor/components/Checkbox";
@@ -17,6 +18,7 @@ import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { renderCollection } from "@saleor/misc";
 import { ShippingZone_shippingZone_shippingMethods_excludedProducts_edges_node } from "@saleor/shipping/types/ShippingZone";
+import { makeStyles } from "@saleor/theme";
 import { ListActions, ListProps } from "@saleor/types";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";

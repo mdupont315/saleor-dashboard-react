@@ -1,10 +1,11 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardContent,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography
+} from "@material-ui/core";
 import { ChannelPriceData } from "@saleor/channels/utils";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
@@ -13,6 +14,7 @@ import Hr from "@saleor/components/Hr";
 import PriceField from "@saleor/components/PriceField";
 import SingleSelectField from "@saleor/components/SingleSelectField";
 import { ProductDetails_product_productType_variantAttributes } from "@saleor/products/types/ProductDetails";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 

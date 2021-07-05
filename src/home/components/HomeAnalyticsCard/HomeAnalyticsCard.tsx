@@ -1,8 +1,6 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import { IconProps } from "@material-ui/core/Icon";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -53,19 +51,20 @@ const useStyles = makeStyles(
 );
 
 interface HomeAnalyticsCardProps {
+  testId?: string;
   icon: React.ReactElement<IconProps>;
   title: string;
   children?: React.ReactNode;
 }
 
 const HomeAnalyticsCard: React.FC<HomeAnalyticsCardProps> = props => {
-  const { children, title, icon } = props;
+  const { children, title, icon, testId } = props;
 
   const classes = useStyles(props);
 
   return (
     <Card className={classes.cardSpacing}>
-      <CardContent className={classes.cardContent}>
+      <CardContent className={classes.cardContent} data-test-id={testId}>
         <div>
           <Typography className={classes.cardTitle} variant="subtitle1">
             {title}

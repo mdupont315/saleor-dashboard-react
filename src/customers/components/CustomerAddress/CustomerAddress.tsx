@@ -1,10 +1,9 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
+import { Card, CardContent } from "@material-ui/core";
 import AddressFormatter from "@saleor/components/AddressFormatter";
 import CardMenu from "@saleor/components/CardMenu";
 import CardTitle from "@saleor/components/CardTitle";
 import Skeleton from "@saleor/components/Skeleton";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { defineMessages, useIntl } from "react-intl";
 
@@ -26,26 +25,26 @@ const messages = defineMessages({
   defaultAddress: {
     defaultMessage: "Default Address"
   },
-  defaultShippingAddress: {
-    defaultMessage: "Default Shipping Address"
-  },
   defaultBillingAddress: {
     defaultMessage: "Default Billing Address"
   },
-  setDefaultShipping: {
-    defaultMessage: "Set as default shipping address",
-    description: "button"
+  defaultShippingAddress: {
+    defaultMessage: "Default Shipping Address"
   },
-  setDefaultBilling: {
-    defaultMessage: "Set as default billing address",
+  deleteAddress: {
+    defaultMessage: "Delete Address",
     description: "button"
   },
   editAddress: {
     defaultMessage: "Edit Address",
     description: "button"
   },
-  deleteAddress: {
-    defaultMessage: "Delete Address",
+  setDefaultBilling: {
+    defaultMessage: "Set as default billing address",
+    description: "button"
+  },
+  setDefaultShipping: {
+    defaultMessage: "Set as default shipping address",
     description: "button"
   }
 });

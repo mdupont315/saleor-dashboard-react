@@ -1,15 +1,16 @@
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
+import {
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TableBody,
+  TableCell,
+  TableRow,
+  TextField
+} from "@material-ui/core";
 import Checkbox from "@saleor/components/Checkbox";
 import ConfirmButton, {
   ConfirmButtonTransitionState
@@ -24,6 +25,7 @@ import useModalDialogOpen from "@saleor/hooks/useModalDialogOpen";
 import useSearchQuery from "@saleor/hooks/useSearchQuery";
 import { buttonMessages } from "@saleor/intl";
 import { maybe, renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { ChannelProps, FetchMoreProps } from "@saleor/types";
 import getOrderErrorMessage from "@saleor/utils/errors/order";
 import React from "react";
@@ -189,21 +191,48 @@ const OrderProductAddDialog: React.FC<OrderProductAddDialogProps> = props => {
     onClose: () => setVariants([])
   });
 
-  const productChoices = products.filter(
-    product => product.variants?.length > 0
-  );
+  const isValidVariant = ({
+    channelListings
+  }: SearchOrderVariant_search_edges_node_variants) => {
+    const currentListing = channelListings.find(
+      listing => listing.channel.id === selectedChannelId
+    );
+
+    const listingPrice = currentListing?.price?.amount;
+
+    const isVariantPriceSet =
+      listingPrice !== null && listingPrice !== undefined;
+
+    return !!currentListing && isVariantPriceSet;
+  };
+
+  const getValidProductVariants = ({
+    variants
+  }: SearchOrderVariant_search_edges_node) => variants.filter(isValidVariant);
+
+  const productChoices =
+    products?.filter(product => getValidProductVariants(product).length > 0) ||
+    [];
+
   const selectedVariantsToProductsMap = productChoices
     ? productChoices.map(product =>
-        product.variants.map(variant => isVariantSelected(variant, variants))
+        getValidProductVariants(product).map(variant =>
+          isVariantSelected(variant, variants)
+        )
       )
     : [];
+
   const productsWithAllVariantsSelected = productChoices
     ? productChoices.map(product =>
-        hasAllVariantsSelected(product.variants, variants)
+        hasAllVariantsSelected(getValidProductVariants(product), variants)
       )
     : [];
 
   const handleSubmit = () => onSubmit(variants);
+
+  const productChoicesWithValidVariants = productChoices.filter(
+    ({ variants }) => variants.some(isValidVariant)
+  );
 
   return (
     <Dialog
@@ -219,7 +248,7 @@ const OrderProductAddDialog: React.FC<OrderProductAddDialogProps> = props => {
           description="dialog header"
         />
       </DialogTitle>
-      <DialogContent className={classes.overflow}>
+      <DialogContent className={classes.overflow} data-test-id="searchQuery">
         <TextField
           name="query"
           value={query}
@@ -254,99 +283,89 @@ const OrderProductAddDialog: React.FC<OrderProductAddDialogProps> = props => {
           <ResponsiveTable key="table">
             <TableBody>
               {renderCollection(
-                productChoices,
-                (product, productIndex) =>
-                  product.variants.some(variant =>
-                    variant.channelListings.some(
-                      listing => listing.channel.id === selectedChannelId
-                    )
-                  ) ? (
-                    <React.Fragment key={product ? product.id : "skeleton"}>
-                      <TableRow>
-                        <TableCell
-                          padding="checkbox"
-                          className={classes.productCheckboxCell}
-                        >
-                          <Checkbox
-                            checked={
-                              productsWithAllVariantsSelected[productIndex]
-                            }
-                            disabled={loading}
-                            onChange={() =>
-                              onProductAdd(
-                                product,
-                                productIndex,
-                                productsWithAllVariantsSelected,
-                                variants,
-                                setVariants
-                              )
-                            }
-                          />
-                        </TableCell>
-                        <TableCellAvatar
-                          className={classes.avatar}
-                          thumbnail={maybe(() => product.thumbnail.url)}
+                productChoicesWithValidVariants,
+                (product, productIndex) => (
+                  <React.Fragment key={product ? product.id : "skeleton"}>
+                    <TableRow>
+                      <TableCell
+                        padding="checkbox"
+                        className={classes.productCheckboxCell}
+                      >
+                        <Checkbox
+                          checked={
+                            productsWithAllVariantsSelected[productIndex]
+                          }
+                          disabled={loading}
+                          onChange={() =>
+                            onProductAdd(
+                              product,
+                              productIndex,
+                              productsWithAllVariantsSelected,
+                              variants,
+                              setVariants
+                            )
+                          }
                         />
-                        <TableCell className={classes.colName} colSpan={2}>
-                          {maybe(() => product.name)}
-                        </TableCell>
-                      </TableRow>
-                      {maybe(() => product.variants, []).map(
-                        (variant, variantIndex) =>
-                          variant.channelListings.some(
-                            listing => listing.channel.id === selectedChannelId
-                          ) ? (
-                            <TableRow key={variant.id}>
-                              <TableCell />
-                              <TableCell className={classes.colVariantCheckbox}>
-                                <Checkbox
-                                  className={classes.variantCheckbox}
-                                  checked={
-                                    selectedVariantsToProductsMap[productIndex][
-                                      variantIndex
-                                    ]
-                                  }
-                                  disabled={loading}
-                                  onChange={() =>
-                                    onVariantAdd(
-                                      variant,
-                                      variantIndex,
-                                      productIndex,
-                                      variants,
-                                      selectedVariantsToProductsMap,
-                                      setVariants
-                                    )
-                                  }
-                                />
-                              </TableCell>
-                              <TableCell className={classes.colName}>
-                                <div>{variant.name}</div>
-                                <div className={classes.grayText}>
-                                  <FormattedMessage
-                                    defaultMessage="SKU {sku}"
-                                    description="variant sku"
-                                    values={{
-                                      sku: variant.sku
-                                    }}
-                                  />
-                                </div>
-                              </TableCell>
-                              <TableCell className={classes.textRight}>
-                                {variant?.channelListings[0]?.price && (
-                                  <Money
-                                    money={variant.channelListings[0].price}
-                                  />
-                                )}
-                              </TableCell>
-                            </TableRow>
-                          ) : null
-                      )}
-                    </React.Fragment>
-                  ) : null,
+                      </TableCell>
+                      <TableCellAvatar
+                        className={classes.avatar}
+                        thumbnail={maybe(() => product.thumbnail.url)}
+                      />
+                      <TableCell className={classes.colName} colSpan={2}>
+                        {maybe(() => product.name)}
+                      </TableCell>
+                    </TableRow>
+                    {maybe(() => product.variants, [])
+                      .filter(isValidVariant)
+                      .map((variant, variantIndex) => (
+                        <TableRow key={variant.id}>
+                          <TableCell />
+                          <TableCell className={classes.colVariantCheckbox}>
+                            <Checkbox
+                              className={classes.variantCheckbox}
+                              checked={
+                                selectedVariantsToProductsMap[productIndex][
+                                  variantIndex
+                                ]
+                              }
+                              disabled={loading}
+                              onChange={() =>
+                                onVariantAdd(
+                                  variant,
+                                  variantIndex,
+                                  productIndex,
+                                  variants,
+                                  selectedVariantsToProductsMap,
+                                  setVariants
+                                )
+                              }
+                            />
+                          </TableCell>
+                          <TableCell className={classes.colName}>
+                            <div>{variant.name}</div>
+                            <div className={classes.grayText}>
+                              <FormattedMessage
+                                defaultMessage="SKU {sku}"
+                                description="variant sku"
+                                values={{
+                                  sku: variant.sku
+                                }}
+                              />
+                            </div>
+                          </TableCell>
+                          <TableCell className={classes.textRight}>
+                            {variant?.channelListings[0]?.price && (
+                              <Money money={variant.channelListings[0].price} />
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </React.Fragment>
+                ),
                 () => (
                   <TableRow>
                     <TableCell colSpan={4}>
-                      <FormattedMessage defaultMessage="No products matching given query" />
+                      <FormattedMessage defaultMessage="No products available in order channel matching given query" />
                     </TableCell>
                   </TableRow>
                 )

@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -27,6 +28,6 @@ export interface RefundOrderLineFragment {
   id: string;
   productName: string;
   quantity: number;
-  unitPrice: RefundOrderLineFragment_unitPrice | null;
+  unitPrice: RefundOrderLineFragment_unitPrice;
   thumbnail: RefundOrderLineFragment_thumbnail | null;
 }

@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 
 import { fileFragment } from "./file";
 import { metadataFragment } from "./metadata";
+import { pageInfoFragment } from "./pageInfo";
 
 export const attributeValueFragment = gql`
   ${fileFragment}
@@ -13,6 +14,8 @@ export const attributeValueFragment = gql`
       ...FileFragment
     }
     reference
+    richText
+    boolean
   }
 `;
 
@@ -25,23 +28,38 @@ export const attributeFragment = gql`
     visibleInStorefront
     filterableInDashboard
     filterableInStorefront
+    unit
+    inputType
   }
 `;
 
 export const attributeDetailsFragment = gql`
   ${attributeFragment}
   ${metadataFragment}
-  ${attributeValueFragment}
   fragment AttributeDetailsFragment on Attribute {
     ...AttributeFragment
     ...MetadataFragment
     availableInGrid
     inputType
     entityType
+    unit
     storefrontSearchPosition
     valueRequired
-    values {
-      ...AttributeValueFragment
+  }
+`;
+
+export const attributeValueListFragment = gql`
+  ${attributeValueFragment}
+  ${pageInfoFragment}
+  fragment AttributeValueListFragment on AttributeValueCountableConnection {
+    pageInfo {
+      ...PageInfoFragment
+    }
+    edges {
+      cursor
+      node {
+        ...AttributeValueFragment
+      }
     }
   }
 `;

@@ -12,6 +12,8 @@ import {
   FormsetData
 } from "@saleor/hooks/useFormset";
 import { PageDetails_page_attributes } from "@saleor/pages/types/PageDetails";
+import { ProductDetails_product_attributes } from "@saleor/products/types/ProductDetails";
+import { ProductVariantDetails_productVariant_nonSelectionAttributes } from "@saleor/products/types/ProductVariantDetails";
 import { FetchMoreProps, ReorderEvent } from "@saleor/types";
 import {
   AttributeEntityTypeEnum,
@@ -175,38 +177,75 @@ interface AttributesArgs {
   updatedFileAttributes: AttributeValueInput[];
 }
 
+function getFileInput(
+  attribute: AttributeInput,
+  updatedFileAttributes: AttributeValueInput[]
+) {
+  const updatedFileAttribute = updatedFileAttributes.find(
+    attributeWithNewFile => attribute.id === attributeWithNewFile.id
+  );
+
+  if (updatedFileAttribute) {
+    return {
+      file: updatedFileAttribute.file,
+      id: updatedFileAttribute.id
+    };
+  }
+  return {
+    file: updatedFileAttribute.file,
+    id: updatedFileAttribute.id
+  };
+}
+
+function getReferenceInput(attribute: AttributeInput) {
+  return {
+    id: attribute.id,
+    references: attribute.value
+  };
+}
+
+function getRichTextInput(attribute: AttributeInput) {
+  return {
+    id: attribute.id,
+    richText: attribute.value[0]
+  };
+}
+
+function getBooleanInput(attribute: AttributeInput) {
+  return {
+    id: attribute.id,
+    boolean: JSON.parse(attribute.value[0] ?? "false")
+  };
+}
+
+function getDefaultInput(attribute: AttributeInput) {
+  return {
+    id: attribute.id,
+    values: attribute.value[0] === "" ? [] : attribute.value
+  };
+}
+
 export const prepareAttributesInput = ({
   attributes,
   updatedFileAttributes
 }: AttributesArgs): AttributeValueInput[] =>
   attributes.map(attribute => {
-    if (attribute.data.inputType === AttributeInputTypeEnum.FILE) {
-      const updatedFileAttribute = updatedFileAttributes.find(
-        attributeWithNewFile => attribute.id === attributeWithNewFile.id
-      );
-      if (updatedFileAttribute) {
-        return {
-          file: updatedFileAttribute.file,
-          id: updatedFileAttribute.id
-        };
-      }
-      return {
-        file:
-          attribute.data.selectedValues &&
-          attribute.data.selectedValues[0]?.file?.url,
-        id: attribute.id
-      };
+    switch (attribute.data.inputType) {
+      case AttributeInputTypeEnum.FILE:
+        return getFileInput(attribute, updatedFileAttributes);
+
+      case AttributeInputTypeEnum.REFERENCE:
+        return getReferenceInput(attribute);
+
+      case AttributeInputTypeEnum.RICH_TEXT:
+        return getRichTextInput(attribute);
+
+      case AttributeInputTypeEnum.BOOLEAN:
+        return getBooleanInput(attribute);
+
+      default:
+        return getDefaultInput(attribute);
     }
-    if (attribute.data.inputType === AttributeInputTypeEnum.REFERENCE) {
-      return {
-        id: attribute.id,
-        references: attribute.value
-      };
-    }
-    return {
-      id: attribute.id,
-      values: attribute.value[0] === "" ? [] : attribute.value
-    };
   });
 
 export const handleUploadMultipleFiles = async (
@@ -226,7 +265,11 @@ export const handleUploadMultipleFiles = async (
 
 export const handleDeleteMultipleAttributeValues = async (
   attributesWithNewFileValue: FormsetData<null, File>,
-  attributes: PageDetails_page_attributes[],
+  attributes: Array<
+    | PageDetails_page_attributes
+    | ProductDetails_product_attributes
+    | ProductVariantDetails_productVariant_nonSelectionAttributes
+  >,
   deleteAttributeValue: (
     variables: AttributeValueDeleteVariables
   ) => Promise<MutationFetchResult<AttributeValueDelete>>

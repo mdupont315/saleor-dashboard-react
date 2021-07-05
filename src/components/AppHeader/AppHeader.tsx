@@ -1,7 +1,6 @@
-import Portal from "@material-ui/core/Portal";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Portal, Typography } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 
 import AppHeaderContext from "../AppLayout/AppHeaderContext";
@@ -61,7 +60,11 @@ const AppHeader: React.FC<AppHeaderProps> = props => {
       {anchor =>
         anchor ? (
           <Portal container={anchor.current}>
-            <div className={classes.root} onClick={onBack}>
+            <div
+              className={classes.root}
+              onClick={onBack}
+              data-test-id="app-header-back-button"
+            >
               <ArrowBackIcon className={classes.backArrow} />
               {children ? (
                 <Typography className={classes.title}>{children}</Typography>

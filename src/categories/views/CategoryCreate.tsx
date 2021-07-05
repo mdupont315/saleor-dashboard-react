@@ -6,6 +6,7 @@ import {
   useMetadataUpdate,
   usePrivateMetadataUpdate
 } from "@saleor/utils/metadata/updateMetadata";
+import { getParsedDataForJsonStringField } from "@saleor/utils/richText/misc";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -48,7 +49,7 @@ export const CategoryCreateView: React.FC<CategoryCreateViewProps> = ({
     const result = await createCategory({
       variables: {
         input: {
-          descriptionJson: JSON.stringify(formData.description),
+          description: getParsedDataForJsonStringField(formData.description),
           name: formData.name,
           seo: {
             description: formData.seoDescription,

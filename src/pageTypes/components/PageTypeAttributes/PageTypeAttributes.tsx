@@ -1,9 +1,10 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  Button,
+  Card,
+  IconButton,
+  TableCell,
+  TableRow
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import Checkbox from "@saleor/components/Checkbox";
@@ -16,6 +17,7 @@ import {
 import TableHead from "@saleor/components/TableHead";
 import { renderCollection, stopPropagation } from "@saleor/misc";
 import { PageTypeDetails_pageType_attributes } from "@saleor/pageTypes/types/PageTypeDetails";
+import { makeStyles } from "@saleor/theme";
 import { ListActions, ReorderAction } from "@saleor/types";
 import { AttributeTypeEnum } from "@saleor/types/globalTypes";
 import React from "react";

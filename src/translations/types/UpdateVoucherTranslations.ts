@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { NameTranslationInput, LanguageCodeEnum } from "./../../types/globalTypes";
@@ -9,7 +10,7 @@ import { NameTranslationInput, LanguageCodeEnum } from "./../../types/globalType
 // ====================================================
 
 export interface UpdateVoucherTranslations_voucherTranslate_errors {
-  __typename: "Error";
+  __typename: "TranslationError";
   field: string | null;
   message: string | null;
 }

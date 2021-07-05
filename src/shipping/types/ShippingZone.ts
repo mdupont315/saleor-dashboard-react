@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
+import { PostalCodeRuleInclusionTypeEnum, WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL query operation: ShippingZone
@@ -26,9 +27,10 @@ export interface ShippingZone_shippingZone_countries {
   country: string;
 }
 
-export interface ShippingZone_shippingZone_shippingMethods_zipCodeRules {
-  __typename: "ShippingMethodZipCodeRule";
+export interface ShippingZone_shippingZone_shippingMethods_postalCodeRules {
+  __typename: "ShippingMethodPostalCodeRule";
   id: string;
+  inclusionType: PostalCodeRuleInclusionTypeEnum | null;
   start: string | null;
   end: string | null;
 }
@@ -125,7 +127,7 @@ export interface ShippingZone_shippingZone_shippingMethods_excludedProducts {
 export interface ShippingZone_shippingZone_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
-  zipCodeRules: (ShippingZone_shippingZone_shippingMethods_zipCodeRules | null)[] | null;
+  postalCodeRules: (ShippingZone_shippingZone_shippingMethods_postalCodeRules | null)[] | null;
   metadata: (ShippingZone_shippingZone_shippingMethods_metadata | null)[];
   privateMetadata: (ShippingZone_shippingZone_shippingMethods_privateMetadata | null)[];
   minimumOrderWeight: ShippingZone_shippingZone_shippingMethods_minimumOrderWeight | null;
@@ -133,9 +135,17 @@ export interface ShippingZone_shippingZone_shippingMethods {
   minimumDeliveryDays: number | null;
   maximumDeliveryDays: number | null;
   name: string;
+  description: any | null;
   type: ShippingMethodTypeEnum | null;
   channelListings: ShippingZone_shippingZone_shippingMethods_channelListings[] | null;
   excludedProducts: ShippingZone_shippingZone_shippingMethods_excludedProducts | null;
+}
+
+export interface ShippingZone_shippingZone_channels {
+  __typename: "Channel";
+  id: string;
+  name: string;
+  currencyCode: string;
 }
 
 export interface ShippingZone_shippingZone_warehouses {
@@ -154,7 +164,8 @@ export interface ShippingZone_shippingZone {
   description: string | null;
   default: boolean;
   shippingMethods: (ShippingZone_shippingZone_shippingMethods | null)[] | null;
-  warehouses: (ShippingZone_shippingZone_warehouses | null)[] | null;
+  channels: ShippingZone_shippingZone_channels[];
+  warehouses: ShippingZone_shippingZone_warehouses[];
 }
 
 export interface ShippingZone {

@@ -1,17 +1,21 @@
 import { OutputData } from "@editorjs/editorjs";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import {
+  Button,
+  Card,
+  CardContent,
+  IconButton,
+  Typography
+} from "@material-ui/core";
 import ArrowIcon from "@material-ui/icons/ArrowDropDown";
 import CardTitle from "@saleor/components/CardTitle";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Grid from "@saleor/components/Grid";
 import Hr from "@saleor/components/Hr";
 import Skeleton from "@saleor/components/Skeleton";
+import TablePagination from "@saleor/components/TablePagination";
 import { buttonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
+import { ListProps } from "@saleor/types";
 import classNames from "classnames";
 import React from "react";
 import { FormattedMessage } from "react-intl";
@@ -20,13 +24,18 @@ import TranslationFieldsLong from "./TranslationFieldsLong";
 import TranslationFieldsRich from "./TranslationFieldsRich";
 import TranslationFieldsShort from "./TranslationFieldsShort";
 
-interface TranslationField {
+export interface TranslationField {
   displayName: string;
   name: string;
   translation: string;
   type: "short" | "long" | "rich";
   value: string;
 }
+
+type Pagination = Pick<
+  ListProps,
+  Exclude<keyof ListProps, "onRowClick" | "disabled">
+>;
 
 export interface TranslationFieldsProps {
   activeField: string;
@@ -35,6 +44,7 @@ export interface TranslationFieldsProps {
   fields: TranslationField[];
   initialState: boolean;
   saveButtonState: ConfirmButtonTransitionState;
+  pagination?: Pagination;
   onEdit: (field: string) => void;
   onDiscard: () => void;
   onSubmit: (field: string, data: string | OutputData) => void;
@@ -105,15 +115,18 @@ const useStyles = makeStyles(
   }),
   { name: "TranslationFields" }
 );
+
+const numberOfColumns = 2;
+
 const TranslationFields: React.FC<TranslationFieldsProps> = props => {
   const {
     activeField,
-
     disabled,
     fields,
     initialState,
     title,
     saveButtonState,
+    pagination,
     onEdit,
     onDiscard,
     onSubmit
@@ -230,6 +243,26 @@ const TranslationFields: React.FC<TranslationFieldsProps> = props => {
               </React.Fragment>
             ))}
           </Grid>
+          {pagination && (
+            <TablePagination
+              colSpan={numberOfColumns}
+              hasNextPage={
+                pagination.pageInfo && !disabled
+                  ? pagination.pageInfo.hasNextPage
+                  : false
+              }
+              onNextPage={pagination.onNextPage}
+              hasPreviousPage={
+                pagination.pageInfo && !disabled
+                  ? pagination.pageInfo.hasPreviousPage
+                  : false
+              }
+              onPreviousPage={pagination.onPreviousPage}
+              settings={pagination.settings}
+              onUpdateListSettings={pagination.onUpdateListSettings}
+              component="div"
+            />
+          )}
         </CardContent>
       ) : (
         <CardContent>

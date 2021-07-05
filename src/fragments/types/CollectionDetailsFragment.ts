@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -46,7 +47,7 @@ export interface CollectionDetailsFragment {
   privateMetadata: (CollectionDetailsFragment_privateMetadata | null)[];
   backgroundImage: CollectionDetailsFragment_backgroundImage | null;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
 }

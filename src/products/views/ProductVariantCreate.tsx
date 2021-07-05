@@ -10,14 +10,12 @@ import { WindowTitle } from "@saleor/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA } from "@saleor/config";
 import { useFileUploadMutation } from "@saleor/files/mutations";
 import useNavigator from "@saleor/hooks/useNavigator";
-import useNotifier from "@saleor/hooks/useNotifier";
 import useShop from "@saleor/hooks/useShop";
-import { commonMessages } from "@saleor/intl";
-import { useProductVariantChannelListingUpdate } from "@saleor/products/mutations";
-import { ProductVariantChannelListingUpdate } from "@saleor/products/types/ProductVariantChannelListingUpdate";
 import usePageSearch from "@saleor/searches/usePageSearch";
 import useProductSearch from "@saleor/searches/useProductSearch";
+import createAttributeValueSearchHandler from "@saleor/utils/handlers/attributeValueSearchHandler";
 import createMetadataCreateHandler from "@saleor/utils/handlers/metadataCreateHandler";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import {
   useMetadataUpdate,
   usePrivateMetadataUpdate
@@ -54,7 +52,6 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
   params
 }) => {
   const navigate = useNavigator();
-  const notify = useNotifier();
   const shop = useShop();
   const intl = useIntl();
   const warehouses = useWarehouseList({
@@ -63,34 +60,16 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
       first: 50
     }
   });
-  const handleCreateSuccess = (data: ProductVariantChannelListingUpdate) => {
-    if (data.productVariantChannelListingUpdate.errors.length === 0) {
-      notify({
-        status: "success",
-        text: intl.formatMessage(commonMessages.savedChanges)
-      });
-      navigate(
-        productVariantEditUrl(
-          productId,
-          data.productVariantChannelListingUpdate.variant.id
-        )
-      );
-    }
-  };
 
   const { data, loading: productLoading } = useProductVariantCreateQuery({
     displayLoader: true,
-    variables: { id: productId }
+    variables: {
+      id: productId,
+      firstValues: 10
+    }
   });
 
   const [uploadFile, uploadFileOpts] = useFileUploadMutation({});
-
-  const [
-    updateChannels,
-    updateChannelsOpts
-  ] = useProductVariantChannelListingUpdate({
-    onCompleted: handleCreateSuccess
-  });
 
   const product = data?.product;
 
@@ -103,21 +82,6 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
       price: null
     })
   );
-
-  const handleSubmitChannels = (
-    data: ProductVariantCreateData,
-    variantId: string
-  ) =>
-    updateChannels({
-      variables: {
-        id: variantId,
-        input: data.channelListings.map(listing => ({
-          channelId: listing.id,
-          costPrice: listing.value.costPrice || null,
-          price: listing.value.price
-        }))
-      }
-    });
 
   const [variantCreate, variantCreateResult] = useVariantCreateMutation({});
 
@@ -166,13 +130,11 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
           })),
           trackInventory: true,
           weight: weight(formData.weight)
-        }
+        },
+        firstValues: 10
       }
     });
     const id = result.data?.productVariantCreate?.productVariant?.id;
-    if (id) {
-      await handleSubmitChannels(formData, id);
-    }
 
     return id || null;
   };
@@ -206,6 +168,11 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
   } = useProductSearch({
     variables: DEFAULT_INITIAL_SEARCH_DATA
   });
+  const {
+    loadMore: loadMoreAttributeValues,
+    search: searchAttributeValues,
+    result: searchAttributeValuesOpts
+  } = createAttributeValueSearchHandler(DEFAULT_INITIAL_SEARCH_DATA);
 
   const fetchMoreReferencePages = {
     hasMore: searchPagesOpts.data?.search?.pageInfo?.hasNextPage,
@@ -217,6 +184,16 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
     loading: searchProductsOpts.loading,
     onFetchMore: loadMoreProducts
   };
+  const fetchMoreAttributeValues = {
+    hasMore: !!searchAttributeValuesOpts.data?.attribute?.choices?.pageInfo
+      ?.hasNextPage,
+    loading: !!searchAttributeValuesOpts.loading,
+    onFetchMore: loadMoreAttributeValues
+  };
+
+  const attributeValues = mapEdgesToItems(
+    searchAttributeValuesOpts?.data?.attribute.choices
+  );
 
   const disableForm =
     productLoading ||
@@ -234,9 +211,6 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
       />
       <ProductVariantCreatePage
         channels={channels}
-        channelErrors={
-          updateChannelsOpts?.data?.productVariantChannelListingUpdate?.errors
-        }
         disabled={disableForm}
         errors={variantCreateResult.data?.productVariantCreate.errors || []}
         header={intl.formatMessage({
@@ -244,30 +218,27 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
           description: "header"
         })}
         product={data?.product}
+        attributeValues={attributeValues}
         onBack={handleBack}
         onSubmit={handleSubmit}
         onVariantClick={handleVariantClick}
         onWarehouseConfigure={() => navigate(warehouseAddPath)}
         onVariantReorder={handleVariantReorder}
         saveButtonBarState={variantCreateResult.status}
-        warehouses={
-          warehouses.data?.warehouses.edges.map(edge => edge.node) || []
-        }
+        warehouses={mapEdgesToItems(warehouses?.data?.warehouses)}
         weightUnit={shop?.defaultWeightUnit}
         assignReferencesAttributeId={
           params.action === "assign-attribute-value" && params.id
         }
         onAssignReferencesClick={handleAssignAttributeReferenceClick}
-        referencePages={searchPagesOpts.data?.search.edges.map(
-          edge => edge.node
-        )}
-        referenceProducts={searchProductsOpts.data?.search.edges.map(
-          edge => edge.node
-        )}
+        referencePages={mapEdgesToItems(searchPagesOpts?.data?.search)}
+        referenceProducts={mapEdgesToItems(searchProductsOpts?.data?.search)}
         fetchReferencePages={searchPages}
         fetchMoreReferencePages={fetchMoreReferencePages}
         fetchReferenceProducts={searchProducts}
         fetchMoreReferenceProducts={fetchMoreReferenceProducts}
+        fetchAttributeValues={searchAttributeValues}
+        fetchMoreAttributeValues={fetchMoreAttributeValues}
         onCloseDialog={() => navigate(productVariantAddUrl(productId))}
       />
     </>

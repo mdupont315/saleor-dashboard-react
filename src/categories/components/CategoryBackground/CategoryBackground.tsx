@@ -1,14 +1,11 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import TextField from "@material-ui/core/TextField";
+import { Button, Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import Hr from "@saleor/components/Hr";
-import ImageTile from "@saleor/components/ImageTile";
 import ImageUpload from "@saleor/components/ImageUpload";
+import MediaTile from "@saleor/components/MediaTile";
 import Skeleton from "@saleor/components/Skeleton";
 import { commonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -97,7 +94,7 @@ const CategoryBackground: React.FC<CategoryBackgroundProps> = props => {
         <ImageUpload onImageUpload={files => onImageUpload(files[0])} />
       ) : (
         <CardContent>
-          <ImageTile image={image} onImageDelete={onImageDelete} />
+          <MediaTile media={image} onDelete={onImageDelete} />
         </CardContent>
       )}
 

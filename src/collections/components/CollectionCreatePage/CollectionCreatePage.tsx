@@ -1,7 +1,7 @@
 import { ChannelCollectionData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
-import { AvailabilityCard } from "@saleor/components/AvailabilityCard";
 import { CardSpacer } from "@saleor/components/CardSpacer";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import { Container } from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
@@ -13,6 +13,7 @@ import { CollectionChannelListingErrorFragment } from "@saleor/fragments/types/C
 import { CollectionErrorFragment } from "@saleor/fragments/types/CollectionErrorFragment";
 import { SubmitPromise } from "@saleor/hooks/useForm";
 import { sectionNames } from "@saleor/intl";
+import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -129,7 +130,7 @@ const CollectionCreatePage: React.FC<CollectionCreatePageProps> = ({
               <Metadata data={data} onChange={handlers.changeMetadata} />
             </div>
             <div>
-              <AvailabilityCard
+              <ChannelsAvailabilityCard
                 messages={{
                   hiddenLabel: intl.formatMessage({
                     defaultMessage: "Hidden",
@@ -141,6 +142,7 @@ const CollectionCreatePage: React.FC<CollectionCreatePageProps> = ({
                     description: "collection label"
                   })
                 }}
+                managePermissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 errors={channelsErrors}
                 selectedChannelsCount={data.channelListings.length}
                 allChannelsCount={channelsCount}

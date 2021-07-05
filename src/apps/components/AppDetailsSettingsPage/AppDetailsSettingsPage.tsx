@@ -1,5 +1,4 @@
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import { Button, Typography } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
 import Container from "@saleor/components/Container";
@@ -8,12 +7,12 @@ import Hr from "@saleor/components/Hr";
 import useTheme from "@saleor/hooks/useTheme";
 import { sectionNames } from "@saleor/intl";
 import classNames from "classnames";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import urlJoin from "url-join";
 
 import { App_app } from "../../types/App";
 import { useStyles } from "./styles";
+import useAppConfigLoader from "./useAppConfigLoader";
 import useSettingsBreadcrumbs from "./useSettingsBreadcrumbs";
 
 export interface AppDetailsSettingsPageProps {
@@ -31,45 +30,14 @@ export const AppDetailsSettingsPage: React.FC<AppDetailsSettingsPageProps> = ({
   onBack,
   onError
 }) => {
-  const iframeRef = useRef(null);
   const intl = useIntl();
   const classes = useStyles({});
-  const { sendThemeToExtension } = useTheme();
   const [breadcrumbs, onBreadcrumbClick] = useSettingsBreadcrumbs();
-
-  useEffect(() => {
-    if (!iframeRef.current?.innerHTML && data?.configurationUrl) {
-      fetch(data?.configurationUrl, {
-        headers: {
-          "x-saleor-domain": backendHost,
-          "x-saleor-token": data.accessToken
-        },
-        method: "GET"
-      })
-        .then(async response => {
-          const url = new URL(response.url);
-          const text = await response.text();
-          const content = new DOMParser().parseFromString(text, "text/html");
-
-          const iFrame = document.createElement("iframe");
-          iFrame.src = "about:blank";
-          iFrame.id = "extension-app";
-          iframeRef.current.innerHTML = "";
-          iframeRef.current.appendChild(iFrame);
-          const iFrameDoc =
-            iFrame.contentWindow && iFrame.contentWindow.document;
-
-          const documentElement = content.documentElement;
-          const formScript = documentElement.querySelector("script");
-          const formURL = new URL(documentElement.querySelector("script").src);
-          formScript.src = `${urlJoin(url.origin, formURL.pathname)}`;
-          iFrameDoc.write(content.documentElement.innerHTML);
-          iFrameDoc.close();
-          iFrame.contentWindow.onload = sendThemeToExtension;
-        })
-        .catch(() => onError());
-    }
-  }, [data]);
+  const { sendThemeToExtension } = useTheme();
+  const frameContainer = useAppConfigLoader(data, backendHost, {
+    onError,
+    onLoad: sendThemeToExtension
+  });
 
   return (
     <Container>
@@ -136,7 +104,7 @@ export const AppDetailsSettingsPage: React.FC<AppDetailsSettingsPageProps> = ({
       <Hr />
 
       <CardSpacer />
-      <div ref={iframeRef} className={classes.iframeContainer} />
+      <div ref={frameContainer} className={classes.iframeContainer} />
       <CardSpacer />
     </Container>
   );

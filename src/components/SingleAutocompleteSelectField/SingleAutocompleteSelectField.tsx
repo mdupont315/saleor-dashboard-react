@@ -1,9 +1,10 @@
+import { InputBase, TextField } from "@material-ui/core";
 import { InputProps } from "@material-ui/core/Input";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { ExtendedFormHelperTextProps } from "@saleor/channels/components/ChannelForm/types";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps } from "@saleor/types";
 import classNames from "classnames";
-import Downshift, { ControllerStateAndHelpers } from "downshift";
+import Downshift from "downshift";
 import { filter } from "fuzzaldrin";
 import React from "react";
 
@@ -15,12 +16,15 @@ import SingleAutocompleteSelectFieldContent, {
 } from "./SingleAutocompleteSelectFieldContent";
 
 const useStyles = makeStyles(
-  {
+  theme => ({
     container: {
       flexGrow: 1,
       position: "relative"
+    },
+    nakedInput: {
+      padding: theme.spacing(2, 3)
     }
-  },
+  }),
   { name: "SingleAutocompleteSelectField" }
 );
 
@@ -42,6 +46,9 @@ export interface SingleAutocompleteSelectFieldProps
   InputProps?: InputProps;
   fetchChoices?: (value: string) => void;
   onChange: (event: React.ChangeEvent<any>) => void;
+  fetchOnFocus?: boolean;
+  FormHelperTextProps?: ExtendedFormHelperTextProps;
+  nakedInput?: boolean;
 }
 
 const DebounceAutocomplete: React.ComponentType<DebounceProps<
@@ -69,23 +76,20 @@ const SingleAutocompleteSelectFieldComponent: React.FC<SingleAutocompleteSelectF
     fetchChoices,
     onChange,
     onFetchMore,
+    fetchOnFocus,
+    FormHelperTextProps,
+    nakedInput = false,
     ...rest
   } = props;
   const classes = useStyles(props);
 
-  const handleChange = (
-    item: string,
-    stateAndHelpers: ControllerStateAndHelpers
-  ) => {
+  const handleChange = (item: string) => {
     onChange({
       target: {
         name,
         value: item
       }
     } as any);
-    stateAndHelpers.reset({
-      inputValue: item
-    });
   };
 
   return (
@@ -96,7 +100,7 @@ const SingleAutocompleteSelectFieldComponent: React.FC<SingleAutocompleteSelectF
           itemToString={() => displayValue || ""}
           onInputValueChange={value => debounceFn(value)}
           onSelect={handleChange}
-          selectedItem={value}
+          selectedItem={value || ""}
         >
           {({
             getInputProps,
@@ -149,35 +153,50 @@ const SingleAutocompleteSelectFieldComponent: React.FC<SingleAutocompleteSelectF
               closeMenu();
             };
 
-            // fix for bug where input value is returned from debounce as id instead of label
-            if (value === inputValue && !!inputValue) {
-              ensureProperValues();
-            }
+            const TextFieldComponent = nakedInput ? InputBase : TextField;
+
+            const commonInputProps = {
+              ...InputProps,
+              ...getInputProps({
+                placeholder
+              }),
+              endAdornment: (
+                <div>
+                  <ArrowDropdownIcon />
+                </div>
+              ),
+              error,
+              id: undefined,
+              onBlur: handleBlur,
+              onClick: toggleMenu,
+              onFocus: () => {
+                if (fetchOnFocus) {
+                  fetchChoices(inputValue);
+                }
+              }
+            };
+
+            const nakedInputProps = nakedInput
+              ? {
+                  "aria-label": "naked",
+                  ...commonInputProps,
+                  autoFocus: true,
+                  className: classes.nakedInput
+                }
+              : {};
 
             return (
               <div
                 className={classNames(classes.container, className)}
                 {...rest}
               >
-                <TextField
-                  InputProps={{
-                    ...InputProps,
-                    ...getInputProps({
-                      placeholder
-                    }),
-                    endAdornment: (
-                      <div>
-                        <ArrowDropdownIcon />
-                      </div>
-                    ),
-                    error,
-                    id: undefined,
-                    onBlur: handleBlur,
-                    onClick: toggleMenu
-                  }}
+                <TextFieldComponent
+                  {...nakedInputProps}
+                  InputProps={commonInputProps}
                   error={error}
                   disabled={disabled}
                   helperText={helperText}
+                  FormHelperTextProps={FormHelperTextProps}
                   label={label}
                   fullWidth={true}
                 />
@@ -245,4 +264,5 @@ const SingleAutocompleteSelectField: React.FC<SingleAutocompleteSelectFieldProps
     />
   );
 };
+
 export default SingleAutocompleteSelectField;

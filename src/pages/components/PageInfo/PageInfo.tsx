@@ -1,7 +1,4 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import RichTextEditor, {
@@ -9,6 +6,7 @@ import RichTextEditor, {
 } from "@saleor/components/RichTextEditor";
 import { PageErrorFragment } from "@saleor/fragments/types/PageErrorFragment";
 import { commonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import { getFormErrors } from "@saleor/utils/errors";
 import getPageErrorMessage from "@saleor/utils/errors/page";
 import React from "react";
@@ -39,7 +37,7 @@ const PageInfo: React.FC<PageInfoProps> = props => {
   const classes = useStyles(props);
   const intl = useIntl();
 
-  const formErrors = getFormErrors(["title", "contentJson"], errors);
+  const formErrors = getFormErrors(["title", "content"], errors);
 
   return (
     <Card className={classes.root}>
@@ -64,8 +62,8 @@ const PageInfo: React.FC<PageInfoProps> = props => {
         <RichTextEditor
           data={data.content}
           disabled={disabled}
-          error={!!formErrors.contentJson}
-          helperText={getPageErrorMessage(formErrors.contentJson, intl)}
+          error={!!formErrors.content}
+          helperText={getPageErrorMessage(formErrors.content, intl)}
           label={intl.formatMessage({
             defaultMessage: "Content",
             description: "page content"

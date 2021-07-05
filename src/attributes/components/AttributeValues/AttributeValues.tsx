@@ -1,10 +1,12 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  Button,
+  Card,
+  IconButton,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
@@ -13,15 +15,18 @@ import {
   SortableTableBody,
   SortableTableRow
 } from "@saleor/components/SortableTable";
-import { AttributeDetailsFragment_values } from "@saleor/fragments/types/AttributeDetailsFragment";
+import TablePagination from "@saleor/components/TablePagination";
+import { AttributeValueListFragment_edges_node } from "@saleor/fragments/types/AttributeValueListFragment";
 import { maybe, renderCollection, stopPropagation } from "@saleor/misc";
-import { ReorderAction } from "@saleor/types";
+import { makeStyles } from "@saleor/theme";
+import { ListProps, ReorderAction } from "@saleor/types";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-export interface AttributeValuesProps {
+export interface AttributeValuesProps
+  extends Pick<ListProps, Exclude<keyof ListProps, "onRowClick">> {
   disabled: boolean;
-  values: AttributeDetailsFragment_values[];
+  values: AttributeValueListFragment_edges_node[];
   onValueAdd: () => void;
   onValueDelete: (id: string) => void;
   onValueReorder: ReorderAction;
@@ -55,13 +60,20 @@ const useStyles = makeStyles(
   { name: "AttributeValues" }
 );
 
+const numberOfColumns = 4;
+
 const AttributeValues: React.FC<AttributeValuesProps> = ({
   disabled,
   onValueAdd,
   onValueDelete,
   onValueReorder,
   onValueUpdate,
-  values
+  values,
+  settings,
+  onUpdateListSettings,
+  pageInfo,
+  onNextPage,
+  onPreviousPage
 }) => {
   const classes = useStyles({});
   const intl = useIntl();
@@ -101,6 +113,21 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
             <TableCell className={classes.iconCell} />
           </TableRow>
         </TableHead>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              colSpan={numberOfColumns}
+              hasNextPage={pageInfo && !disabled ? pageInfo.hasNextPage : false}
+              onNextPage={onNextPage}
+              hasPreviousPage={
+                pageInfo && !disabled ? pageInfo.hasPreviousPage : false
+              }
+              onPreviousPage={onPreviousPage}
+              settings={settings}
+              onUpdateListSettings={onUpdateListSettings}
+            />
+          </TableRow>
+        </TableFooter>
         <SortableTableBody onSortEnd={onValueReorder}>
           {renderCollection(
             values,

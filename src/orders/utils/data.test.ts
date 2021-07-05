@@ -464,6 +464,28 @@ describe("Get the total value of all replaced products", () => {
         productSku: "lake-tunes-mp3",
         quantity: 2,
         quantityFulfilled: 2,
+        undiscountedUnitPrice: {
+          __typename: "TaxedMoney",
+          currency: "USD",
+          gross: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          net: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          }
+        },
+        unitDiscount: {
+          __typename: "Money",
+          amount: 79.71,
+          currency: "USD"
+        },
+        unitDiscountReason: null,
+        unitDiscountType: null,
+        unitDiscountValue: 0,
         unitPrice: {
           gross: {
             amount: 9.99,
@@ -496,6 +518,28 @@ describe("Get the total value of all replaced products", () => {
         productSku: "lake-tunes-mp3",
         quantity: 10,
         quantityFulfilled: 2,
+        undiscountedUnitPrice: {
+          __typename: "TaxedMoney",
+          currency: "USD",
+          gross: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          net: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          }
+        },
+        unitDiscount: {
+          __typename: "Money",
+          amount: 79.71,
+          currency: "USD"
+        },
+        unitDiscountReason: null,
+        unitDiscountType: null,
+        unitDiscountValue: 0,
         unitPrice: {
           gross: {
             amount: 9.99,
@@ -528,6 +572,28 @@ describe("Get the total value of all replaced products", () => {
         productSku: "29810068",
         quantity: 6,
         quantityFulfilled: 1,
+        undiscountedUnitPrice: {
+          __typename: "TaxedMoney",
+          currency: "USD",
+          gross: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          net: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          }
+        },
+        unitDiscount: {
+          __typename: "Money",
+          amount: 79.71,
+          currency: "USD"
+        },
+        unitDiscountReason: null,
+        unitDiscountType: null,
+        unitDiscountValue: 0,
         unitPrice: {
           gross: {
             amount: 2.5,
@@ -566,6 +632,28 @@ describe("Get the total value of all replaced products", () => {
           productSku: "lake-tunes-mp3",
           quantity: 20,
           quantityFulfilled: 6,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -603,6 +691,28 @@ describe("Get the total value of all replaced products", () => {
           productSku: "lake-tunes-mp3",
           quantity: 25,
           quantityFulfilled: 8,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -640,6 +750,28 @@ describe("Get the total value of all replaced products", () => {
           productSku: "29810068",
           quantity: 10,
           quantityFulfilled: 3,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 2.5,
@@ -677,6 +809,28 @@ describe("Get the total value of all replaced products", () => {
           productSku: "lake-tunes-mp3",
           quantity: 20,
           quantityFulfilled: 6,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -714,6 +868,28 @@ describe("Get the total value of all replaced products", () => {
           productSku: "lake-tunes-mp3",
           quantity: 25,
           quantityFulfilled: 8,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -738,7 +914,7 @@ describe("Get the total value of all replaced products", () => {
       }
     ];
 
-    const unfulfiledItemsQuantities: FormsetData<LineItemData, number> = [
+    const unfulfilledItemsQuantities: FormsetData<LineItemData, number> = [
       {
         data: { isFulfillment: false, isRefunded: false },
         id: "1",
@@ -759,7 +935,7 @@ describe("Get the total value of all replaced products", () => {
       }
     ];
 
-    const fulfiledItemsQuantities: FormsetData<LineItemData, number> = [
+    const fulfilledItemsQuantities: FormsetData<LineItemData, number> = [
       {
         data: { isFulfillment: true, isRefunded: false },
         id: "4",
@@ -861,8 +1037,8 @@ describe("Get the total value of all replaced products", () => {
       },
       {
         itemsToBeReplaced,
-        unfulfiledItemsQuantities,
-        fulfiledItemsQuantities
+        unfulfilledItemsQuantities,
+        fulfilledItemsQuantities
       }
     );
 
@@ -885,6 +1061,28 @@ describe("Get the total value of all selected products", () => {
         productSku: "lake-tunes-mp3",
         quantity: 2,
         quantityFulfilled: 2,
+        undiscountedUnitPrice: {
+          __typename: "TaxedMoney",
+          currency: "USD",
+          gross: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          net: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          }
+        },
+        unitDiscount: {
+          __typename: "Money",
+          amount: 79.71,
+          currency: "USD"
+        },
+        unitDiscountReason: null,
+        unitDiscountType: null,
+        unitDiscountValue: 0,
         unitPrice: {
           gross: {
             amount: 9.99,
@@ -917,6 +1115,28 @@ describe("Get the total value of all selected products", () => {
         productSku: "lake-tunes-mp3",
         quantity: 10,
         quantityFulfilled: 2,
+        undiscountedUnitPrice: {
+          __typename: "TaxedMoney",
+          currency: "USD",
+          gross: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          net: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          }
+        },
+        unitDiscount: {
+          __typename: "Money",
+          amount: 79.71,
+          currency: "USD"
+        },
+        unitDiscountReason: null,
+        unitDiscountType: null,
+        unitDiscountValue: 0,
         unitPrice: {
           gross: {
             amount: 9.99,
@@ -949,6 +1169,28 @@ describe("Get the total value of all selected products", () => {
         productSku: "29810068",
         quantity: 6,
         quantityFulfilled: 1,
+        undiscountedUnitPrice: {
+          __typename: "TaxedMoney",
+          currency: "USD",
+          gross: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          net: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          }
+        },
+        unitDiscount: {
+          __typename: "Money",
+          amount: 79.71,
+          currency: "USD"
+        },
+        unitDiscountReason: null,
+        unitDiscountType: null,
+        unitDiscountValue: 0,
         unitPrice: {
           gross: {
             amount: 2.5,
@@ -987,6 +1229,28 @@ describe("Get the total value of all selected products", () => {
           productSku: "lake-tunes-mp3",
           quantity: 20,
           quantityFulfilled: 6,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -1024,6 +1288,28 @@ describe("Get the total value of all selected products", () => {
           productSku: "lake-tunes-mp3",
           quantity: 25,
           quantityFulfilled: 8,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -1061,6 +1347,28 @@ describe("Get the total value of all selected products", () => {
           productSku: "29810068",
           quantity: 10,
           quantityFulfilled: 3,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 2.5,
@@ -1085,42 +1393,42 @@ describe("Get the total value of all selected products", () => {
       }
     ];
 
-    const unfulfiledItemsQuantities: FormsetData<null, number> = [
+    const unfulfilledItemsQuantities: FormsetData<LineItemData, number> = [
       {
-        data: null,
+        data: { isFulfillment: false, isRefunded: false },
         id: "1",
         label: null,
         value: 0
       },
       {
-        data: null,
+        data: { isFulfillment: false, isRefunded: false },
         id: "2",
         label: null,
         value: 2
       },
       {
-        data: null,
+        data: { isFulfillment: false, isRefunded: false },
         id: "3",
         label: null,
         value: 1
       }
     ];
 
-    const fulfiledItemsQuantities: FormsetData<null, number> = [
+    const fulfilledItemsQuantities: FormsetData<LineItemData, number> = [
       {
-        data: null,
+        data: { isFulfillment: true, isRefunded: false },
         id: "4",
         label: null,
         value: 4
       },
       {
-        data: null,
+        data: { isFulfillment: true, isRefunded: false },
         id: "5",
         label: null,
         value: 0
       },
       {
-        data: null,
+        data: { isFulfillment: true, isRefunded: false },
         id: "6",
         label: null,
         value: 3
@@ -1196,8 +1504,8 @@ describe("Get the total value of all selected products", () => {
       },
       {
         itemsToBeReplaced,
-        unfulfiledItemsQuantities,
-        fulfiledItemsQuantities
+        unfulfilledItemsQuantities,
+        fulfilledItemsQuantities
       }
     );
 
@@ -1223,6 +1531,28 @@ describe("Merge repeated order lines of fulfillment lines", () => {
           productSku: "lake-tunes-mp3",
           quantity: 2,
           quantityFulfilled: 2,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -1260,6 +1590,28 @@ describe("Merge repeated order lines of fulfillment lines", () => {
           productSku: "lake-tunes-mp3",
           quantity: 2,
           quantityFulfilled: 2,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 9.99,
@@ -1297,6 +1649,28 @@ describe("Merge repeated order lines of fulfillment lines", () => {
           productSku: "29810068",
           quantity: 3,
           quantityFulfilled: 1,
+          undiscountedUnitPrice: {
+            __typename: "TaxedMoney",
+            currency: "USD",
+            gross: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            },
+            net: {
+              __typename: "Money",
+              amount: 79.71,
+              currency: "USD"
+            }
+          },
+          unitDiscount: {
+            __typename: "Money",
+            amount: 79.71,
+            currency: "USD"
+          },
+          unitDiscountReason: null,
+          unitDiscountType: null,
+          unitDiscountValue: 0,
           unitPrice: {
             gross: {
               amount: 2.5,

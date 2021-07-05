@@ -10,7 +10,10 @@ import ProductCreatePage, {
   ProductCreateFormData
 } from "../../../products/components/ProductCreatePage";
 import { product as productFixture } from "../../../products/fixtures";
-import { productTypes } from "../../../productTypes/fixtures";
+import {
+  productTypes,
+  productTypeSearch
+} from "../../../productTypes/fixtures";
 import Decorator from "../../Decorator";
 import { taxTypes } from "../taxes/fixtures";
 
@@ -31,9 +34,11 @@ storiesOf("Views / Products / Create product", module)
       fetchCategories={() => undefined}
       fetchCollections={() => undefined}
       fetchProductTypes={() => undefined}
+      fetchAttributeValues={() => undefined}
       fetchMoreCategories={fetchMoreProps}
       fetchMoreCollections={fetchMoreProps}
       fetchMoreProductTypes={fetchMoreProps}
+      fetchMoreAttributeValues={fetchMoreProps}
       productTypes={productTypes}
       categories={[product.category]}
       onBack={() => undefined}
@@ -47,8 +52,10 @@ storiesOf("Views / Products / Create product", module)
       weightUnit="kg"
       referencePages={[]}
       referenceProducts={[]}
+      attributeValues={[]}
       onAssignReferencesClick={() => undefined}
       onCloseDialog={() => undefined}
+      onSelectProductType={() => undefined}
     />
   ))
   .add("When loading", () => (
@@ -63,9 +70,11 @@ storiesOf("Views / Products / Create product", module)
       fetchCategories={() => undefined}
       fetchCollections={() => undefined}
       fetchProductTypes={() => undefined}
+      fetchAttributeValues={() => undefined}
       fetchMoreCategories={fetchMoreProps}
       fetchMoreCollections={fetchMoreProps}
       fetchMoreProductTypes={fetchMoreProps}
+      fetchMoreAttributeValues={fetchMoreProps}
       productTypes={productTypes}
       categories={[product.category]}
       onBack={() => undefined}
@@ -79,8 +88,10 @@ storiesOf("Views / Products / Create product", module)
       weightUnit="kg"
       referencePages={[]}
       referenceProducts={[]}
+      attributeValues={[]}
       onAssignReferencesClick={() => undefined}
       onCloseDialog={() => undefined}
+      onSelectProductType={() => undefined}
     />
   ))
   .add("form errors", () => (
@@ -99,7 +110,7 @@ storiesOf("Views / Products / Create product", module)
         __typename: "ProductError",
         attributes:
           field === "attributes"
-            ? [productTypes[0].productAttributes[0].id]
+            ? [productTypeSearch.productAttributes[0].id]
             : null,
         code: ProductErrorCode.INVALID,
         field
@@ -109,12 +120,12 @@ storiesOf("Views / Products / Create product", module)
       fetchCategories={() => undefined}
       fetchCollections={() => undefined}
       fetchProductTypes={() => undefined}
+      fetchAttributeValues={() => undefined}
       fetchMoreCategories={fetchMoreProps}
       fetchMoreCollections={fetchMoreProps}
       fetchMoreProductTypes={fetchMoreProps}
-      initial={{
-        productType: productTypes[0]
-      }}
+      selectedProductType={productTypeSearch}
+      fetchMoreAttributeValues={fetchMoreProps}
       productTypes={productTypes}
       categories={[product.category]}
       onBack={() => undefined}
@@ -128,7 +139,9 @@ storiesOf("Views / Products / Create product", module)
       weightUnit="kg"
       referencePages={[]}
       referenceProducts={[]}
+      attributeValues={[]}
       onAssignReferencesClick={() => undefined}
       onCloseDialog={() => undefined}
+      onSelectProductType={() => undefined}
     />
   ));

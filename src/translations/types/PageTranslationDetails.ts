@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { LanguageCodeEnum } from "./../../types/globalTypes";
@@ -15,7 +16,7 @@ export interface PageTranslationDetails_translation_ProductTranslatableContent {
 export interface PageTranslationDetails_translation_PageTranslatableContent_page {
   __typename: "Page";
   id: string;
-  contentJson: any;
+  content: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   title: string;
@@ -30,10 +31,10 @@ export interface PageTranslationDetails_translation_PageTranslatableContent_tran
 export interface PageTranslationDetails_translation_PageTranslatableContent_translation {
   __typename: "PageTranslation";
   id: string;
-  contentJson: any;
+  content: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
-  title: string;
+  title: string | null;
   language: PageTranslationDetails_translation_PageTranslatableContent_translation_language;
 }
 

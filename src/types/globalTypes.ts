@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -9,6 +10,7 @@
 export enum AccountErrorCode {
   ACTIVATE_OWN_ACCOUNT = "ACTIVATE_OWN_ACCOUNT",
   ACTIVATE_SUPERUSER_ACCOUNT = "ACTIVATE_SUPERUSER_ACCOUNT",
+  CHANNEL_INACTIVE = "CHANNEL_INACTIVE",
   DEACTIVATE_OWN_ACCOUNT = "DEACTIVATE_OWN_ACCOUNT",
   DEACTIVATE_SUPERUSER_ACCOUNT = "DEACTIVATE_SUPERUSER_ACCOUNT",
   DELETE_NON_STAFF_USER = "DELETE_NON_STAFF_USER",
@@ -27,6 +29,7 @@ export enum AccountErrorCode {
   JWT_MISSING_TOKEN = "JWT_MISSING_TOKEN",
   JWT_SIGNATURE_EXPIRED = "JWT_SIGNATURE_EXPIRED",
   LEFT_NOT_MANAGEABLE_PERMISSION = "LEFT_NOT_MANAGEABLE_PERMISSION",
+  MISSING_CHANNEL_SLUG = "MISSING_CHANNEL_SLUG",
   NOT_FOUND = "NOT_FOUND",
   OUT_OF_SCOPE_GROUP = "OUT_OF_SCOPE_GROUP",
   OUT_OF_SCOPE_PERMISSION = "OUT_OF_SCOPE_PERMISSION",
@@ -75,6 +78,11 @@ export enum AttributeEntityTypeEnum {
   PRODUCT = "PRODUCT",
 }
 
+export enum StoreSortField {
+  NAME="NAME"
+}
+
+
 export enum AttributeErrorCode {
   ALREADY_EXISTS = "ALREADY_EXISTS",
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
@@ -85,10 +93,13 @@ export enum AttributeErrorCode {
 }
 
 export enum AttributeInputTypeEnum {
+  BOOLEAN = "BOOLEAN",
   DROPDOWN = "DROPDOWN",
   FILE = "FILE",
   MULTISELECT = "MULTISELECT",
+  NUMERIC = "NUMERIC",
   REFERENCE = "REFERENCE",
+  RICH_TEXT = "RICH_TEXT",
 }
 
 export enum AttributeSortField {
@@ -117,8 +128,8 @@ export enum CategorySortField {
 export enum ChannelErrorCode {
   ALREADY_EXISTS = "ALREADY_EXISTS",
   CHANNELS_CURRENCY_MUST_BE_THE_SAME = "CHANNELS_CURRENCY_MUST_BE_THE_SAME",
-  CHANNEL_TARGET_ID_MUST_BE_DIFFERENT = "CHANNEL_TARGET_ID_MUST_BE_DIFFERENT",
   CHANNEL_WITH_ORDERS = "CHANNEL_WITH_ORDERS",
+  DUPLICATED_INPUT_ITEM = "DUPLICATED_INPUT_ITEM",
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
   INVALID = "INVALID",
   NOT_FOUND = "NOT_FOUND",
@@ -150,6 +161,8 @@ export enum CollectionSortField {
 
 export enum ConfigurationTypeFieldEnum {
   BOOLEAN = "BOOLEAN",
+  MULTILINE = "MULTILINE",
+  OUTPUT = "OUTPUT",
   PASSWORD = "PASSWORD",
   SECRET = "SECRET",
   SECRETMULTILINE = "SECRETMULTILINE",
@@ -432,6 +445,7 @@ export enum DiscountValueTypeEnum {
 }
 
 export enum ExportErrorCode {
+  GRAPHQL_ERROR = "GRAPHQL_ERROR",
   INVALID = "INVALID",
   NOT_FOUND = "NOT_FOUND",
   REQUIRED = "REQUIRED",
@@ -526,6 +540,39 @@ export enum LanguageCodeEnum {
   ZH_HANT = "ZH_HANT",
 }
 
+export enum MeasurementUnitsEnum {
+  ACRE_FT = "ACRE_FT",
+  ACRE_IN = "ACRE_IN",
+  CM = "CM",
+  CUBIC_CENTIMETER = "CUBIC_CENTIMETER",
+  CUBIC_DECIMETER = "CUBIC_DECIMETER",
+  CUBIC_FOOT = "CUBIC_FOOT",
+  CUBIC_INCH = "CUBIC_INCH",
+  CUBIC_METER = "CUBIC_METER",
+  CUBIC_MILLIMETER = "CUBIC_MILLIMETER",
+  CUBIC_YARD = "CUBIC_YARD",
+  FL_OZ = "FL_OZ",
+  FT = "FT",
+  G = "G",
+  INCH = "INCH",
+  KG = "KG",
+  KM = "KM",
+  LB = "LB",
+  LITER = "LITER",
+  M = "M",
+  OZ = "OZ",
+  PINT = "PINT",
+  QT = "QT",
+  SQ_CM = "SQ_CM",
+  SQ_FT = "SQ_FT",
+  SQ_INCH = "SQ_INCH",
+  SQ_KM = "SQ_KM",
+  SQ_M = "SQ_M",
+  SQ_YD = "SQ_YD",
+  TONNE = "TONNE",
+  YD = "YD",
+}
+
 export enum MenuErrorCode {
   CANNOT_ASSIGN_NODE = "CANNOT_ASSIGN_NODE",
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
@@ -562,11 +609,17 @@ export enum OrderDirection {
   DESC = "DESC",
 }
 
+export enum OrderDiscountType {
+  MANUAL = "MANUAL",
+  VOUCHER = "VOUCHER",
+}
+
 export enum OrderErrorCode {
   BILLING_ADDRESS_NOT_SET = "BILLING_ADDRESS_NOT_SET",
   CANNOT_CANCEL_FULFILLMENT = "CANNOT_CANCEL_FULFILLMENT",
   CANNOT_CANCEL_ORDER = "CANNOT_CANCEL_ORDER",
   CANNOT_DELETE = "CANNOT_DELETE",
+  CANNOT_DISCOUNT = "CANNOT_DISCOUNT",
   CANNOT_REFUND = "CANNOT_REFUND",
   CAPTURE_INACTIVE_PAYMENT = "CAPTURE_INACTIVE_PAYMENT",
   CHANNEL_INACTIVE = "CHANNEL_INACTIVE",
@@ -606,12 +659,11 @@ export enum OrderEventsEmailsEnum {
 }
 
 export enum OrderEventsEnum {
+  ADDED_PRODUCTS = "ADDED_PRODUCTS",
   CANCELED = "CANCELED",
   CONFIRMED = "CONFIRMED",
-  DRAFT_ADDED_PRODUCTS = "DRAFT_ADDED_PRODUCTS",
   DRAFT_CREATED = "DRAFT_CREATED",
   DRAFT_CREATED_FROM_REPLACE = "DRAFT_CREATED_FROM_REPLACE",
-  DRAFT_REMOVED_PRODUCTS = "DRAFT_REMOVED_PRODUCTS",
   EMAIL_SENT = "EMAIL_SENT",
   EXTERNAL_SERVICE_NOTIFICATION = "EXTERNAL_SERVICE_NOTIFICATION",
   FULFILLMENT_CANCELED = "FULFILLMENT_CANCELED",
@@ -625,7 +677,15 @@ export enum OrderEventsEnum {
   INVOICE_SENT = "INVOICE_SENT",
   INVOICE_UPDATED = "INVOICE_UPDATED",
   NOTE_ADDED = "NOTE_ADDED",
+  ORDER_DISCOUNT_ADDED = "ORDER_DISCOUNT_ADDED",
+  ORDER_DISCOUNT_AUTOMATICALLY_UPDATED = "ORDER_DISCOUNT_AUTOMATICALLY_UPDATED",
+  ORDER_DISCOUNT_DELETED = "ORDER_DISCOUNT_DELETED",
+  ORDER_DISCOUNT_UPDATED = "ORDER_DISCOUNT_UPDATED",
   ORDER_FULLY_PAID = "ORDER_FULLY_PAID",
+  ORDER_LINE_DISCOUNT_REMOVED = "ORDER_LINE_DISCOUNT_REMOVED",
+  ORDER_LINE_DISCOUNT_UPDATED = "ORDER_LINE_DISCOUNT_UPDATED",
+  ORDER_LINE_PRODUCT_DELETED = "ORDER_LINE_PRODUCT_DELETED",
+  ORDER_LINE_VARIANT_DELETED = "ORDER_LINE_VARIANT_DELETED",
   ORDER_MARKED_AS_PAID = "ORDER_MARKED_AS_PAID",
   ORDER_REPLACEMENT_CREATED = "ORDER_REPLACEMENT_CREATED",
   OTHER = "OTHER",
@@ -637,6 +697,7 @@ export enum OrderEventsEnum {
   PAYMENT_VOIDED = "PAYMENT_VOIDED",
   PLACED = "PLACED",
   PLACED_FROM_DRAFT = "PLACED_FROM_DRAFT",
+  REMOVED_PRODUCTS = "REMOVED_PRODUCTS",
   TRACKING_UPDATED = "TRACKING_UPDATED",
   UPDATED_ADDRESS = "UPDATED_ADDRESS",
 }
@@ -709,6 +770,7 @@ export enum PaymentChargeStatusEnum {
 }
 
 export enum PermissionEnum {
+  HANDLE_PAYMENTS = "HANDLE_PAYMENTS",
   MANAGE_APPS = "MANAGE_APPS",
   MANAGE_CHANNELS = "MANAGE_CHANNELS",
   MANAGE_CHECKOUTS = "MANAGE_CHECKOUTS",
@@ -743,6 +805,11 @@ export enum PermissionGroupSortField {
   NAME = "NAME",
 }
 
+export enum PluginConfigurationType {
+  GLOBAL = "GLOBAL",
+  PER_CHANNEL = "PER_CHANNEL",
+}
+
 export enum PluginErrorCode {
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
   INVALID = "INVALID",
@@ -755,6 +822,11 @@ export enum PluginErrorCode {
 export enum PluginSortField {
   IS_ACTIVE = "IS_ACTIVE",
   NAME = "NAME",
+}
+
+export enum PostalCodeRuleInclusionTypeEnum {
+  EXCLUDE = "EXCLUDE",
+  INCLUDE = "INCLUDE",
 }
 
 export enum ProductAttributeType {
@@ -778,6 +850,7 @@ export enum ProductErrorCode {
   PRODUCT_WITHOUT_CATEGORY = "PRODUCT_WITHOUT_CATEGORY",
   REQUIRED = "REQUIRED",
   UNIQUE = "UNIQUE",
+  UNSUPPORTED_MEDIA_PROVIDER = "UNSUPPORTED_MEDIA_PROVIDER",
   VARIANT_NO_DIGITAL_CONTENT = "VARIANT_NO_DIGITAL_CONTENT",
 }
 
@@ -787,13 +860,17 @@ export enum ProductFieldEnum {
   COLLECTIONS = "COLLECTIONS",
   DESCRIPTION = "DESCRIPTION",
   NAME = "NAME",
-  PRODUCT_IMAGES = "PRODUCT_IMAGES",
+  PRODUCT_MEDIA = "PRODUCT_MEDIA",
   PRODUCT_TYPE = "PRODUCT_TYPE",
   PRODUCT_WEIGHT = "PRODUCT_WEIGHT",
-  VARIANT_IMAGES = "VARIANT_IMAGES",
+  VARIANT_MEDIA = "VARIANT_MEDIA",
   VARIANT_SKU = "VARIANT_SKU",
   VARIANT_WEIGHT = "VARIANT_WEIGHT",
-  VISIBLE = "VISIBLE",
+}
+
+export enum ProductMediaType {
+  IMAGE = "IMAGE",
+  VIDEO = "VIDEO",
 }
 
 export enum ProductOrderField {
@@ -804,6 +881,7 @@ export enum ProductOrderField {
   PRICE = "PRICE",
   PUBLICATION_DATE = "PUBLICATION_DATE",
   PUBLISHED = "PUBLISHED",
+  RANK = "RANK",
   RATING = "RATING",
   TYPE = "TYPE",
 }
@@ -882,34 +960,6 @@ export enum StockErrorCode {
   UNIQUE = "UNIQUE",
 }
 
-export enum TaxRateType {
-  ACCOMMODATION = "ACCOMMODATION",
-  ADMISSION_TO_CULTURAL_EVENTS = "ADMISSION_TO_CULTURAL_EVENTS",
-  ADMISSION_TO_ENTERTAINMENT_EVENTS = "ADMISSION_TO_ENTERTAINMENT_EVENTS",
-  ADMISSION_TO_SPORTING_EVENTS = "ADMISSION_TO_SPORTING_EVENTS",
-  ADVERTISING = "ADVERTISING",
-  AGRICULTURAL_SUPPLIES = "AGRICULTURAL_SUPPLIES",
-  BABY_FOODSTUFFS = "BABY_FOODSTUFFS",
-  BIKES = "BIKES",
-  BOOKS = "BOOKS",
-  CHILDRENS_CLOTHING = "CHILDRENS_CLOTHING",
-  DOMESTIC_FUEL = "DOMESTIC_FUEL",
-  DOMESTIC_SERVICES = "DOMESTIC_SERVICES",
-  E_BOOKS = "E_BOOKS",
-  FOODSTUFFS = "FOODSTUFFS",
-  HOTELS = "HOTELS",
-  MEDICAL = "MEDICAL",
-  NEWSPAPERS = "NEWSPAPERS",
-  PASSENGER_TRANSPORT = "PASSENGER_TRANSPORT",
-  PHARMACEUTICALS = "PHARMACEUTICALS",
-  PROPERTY_RENOVATIONS = "PROPERTY_RENOVATIONS",
-  RESTAURANTS = "RESTAURANTS",
-  SOCIAL_HOUSING = "SOCIAL_HOUSING",
-  STANDARD = "STANDARD",
-  WATER = "WATER",
-  WINE = "WINE",
-}
-
 export enum UploadErrorCode {
   GRAPHQL_ERROR = "GRAPHQL_ERROR",
 }
@@ -967,21 +1017,36 @@ export enum WebhookErrorCode {
 export enum WebhookEventTypeEnum {
   ANY_EVENTS = "ANY_EVENTS",
   CHECKOUT_CREATED = "CHECKOUT_CREATED",
-  CHECKOUT_QUANTITY_CHANGED = "CHECKOUT_QUANTITY_CHANGED",
   CHECKOUT_UPDATED = "CHECKOUT_UPDATED",
   CUSTOMER_CREATED = "CUSTOMER_CREATED",
+  CUSTOMER_UPDATED = "CUSTOMER_UPDATED",
   FULFILLMENT_CREATED = "FULFILLMENT_CREATED",
   INVOICE_DELETED = "INVOICE_DELETED",
   INVOICE_REQUESTED = "INVOICE_REQUESTED",
   INVOICE_SENT = "INVOICE_SENT",
+  NOTIFY_USER = "NOTIFY_USER",
   ORDER_CANCELLED = "ORDER_CANCELLED",
   ORDER_CONFIRMED = "ORDER_CONFIRMED",
   ORDER_CREATED = "ORDER_CREATED",
   ORDER_FULFILLED = "ORDER_FULFILLED",
   ORDER_FULLY_PAID = "ORDER_FULLY_PAID",
   ORDER_UPDATED = "ORDER_UPDATED",
+  PAGE_CREATED = "PAGE_CREATED",
+  PAGE_DELETED = "PAGE_DELETED",
+  PAGE_UPDATED = "PAGE_UPDATED",
+  PAYMENT_AUTHORIZE = "PAYMENT_AUTHORIZE",
+  PAYMENT_CAPTURE = "PAYMENT_CAPTURE",
+  PAYMENT_CONFIRM = "PAYMENT_CONFIRM",
+  PAYMENT_LIST_GATEWAYS = "PAYMENT_LIST_GATEWAYS",
+  PAYMENT_PROCESS = "PAYMENT_PROCESS",
+  PAYMENT_REFUND = "PAYMENT_REFUND",
+  PAYMENT_VOID = "PAYMENT_VOID",
   PRODUCT_CREATED = "PRODUCT_CREATED",
+  PRODUCT_DELETED = "PRODUCT_DELETED",
   PRODUCT_UPDATED = "PRODUCT_UPDATED",
+  PRODUCT_VARIANT_CREATED = "PRODUCT_VARIANT_CREATED",
+  PRODUCT_VARIANT_DELETED = "PRODUCT_VARIANT_DELETED",
+  PRODUCT_VARIANT_UPDATED = "PRODUCT_VARIANT_UPDATED",
 }
 
 export enum WeightUnitsEnum {
@@ -989,6 +1054,7 @@ export enum WeightUnitsEnum {
   KG = "KG",
   LB = "LB",
   OZ = "OZ",
+  TONNE = "TONNE",
 }
 
 export interface AddressInput {
@@ -1013,7 +1079,6 @@ export interface AppFilterInput {
 
 export interface AppInput {
   name?: string | null;
-  isActive?: boolean | null;
   permissions?: (PermissionEnum | null)[] | null;
 }
 
@@ -1040,6 +1105,7 @@ export interface AttributeCreateInput {
   name: string;
   slug?: string | null;
   type: AttributeTypeEnum;
+  unit?: MeasurementUnitsEnum | null;
   values?: (AttributeValueCreateInput | null)[] | null;
   valueRequired?: boolean | null;
   isVariantOnly?: boolean | null;
@@ -1057,6 +1123,7 @@ export interface AttributeFilterInput {
   filterableInStorefront?: boolean | null;
   filterableInDashboard?: boolean | null;
   availableInGrid?: boolean | null;
+  metadata?: (MetadataInput | null)[] | null;
   search?: string | null;
   ids?: (string | null)[] | null;
   type?: AttributeTypeEnum | null;
@@ -1067,8 +1134,9 @@ export interface AttributeFilterInput {
 
 export interface AttributeInput {
   slug: string;
-  value?: string | null;
   values?: (string | null)[] | null;
+  valuesRange?: IntRangeInput | null;
+  boolean?: boolean | null;
 }
 
 export interface AttributeSortingInput {
@@ -1079,6 +1147,7 @@ export interface AttributeSortingInput {
 export interface AttributeUpdateInput {
   name?: string | null;
   slug?: string | null;
+  unit?: MeasurementUnitsEnum | null;
   removeValues?: (string | null)[] | null;
   addValues?: (AttributeValueCreateInput | null)[] | null;
   valueRequired?: boolean | null;
@@ -1092,6 +1161,8 @@ export interface AttributeUpdateInput {
 
 export interface AttributeValueCreateInput {
   name: string;
+  value?: string | null;
+  richText?: any | null;
 }
 
 export interface AttributeValueInput {
@@ -1100,6 +1171,13 @@ export interface AttributeValueInput {
   file?: string | null;
   contentType?: string | null;
   references?: string[] | null;
+  richText?: any | null;
+  boolean?: boolean | null;
+}
+
+export interface AttributeValueTranslationInput {
+  name?: string | null;
+  richText?: any | null;
 }
 
 export interface BulkAttributeValueInput {
@@ -1115,12 +1193,12 @@ export interface CatalogueInput {
 
 export interface CategoryFilterInput {
   search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
   ids?: (string | null)[] | null;
 }
 
 export interface CategoryInput {
-  description?: string | null;
-  descriptionJson?: any | null;
+  description?: any | null;
   name?: string | null;
   slug?: string | null;
   seo?: SeoInput | null;
@@ -1139,16 +1217,19 @@ export interface ChannelCreateInput {
   name: string;
   slug: string;
   currencyCode: string;
+  addShippingZones?: string[] | null;
 }
 
 export interface ChannelDeleteInput {
-  targetChannel: string;
+  channelId: string;
 }
 
 export interface ChannelUpdateInput {
   isActive?: boolean | null;
   name?: string | null;
   slug?: string | null;
+  addShippingZones?: string[] | null;
+  removeShippingZones?: string[] | null;
 }
 
 export interface CollectionChannelListingUpdateInput {
@@ -1160,8 +1241,7 @@ export interface CollectionCreateInput {
   isPublished?: boolean | null;
   name?: string | null;
   slug?: string | null;
-  description?: string | null;
-  descriptionJson?: any | null;
+  description?: any | null;
   backgroundImage?: any | null;
   backgroundImageAlt?: string | null;
   seo?: SeoInput | null;
@@ -1172,6 +1252,7 @@ export interface CollectionCreateInput {
 export interface CollectionFilterInput {
   published?: CollectionPublished | null;
   search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
   ids?: (string | null)[] | null;
   channel?: string | null;
 }
@@ -1180,8 +1261,7 @@ export interface CollectionInput {
   isPublished?: boolean | null;
   name?: string | null;
   slug?: string | null;
-  description?: string | null;
-  descriptionJson?: any | null;
+  description?: any | null;
   backgroundImage?: any | null;
   backgroundImageAlt?: string | null;
   seo?: SeoInput | null;
@@ -1204,6 +1284,7 @@ export interface CustomerFilterInput {
   numberOfOrders?: IntRangeInput | null;
   placedOrders?: DateRangeInput | null;
   search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
 }
 
 export interface CustomerInput {
@@ -1214,6 +1295,7 @@ export interface CustomerInput {
   email?: string | null;
   isActive?: boolean | null;
   note?: string | null;
+  languageCode?: LanguageCodeEnum | null;
 }
 
 export interface DateRangeInput {
@@ -1235,7 +1317,7 @@ export interface DraftOrderCreateInput {
   shippingMethod?: string | null;
   voucher?: string | null;
   customerNote?: string | null;
-  channel?: string | null;
+  channelId?: string | null;
   redirectUrl?: string | null;
   lines?: (OrderLineCreateInput | null)[] | null;
 }
@@ -1249,7 +1331,7 @@ export interface DraftOrderInput {
   shippingMethod?: string | null;
   voucher?: string | null;
   customerNote?: string | null;
-  channel?: string | null;
+  channelId?: string | null;
   redirectUrl?: string | null;
 }
 
@@ -1330,10 +1412,17 @@ export interface OrderAddNoteInput {
   message: string;
 }
 
+export interface OrderDiscountCommonInput {
+  valueType: DiscountValueTypeEnum;
+  value: any;
+  reason?: string | null;
+}
+
 export interface OrderDraftFilterInput {
   customer?: string | null;
   created?: DateRangeInput | null;
   search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
   channels?: (string | null)[] | null;
 }
 
@@ -1343,6 +1432,7 @@ export interface OrderFilterInput {
   customer?: string | null;
   created?: DateRangeInput | null;
   search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
   channels?: (string | null)[] | null;
 }
 
@@ -1429,8 +1519,7 @@ export interface OrderUpdateShippingInput {
 export interface PageCreateInput {
   slug?: string | null;
   title?: string | null;
-  content?: string | null;
-  contentJson?: any | null;
+  content?: any | null;
   attributes?: AttributeValueInput[] | null;
   isPublished?: boolean | null;
   publicationDate?: string | null;
@@ -1438,11 +1527,17 @@ export interface PageCreateInput {
   pageType: string;
 }
 
+export interface PageFilterInput {
+  search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
+  pageTypes?: (string | null)[] | null;
+  ids?: (string | null)[] | null;
+}
+
 export interface PageInput {
   slug?: string | null;
   title?: string | null;
-  content?: string | null;
-  contentJson?: any | null;
+  content?: any | null;
   attributes?: AttributeValueInput[] | null;
   isPublished?: boolean | null;
   publicationDate?: string | null;
@@ -1458,8 +1553,7 @@ export interface PageTranslationInput {
   seoTitle?: string | null;
   seoDescription?: string | null;
   title?: string | null;
-  content?: string | null;
-  contentJson?: any | null;
+  content?: any | null;
 }
 
 export interface PageTypeCreateInput {
@@ -1508,13 +1602,19 @@ export interface PermissionGroupUpdateInput {
 }
 
 export interface PluginFilterInput {
-  active?: boolean | null;
+  statusInChannels?: PluginStatusInChannelsInput | null;
   search?: string | null;
+  type?: PluginConfigurationType | null;
 }
 
 export interface PluginSortingInput {
   direction: OrderDirection;
   field: PluginSortField;
+}
+
+export interface PluginStatusInChannelsInput {
+  active: boolean;
+  channels: string[];
 }
 
 export interface PluginUpdateInput {
@@ -1539,20 +1639,21 @@ export interface ProductChannelListingAddInput {
   visibleInListings?: boolean | null;
   isAvailableForPurchase?: boolean | null;
   availableForPurchaseDate?: any | null;
+  addVariants?: string[] | null;
+  removeVariants?: string[] | null;
 }
 
 export interface ProductChannelListingUpdateInput {
-  addChannels?: ProductChannelListingAddInput[] | null;
+  updateChannels?: ProductChannelListingAddInput[] | null;
   removeChannels?: string[] | null;
 }
 
 export interface ProductCreateInput {
-  attributes?: (AttributeValueInput | null)[] | null;
+  attributes?: AttributeValueInput[] | null;
   category?: string | null;
   chargeTaxes?: boolean | null;
-  collections?: (string | null)[] | null;
-  description?: string | null;
-  descriptionJson?: any | null;
+  collections?: string[] | null;
+  description?: any | null;
   name?: string | null;
   slug?: string | null;
   taxCode?: string | null;
@@ -1569,9 +1670,9 @@ export interface ProductFilterInput {
   hasCategory?: boolean | null;
   attributes?: (AttributeInput | null)[] | null;
   stockAvailability?: StockAvailability | null;
-  productType?: string | null;
   stocks?: ProductStockFilterInput | null;
   search?: string | null;
+  metadata?: (MetadataInput | null)[] | null;
   price?: PriceRangeInput | null;
   minimalPrice?: PriceRangeInput | null;
   productTypes?: (string | null)[] | null;
@@ -1580,12 +1681,11 @@ export interface ProductFilterInput {
 }
 
 export interface ProductInput {
-  attributes?: (AttributeValueInput | null)[] | null;
+  attributes?: AttributeValueInput[] | null;
   category?: string | null;
   chargeTaxes?: boolean | null;
-  collections?: (string | null)[] | null;
-  description?: string | null;
-  descriptionJson?: any | null;
+  collections?: string[] | null;
+  description?: any | null;
   name?: string | null;
   slug?: string | null;
   taxCode?: string | null;
@@ -1610,6 +1710,7 @@ export interface ProductTypeFilterInput {
   search?: string | null;
   configurable?: ProductTypeConfigurable | null;
   productType?: ProductTypeEnum | null;
+  metadata?: (MetadataInput | null)[] | null;
   ids?: (string | null)[] | null;
 }
 
@@ -1723,27 +1824,32 @@ export interface ShippingMethodChannelListingInput {
   removeChannels?: string[] | null;
 }
 
+export interface ShippingPostalCodeRulesCreateInputRange {
+  start: string;
+  end?: string | null;
+}
+
 export interface ShippingPriceExcludeProductsInput {
   products: (string | null)[];
 }
 
 export interface ShippingPriceInput {
   name?: string | null;
+  description?: any | null;
   minimumOrderWeight?: any | null;
   maximumOrderWeight?: any | null;
   maximumDeliveryDays?: number | null;
   minimumDeliveryDays?: number | null;
   type?: ShippingMethodTypeEnum | null;
   shippingZone?: string | null;
+  addPostalCodeRules?: ShippingPostalCodeRulesCreateInputRange[] | null;
+  deletePostalCodeRules?: string[] | null;
+  inclusionType?: PostalCodeRuleInclusionTypeEnum | null;
 }
 
-export interface ShippingZipCodeRulesCreateInput {
-  zipCodeRules: (ShippingZipCodeRulesCreateInputRange | null)[];
-}
-
-export interface ShippingZipCodeRulesCreateInputRange {
-  start: string;
-  end?: string | null;
+export interface ShippingPriceTranslationInput {
+  name?: string | null;
+  description?: any | null;
 }
 
 export interface ShippingZoneCreateInput {
@@ -1752,6 +1858,12 @@ export interface ShippingZoneCreateInput {
   countries?: (string | null)[] | null;
   default?: boolean | null;
   addWarehouses?: (string | null)[] | null;
+  addChannels?: string[] | null;
+}
+
+export interface ShippingZoneFilterInput {
+  search?: string | null;
+  channels?: (string | null)[] | null;
 }
 
 export interface ShippingZoneUpdateInput {
@@ -1760,7 +1872,9 @@ export interface ShippingZoneUpdateInput {
   countries?: (string | null)[] | null;
   default?: boolean | null;
   addWarehouses?: (string | null)[] | null;
+  addChannels?: string[] | null;
   removeWarehouses?: (string | null)[] | null;
+  removeChannels?: string[] | null;
 }
 
 export interface ShopSettingsInput {
@@ -1811,15 +1925,14 @@ export interface StaffUserInput {
 
 export interface StockInput {
   warehouse: string;
-  quantity?: number | null;
+  quantity: number;
 }
 
 export interface TranslationInput {
   seoTitle?: string | null;
   seoDescription?: string | null;
   name?: string | null;
-  description?: string | null;
-  descriptionJson?: any | null;
+  description?: any | null;
 }
 
 export interface UserCreateInput {
@@ -1830,7 +1943,9 @@ export interface UserCreateInput {
   email?: string | null;
   isActive?: boolean | null;
   note?: string | null;
+  languageCode?: LanguageCodeEnum | null;
   redirectUrl?: string | null;
+  channel?: string | null;
 }
 
 export interface UserSortingInput {
@@ -1871,6 +1986,7 @@ export interface VoucherInput {
   countries?: (string | null)[] | null;
   applyOncePerOrder?: boolean | null;
   applyOncePerCustomer?: boolean | null;
+  onlyForStaff?: boolean | null;
   usageLimit?: number | null;
 }
 
@@ -1880,23 +1996,11 @@ export interface VoucherSortingInput {
   field: VoucherSortField;
 }
 
-export interface WarehouseAddressInput {
-  streetAddress1: string;
-  streetAddress2?: string | null;
-  city: string;
-  cityArea?: string | null;
-  postalCode?: string | null;
-  country: CountryCode;
-  countryArea?: string | null;
-  phone?: string | null;
-}
-
 export interface WarehouseCreateInput {
   slug?: string | null;
-  companyName?: string | null;
   email?: string | null;
   name: string;
-  address: WarehouseAddressInput;
+  address: AddressInput;
   shippingZones?: (string | null)[] | null;
 }
 
@@ -1912,10 +2016,9 @@ export interface WarehouseSortingInput {
 
 export interface WarehouseUpdateInput {
   slug?: string | null;
-  companyName?: string | null;
   email?: string | null;
   name?: string | null;
-  address?: WarehouseAddressInput | null;
+  address?: AddressInput | null;
 }
 
 export interface WebhookCreateInput {

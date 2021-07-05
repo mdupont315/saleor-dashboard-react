@@ -1,7 +1,6 @@
+import { InputAdornment, TextField } from "@material-ui/core";
 import { InputProps } from "@material-ui/core/Input";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 

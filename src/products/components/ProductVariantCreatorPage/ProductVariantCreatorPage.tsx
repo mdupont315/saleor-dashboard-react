@@ -1,11 +1,12 @@
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Button, Typography } from "@material-ui/core";
+import { drawerWidthExpanded } from "@saleor/components/AppLayout/consts";
 import Container from "@saleor/components/Container";
 import Hr from "@saleor/components/Hr";
 import PageHeader from "@saleor/components/PageHeader";
+import { RefreshLimits_shop_limits } from "@saleor/components/Shop/types/RefreshLimits";
 import useWizard from "@saleor/hooks/useWizard";
 import { validatePrice } from "@saleor/products/utils/validation";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 
@@ -15,6 +16,7 @@ import ProductVariantCreatorContent, {
   ProductVariantCreatorContentProps
 } from "./ProductVariantCreatorContent";
 import ProductVariantCreateTabs from "./ProductVariantCreatorTabs";
+import { getVariantsNumber } from "./ProductVariantCreatorValues";
 import reduceProductVariantCreateFormData, {
   ProductVariantCreateReducerActionType
 } from "./reducer";
@@ -27,8 +29,13 @@ const useStyles = makeStyles(
     },
     content: {
       overflowX: "visible",
-      overflowY: "hidden",
-      width: 800
+      [theme.breakpoints.up("md")]: {
+        position: "absolute",
+        width: `calc(100vw - ${drawerWidthExpanded}px + ${theme.spacing(6)}px)`,
+        maxWidth: `calc(${theme.breakpoints.width("lg")}px - ${theme.spacing(
+          6
+        )}px)`
+      }
     },
     description: {
       marginTop: theme.spacing()
@@ -42,11 +49,16 @@ const useStyles = makeStyles(
 
 function canHitNext(
   step: ProductVariantCreatorStep,
-  data: ProductVariantCreateFormData
+  data: ProductVariantCreateFormData,
+  variantsLeft: number | null
 ): boolean {
   switch (step) {
     case ProductVariantCreatorStep.values:
-      return data.attributes.every(attribute => attribute.values.length > 0);
+      return (
+        (data.attributes.every(attribute => attribute.values.length > 0) &&
+          variantsLeft === null) ||
+        getVariantsNumber(data) <= variantsLeft
+      );
     case ProductVariantCreatorStep.prices:
       if (data.price.mode === "all") {
         if (data.price.channels.some(channel => validatePrice(channel.price))) {
@@ -85,8 +97,9 @@ function canHitNext(
 export interface ProductVariantCreatePageProps
   extends Omit<
     ProductVariantCreatorContentProps,
-    "data" | "dispatchFormDataAction" | "step" | "onStepClick"
+    "data" | "dispatchFormDataAction" | "step" | "variantsLeft" | "onStepClick"
   > {
+  limits: RefreshLimits_shop_limits;
   onSubmit: (data: ProductVariantBulkCreateInput[]) => void;
 }
 
@@ -138,6 +151,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = props 
     attributes,
     channelListings,
     errors,
+    limits,
     onSubmit,
     warehouses,
     ...contentProps
@@ -177,6 +191,10 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = props 
 
   React.useEffect(reloadForm, [attributes.length, warehouses.length]);
 
+  const variantsLeft = limits?.allowedUsage.productVariants
+    ? limits.allowedUsage.productVariants - limits.currentUsage.productVariants
+    : null;
+
   return (
     <Container>
       <ProductVariantCreateTabs step={step} onStepClick={setStep} />
@@ -200,9 +218,10 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = props 
         )}
         {step !== ProductVariantCreatorStep.summary ? (
           <Button
+            data-test-id="next-step"
             className={classes.button}
             color="primary"
-            disabled={!canHitNext(step, wizardData)}
+            disabled={!canHitNext(step, wizardData, variantsLeft)}
             variant="contained"
             onClick={nextStep}
           >
@@ -212,7 +231,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = props 
           <Button
             className={classes.button}
             color="primary"
-            disabled={!canHitNext(step, wizardData)}
+            disabled={!canHitNext(step, wizardData, variantsLeft)}
             variant="contained"
             onClick={() => onSubmit(wizardData.variants)}
           >
@@ -224,16 +243,19 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = props 
         )}
       </PageHeader>
       <Hr className={classes.hr} />
-      <ProductVariantCreatorContent
-        {...contentProps}
-        attributes={attributes}
-        channelListings={channelListings}
-        data={wizardData}
-        dispatchFormDataAction={dispatchFormDataAction}
-        errors={errors}
-        step={step}
-        warehouses={warehouses}
-      />
+      <div className={classes.content}>
+        <ProductVariantCreatorContent
+          {...contentProps}
+          attributes={attributes}
+          channelListings={channelListings}
+          data={wizardData}
+          dispatchFormDataAction={dispatchFormDataAction}
+          errors={errors}
+          variantsLeft={variantsLeft}
+          step={step}
+          warehouses={warehouses}
+        />
+      </div>
     </Container>
   );
 };

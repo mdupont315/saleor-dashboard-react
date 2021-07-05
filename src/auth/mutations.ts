@@ -13,7 +13,7 @@ export const tokenAuthMutation = gql`
   ${fragmentUser}
   mutation TokenAuth($email: String!, $password: String!) {
     tokenCreate(email: $email, password: $password) {
-      errors: accountErrors {
+      errors {
         field
         message
       }
@@ -50,7 +50,7 @@ export const requestPasswordReset = gql`
   ${accountErrorFragment}
   mutation RequestPasswordReset($email: String!, $redirectUrl: String!) {
     requestPasswordReset(email: $email, redirectUrl: $redirectUrl) {
-      errors: accountErrors {
+      errors {
         ...AccountErrorFragment
       }
     }
@@ -66,7 +66,7 @@ export const setPassword = gql`
   ${fragmentUser}
   mutation SetPassword($email: String!, $password: String!, $token: String!) {
     setPassword(email: $email, password: $password, token: $token) {
-      errors: accountErrors {
+      errors {
         ...AccountErrorFragment
       }
       csrfToken
@@ -82,3 +82,52 @@ export const SetPasswordMutation = TypedMutation<
   SetPassword,
   SetPasswordVariables
 >(setPassword);
+
+export const externalAuthenticationUrlMutation = gql`
+  ${accountErrorFragment}
+  mutation ExternalAuthenticationUrl($pluginId: String!, $input: JSONString!) {
+    externalAuthenticationUrl(pluginId: $pluginId, input: $input) {
+      authenticationData
+      errors {
+        ...AccountErrorFragment
+      }
+    }
+  }
+`;
+
+export const externalObtainAccessTokensMutation = gql`
+  ${accountErrorFragment}
+  ${fragmentUser}
+  mutation ExternalObtainAccessTokens($pluginId: String!, $input: JSONString!) {
+    externalObtainAccessTokens(pluginId: $pluginId, input: $input) {
+      token
+      csrfToken
+      user {
+        ...User
+      }
+      errors {
+        ...AccountErrorFragment
+      }
+    }
+  }
+`;
+
+export const externalTokenRefreshMutation = gql`
+  mutation ExternalRefreshToken($pluginId: String!, $input: JSONString!) {
+    externalRefresh(pluginId: $pluginId, input: $input) {
+      token
+    }
+  }
+`;
+
+export const externalTokenVerifyMutation = gql`
+  ${fragmentUser}
+  mutation ExternalVerifyToken($pluginId: String!, $input: JSONString!) {
+    externalVerify(pluginId: $pluginId, input: $input) {
+      verifyData
+      user {
+        ...User
+      }
+    }
+  }
+`;

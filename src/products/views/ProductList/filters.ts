@@ -4,12 +4,14 @@ import {
   ProductFilterKeys,
   ProductListFilterOpts
 } from "@saleor/products/components/ProductListPage";
+import { InitialProductFilterAttributes_attributes_edges_node } from "@saleor/products/types/InitialProductFilterAttributes";
+import { InitialProductFilterCategories_categories_edges_node } from "@saleor/products/types/InitialProductFilterCategories";
+import { InitialProductFilterCollections_collections_edges_node } from "@saleor/products/types/InitialProductFilterCollections";
+import { InitialProductFilterProductTypes_productTypes_edges_node } from "@saleor/products/types/InitialProductFilterProductTypes";
 import {
-  InitialProductFilterData_attributes_edges_node,
-  InitialProductFilterData_categories_edges_node,
-  InitialProductFilterData_collections_edges_node,
-  InitialProductFilterData_productTypes_edges_node
-} from "@saleor/products/types/InitialProductFilterData";
+  SearchAttributeValues,
+  SearchAttributeValuesVariables
+} from "@saleor/searches/types/SearchAttributeValues";
 import {
   SearchCategories,
   SearchCategoriesVariables
@@ -22,7 +24,12 @@ import {
   SearchProductTypes,
   SearchProductTypesVariables
 } from "@saleor/searches/types/SearchProductTypes";
-import isArray from "lodash-es/isArray";
+import {
+  mapEdgesToItems,
+  mapNodeToChoice,
+  mapSlugNodeToChoice
+} from "@saleor/utils/maps";
+import isArray from "lodash/isArray";
 
 import { IFilterElement } from "../../../components/Filter";
 import {
@@ -50,17 +57,21 @@ export const PRODUCT_FILTERS_KEY = "productFilters";
 
 export function getFilterOpts(
   params: ProductListUrlFilters,
-  attributes: InitialProductFilterData_attributes_edges_node[],
+  attributes: InitialProductFilterAttributes_attributes_edges_node[],
+  focusedAttributeChoices: UseSearchResult<
+    SearchAttributeValues,
+    SearchAttributeValuesVariables
+  >,
   categories: {
-    initial: InitialProductFilterData_categories_edges_node[];
+    initial: InitialProductFilterCategories_categories_edges_node[];
     search: UseSearchResult<SearchCategories, SearchCategoriesVariables>;
   },
   collections: {
-    initial: InitialProductFilterData_collections_edges_node[];
+    initial: InitialProductFilterCollections_collections_edges_node[];
     search: UseSearchResult<SearchCollections, SearchCollectionsVariables>;
   },
   productTypes: {
-    initial: InitialProductFilterData_productTypes_edges_node[];
+    initial: InitialProductFilterProductTypes_productTypes_edges_node[];
     search: UseSearchResult<SearchProductTypes, SearchProductTypesVariables>;
   }
 ): ProductListFilterOpts {
@@ -69,26 +80,36 @@ export function getFilterOpts(
       .sort((a, b) => (a.name > b.name ? 1 : -1))
       .map(attr => ({
         active: maybe(() => params.attributes[attr.slug].length > 0, false),
-        choices: attr.values.map(val => ({
-          label: val.name,
-          value: val.slug
-        })),
+        id: attr.id,
         name: attr.name,
         slug: attr.slug,
+        inputType: attr.inputType,
         value:
           !!params.attributes && params.attributes[attr.slug]
-            ? params.attributes[attr.slug]
+            ? dedupeFilter(params.attributes[attr.slug])
             : []
       })),
+    attributeChoices: {
+      active: true,
+      choices: mapSlugNodeToChoice(
+        mapEdgesToItems(focusedAttributeChoices.result.data?.attribute?.choices)
+      ),
+      displayValues: mapNodeToChoice(
+        mapEdgesToItems(focusedAttributeChoices.result.data?.attribute?.choices)
+      ),
+      hasMore:
+        focusedAttributeChoices.result.data?.attribute?.choices?.pageInfo
+          ?.hasNextPage || false,
+      initialSearch: "",
+      loading: focusedAttributeChoices.result.loading,
+      onFetchMore: focusedAttributeChoices.loadMore,
+      onSearchChange: focusedAttributeChoices.search,
+      value: null
+    },
     categories: {
       active: !!params.categories,
-      choices: maybe(
-        () =>
-          categories.search.result.data.search.edges.map(edge => ({
-            label: edge.node.name,
-            value: edge.node.id
-          })),
-        []
+      choices: mapNodeToChoice(
+        mapEdgesToItems(categories?.search?.result?.data?.search)
       ),
       displayValues: !!params.categories
         ? maybe(
@@ -112,13 +133,8 @@ export function getFilterOpts(
     },
     collections: {
       active: !!params.collections,
-      choices: maybe(
-        () =>
-          collections.search.result.data.search.edges.map(edge => ({
-            label: edge.node.name,
-            value: edge.node.id
-          })),
-        []
+      choices: mapNodeToChoice(
+        mapEdgesToItems(collections?.search?.result?.data?.search)
       ),
       displayValues: !!params.collections
         ? maybe(
@@ -153,13 +169,8 @@ export function getFilterOpts(
     },
     productType: {
       active: !!params.productTypes,
-      choices: maybe(
-        () =>
-          productTypes.search.result.data.search.edges.map(edge => ({
-            label: edge.node.name,
-            value: edge.node.id
-          })),
-        []
+      choices: mapNodeToChoice(
+        mapEdgesToItems(productTypes?.search?.result?.data?.search)
       ),
       displayValues: !!params.productTypes
         ? maybe(
@@ -188,20 +199,35 @@ export function getFilterOpts(
   };
 }
 
+function getFilteredAttributeValue(
+  params: ProductListUrlFilters
+): Array<({ boolean: boolean } | { values: string[] }) & { slug: string }> {
+  return !!params.attributes
+    ? Object.keys(params.attributes).map(key => {
+        const value = params.attributes[key];
+        const isMulti = isArray(params.attributes[key]);
+        const isBooleanValue =
+          !isMulti && ["true", "false"].includes((value as unknown) as string);
+
+        return {
+          slug: key,
+          ...(isBooleanValue
+            ? { boolean: JSON.parse((value as unknown) as string) }
+            : {
+                // It is possible for qs to parse values not as string[] but string
+                values: isMulti ? value : (([value] as unknown) as string[])
+              })
+        };
+      })
+    : null;
+}
+
 export function getFilterVariables(
   params: ProductListUrlFilters,
   channel: string | undefined
 ): ProductFilterInput {
   return {
-    attributes: !!params.attributes
-      ? Object.keys(params.attributes).map(key => ({
-          slug: key,
-          // It is possible for qs to parse values not as string[] but string
-          values: isArray(params.attributes[key])
-            ? params.attributes[key]
-            : (([params.attributes[key]] as unknown) as string[])
-        }))
-      : null,
+    attributes: getFilteredAttributeValue(params),
     categories: params.categories !== undefined ? params.categories : null,
     channel: channel || null,
     collections: params.collections !== undefined ? params.collections : null,

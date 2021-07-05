@@ -1,6 +1,4 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
+import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { ControlledCheckbox } from "@saleor/components/ControlledCheckbox";
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
@@ -10,6 +8,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 
 import { VoucherDetailsPageFormData } from "../VoucherDetailsPage";
+import messages from "./messages";
 
 interface VoucherLimitsProps {
   data: VoucherDetailsPageFormData;
@@ -30,19 +29,11 @@ const VoucherLimits = ({
 
   return (
     <Card>
-      <CardTitle
-        title={intl.formatMessage({
-          defaultMessage: "Usage Limit",
-          description: "voucher usage limit, header"
-        })}
-      />
+      <CardTitle title={intl.formatMessage(messages.usageLimitsTitle)} />
       <CardContent>
         <ControlledCheckbox
           checked={data.hasUsageLimit}
-          label={intl.formatMessage({
-            defaultMessage:
-              "Limit number of times this discount can be used in total"
-          })}
+          label={intl.formatMessage(messages.hasUsageLimit)}
           name={"hasUsageLimit" as keyof VoucherDetailsPageFormData}
           onChange={onChange}
         />
@@ -51,10 +42,7 @@ const VoucherLimits = ({
             disabled={disabled}
             error={!!formErrors.usageLimit}
             helperText={getDiscountErrorMessage(formErrors.usageLimit, intl)}
-            label={intl.formatMessage({
-              defaultMessage: "Limit of Uses",
-              description: "voucher"
-            })}
+            label={intl.formatMessage(messages.usageLimit)}
             name={"usageLimit" as keyof VoucherDetailsPageFormData}
             value={data.usageLimit}
             onChange={onChange}
@@ -67,11 +55,14 @@ const VoucherLimits = ({
         )}
         <ControlledCheckbox
           checked={data.applyOncePerCustomer}
-          label={intl.formatMessage({
-            defaultMessage: "Limit to one use per customer",
-            description: "limit voucher"
-          })}
+          label={intl.formatMessage(messages.applyOncePerCustomer)}
           name={"applyOncePerCustomer" as keyof VoucherDetailsPageFormData}
+          onChange={onChange}
+        />
+        <ControlledCheckbox
+          checked={data.onlyForStaff}
+          label={intl.formatMessage(messages.onlyForStaff)}
+          name={"onlyForStaff" as keyof VoucherDetailsPageFormData}
           onChange={onChange}
         />
       </CardContent>

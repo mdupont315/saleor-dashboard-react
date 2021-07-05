@@ -1,11 +1,13 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { OutputData } from "@editorjs/editorjs";
+import { Card, CardContent, TextField } from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
+import RichTextEditor, {
+  RichTextEditorChange
+} from "@saleor/components/RichTextEditor";
 import { ShippingErrorFragment } from "@saleor/fragments/types/ShippingErrorFragment";
 import { commonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import { getFormErrors } from "@saleor/utils/errors";
 import getShippingErrorMessage from "@saleor/utils/errors/shipping";
 import React from "react";
@@ -22,6 +24,10 @@ const messages = defineMessages({
   },
   name: {
     defaultMessage: "Shipping rate name",
+    description: "label"
+  },
+  description: {
+    defaultMessage: "Shipping Rate Description",
     description: "label"
   }
 });
@@ -45,19 +51,28 @@ const useStyles = makeStyles(
 );
 
 export interface ShippingRateInfoProps {
-  data: Record<"name" | "maxDays" | "minDays", string>;
+  data: {
+    description: OutputData;
+    name: string;
+    maxDays: string;
+    minDays: string;
+  };
   disabled: boolean;
   errors: ShippingErrorFragment[];
   onChange: (event: React.ChangeEvent<any>) => void;
+  onDescriptionChange: RichTextEditorChange;
 }
 
 const ShippingRateInfo: React.FC<ShippingRateInfoProps> = props => {
-  const { data, disabled, errors, onChange } = props;
+  const { data, disabled, errors, onChange, onDescriptionChange } = props;
 
   const intl = useIntl();
   const classes = useStyles(props);
 
-  const formErrors = getFormErrors(["name", "minDays", "maxDays"], errors);
+  const formErrors = getFormErrors(
+    ["name", "description", "minDays", "maxDays"],
+    errors
+  );
 
   return (
     <Card>
@@ -74,6 +89,16 @@ const ShippingRateInfo: React.FC<ShippingRateInfoProps> = props => {
           name="name"
           value={data.name}
           onChange={onChange}
+        />
+        <CardSpacer />
+        <RichTextEditor
+          data={data.description}
+          disabled={disabled}
+          error={!!formErrors.description}
+          helperText={getShippingErrorMessage(formErrors.description, intl)}
+          label={intl.formatMessage(messages.description)}
+          name="description"
+          onChange={onDescriptionChange}
         />
         <CardSpacer />
         <div className={classes.deliveryTimeFields}>

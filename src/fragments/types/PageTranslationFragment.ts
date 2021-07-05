@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { LanguageCodeEnum } from "./../../types/globalTypes";
@@ -11,7 +12,7 @@ import { LanguageCodeEnum } from "./../../types/globalTypes";
 export interface PageTranslationFragment_page {
   __typename: "Page";
   id: string;
-  contentJson: any;
+  content: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   title: string;
@@ -26,10 +27,10 @@ export interface PageTranslationFragment_translation_language {
 export interface PageTranslationFragment_translation {
   __typename: "PageTranslation";
   id: string;
-  contentJson: any;
+  content: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
-  title: string;
+  title: string | null;
   language: PageTranslationFragment_translation_language;
 }
 

@@ -1,5 +1,5 @@
 import { ChannelShippingData } from "@saleor/channels/utils";
-import { ShippingMethodFragment_zipCodeRules } from "@saleor/fragments/types/ShippingMethodFragment";
+import { ShippingMethodFragment_postalCodeRules } from "@saleor/fragments/types/ShippingMethodFragment";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
@@ -8,13 +8,17 @@ import { FormData as ShippingZoneRatesPageFormData } from "@saleor/shipping/comp
 import { CreateShippingRateVariables } from "@saleor/shipping/types/CreateShippingRate";
 import { ShippingMethodChannelListingUpdateVariables } from "@saleor/shipping/types/ShippingMethodChannelListingUpdate";
 import { UpdateShippingRateVariables } from "@saleor/shipping/types/UpdateShippingRate";
-import { ShippingMethodTypeEnum } from "@saleor/types/globalTypes";
-import { diff } from "fast-array-diff";
+import {
+  PostalCodeRuleInclusionTypeEnum,
+  ShippingMethodTypeEnum,
+  ShippingPostalCodeRulesCreateInputRange
+} from "@saleor/types/globalTypes";
+import { getParsedDataForJsonStringField } from "@saleor/utils/richText/misc";
+import differenceBy from "lodash/differenceBy";
 import { useIntl } from "react-intl";
 
 import {
   useShippingMethodChannelListingUpdate,
-  useShippingMethodZipCodeRangeAssign,
   useShippingRateCreate,
   useShippingRateDelete
 } from "./mutations";
@@ -43,41 +47,66 @@ export const createChannelsChangeHandler = (
   triggerChange();
 };
 
+const getPostalCodeRulesToAdd = (
+  rules: ShippingMethodFragment_postalCodeRules[]
+) =>
+  rules
+    .filter(code => !code.id || code.id === "0")
+    .map(
+      code =>
+        ({
+          end: code.end,
+          start: code.start
+        } as ShippingPostalCodeRulesCreateInputRange)
+    );
+
 export function getCreateShippingPriceRateVariables(
   data: ShippingZoneRatesPageFormData,
-  id: string
+  id: string,
+  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  inclusionType: PostalCodeRuleInclusionTypeEnum
 ): CreateShippingRateVariables {
   const parsedMinDays = parseInt(data.minDays, 10);
   const parsedMaxDays = parseInt(data.maxDays, 10);
+  const postalCodeRules = getPostalCodeRulesToAdd(addPostalCodeRules);
   return {
     input: {
+      addPostalCodeRules: postalCodeRules,
+      inclusionType,
       maximumDeliveryDays: parsedMaxDays,
       minimumDeliveryDays: parsedMinDays,
       name: data.name,
       shippingZone: id,
-      type: ShippingMethodTypeEnum.PRICE
+      type: ShippingMethodTypeEnum.PRICE,
+      description: getParsedDataForJsonStringField(data.description)
     }
   };
 }
 
 export function getCreateShippingWeightRateVariables(
   data: ShippingZoneRatesPageFormData,
-  id: string
+  id: string,
+  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  inclusionType: PostalCodeRuleInclusionTypeEnum
 ): CreateShippingRateVariables {
   const parsedMinValue = parseFloat(data.minValue);
   const parsedMaxValue = parseFloat(data.maxValue);
   const parsedMinDays = parseInt(data.minDays, 10);
   const parsedMaxDays = parseInt(data.maxDays, 10);
   const isWeightSet = !data.noLimits;
+  const postalCodeRules = getPostalCodeRulesToAdd(addPostalCodeRules);
   return {
     input: {
+      addPostalCodeRules: postalCodeRules,
+      inclusionType,
       maximumDeliveryDays: parsedMaxDays,
       maximumOrderWeight: isWeightSet ? parsedMaxValue : null,
       minimumDeliveryDays: parsedMinDays,
       minimumOrderWeight: isWeightSet ? parsedMinValue : null,
       name: data.name,
       shippingZone: id,
-      type: ShippingMethodTypeEnum.WEIGHT
+      type: ShippingMethodTypeEnum.WEIGHT,
+      description: getParsedDataForJsonStringField(data.description)
     }
   };
 }
@@ -85,18 +114,27 @@ export function getCreateShippingWeightRateVariables(
 export function getUpdateShippingPriceRateVariables(
   data: ShippingZoneRatesPageFormData,
   id: string,
-  rateId: string
+  rateId: string,
+  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  deletePostalCodeRules: string[]
 ): UpdateShippingRateVariables {
   const parsedMinDays = parseInt(data.minDays, 10);
   const parsedMaxDays = parseInt(data.maxDays, 10);
+  const postalCodeRules = getPostalCodeRulesToAdd(addPostalCodeRules);
   return {
     id: rateId,
     input: {
+      addPostalCodeRules: postalCodeRules,
+      deletePostalCodeRules,
+      inclusionType:
+        addPostalCodeRules[0]?.inclusionType ||
+        PostalCodeRuleInclusionTypeEnum.EXCLUDE,
       maximumDeliveryDays: parsedMaxDays,
       minimumDeliveryDays: parsedMinDays,
       name: data.name,
       shippingZone: id,
-      type: ShippingMethodTypeEnum.PRICE
+      type: ShippingMethodTypeEnum.PRICE,
+      description: getParsedDataForJsonStringField(data.description)
     }
   };
 }
@@ -104,23 +142,32 @@ export function getUpdateShippingPriceRateVariables(
 export function getUpdateShippingWeightRateVariables(
   data: ShippingZoneRatesPageFormData,
   id: string,
-  rateId: string
+  rateId: string,
+  addPostalCodeRules: ShippingMethodFragment_postalCodeRules[],
+  deletePostalCodeRules: string[]
 ): UpdateShippingRateVariables {
   const parsedMinValue = parseFloat(data.minValue);
   const parsedMaxValue = parseFloat(data.maxValue);
   const parsedMinDays = parseInt(data.minDays, 10);
   const parsedMaxDays = parseInt(data.maxDays, 10);
   const isWeightSet = !data.noLimits;
+  const postalCodeRules = getPostalCodeRulesToAdd(addPostalCodeRules);
   return {
     id: rateId,
     input: {
+      addPostalCodeRules: postalCodeRules,
+      deletePostalCodeRules,
+      inclusionType:
+        addPostalCodeRules[0]?.inclusionType ||
+        PostalCodeRuleInclusionTypeEnum.EXCLUDE,
       maximumDeliveryDays: parsedMaxDays,
       maximumOrderWeight: isWeightSet ? parsedMaxValue : null,
       minimumDeliveryDays: parsedMinDays,
       minimumOrderWeight: isWeightSet ? parsedMinValue : null,
       name: data.name,
       shippingZone: id,
-      type: ShippingMethodTypeEnum.WEIGHT
+      type: ShippingMethodTypeEnum.WEIGHT,
+      description: getParsedDataForJsonStringField(data.description)
     }
   };
 }
@@ -131,9 +178,7 @@ export function getShippingMethodChannelVariables(
   prevChannels?: ChannelShippingData[]
 ): ShippingMethodChannelListingUpdateVariables {
   const removeChannels = prevChannels
-    ? diff(prevChannels, formChannels, (a, b) => a.id === b.id).removed?.map(
-        removedChannel => removedChannel.id
-      )
+    ? differenceBy(prevChannels, formChannels, "id").map(({ id }) => id)
     : [];
 
   return {
@@ -156,7 +201,8 @@ export function getShippingMethodChannelVariables(
 export function useShippingRateCreator(
   shippingZoneId: string,
   type: ShippingMethodTypeEnum,
-  zipCodes: ShippingMethodFragment_zipCodeRules[]
+  postalCodes: ShippingMethodFragment_postalCodeRules[],
+  inclusionType: PostalCodeRuleInclusionTypeEnum
 ) {
   const intl = useIntl();
   const notify = useNotifier();
@@ -165,10 +211,6 @@ export function useShippingRateCreator(
     createBaseShippingRate,
     createBaseShippingRateOpts
   ] = useShippingRateCreate({});
-  const [
-    assignZipCodeRules,
-    assignZipCodeRulesOpts
-  ] = useShippingMethodZipCodeRangeAssign({});
   const [
     updateShippingMethodChannelListing,
     updateShippingMethodChannelListingOpts
@@ -186,7 +228,7 @@ export function useShippingRateCreator(
 
   const createShippingRate = async (data: ShippingZoneRatesPageFormData) => {
     const response = await createBaseShippingRate({
-      variables: getVariables(data, shippingZoneId)
+      variables: getVariables(data, shippingZoneId, postalCodes, inclusionType)
     });
 
     const createErrors = response.data.shippingPriceCreate.errors;
@@ -200,17 +242,6 @@ export function useShippingRateCreator(
             data.noLimits,
             data.channelListings
           )
-        }),
-        assignZipCodeRules({
-          variables: {
-            id: rateId,
-            input: {
-              zipCodeRules: zipCodes.map(zipCodeRule => ({
-                end: zipCodeRule.end || null,
-                start: zipCodeRule.start
-              }))
-            }
-          }
         })
       ]);
 
@@ -236,16 +267,12 @@ export function useShippingRateCreator(
 
   const called =
     createBaseShippingRateOpts.called ||
-    updateShippingMethodChannelListingOpts.called ||
-    assignZipCodeRulesOpts.called;
+    updateShippingMethodChannelListingOpts.called;
   const loading =
     createBaseShippingRateOpts.loading ||
-    updateShippingMethodChannelListingOpts.loading ||
-    assignZipCodeRulesOpts.loading;
+    updateShippingMethodChannelListingOpts.loading;
   const errors = [
-    ...(createBaseShippingRateOpts.data?.shippingPriceCreate.errors || []),
-    ...(assignZipCodeRulesOpts.data?.shippingMethodZipCodeRulesCreate.errors ||
-      [])
+    ...(createBaseShippingRateOpts.data?.shippingPriceCreate.errors || [])
   ];
   const channelErrors =
     updateShippingMethodChannelListingOpts.data

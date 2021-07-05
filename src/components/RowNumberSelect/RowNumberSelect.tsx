@@ -1,10 +1,7 @@
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { MenuItem, Select } from "@material-ui/core";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage } from "react-intl";
-
-import { ListSettings } from "../../types";
 
 const useStyles = makeStyles(
   theme => ({
@@ -35,31 +32,36 @@ const useStyles = makeStyles(
 interface RowNumberSelectProps {
   choices: number[];
   className?: string;
-  settings: ListSettings;
-  onChange(key: keyof ListSettings, value: any);
+  rowNumber: number;
+  onChange(value: number);
 }
 
 const RowNumberSelect: React.FC<RowNumberSelectProps> = ({
   className,
   choices,
-  settings,
+  rowNumber,
   onChange
 }) => {
-  const theme = useTheme();
-  const classes = useStyles({ theme });
+  const classes = useStyles({});
+
   return (
     <div className={className}>
       <span className={classes.label}>
         <FormattedMessage defaultMessage="No of Rows:" />
       </span>
       <Select
+        data-test-id="rowNumberSelect"
         className={classes.select}
-        value={settings.rowNumber}
-        onChange={event => onChange("rowNumber", event.target.value)}
+        value={rowNumber}
+        onChange={event => onChange(event.target.value as number)}
       >
         {choices.length > 0 &&
           choices.map(choice => (
-            <MenuItem value={choice} key={choice}>
+            <MenuItem
+              value={choice}
+              key={choice}
+              data-test-id="rowNumberOption"
+            >
               {choice}
             </MenuItem>
           ))}

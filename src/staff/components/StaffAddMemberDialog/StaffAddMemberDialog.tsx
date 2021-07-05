@@ -1,10 +1,11 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField
+} from "@material-ui/core";
 import ConfirmButton, {
   ConfirmButtonTransitionState
 } from "@saleor/components/ConfirmButton";
@@ -14,6 +15,7 @@ import { StaffErrorFragment } from "@saleor/fragments/types/StaffErrorFragment";
 import useModalDialogErrors from "@saleor/hooks/useModalDialogErrors";
 import { buttonMessages, commonMessages } from "@saleor/intl";
 import { SearchPermissionGroups_search_edges_node } from "@saleor/searches/types/SearchPermissionGroups";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps, SearchPageProps } from "@saleor/types";
 import { getFormErrors } from "@saleor/utils/errors";
 import getStaffErrorMessage from "@saleor/utils/errors/staff";
@@ -137,6 +139,7 @@ const StaffAddMemberDialog: React.FC<StaffAddMemberDialogProps> = props => {
                 <FormattedMessage {...buttonMessages.back} />
               </Button>
               <ConfirmButton
+                data-test="submit"
                 color="primary"
                 disabled={!hasChanged}
                 variant="contained"

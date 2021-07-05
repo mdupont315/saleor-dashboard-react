@@ -1,14 +1,16 @@
-import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography
+} from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import Money from "@saleor/components/Money";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
 import TableCellAvatar from "@saleor/components/TableCellAvatar";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -46,18 +48,19 @@ const useStyles = makeStyles(
 );
 
 interface HomeProductListProps {
+  testId?: string;
   topProducts: Home_productTopToday_edges_node[];
   onRowClick: (productId: string, variantId: string) => void;
 }
 
 export const HomeProductList: React.FC<HomeProductListProps> = props => {
-  const { topProducts, onRowClick } = props;
+  const { topProducts, onRowClick, testId } = props;
   const classes = useStyles(props);
 
   const intl = useIntl();
 
   return (
-    <Card>
+    <Card data-test-id={testId}>
       <CardTitle
         title={intl.formatMessage({
           defaultMessage: "Top Products",

@@ -1,5 +1,6 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import TableCell, { TableCellProps } from "@material-ui/core/TableCell";
+import { TableCell } from "@material-ui/core";
+import { TableCellProps } from "@material-ui/core/TableCell";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 

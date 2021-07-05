@@ -1,16 +1,15 @@
-import { makeStyles } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
-import SingleAutocompleteSelectField from "@saleor/components/SingleAutocompleteSelectField";
+import SingleAutocompleteSelectField, {
+  SingleAutocompleteChoiceType
+} from "@saleor/components/SingleAutocompleteSelectField";
 import { PageErrorFragment } from "@saleor/fragments/types/PageErrorFragment";
 import { PageTypeFragment } from "@saleor/fragments/types/PageTypeFragment";
 import { FormChange } from "@saleor/hooks/useForm";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps } from "@saleor/types";
 import { getFormErrors } from "@saleor/utils/errors";
 import getPageErrorMessage from "@saleor/utils/errors/page";
-import { mapNodeToChoice } from "@saleor/utils/maps";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -23,7 +22,7 @@ export interface PageOrganizeContentProps {
   pageTypeInputDisplayValue?: string;
   errors: PageErrorFragment[];
   disabled: boolean;
-  pageTypes: PageTypeFragment[];
+  pageTypes: SingleAutocompleteChoiceType[];
   onPageTypeChange?: FormChange;
   fetchPageTypes?: (data: string) => void;
   fetchMorePageTypes?: FetchMoreProps;
@@ -78,8 +77,8 @@ const PageOrganizeContent: React.FC<PageOrganizeContentProps> = props => {
             helperText={getPageErrorMessage(formErrors.pageType, intl)}
             name={"pageType" as keyof PageFormData}
             onChange={onPageTypeChange}
-            value={data.pageType}
-            choices={pageTypes ? mapNodeToChoice(pageTypes) : []}
+            value={data.pageType?.id}
+            choices={pageTypes}
             InputProps={{
               autoComplete: "off"
             }}

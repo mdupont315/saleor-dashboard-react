@@ -1,11 +1,11 @@
-import Button from "@material-ui/core/Button";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { FilterProps } from "../../types";
 import Filter from "../Filter";
-import { IFilter } from "../Filter/types";
+import { FilterErrorMessages, IFilter } from "../Filter/types";
 import { SearchBarProps } from "../SearchBar";
 import SearchInput from "../SearchBar/SearchInput";
 import FilterTabs, { FilterTab } from "../TableFilter";
@@ -13,6 +13,7 @@ import FilterTabs, { FilterTab } from "../TableFilter";
 export interface FilterBarProps<TKeys extends string = string>
   extends FilterProps<TKeys>,
     SearchBarProps {
+  errorMessages?: FilterErrorMessages<TKeys>;
   filterStructure: IFilter<TKeys>;
 }
 
@@ -47,9 +48,11 @@ const FilterBar: React.FC<FilterBarProps> = props => {
     onAll,
     onSearchChange,
     onFilterChange,
+    onFilterAttributeFocus,
     onTabChange,
     onTabDelete,
-    onTabSave
+    onTabSave,
+    errorMessages
   } = props;
 
   const classes = useStyles(props);
@@ -84,9 +87,11 @@ const FilterBar: React.FC<FilterBarProps> = props => {
       </FilterTabs>
       <div className={classes.root}>
         <Filter
+          errorMessages={errorMessages}
           menu={filterStructure}
           currencySymbol={currencySymbol}
           onFilterAdd={onFilterChange}
+          onFilterAttributeFocus={onFilterAttributeFocus}
         />
         <SearchInput
           initialSearch={initialSearch}

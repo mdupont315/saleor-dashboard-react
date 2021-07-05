@@ -1,10 +1,8 @@
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import { Button, TextField, Typography } from "@material-ui/core";
 import Form from "@saleor/components/Form";
 import FormSpacer from "@saleor/components/FormSpacer";
 import { commonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 

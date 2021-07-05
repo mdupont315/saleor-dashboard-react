@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import Form from "@saleor/components/Form";
 import Hr from "@saleor/components/Hr";
 import Skeleton from "@saleor/components/Skeleton";
@@ -10,18 +9,17 @@ import {
   TimelineEventProps,
   TimelineNote
 } from "@saleor/components/Timeline";
-import { TitleElement } from "@saleor/components/Timeline/TimelineEventHeader";
 import { OrderDetails_order_events } from "@saleor/orders/types/OrderDetails";
-import { orderUrl } from "@saleor/orders/urls";
+import { makeStyles } from "@saleor/theme";
 import {
   OrderEventsEmailsEnum,
   OrderEventsEnum
 } from "@saleor/types/globalTypes";
 import React from "react";
-import { defineMessages } from "react-intl";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 
 import ExtendedTimelineEvent from "./ExtendedTimelineEvent";
+import LinkedTimelineEvent from "./LinkedTimelineEvent";
 import { getEventSecondaryTitle, isTimelineEventOfType } from "./utils";
 
 export const getEventMessage = (
@@ -34,9 +32,9 @@ export const getEventMessage = (
         defaultMessage: "Order was cancelled",
         description: "order history message"
       });
-    case OrderEventsEnum.DRAFT_ADDED_PRODUCTS:
+    case OrderEventsEnum.ADDED_PRODUCTS:
       return intl.formatMessage({
-        defaultMessage: "Products were added to draft order",
+        defaultMessage: "Products were added to an order",
         description: "order history message"
       });
     case OrderEventsEnum.DRAFT_CREATED:
@@ -44,9 +42,9 @@ export const getEventMessage = (
         defaultMessage: "Draft order was created",
         description: "order history message"
       });
-    case OrderEventsEnum.DRAFT_REMOVED_PRODUCTS:
+    case OrderEventsEnum.REMOVED_PRODUCTS:
       return intl.formatMessage({
-        defaultMessage: "Products were deleted from draft order",
+        defaultMessage: "Products were deleted from an order",
         description: "order history message"
       });
     case OrderEventsEnum.EMAIL_SENT:
@@ -61,7 +59,7 @@ export const getEventMessage = (
             defaultMessage: "Fulfillment confirmation was sent to customer",
             description: "order history message"
           });
-        case OrderEventsEmailsEnum.ORDER_CONFIRMATION:
+        case OrderEventsEmailsEnum.CONFIRMED:
           return intl.formatMessage({
             defaultMessage: "Order confirmation was sent to customer",
             description: "order history message"
@@ -84,6 +82,11 @@ export const getEventMessage = (
         case OrderEventsEmailsEnum.ORDER_CANCEL:
           return intl.formatMessage({
             defaultMessage: "Order cancel information was sent to customer",
+            description: "order history message"
+          });
+        case OrderEventsEmailsEnum.ORDER_CONFIRMATION:
+          return intl.formatMessage({
+            defaultMessage: "Order placed information was sent to customer",
             description: "order history message"
           });
         case OrderEventsEmailsEnum.ORDER_REFUND:
@@ -251,17 +254,6 @@ export const getEventMessage = (
   }
 };
 
-export const replacementCreatedMessages = defineMessages({
-  description: {
-    defaultMessage: "was created for replaced products",
-    description: "replacement created order history message description"
-  },
-  draftNumber: {
-    defaultMessage: "Draft #{orderNumber} ",
-    description: "replacement created order history message draft number"
-  }
-});
-
 export interface FormData {
   message: string;
 }
@@ -317,26 +309,6 @@ const OrderHistory: React.FC<OrderHistoryProps> = props => {
     return { title };
   };
 
-  const getTitleElements = (
-    event: OrderDetails_order_events
-  ): TitleElement[] => {
-    const { type, relatedOrder } = event;
-
-    switch (type) {
-      case OrderEventsEnum.ORDER_REPLACEMENT_CREATED: {
-        return [
-          {
-            link: orderUrl(relatedOrder?.id),
-            text: intl.formatMessage(replacementCreatedMessages.draftNumber, {
-              orderNumber: relatedOrder?.number
-            })
-          },
-          { text: intl.formatMessage(replacementCreatedMessages.description) }
-        ];
-      }
-    }
-  };
-
   return (
     <div className={classes.root}>
       <Typography className={classes.header} color="textSecondary">
@@ -381,13 +353,7 @@ const OrderHistory: React.FC<OrderHistoryProps> = props => {
               }
 
               if (isTimelineEventOfType("linked", type)) {
-                return (
-                  <TimelineEvent
-                    titleElements={getTitleElements(event)}
-                    key={id}
-                    date={date}
-                  />
-                );
+                return <LinkedTimelineEvent event={event} key={id} />;
               }
 
               return (

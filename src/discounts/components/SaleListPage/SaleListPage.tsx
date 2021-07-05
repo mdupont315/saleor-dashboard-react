@@ -1,5 +1,4 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
+import { Button, Card } from "@material-ui/core";
 import Container from "@saleor/components/Container";
 import FilterBar from "@saleor/components/FilterBar";
 import PageHeader from "@saleor/components/PageHeader";
@@ -54,7 +53,12 @@ const SaleListPage: React.FC<SaleListPageProps> = ({
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.sales)}>
-        <Button onClick={onAdd} variant="contained" color="primary">
+        <Button
+          onClick={onAdd}
+          variant="contained"
+          color="primary"
+          data-test-id="create-sale"
+        >
           <FormattedMessage defaultMessage="Create Sale" description="button" />
         </Button>
       </PageHeader>

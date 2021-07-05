@@ -1,9 +1,11 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField
+} from "@material-ui/core";
 import { getAttributeValueErrorMessage } from "@saleor/attributes/errors";
 import ConfirmButton, {
   ConfirmButtonTransitionState
@@ -17,13 +19,11 @@ import { getFormErrors } from "@saleor/utils/errors";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { AttributeDetails_attribute_values } from "../../types/AttributeDetails";
-
 export interface AttributeValueEditDialogFormData {
   name: string;
 }
 export interface AttributeValueEditDialogProps {
-  attributeValue: AttributeDetails_attribute_values | null;
+  attributeValue: AttributeValueEditDialogFormData | null;
   confirmButtonState: ConfirmButtonTransitionState;
   disabled: boolean;
   errors: AttributeErrorFragment[];

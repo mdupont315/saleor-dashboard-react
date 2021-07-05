@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { ShippingPriceInput, ShippingErrorCode, WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
+import { ShippingPriceInput, ShippingErrorCode, PostalCodeRuleInclusionTypeEnum, WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: CreateShippingRate
@@ -32,9 +33,10 @@ export interface CreateShippingRate_shippingPriceCreate_shippingZone_countries {
   country: string;
 }
 
-export interface CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_zipCodeRules {
-  __typename: "ShippingMethodZipCodeRule";
+export interface CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_postalCodeRules {
+  __typename: "ShippingMethodPostalCodeRule";
   id: string;
+  inclusionType: PostalCodeRuleInclusionTypeEnum | null;
   start: string | null;
   end: string | null;
 }
@@ -100,7 +102,7 @@ export interface CreateShippingRate_shippingPriceCreate_shippingZone_shippingMet
 export interface CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
-  zipCodeRules: (CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_zipCodeRules | null)[] | null;
+  postalCodeRules: (CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_postalCodeRules | null)[] | null;
   metadata: (CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_metadata | null)[];
   privateMetadata: (CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_privateMetadata | null)[];
   minimumOrderWeight: CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_minimumOrderWeight | null;
@@ -108,6 +110,7 @@ export interface CreateShippingRate_shippingPriceCreate_shippingZone_shippingMet
   minimumDeliveryDays: number | null;
   maximumDeliveryDays: number | null;
   name: string;
+  description: any | null;
   type: ShippingMethodTypeEnum | null;
   channelListings: CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods_channelListings[] | null;
 }
@@ -128,12 +131,13 @@ export interface CreateShippingRate_shippingPriceCreate_shippingZone {
   description: string | null;
   default: boolean;
   shippingMethods: (CreateShippingRate_shippingPriceCreate_shippingZone_shippingMethods | null)[] | null;
-  warehouses: (CreateShippingRate_shippingPriceCreate_shippingZone_warehouses | null)[] | null;
+  warehouses: CreateShippingRate_shippingPriceCreate_shippingZone_warehouses[];
 }
 
-export interface CreateShippingRate_shippingPriceCreate_shippingMethod_zipCodeRules {
-  __typename: "ShippingMethodZipCodeRule";
+export interface CreateShippingRate_shippingPriceCreate_shippingMethod_postalCodeRules {
+  __typename: "ShippingMethodPostalCodeRule";
   id: string;
+  inclusionType: PostalCodeRuleInclusionTypeEnum | null;
   start: string | null;
   end: string | null;
 }
@@ -199,7 +203,7 @@ export interface CreateShippingRate_shippingPriceCreate_shippingMethod_channelLi
 export interface CreateShippingRate_shippingPriceCreate_shippingMethod {
   __typename: "ShippingMethod";
   id: string;
-  zipCodeRules: (CreateShippingRate_shippingPriceCreate_shippingMethod_zipCodeRules | null)[] | null;
+  postalCodeRules: (CreateShippingRate_shippingPriceCreate_shippingMethod_postalCodeRules | null)[] | null;
   metadata: (CreateShippingRate_shippingPriceCreate_shippingMethod_metadata | null)[];
   privateMetadata: (CreateShippingRate_shippingPriceCreate_shippingMethod_privateMetadata | null)[];
   minimumOrderWeight: CreateShippingRate_shippingPriceCreate_shippingMethod_minimumOrderWeight | null;
@@ -207,6 +211,7 @@ export interface CreateShippingRate_shippingPriceCreate_shippingMethod {
   minimumDeliveryDays: number | null;
   maximumDeliveryDays: number | null;
   name: string;
+  description: any | null;
   type: ShippingMethodTypeEnum | null;
   channelListings: CreateShippingRate_shippingPriceCreate_shippingMethod_channelListings[] | null;
 }

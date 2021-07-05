@@ -40,6 +40,7 @@ import { API_URI, APP_MOUNT_URI, GTM_ID } from "./config";
 import ConfigurationSection, { createConfigurationMenu } from "./configuration";
 import AppStateProvider from "./containers/AppState";
 import BackgroundTasksProvider from "./containers/BackgroundTasks";
+import ServiceWorker from "./containers/ServiceWorker/ServiceWorker";
 import { CustomerSection } from "./customers";
 import DiscountSection from "./discounts";
 import HomePage from "./home";
@@ -54,9 +55,12 @@ import PermissionGroupSection from "./permissionGroups";
 import PluginsSection from "./plugins";
 import ProductSection from "./products";
 import ProductTypesSection from "./productTypes";
+import errorTracker from "./services/errorTracking";
+import ServiceSection from "./servicesTime";
 import ShippingSection from "./shipping";
 import SiteSettingsSection from "./siteSettings";
 import StaffSection from "./staff";
+import StoreSection from "./stores";
 import TaxesSection from "./taxes";
 import TranslationsSection from "./translations";
 import { PermissionEnum } from "./types/globalTypes";
@@ -66,6 +70,8 @@ import { warehouseSection } from "./warehouses/urls";
 if (process.env.GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
+
+errorTracker.init();
 
 // DON'T TOUCH THIS
 // These are separate clients and do not share configs between themselves
@@ -110,6 +116,7 @@ const App: React.FC = () => {
           <DateProvider>
             <LocaleProvider>
               <MessageManagerProvider>
+                <ServiceWorker />
                 <BackgroundTasksProvider>
                   <AppStateProvider>
                     <ShopProvider>
@@ -159,17 +166,23 @@ const Routes: React.FC = () => {
       {homePageLoaded ? (
         <AppLayout>
           <ErrorBoundary
-            onError={() =>
+            onError={e => {
+              const errorId = errorTracker.captureException(e);
+
               dispatchAppState({
                 payload: {
-                  error: "unhandled"
+                  error: "unhandled",
+                  errorId
                 },
                 type: "displayError"
-              })
-            }
+              });
+            }}
           >
             <Switch>
               <SectionRoute exact path="/" component={HomePage} />
+              <SectionRoute path="/stores" component={StoreSection} />
+              <SectionRoute path="/secvices-time" component={ServiceSection} />
+
               <SectionRoute
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/categories"

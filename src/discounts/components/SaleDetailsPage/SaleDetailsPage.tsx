@@ -1,7 +1,7 @@
 import { ChannelSaleData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailability from "@saleor/components/ChannelsAvailability";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
@@ -18,7 +18,10 @@ import { useIntl } from "react-intl";
 
 import { maybe, splitDateTime } from "../../../misc";
 import { ChannelProps, ListProps, TabListActions } from "../../../types";
-import { SaleType as SaleTypeEnum } from "../../../types/globalTypes";
+import {
+  PermissionEnum,
+  SaleType as SaleTypeEnum
+} from "../../../types/globalTypes";
 import { SaleDetails_sale } from "../../types/SaleDetails";
 import DiscountCategories from "../DiscountCategories";
 import DiscountCollections from "../DiscountCollections";
@@ -208,6 +211,7 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
                     )}
                   </CollectionsTab>
                   <ProductsTab
+                    testId="products-tab"
                     isActive={activeTab === SaleDetailsPageTab.products}
                     changeTab={onTabClick}
                   >
@@ -292,7 +296,8 @@ const SaleDetailsPage: React.FC<SaleDetailsPageProps> = ({
                   sale={sale}
                 />
                 <CardSpacer />
-                <ChannelsAvailability
+                <ChannelsAvailabilityCard
+                  managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
                   allChannelsCount={allChannelsCount}
                   channelsList={data.channelListings.map(channel => ({

@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderEventsEmailsEnum, OrderEventsEnum } from "./../../types/globalTypes";
+import { DateRangeInput, OrderEventsEmailsEnum, OrderEventsEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL query operation: Home
@@ -136,4 +137,7 @@ export interface Home {
 
 export interface HomeVariables {
   channel: string;
+  datePeriod: DateRangeInput;
+  PERMISSION_MANAGE_PRODUCTS: boolean;
+  PERMISSION_MANAGE_ORDERS: boolean;
 }

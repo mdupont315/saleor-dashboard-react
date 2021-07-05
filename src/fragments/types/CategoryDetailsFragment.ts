@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -37,7 +38,7 @@ export interface CategoryDetailsFragment {
   backgroundImage: CategoryDetailsFragment_backgroundImage | null;
   name: string;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   parent: CategoryDetailsFragment_parent | null;

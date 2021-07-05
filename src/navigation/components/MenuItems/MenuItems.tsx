@@ -1,16 +1,18 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import IconButton from "@material-ui/core/IconButton";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import {
+  Button,
+  Card,
+  CardActions,
+  IconButton,
+  Paper,
+  Typography
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import CardTitle from "@saleor/components/CardTitle";
 import Skeleton from "@saleor/components/Skeleton";
 import useTheme from "@saleor/hooks/useTheme";
 import { buttonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";

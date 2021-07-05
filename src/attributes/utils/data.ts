@@ -16,7 +16,11 @@ import {
   AttributeInputTypeEnum,
   AttributeValueInput
 } from "@saleor/types/globalTypes";
-import { mapNodeToChoice, mapPagesToChoices } from "@saleor/utils/maps";
+import {
+  mapEdgesToItems,
+  mapNodeToChoice,
+  mapPagesToChoices
+} from "@saleor/utils/maps";
 import { MutationFetchResult } from "react-apollo";
 
 import { AttributePageFormData } from "../components/AttributePage";
@@ -26,6 +30,12 @@ import { AttributeValueDelete } from "../types/AttributeValueDelete";
 export const ATTRIBUTE_TYPES_WITH_DEDICATED_VALUES = [
   AttributeInputTypeEnum.DROPDOWN,
   AttributeInputTypeEnum.MULTISELECT
+];
+
+export const ATTRIBUTE_TYPES_WITH_CONFIGURABLE_FACED_NAVIGATION = [
+  AttributeInputTypeEnum.DROPDOWN,
+  AttributeInputTypeEnum.MULTISELECT,
+  AttributeInputTypeEnum.BOOLEAN
 ];
 
 export interface AttributeReference {
@@ -77,16 +87,29 @@ export function getSelectedAttributeValues(
     | ProductDetails_product_attributes
     | SelectedVariantAttributeFragment
 ) {
-  if (attribute.attribute.inputType === AttributeInputTypeEnum.REFERENCE) {
-    return attribute.values.map(value => value.reference);
+  switch (attribute.attribute.inputType) {
+    case AttributeInputTypeEnum.REFERENCE:
+      return attribute.values.map(value => value.reference);
+
+    case AttributeInputTypeEnum.RICH_TEXT:
+      return [attribute.values[0]?.richText];
+
+    case AttributeInputTypeEnum.NUMERIC:
+      return [attribute.values[0]?.name];
+
+    case AttributeInputTypeEnum.BOOLEAN:
+      return [attribute.values[0]?.boolean ?? "false"];
+
+    default:
+      return attribute.values.map(value => value.slug);
   }
-  return attribute.values.map(value => value.slug);
 }
 
 export const isFileValueUnused = (
   attributesWithNewFileValue: FormsetData<null, File>,
   existingAttribute:
     | PageDetails_page_attributes
+    | ProductDetails_product_attributes
     | SelectedVariantAttributeFragment
 ) => {
   if (existingAttribute.attribute.inputType !== AttributeInputTypeEnum.FILE) {
@@ -107,7 +130,7 @@ export const mergeFileUploadErrors = (
   uploadFilesResult: Array<MutationFetchResult<FileUpload>>
 ): UploadErrorFragment[] =>
   uploadFilesResult.reduce((errors, uploadFileResult) => {
-    const uploadErrors = uploadFileResult?.data?.fileUpload?.uploadErrors;
+    const uploadErrors = uploadFileResult?.data?.fileUpload?.errors;
     if (uploadErrors) {
       return [...errors, ...uploadErrors];
     }
@@ -124,6 +147,20 @@ export const mergeAttributeValueDeleteErrors = (
     }
     return errors;
   }, []);
+
+export const mergeChoicesWithValues = (
+  attribute:
+    | ProductDetails_product_attributes
+    | PageDetails_page_attributes
+    | SelectedVariantAttributeFragment
+) => {
+  const choices = mapEdgesToItems(attribute.attribute.choices);
+  const valuesToConcat = attribute.values.filter(
+    value => !choices.some(choice => choice.id === value.id)
+  );
+
+  return choices.concat(valuesToConcat);
+};
 
 export const mergeAttributeValues = (
   attributeId: string,
@@ -281,7 +318,6 @@ export const getAttributesDisplayData = (
     if (attribute.data.inputType === AttributeInputTypeEnum.FILE) {
       return getFileAttributeDisplayData(attribute, attributesWithNewFileValue);
     }
-
     return attribute;
   });
 

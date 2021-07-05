@@ -1,9 +1,13 @@
+import { useShopLimitsQuery } from "@saleor/components/Shop/query";
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { DEFAULT_INITIAL_SEARCH_DATA } from "@saleor/config";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { useProductVariantBulkCreateMutation } from "@saleor/products/mutations";
 import { useCreateMultipleVariantsData } from "@saleor/products/queries";
 import { productUrl } from "@saleor/products/urls";
+import createAttributeValueSearchHandler from "@saleor/utils/handlers/attributeValueSearchHandler";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -21,7 +25,10 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({
   const intl = useIntl();
   const { data } = useCreateMultipleVariantsData({
     displayLoader: true,
-    variables: { id }
+    variables: {
+      id,
+      firstValues: 10
+    }
   });
   const [
     bulkProductVariantCreate,
@@ -40,6 +47,28 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({
       }
     }
   });
+  const limitOpts = useShopLimitsQuery({
+    variables: {
+      productVariants: true
+    }
+  });
+
+  const {
+    loadMore: loadMoreAttributeValues,
+    search: searchAttributeValues,
+    result: searchAttributeValuesOpts
+  } = createAttributeValueSearchHandler(DEFAULT_INITIAL_SEARCH_DATA);
+
+  const fetchMoreAttributeValues = {
+    hasMore: !!searchAttributeValuesOpts.data?.attribute?.choices?.pageInfo
+      ?.hasNextPage,
+    loading: !!searchAttributeValuesOpts.loading,
+    onFetchMore: loadMoreAttributeValues
+  };
+
+  const attributeValues = mapEdgesToItems(
+    searchAttributeValuesOpts?.data?.attribute.choices
+  );
 
   return (
     <>
@@ -61,12 +90,16 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({
           price: ""
         }))}
         attributes={data?.product?.productType?.variantAttributes || []}
+        attributeValues={attributeValues}
+        fetchAttributeValues={searchAttributeValues}
+        fetchMoreAttributeValues={fetchMoreAttributeValues}
+        limits={limitOpts.data?.shop?.limits}
         onSubmit={inputs =>
           bulkProductVariantCreate({
             variables: { id, inputs }
           })
         }
-        warehouses={data?.warehouses.edges.map(edge => edge.node) || []}
+        warehouses={mapEdgesToItems(data?.warehouses)}
       />
     </>
   );

@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { PageErrorCode, AttributeTypeEnum } from "./../../types/globalTypes";
+import { PageErrorCode, AttributeTypeEnum, MeasurementUnitsEnum, AttributeInputTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: UnassignPageAttribute
@@ -35,6 +36,8 @@ export interface UnassignPageAttribute_pageAttributeUnassign_pageType_attributes
   visibleInStorefront: boolean;
   filterableInDashboard: boolean;
   filterableInStorefront: boolean;
+  unit: MeasurementUnitsEnum | null;
+  inputType: AttributeInputTypeEnum | null;
 }
 
 export interface UnassignPageAttribute_pageAttributeUnassign_pageType {

@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
+import { PostalCodeRuleInclusionTypeEnum, WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL fragment: ShippingZoneDetailsFragment
@@ -26,9 +27,10 @@ export interface ShippingZoneDetailsFragment_countries {
   country: string;
 }
 
-export interface ShippingZoneDetailsFragment_shippingMethods_zipCodeRules {
-  __typename: "ShippingMethodZipCodeRule";
+export interface ShippingZoneDetailsFragment_shippingMethods_postalCodeRules {
+  __typename: "ShippingMethodPostalCodeRule";
   id: string;
+  inclusionType: PostalCodeRuleInclusionTypeEnum | null;
   start: string | null;
   end: string | null;
 }
@@ -94,7 +96,7 @@ export interface ShippingZoneDetailsFragment_shippingMethods_channelListings {
 export interface ShippingZoneDetailsFragment_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
-  zipCodeRules: (ShippingZoneDetailsFragment_shippingMethods_zipCodeRules | null)[] | null;
+  postalCodeRules: (ShippingZoneDetailsFragment_shippingMethods_postalCodeRules | null)[] | null;
   metadata: (ShippingZoneDetailsFragment_shippingMethods_metadata | null)[];
   privateMetadata: (ShippingZoneDetailsFragment_shippingMethods_privateMetadata | null)[];
   minimumOrderWeight: ShippingZoneDetailsFragment_shippingMethods_minimumOrderWeight | null;
@@ -102,6 +104,7 @@ export interface ShippingZoneDetailsFragment_shippingMethods {
   minimumDeliveryDays: number | null;
   maximumDeliveryDays: number | null;
   name: string;
+  description: any | null;
   type: ShippingMethodTypeEnum | null;
   channelListings: ShippingZoneDetailsFragment_shippingMethods_channelListings[] | null;
 }
@@ -122,5 +125,5 @@ export interface ShippingZoneDetailsFragment {
   description: string | null;
   default: boolean;
   shippingMethods: (ShippingZoneDetailsFragment_shippingMethods | null)[] | null;
-  warehouses: (ShippingZoneDetailsFragment_warehouses | null)[] | null;
+  warehouses: ShippingZoneDetailsFragment_warehouses[];
 }

@@ -1,12 +1,13 @@
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardActions,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import { CSSProperties } from "@material-ui/styles";
 import AppHeader from "@saleor/components/AppHeader";
 import CardTitle from "@saleor/components/CardTitle";
@@ -27,6 +28,7 @@ import {
   OrderFulfillData_order,
   OrderFulfillData_order_lines
 } from "@saleor/orders/types/OrderFulfillData";
+import { makeStyles } from "@saleor/theme";
 import {
   OrderErrorCode,
   OrderFulfillStockInput
@@ -49,7 +51,7 @@ type ClassKey =
   | "quantityInnerInput"
   | "quantityInnerInputNoRemaining"
   | "remainingQuantity";
-const useStyles = makeStyles<Theme, OrderFulfillPageProps, ClassKey>(
+const useStyles = makeStyles<OrderFulfillPageProps, ClassKey>(
   theme => {
     const inputPadding: CSSProperties = {
       paddingBottom: theme.spacing(2),
@@ -211,6 +213,31 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
     });
 
     return isAtLeastOneFulfilled && areProperlyFulfilled;
+  };
+
+  const isStockError = (
+    overfulfill: boolean,
+    formsetStock: { quantity: number },
+    availableQuantity: number,
+    warehouse: WarehouseFragment,
+    line: OrderFulfillData_order_lines,
+    errors: FulfillOrder_orderFulfill_errors[]
+  ) => {
+    if (overfulfill) {
+      return true;
+    }
+
+    const isQuantityLargerThanAvailable =
+      line.variant.trackInventory && formsetStock.quantity > availableQuantity;
+
+    const isError = !!errors?.find(
+      err =>
+        err.warehouse === warehouse.id &&
+        err.orderLines.find((id: string) => id === line.id) &&
+        err.code === OrderErrorCode.INSUFFICIENT_STOCK
+    );
+
+    return isQuantityLargerThanAvailable || isError;
   };
 
   return (
@@ -420,19 +447,14 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                                       )
                                     )
                                   }
-                                  error={
-                                    overfulfill ||
-                                    (line.variant.trackInventory &&
-                                      formsetStock.quantity >
-                                        availableQuantity) ||
-                                    !!errors?.find(
-                                      err =>
-                                        err.warehouse === warehouse.id &&
-                                        err.orderLine === line.id &&
-                                        err.code ===
-                                          OrderErrorCode.INSUFFICIENT_STOCK
-                                    )
-                                  }
+                                  error={isStockError(
+                                    overfulfill,
+                                    formsetStock,
+                                    availableQuantity,
+                                    warehouse,
+                                    line,
+                                    errors
+                                  )}
                                   InputProps={{
                                     endAdornment: line.variant
                                       .trackInventory && (

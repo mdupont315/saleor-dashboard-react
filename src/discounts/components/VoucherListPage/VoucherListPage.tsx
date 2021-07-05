@@ -1,5 +1,4 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
+import { Button, Card } from "@material-ui/core";
 import Container from "@saleor/components/Container";
 import FilterBar from "@saleor/components/FilterBar";
 import PageHeader from "@saleor/components/PageHeader";
@@ -53,7 +52,12 @@ const VoucherListPage: React.FC<VoucherListPageProps> = ({
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.vouchers)}>
-        <Button onClick={onAdd} variant="contained" color="primary">
+        <Button
+          onClick={onAdd}
+          variant="contained"
+          color="primary"
+          data-test-id="create-voucher"
+        >
           <FormattedMessage
             defaultMessage="Create voucher"
             description="button"

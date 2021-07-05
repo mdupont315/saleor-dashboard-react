@@ -1,4 +1,3 @@
-import { Omit } from "@material-ui/core";
 import { channelsList } from "@saleor/channels/fixtures";
 import { createCollectionChannels } from "@saleor/channels/utils";
 import { CollectionErrorCode } from "@saleor/types/globalTypes";
@@ -39,7 +38,7 @@ storiesOf("Views / Collections / Create collection", module)
         },
         {
           code: CollectionErrorCode.REQUIRED,
-          field: "descriptionJson"
+          field: "description"
         }
       ].map(err => ({
         __typename: "CollectionError",

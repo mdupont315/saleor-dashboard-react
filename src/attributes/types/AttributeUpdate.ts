@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { AttributeUpdateInput, AttributeTypeEnum, AttributeInputTypeEnum, AttributeEntityTypeEnum, AttributeErrorCode } from "./../../types/globalTypes";
+import { AttributeUpdateInput, AttributeTypeEnum, MeasurementUnitsEnum, AttributeInputTypeEnum, AttributeEntityTypeEnum, AttributeErrorCode } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: AttributeUpdate
@@ -20,21 +21,6 @@ export interface AttributeUpdate_attributeUpdate_attribute_privateMetadata {
   value: string;
 }
 
-export interface AttributeUpdate_attributeUpdate_attribute_values_file {
-  __typename: "File";
-  url: string;
-  contentType: string | null;
-}
-
-export interface AttributeUpdate_attributeUpdate_attribute_values {
-  __typename: "AttributeValue";
-  id: string;
-  name: string | null;
-  slug: string | null;
-  file: AttributeUpdate_attributeUpdate_attribute_values_file | null;
-  reference: string | null;
-}
-
 export interface AttributeUpdate_attributeUpdate_attribute {
   __typename: "Attribute";
   id: string;
@@ -44,14 +30,14 @@ export interface AttributeUpdate_attributeUpdate_attribute {
   visibleInStorefront: boolean;
   filterableInDashboard: boolean;
   filterableInStorefront: boolean;
+  unit: MeasurementUnitsEnum | null;
+  inputType: AttributeInputTypeEnum | null;
   metadata: (AttributeUpdate_attributeUpdate_attribute_metadata | null)[];
   privateMetadata: (AttributeUpdate_attributeUpdate_attribute_privateMetadata | null)[];
   availableInGrid: boolean;
-  inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   storefrontSearchPosition: number;
   valueRequired: boolean;
-  values: (AttributeUpdate_attributeUpdate_attribute_values | null)[] | null;
 }
 
 export interface AttributeUpdate_attributeUpdate_errors {

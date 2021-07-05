@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { CollectionCreateInput, CollectionErrorCode } from "./../../types/globalTypes";
@@ -48,7 +49,7 @@ export interface CreateCollection_collectionCreate_collection {
   privateMetadata: (CreateCollection_collectionCreate_collection_privateMetadata | null)[];
   backgroundImage: CreateCollection_collectionCreate_collection_backgroundImage | null;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
 }

@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import useNavigator from "@saleor/hooks/useNavigator";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 
 import { DateTime } from "../Date";
@@ -60,7 +60,7 @@ export const TimelineEventHeader: React.FC<TimelineEventHeaderProps> = props => 
       {title && <Typography>{title}</Typography>}
       {titleElements && (
         <div className={classes.elementsContainer}>
-          {titleElements.map(({ text, link }) => {
+          {titleElements.filter(Boolean).map(({ text, link }) => {
             if (link) {
               return (
                 <Link

@@ -1,11 +1,12 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardContent,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
@@ -14,6 +15,7 @@ import Hr from "@saleor/components/Hr";
 import SingleSelectField from "@saleor/components/SingleSelectField";
 import { WarehouseFragment } from "@saleor/fragments/types/WarehouseFragment";
 import { ProductDetails_product_productType_variantAttributes } from "@saleor/products/types/ProductDetails";
+import { makeStyles } from "@saleor/theme";
 import { isSelected } from "@saleor/utils/lists";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";

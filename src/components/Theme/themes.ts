@@ -1,7 +1,11 @@
+import { AlertColors } from "@saleor/theme";
+
 export type IThemeColors = Record<
   "primary" | "secondary" | "error" | "paperBorder" | "autofill",
   string
 > & {
+  highlightInactive: Record<"default", string>;
+} & {
   background: Record<"default" | "paper", string>;
 } & {
   checkbox: Record<"default", string>;
@@ -27,10 +31,29 @@ export type IThemeColors = Record<
     string
   >;
 } & {
+  alert: AlertColors;
+} & {
   theme: "dark" | "light";
 };
 
 export const dark: IThemeColors = {
+  alert: {
+    paper: {
+      error: "#E0444E",
+      info: "#2E2F31",
+      success: "#5DC292",
+      warning: "#E29A2E"
+    },
+    icon: {
+      error: "#FE6E76",
+      info: "#FAFAFA",
+      success: "#5DC292",
+      warning: "#FFB84E"
+    }
+  },
+  highlightInactive: {
+    default: "#78797A"
+  },
   autofill: "#5D5881",
   background: {
     default: "#1D1E1F",
@@ -68,6 +91,23 @@ export const dark: IThemeColors = {
   theme: "dark"
 };
 export const light: IThemeColors = {
+  alert: {
+    paper: {
+      error: "#FFD6D9",
+      info: "#FFFFFF",
+      success: "#DFF3E9",
+      warning: "#FFF4E4"
+    },
+    icon: {
+      error: "#FE6E76",
+      info: "#28234A",
+      success: "#5DC292",
+      warning: "#FFB84E"
+    }
+  },
+  highlightInactive: {
+    default: "#C8C8C8"
+  },
   autofill: "#f4f6c5",
   background: {
     default: "#EFF5F8",
@@ -89,6 +129,7 @@ export const light: IThemeColors = {
     default: "#C8C8C8",
     disabled: "rgba(216, 216, 216, 0.3)"
   },
+
   input: {
     border: "#BDBDBD",
     default: "#FFFFFF",

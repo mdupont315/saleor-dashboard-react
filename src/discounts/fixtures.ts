@@ -153,6 +153,7 @@ export const voucherList: VoucherList_vouchers_edges_node[] = [
         country: "Germany"
       }
     ],
+    type: "ENTIRE_ORDER" as VoucherTypeEnum,
     discountValueType: "PERCENTAGE" as DiscountValueTypeEnum,
     endDate: null,
     id: "Vm91Y2hlcjox",
@@ -183,6 +184,7 @@ export const voucherList: VoucherList_vouchers_edges_node[] = [
     ],
     code: "FREE2020",
     countries: [],
+    type: "ENTIRE_ORDER" as VoucherTypeEnum,
     discountValueType: "FIXED" as DiscountValueTypeEnum,
     endDate: null,
     id: "Vm91Y2hlcjoy",
@@ -414,6 +416,7 @@ export const voucherDetails: VoucherDetails_voucher = {
   __typename: "Voucher",
   applyOncePerCustomer: false,
   applyOncePerOrder: false,
+  onlyForStaff: false,
   categories: {
     __typename: "CategoryCountableConnection",
     edges: [],

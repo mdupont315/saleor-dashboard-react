@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { ReorderInput, PageErrorCode, AttributeTypeEnum } from "./../../types/globalTypes";
+import { ReorderInput, PageErrorCode, AttributeTypeEnum, MeasurementUnitsEnum, AttributeInputTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: PageTypeAttributeReorder
@@ -35,6 +36,8 @@ export interface PageTypeAttributeReorder_pageTypeReorderAttributes_pageType_att
   visibleInStorefront: boolean;
   filterableInDashboard: boolean;
   filterableInStorefront: boolean;
+  unit: MeasurementUnitsEnum | null;
+  inputType: AttributeInputTypeEnum | null;
 }
 
 export interface PageTypeAttributeReorder_pageTypeReorderAttributes_pageType {

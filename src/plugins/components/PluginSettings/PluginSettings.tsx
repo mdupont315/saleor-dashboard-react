@@ -1,13 +1,15 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import TextField from "@material-ui/core/TextField";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
+import {
+  Card,
+  CardContent,
+  TextField,
+  Tooltip,
+  Typography
+} from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledSwitch from "@saleor/components/ControlledSwitch";
-import { Plugin_plugin_configuration } from "@saleor/plugins/types/Plugin";
+import { PluginConfigurationFragment_configuration } from "@saleor/fragments/types/PluginConfigurationFragment";
+import { makeStyles } from "@saleor/theme";
 import { UserError } from "@saleor/types";
 import { ConfigurationTypeFieldEnum } from "@saleor/types/globalTypes";
 import { getFieldError } from "@saleor/utils/errors";
@@ -21,7 +23,7 @@ interface PluginSettingsProps {
   errors: UserError[];
   disabled: boolean;
   onChange: (event: React.ChangeEvent<any>) => void;
-  fields: Plugin_plugin_configuration[];
+  fields: PluginConfigurationFragment_configuration[];
 }
 
 const useStyles = makeStyles(
@@ -107,6 +109,19 @@ const PluginSettings: React.FC<PluginSettingsProps> = ({
                   helperText={fieldData.helpText}
                   label={fieldData.label}
                   name={field.name}
+                  multiline={
+                    fieldData.type === ConfigurationTypeFieldEnum.MULTILINE
+                  }
+                  InputProps={{
+                    rowsMax: 6,
+                    readOnly:
+                      fieldData.type === ConfigurationTypeFieldEnum.OUTPUT
+                  }}
+                  onFocus={event => {
+                    if (fieldData.type === ConfigurationTypeFieldEnum.OUTPUT) {
+                      event.target.select();
+                    }
+                  }}
                   fullWidth
                   value={field.value}
                   onChange={onChange}

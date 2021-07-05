@@ -1,25 +1,25 @@
 import { ChannelVoucherData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailability from "@saleor/components/ChannelsAvailability";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import { createChannelsChangeHandler } from "@saleor/discounts/handlers";
+import {
+  createChannelsChangeHandler,
+  createDiscountTypeChangeHandler
+} from "@saleor/discounts/handlers";
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
 import { sectionNames } from "@saleor/intl";
 import { validatePrice } from "@saleor/products/utils/validation";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import {
-  DiscountValueTypeEnum,
-  VoucherTypeEnum
-} from "../../../types/globalTypes";
-import { RequirementsPicker } from "../../types";
+import { PermissionEnum, VoucherTypeEnum } from "../../../types/globalTypes";
+import { DiscountTypeEnum, RequirementsPicker } from "../../types";
 import VoucherDates from "../VoucherDates";
 import VoucherInfo from "../VoucherInfo";
 import VoucherLimits from "../VoucherLimits";
@@ -30,9 +30,10 @@ import VoucherValue from "../VoucherValue";
 export interface FormData {
   applyOncePerCustomer: boolean;
   applyOncePerOrder: boolean;
+  onlyForStaff: boolean;
   channelListings: ChannelVoucherData[];
   code: string;
-  discountType: DiscountValueTypeEnum;
+  discountType: DiscountTypeEnum;
   endDate: string;
   endTime: string;
   hasEndDate: boolean;
@@ -76,9 +77,10 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
   const initialForm: FormData = {
     applyOncePerCustomer: false,
     applyOncePerOrder: false,
+    onlyForStaff: false,
     channelListings,
     code: "",
-    discountType: DiscountValueTypeEnum.FIXED,
+    discountType: DiscountTypeEnum.VALUE_FIXED,
     endDate: "",
     endTime: "",
     hasEndDate: false,
@@ -95,17 +97,22 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
   return (
     <Form initial={initialForm} onSubmit={onSubmit}>
       {({ change, data, hasChanged, submit, triggerChange }) => {
+        const handleDiscountTypeChange = createDiscountTypeChangeHandler(
+          change
+        );
         const handleChannelChange = createChannelsChangeHandler(
           data.channelListings,
           onChannelsChange,
           triggerChange
         );
-        const formDisabled = data.channelListings?.some(
-          channel =>
-            validatePrice(channel.discountValue) ||
-            (data.requirementsPicker === RequirementsPicker.ORDER &&
-              validatePrice(channel.minSpent))
-        );
+        const formDisabled =
+          data.discountType.toString() !== "SHIPPING" &&
+          data.channelListings?.some(
+            channel =>
+              validatePrice(channel.discountValue) ||
+              (data.requirementsPicker === RequirementsPicker.ORDER &&
+                validatePrice(channel.minSpent))
+          );
         return (
           <Container>
             <AppHeader onBack={onBack}>
@@ -123,7 +130,7 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   data={data}
                   errors={errors}
                   disabled={disabled}
-                  onChange={change}
+                  onChange={event => handleDiscountTypeChange(data, event)}
                   variant="create"
                 />
                 <CardSpacer />
@@ -170,7 +177,8 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                 />
               </div>
               <div>
-                <ChannelsAvailability
+                <ChannelsAvailabilityCard
+                  managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
                   allChannelsCount={allChannelsCount}
                   channelsList={data.channelListings.map(channel => ({

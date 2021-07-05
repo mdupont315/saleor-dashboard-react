@@ -17,6 +17,21 @@ export const commonMessages = defineMessages({
   dashboard: {
     defaultMessage: "Dashboard"
   },
+  stores: {
+    defaultMessage: "Stores Manage"
+  },
+  deliveryService: {
+    defaultMessage: "Delivery service hours"
+  },
+  deliveryProcess: {
+    defaultMessage: "Delivery processing time"
+  },
+  pickupProcess: {
+    defaultMessage: "Pickup processing time"
+  },
+  pickupService: {
+    defaultMessage: "Pick-up service hours"
+  },
   demo: {
     defaultMessage:
       "Just to let you know... You're in demo mode. You can play around with the dashboard but can't save changes.",
@@ -54,6 +69,9 @@ export const commonMessages = defineMessages({
   },
   lastName: {
     defaultMessage: "Last Name"
+  },
+  limitReached: {
+    defaultMessage: "Reached limit for this plan"
   },
   no: {
     defaultMessage: "No"
@@ -125,6 +143,10 @@ export const buttonMessages = defineMessages({
     defaultMessage: "Confirm",
     description: "button"
   },
+  continue: {
+    defaultMessage: "Continue",
+    description: "button"
+  },
   create: {
     defaultMessage: "Create",
     description: "button"
@@ -161,6 +183,10 @@ export const buttonMessages = defineMessages({
     defaultMessage: "Save",
     description: "button"
   },
+  select: {
+    defaultMessage: "Select",
+    description: "select option, button"
+  },
   selectAll: {
     defaultMessage: "Select All",
     description: "select all options, button"
@@ -191,6 +217,14 @@ export const sectionNames = defineMessages({
   categories: {
     defaultMessage: "Categories",
     description: "categories section name"
+  },
+  stores: {
+    defaultMessage: "Stores",
+    description: "stores section name"
+  },
+  serviceTime: {
+    defaultMessage: "Service time",
+    description: "service section name"
   },
   channels: {
     defaultMessage: "Channels",

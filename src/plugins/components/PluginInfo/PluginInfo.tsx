@@ -1,13 +1,11 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Hr from "@saleor/components/Hr";
 import { PluginErrorFragment } from "@saleor/fragments/types/PluginErrorFragment";
 import { commonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import { PluginErrorCode } from "@saleor/types/globalTypes";
 import getPluginErrorMessage from "@saleor/utils/errors/plugins";
 import React from "react";

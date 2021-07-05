@@ -1,4 +1,7 @@
-import { getSelectedAttributeValues } from "@saleor/attributes/utils/data";
+import {
+  getSelectedAttributeValues,
+  mergeChoicesWithValues
+} from "@saleor/attributes/utils/data";
 import { ChannelData } from "@saleor/channels/utils";
 import {
   AttributeInput,
@@ -16,12 +19,13 @@ import {
   ProductDetails_product_collections,
   ProductDetails_product_variants
 } from "@saleor/products/types/ProductDetails";
-import { SearchProductTypes_search_edges_node_productAttributes } from "@saleor/searches/types/SearchProductTypes";
 import { StockInput } from "@saleor/types/globalTypes";
-import { mapMetadataItemToInput } from "@saleor/utils/maps";
+import { mapEdgesToItems, mapMetadataItemToInput } from "@saleor/utils/maps";
 
 import { ProductStockInput } from "../components/ProductStocks";
+import { ProductType_productType_productAttributes } from "../types/ProductType";
 import { ProductVariantCreateData_product } from "../types/ProductVariantCreateData";
+import { ChannelsWithVariantsData } from "../views/ProductUpdate/types";
 
 export interface Collection {
   id: string;
@@ -37,7 +41,7 @@ export interface ProductType {
   hasVariants: boolean;
   id: string;
   name: string;
-  productAttributes: SearchProductTypes_search_edges_node_productAttributes[];
+  productAttributes: ProductType_productType_productAttributes[];
 }
 
 export function getAttributeInputFromProduct(
@@ -51,7 +55,8 @@ export function getAttributeInputFromProduct(
           inputType: attribute.attribute.inputType,
           isRequired: attribute.attribute.valueRequired,
           selectedValues: attribute.values,
-          values: attribute.attribute.values
+          values: mergeChoicesWithValues(attribute),
+          unit: attribute.attribute.unit
         },
         id: attribute.attribute.id,
         label: attribute.attribute.name,
@@ -69,7 +74,8 @@ export function getAttributeInputFromProductType(
       entityType: attribute.entityType,
       inputType: attribute.inputType,
       isRequired: attribute.valueRequired,
-      values: attribute.values
+      values: mapEdgesToItems(attribute.choices),
+      unit: attribute.unit
     },
     id: attribute.id,
     label: attribute.name,
@@ -86,12 +92,13 @@ export function getAttributeInputFromAttributes(
       entityType: attribute.entityType,
       inputType: attribute.inputType,
       isRequired: attribute.valueRequired,
-      values: attribute.values,
+      values: mapEdgesToItems(attribute.choices),
+      unit: attribute.unit,
       variantAttributeScope
     },
     id: attribute.id,
     label: attribute.name,
-    value: [""]
+    value: []
   }));
 }
 
@@ -105,7 +112,8 @@ export function getAttributeInputFromSelectedAttributes(
       inputType: attribute.attribute.inputType,
       isRequired: attribute.attribute.valueRequired,
       selectedValues: attribute.values,
-      values: attribute.attribute.values,
+      values: mergeChoicesWithValues(attribute),
+      unit: attribute.attribute.unit,
       variantAttributeScope
     },
     id: attribute.attribute.id,
@@ -204,7 +212,9 @@ export function getChoices(nodes: Node[]): SingleAutocompleteChoiceType[] {
 export interface ProductUpdatePageFormData extends MetadataFormData {
   category: string | null;
   changeTaxCode: boolean;
+  channelsWithVariants: ChannelsWithVariantsData;
   channelListings: ChannelData[];
+  channelsData: ChannelData[];
   chargeTaxes: boolean;
   collections: string[];
   isAvailable: boolean;
@@ -222,17 +232,21 @@ export interface ProductUpdatePageFormData extends MetadataFormData {
 export function getProductUpdatePageFormData(
   product: ProductDetails_product,
   variants: ProductDetails_product_variants[],
-  currentChannels: ChannelData[]
+  currentChannels: ChannelData[],
+  channelsData: ChannelData[],
+  channelsWithVariants: ChannelsWithVariantsData
 ): ProductUpdatePageFormData {
   return {
+    channelsWithVariants,
+    channelsData,
     category: maybe(() => product.category.id, ""),
     changeTaxCode: !!product?.taxType.taxCode,
-    channelListings: currentChannels,
     chargeTaxes: maybe(() => product.chargeTaxes, false),
     collections: maybe(
       () => product.collections.map(collection => collection.id),
       []
     ),
+    channelListings: currentChannels,
     isAvailable: !!product?.isAvailable,
     metadata: product?.metadata?.map(mapMetadataItemToInput),
     name: maybe(() => product.name, ""),

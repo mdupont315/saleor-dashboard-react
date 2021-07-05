@@ -11,7 +11,9 @@
     "@typescript-eslint",
     "import",
     "local-rules",
-    "simple-import-sort"
+    "simple-import-sort",
+    "cypress",
+    "chai-friendly"
   ],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": "error",
@@ -21,8 +23,15 @@
         "default": "array-simple"
       }
     ],
-    "@typescript-eslint/ban-types": "error",
-    "@typescript-eslint/class-name-casing": "error",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "extendDefaults": true,
+        "types": {
+          "{}": false
+        }
+      }
+    ],
     "@typescript-eslint/consistent-type-assertions": "error",
     "@typescript-eslint/consistent-type-definitions": "error",
     "@typescript-eslint/explicit-member-accessibility": "off",
@@ -65,6 +74,7 @@
     "arrow-parens": ["off", "as-needed"],
     "camelcase": "off",
     "capitalized-comments": "off",
+    "chai-friendly/no-unused-expressions": "error",
     "comma-dangle": "off",
     "complexity": "off",
     "constructor-super": "error",
@@ -128,7 +138,7 @@
     "no-multiple-empty-lines": "off",
     "no-new-func": "error",
     "no-new-wrappers": "error",
-    "no-redeclare": "error",
+    "no-redeclare": "off",
     "no-return-await": "error",
     "no-sequences": "error",
     "no-shadow": [
@@ -144,7 +154,7 @@
     "no-undef-init": "error",
     "no-underscore-dangle": "off",
     "no-unsafe-finally": "error",
-    "no-unused-expressions": "error",
+    "no-unused-expressions": "off",
     "no-unused-labels": "error",
     "no-var": "error",
     "object-shorthand": "error",
@@ -155,11 +165,17 @@
     "radix": "error",
     "simple-import-sort/sort": ["error"],
     "sort-imports": "off", // imports are handled by simple-import-sort/sort
-    "sort-keys": "warn",
+    "sort-keys": "off",
     "space-before-function-paren": "off",
     "spaced-comment": "error",
     "use-isnan": "error",
-    "valid-typeof": "off"
+    "valid-typeof": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": ["lodash"]
+      }
+    ]
   },
   "ignorePatterns": ["node_modules/", "**/types/**/*"]
 }

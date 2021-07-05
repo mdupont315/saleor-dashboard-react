@@ -1,10 +1,11 @@
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  IconButton,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
@@ -13,7 +14,9 @@ import TableCellHeader from "@saleor/components/TableCellHeader";
 import TablePagination from "@saleor/components/TablePagination";
 import { WarehouseWithShippingFragment } from "@saleor/fragments/types/WarehouseWithShippingFragment";
 import { maybe, renderCollection, stopPropagation } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { ListProps, SortPage } from "@saleor/types";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import { getArrowDirection } from "@saleor/utils/sort";
 import { WarehouseListUrlSortField } from "@saleor/warehouses/urls";
 import React from "react";
@@ -137,12 +140,12 @@ const WarehouseList: React.FC<WarehouseListProps> = props => {
                 {maybe<React.ReactNode>(() => warehouse.name, <Skeleton />)}
               </TableCell>
               <TableCell className={classes.colZones} data-test="zones">
-                {maybe<React.ReactNode>(
-                  () =>
-                    warehouse.shippingZones.edges
-                      .map(edge => edge.node.name)
-                      .join(", "),
+                {warehouse?.shippingZones === undefined ? (
                   <Skeleton />
+                ) : (
+                  mapEdgesToItems(warehouse?.shippingZones)
+                    ?.map(({ name }) => name)
+                    .join(", ") || "-"
                 )}
               </TableCell>
               <TableCell className={classes.colActions}>

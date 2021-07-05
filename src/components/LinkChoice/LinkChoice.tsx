@@ -1,11 +1,8 @@
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import MenuItem from "@material-ui/core/MenuItem";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
+import { ClickAwayListener, MenuItem, Paper, Popper } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { FormChange } from "@saleor/hooks/useForm";
 import ArrowDropdown from "@saleor/icons/ArrowDropdown";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import { codes } from "keycode";
 import React from "react";

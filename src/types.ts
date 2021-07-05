@@ -21,8 +21,10 @@ export interface ListSettings<TColumn extends string = string> {
 }
 
 export enum ListViews {
+  STORE_LIST = "STORE_LIST",
   APPS_LIST = "APPS_LIST",
   ATTRIBUTE_LIST = "ATTRIBUTE_LIST",
+  ATTRIBUTE_VALUE_LIST = "ATTRIBUTE_VALUE_LIST",
   CATEGORY_LIST = "CATEGORY_LIST",
   COLLECTION_LIST = "COLLECTION_LIST",
   CUSTOMER_LIST = "CUSTOMER_LIST",
@@ -40,7 +42,8 @@ export enum ListViews {
   STAFF_MEMBERS_LIST = "STAFF_MEMBERS_LIST",
   VOUCHER_LIST = "VOUCHER_LIST",
   WAREHOUSE_LIST = "WAREHOUSE_LIST",
-  WEBHOOK_LIST = "WEBHOOK_LIST"
+  WEBHOOK_LIST = "WEBHOOK_LIST",
+  TRANSLATION_ATTRIBUTE_VALUE_LIST = "TRANSLATION_ATTRIBUTE_VALUE_LIST"
 }
 
 export interface ListProps<TColumns extends string = string> {
@@ -53,9 +56,9 @@ export interface ListProps<TColumns extends string = string> {
   onNextPage: () => void;
   onPreviousPage: () => void;
   onRowClick: (id: string) => () => void;
-  onUpdateListSettings?: (
-    key: keyof ListSettings<TColumns>,
-    value: any
+  onUpdateListSettings?: <T extends keyof ListSettings<TColumns>>(
+    key: T,
+    value: ListSettings<TColumns>[T]
   ) => void;
   onListSettingsReset?: () => void;
 }
@@ -96,7 +99,7 @@ export interface SearchProps {
 export interface SearchPageProps extends SearchProps {
   initialSearch: string;
 }
-export interface FilterPageProps<TKeys extends string, TOpts extends object>
+export interface FilterPageProps<TKeys extends string, TOpts extends {}>
   extends FilterProps<TKeys>,
     SearchPageProps,
     TabPageProps {
@@ -106,6 +109,7 @@ export interface FilterPageProps<TKeys extends string, TOpts extends object>
 export interface FilterProps<TKeys extends string> {
   currencySymbol?: string;
   onFilterChange: (filter: IFilter<TKeys>) => void;
+  onFilterAttributeFocus?: (id?: string) => void;
 }
 
 export interface TabPageProps {
@@ -131,6 +135,9 @@ export interface PartialMutationProviderOutput<
 
 export interface Node {
   id: string;
+}
+export interface SlugNode {
+  slug: string;
 }
 
 export type Pagination = Partial<{
@@ -176,6 +183,7 @@ export type ReorderAction = (event: ReorderEvent) => void;
 export interface FetchMoreProps {
   loading: boolean;
   hasMore: boolean;
+  totalCount?: number;
   onFetchMore: () => void;
 }
 
@@ -202,3 +210,5 @@ export interface AutocompleteFilterOpts
   choices: MultiAutocompleteChoiceType[];
   displayValues: MultiAutocompleteChoiceType[];
 }
+
+export type Ids = string[];

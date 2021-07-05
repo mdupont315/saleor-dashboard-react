@@ -20,16 +20,15 @@ import { PageRemove, PageRemoveVariables } from "./types/PageRemove";
 import { PageUpdate, PageUpdateVariables } from "./types/PageUpdate";
 
 const pageCreate = gql`
-  ${pageDetailsFragment}
   ${pageErrorWithAttributesFragment}
   mutation PageCreate($input: PageCreateInput!) {
     pageCreate(input: $input) {
-      errors: pageErrors {
+      errors {
         ...PageErrorWithAttributesFragment
         message
       }
       page {
-        ...PageDetailsFragment
+        id
       }
     }
   }
@@ -41,9 +40,16 @@ export const TypedPageCreate = TypedMutation<PageCreate, PageCreateVariables>(
 const pageUpdate = gql`
   ${pageDetailsFragment}
   ${pageErrorWithAttributesFragment}
-  mutation PageUpdate($id: ID!, $input: PageInput!) {
+  mutation PageUpdate(
+    $id: ID!
+    $input: PageInput!
+    $firstValues: Int
+    $afterValues: String
+    $lastValues: Int
+    $beforeValues: String
+  ) {
     pageUpdate(id: $id, input: $input) {
-      errors: pageErrors {
+      errors {
         ...PageErrorWithAttributesFragment
       }
       page {
@@ -61,7 +67,7 @@ const pageRemove = gql`
   ${pageErrorFragment}
   mutation PageRemove($id: ID!) {
     pageDelete(id: $id) {
-      errors: pageErrors {
+      errors {
         ...PageErrorFragment
       }
     }

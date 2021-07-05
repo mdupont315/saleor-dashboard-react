@@ -1,6 +1,7 @@
 import { ProductVariant } from "@saleor/fragments/types/ProductVariant";
 import {
   AttributeInputTypeEnum,
+  ProductMediaType,
   WeightUnitsEnum
 } from "@saleor/types/globalTypes";
 import { warehouseList } from "@saleor/warehouses/fixtures";
@@ -28,24 +29,47 @@ export const product: (
         name: "Borders",
         slug: "Borders",
         valueRequired: false,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav47282",
-            name: "portals",
-            reference: null,
-            slug: "portals"
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
           },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav17253",
-            name: "Baht",
-            reference: null,
-            slug: "Baht"
-          }
-        ]
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav47282",
+                name: "portals",
+                reference: null,
+                slug: "portals",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav17253",
+                name: "Baht",
+                reference: null,
+                slug: "Baht",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       },
       values: [
         {
@@ -54,7 +78,9 @@ export const product: (
           id: "ptav47282",
           name: "portals",
           reference: null,
-          slug: "portals"
+          slug: "portals",
+          richText: null,
+          boolean: null
         }
       ]
     },
@@ -68,40 +94,75 @@ export const product: (
         name: "Legacy",
         slug: "Legacy",
         valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav31282",
-            name: "payment",
-            reference: null,
-            slug: "payment"
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
           },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav14907",
-            name: "Auto Loan Account",
-            reference: null,
-            slug: "Auto-Loan-Account"
-          },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav27366",
-            name: "Garden",
-            reference: null,
-            slug: "Garden"
-          },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav11873",
-            name: "override",
-            reference: null,
-            slug: "override"
-          }
-        ]
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav31282",
+                name: "payment",
+                reference: null,
+                slug: "payment",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav14907",
+                name: "Auto Loan Account",
+                reference: null,
+                slug: "Auto-Loan-Account",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav27366",
+                name: "Garden",
+                reference: null,
+                slug: "Garden",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav11873",
+                name: "override",
+                reference: null,
+                slug: "override",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       },
       values: [
         {
@@ -110,7 +171,9 @@ export const product: (
           id: "ptav14907",
           name: "Auto Loan Account",
           reference: null,
-          slug: "Auto-Loan-Account"
+          slug: "Auto-Loan-Account",
+          richText: null,
+          boolean: null
         }
       ]
     }
@@ -204,49 +267,59 @@ export const product: (
     }
   ],
   defaultVariant: { __typename: "ProductVariant", id: "pv75934" },
-  descriptionJson: JSON.stringify(content),
+  description: JSON.stringify(content),
   id: "p10171",
-  images: [
-    {
-      __typename: "ProductImage",
-      alt: "Id sit dolores adipisci",
-      id: "UHJvZHVjdEltYWdlOjE=",
-      sortOrder: 0,
-      url: placeholderImage
-    },
-    {
-      __typename: "ProductImage",
-      alt: "Id sit dolores adipisci",
-      id: "UHJvZHVjdEltYWdlOaE=",
-      sortOrder: 2,
-      url: placeholderImage
-    },
-    {
-      __typename: "ProductImage",
-      alt: "Id sit dolores adipisci",
-      id: "UPJvZHVjdEltYWdlOjV=",
-      sortOrder: 1,
-      url: placeholderImage
-    },
-    {
-      __typename: "ProductImage",
-      alt: "Id sit dolores adipisci",
-      id: "UHJvZHVjdEltYHdlOjX=",
-      sortOrder: 3,
-      url: placeholderImage
-    },
-    {
-      __typename: "ProductImage",
-      alt: "Id sit dolores adipisci",
-      id: "UHJvZHVjdIlnYWdlOjX=",
-      sortOrder: 4,
-      url: placeholderImage
-    }
-  ],
   isAvailable: false,
   isAvailableForPurchase: false,
   isFeatured: false,
   margin: { __typename: "Margin", start: 2, stop: 7 },
+  media: [
+    {
+      __typename: "ProductMedia",
+      alt: "Id sit dolores adipisci",
+      id: "UHJvZHVjdEltYWdlOjE=",
+      sortOrder: 0,
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
+      url: placeholderImage
+    },
+    {
+      __typename: "ProductMedia",
+      alt: "Id sit dolores adipisci",
+      id: "UHJvZHVjdEltYWdlOaE=",
+      sortOrder: 2,
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
+      url: placeholderImage
+    },
+    {
+      __typename: "ProductMedia",
+      alt: "Id sit dolores adipisci",
+      id: "UPJvZHVjdEltYWdlOjV=",
+      sortOrder: 1,
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
+      url: placeholderImage
+    },
+    {
+      __typename: "ProductMedia",
+      alt: "Id sit dolores adipisci",
+      id: "UHJvZHVjdEltYHdlOjX=",
+      sortOrder: 3,
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
+      url: placeholderImage
+    },
+    {
+      __typename: "ProductMedia",
+      alt: "Id sit dolores adipisci",
+      id: "UHJvZHVjdIlnYWdlOjX=",
+      sortOrder: 4,
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
+      url: placeholderImage
+    }
+  ],
   metadata: [
     {
       __typename: "MetadataItem",
@@ -270,20 +343,37 @@ export const product: (
         name: "Attachment",
         slug: "attachment",
         valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: {
-              __typename: "File",
-              contentType: "image/png",
-              url: "some-non-existing-url"
-            },
-            id: "gdghdgdhkkdae",
-            name: "File First Value",
-            reference: null,
-            slug: "file-first-value"
-          }
-        ]
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
+          },
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: {
+                  __typename: "File",
+                  contentType: "image/png",
+                  url: "some-non-existing-url"
+                },
+                id: "gdghdgdhkkdae",
+                name: "File First Value",
+                reference: null,
+                slug: "file-first-value",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       }
     ],
     selectionVariantAttributes: [
@@ -295,24 +385,47 @@ export const product: (
         name: "Color",
         slug: "color",
         valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptvav47282",
-            name: "Black",
-            reference: null,
-            slug: "black"
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
           },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptvav17253",
-            name: "White",
-            reference: null,
-            slug: "white"
-          }
-        ]
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptvav47282",
+                name: "Black",
+                reference: null,
+                slug: "black",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptvav17253",
+                name: "White",
+                reference: null,
+                slug: "white",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       }
     ],
     taxType: {
@@ -324,50 +437,82 @@ export const product: (
       {
         __typename: "Attribute",
         id: "isdugfhud",
-        inputType: AttributeInputTypeEnum.FILE,
         name: "Attachment",
-        slug: "attachment",
-        valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: {
-              __typename: "File",
-              contentType: "image/png",
-              url: "some-non-existing-url"
-            },
-            id: "gdghdgdhkkdae",
-            name: "File First Value",
-            reference: null,
-            slug: "file-first-value"
-          }
-        ]
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
+          },
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: {
+                  __typename: "File",
+                  contentType: "image/png",
+                  url: "some-non-existing-url"
+                },
+                id: "gdghdgdhkkdae",
+                name: "File First Value",
+                reference: null,
+                slug: "file-first-value",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       },
       {
         __typename: "Attribute",
         id: "pta18161",
-        inputType: AttributeInputTypeEnum.DROPDOWN,
         name: "Color",
-        slug: "color",
-        valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptvav47282",
-            name: "Black",
-            reference: null,
-            slug: "black"
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
           },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptvav17253",
-            name: "White",
-            reference: null,
-            slug: "white"
-          }
-        ]
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptvav47282",
+                name: "Black",
+                reference: null,
+                slug: "black",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptvav17253",
+                name: "White",
+                reference: null,
+                slug: "white",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       }
     ]
   },
@@ -404,19 +549,23 @@ export const product: (
       __typename: "ProductVariant",
       channelListings: [],
       id: "pv75934",
-      images: [
+      margin: 2,
+      media: [
         {
-          __typename: "ProductImage",
+          __typename: "ProductMedia",
           id: "pi92837",
+          type: ProductMediaType.IMAGE,
+          oembedData: "{}",
           url: placeholderImage
         },
         {
-          __typename: "ProductImage",
+          __typename: "ProductMedia",
           id: "pi92838",
+          type: ProductMediaType.IMAGE,
+          oembedData: "{}",
           url: placeholderImage
         }
       ],
-      margin: 2,
       name: "Cordoba Oro",
       sku: "87192-94370",
       stocks: [
@@ -485,19 +634,23 @@ export const product: (
         }
       ],
       id: "pv68615",
-      images: [
+      margin: 7,
+      media: [
         {
-          __typename: "ProductImage",
+          __typename: "ProductMedia",
           id: "pi81234",
+          type: ProductMediaType.IMAGE,
+          oembedData: "{}",
           url: placeholderImage
         },
         {
-          __typename: "ProductImage",
+          __typename: "ProductMedia",
           id: "pi1236912",
+          type: ProductMediaType.IMAGE,
+          oembedData: "{}",
           url: placeholderImage
         }
       ],
-      margin: 7,
       name: "silver",
       sku: "69055-15190",
       stocks: [
@@ -813,7 +966,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6MQ==",
             name: "Pineapple",
             reference: null,
-            slug: "pineapple"
+            slug: "pineapple",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -921,7 +1076,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6Mg==",
             name: "Coconut",
             reference: null,
-            slug: "coconut"
+            slug: "coconut",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1029,7 +1186,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6Mw==",
             name: "Apple",
             reference: null,
-            slug: "apple"
+            slug: "apple",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1138,7 +1297,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6NDk=",
             name: "Orange",
             reference: null,
-            slug: "orange"
+            slug: "orange",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1246,7 +1407,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6NTA=",
             name: "Banana",
             reference: null,
-            slug: "banana"
+            slug: "banana",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1354,7 +1517,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6NTE=",
             name: "Bean",
             reference: null,
-            slug: "bean"
+            slug: "bean",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1462,7 +1627,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6NTI=",
             name: "Carrot",
             reference: null,
-            slug: "carrot"
+            slug: "carrot",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1570,7 +1737,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6NTM=",
             name: "Sprouty",
             reference: null,
-            slug: "sprouty"
+            slug: "sprouty",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1678,7 +1847,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1786,7 +1957,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -1894,7 +2067,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2002,7 +2177,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2110,7 +2287,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2218,7 +2397,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2326,7 +2507,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2434,7 +2617,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6ODI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2542,7 +2727,9 @@ export const products = (
             id: "QXR0cmlidXRlVmFsdWU6NzI=",
             name: "Cotton",
             reference: null,
-            slug: "cotton"
+            slug: "cotton",
+            richText: null,
+            boolean: null
           }
         ]
       }
@@ -2679,25 +2866,33 @@ export const variant = (placeholderImage: string): ProductVariant => ({
     }
   ],
   id: "var1",
-  images: [
+  media: [
     {
-      __typename: "ProductImage",
+      __typename: "ProductMedia",
       id: "img1",
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
       url: placeholderImage
     },
     {
-      __typename: "ProductImage",
+      __typename: "ProductMedia",
       id: "img2",
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
       url: placeholderImage
     },
     {
-      __typename: "ProductImage",
+      __typename: "ProductMedia",
       id: "img7",
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
       url: placeholderImage
     },
     {
-      __typename: "ProductImage",
+      __typename: "ProductMedia",
       id: "img8",
+      type: ProductMediaType.IMAGE,
+      oembedData: "{}",
       url: placeholderImage
     }
   ],
@@ -2720,20 +2915,37 @@ export const variant = (placeholderImage: string): ProductVariant => ({
         name: "Attachment",
         slug: "attachment",
         valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: {
-              __typename: "File",
-              contentType: "image/png",
-              url: "some-non-existing-url"
-            },
-            id: "gdghdgdhkkdae",
-            name: "File First Value",
-            reference: null,
-            slug: "file-first-value"
-          }
-        ]
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
+          },
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: {
+                  __typename: "File",
+                  contentType: "image/png",
+                  url: "some-non-existing-url"
+                },
+                id: "gdghdgdhkkdae",
+                name: "File First Value",
+                reference: null,
+                slug: "file-first-value",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       },
       values: [
         {
@@ -2746,7 +2958,9 @@ export const variant = (placeholderImage: string): ProductVariant => ({
           id: "gdghdgdhkkdae",
           name: "File First Value",
           reference: null,
-          slug: "file-first-value"
+          slug: "file-first-value",
+          richText: null,
+          boolean: null
         }
       ]
     }
@@ -2757,6 +2971,8 @@ export const variant = (placeholderImage: string): ProductVariant => ({
     channelListings: [
       {
         __typename: "ProductChannelListing",
+        isPublished: false,
+        publicationDate: null,
         channel: {
           __typename: "Channel",
           currencyCode: "USD",
@@ -2788,6 +3004,8 @@ export const variant = (placeholderImage: string): ProductVariant => ({
       },
       {
         __typename: "ProductChannelListing",
+        isPublished: true,
+        publicationDate: "2022-01-21",
         channel: {
           __typename: "Channel",
           currencyCode: "USD",
@@ -2823,68 +3041,86 @@ export const variant = (placeholderImage: string): ProductVariant => ({
       id: "var1"
     },
     id: "prod1",
-    images: [
+    media: [
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Front",
         id: "img1",
         sortOrder: 1,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Back",
         id: "img2",
         sortOrder: 4,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Right side",
         id: "img3",
         sortOrder: 2,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Left side",
         id: "img4",
         sortOrder: 3,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Paper",
         id: "img5",
         sortOrder: 0,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Hard cover",
         id: "img6",
         sortOrder: 1,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Extended version",
         id: "img7",
         sortOrder: 0,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Cut version",
         id: "img8",
         sortOrder: 2,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       },
       {
-        __typename: "ProductImage",
+        __typename: "ProductMedia",
         alt: "Soft cover",
         id: "img9",
         sortOrder: 2,
+        type: ProductMediaType.IMAGE,
+        oembedData: "{}",
         url: placeholderImage
       }
     ],
@@ -2894,10 +3130,12 @@ export const variant = (placeholderImage: string): ProductVariant => ({
       {
         __typename: "ProductVariant",
         id: "var1",
-        images: [
+        media: [
           {
-            __typename: "ProductImage",
+            __typename: "ProductMedia",
             id: "23123",
+            type: ProductMediaType.IMAGE,
+            oembedData: "{}",
             url: placeholderImage
           }
         ],
@@ -2907,10 +3145,12 @@ export const variant = (placeholderImage: string): ProductVariant => ({
       {
         __typename: "ProductVariant",
         id: "var2",
-        images: [
+        media: [
           {
-            __typename: "ProductImage",
+            __typename: "ProductMedia",
             id: "23123",
+            type: ProductMediaType.IMAGE,
+            oembedData: "{}",
             url: placeholderImage
           }
         ],
@@ -2920,10 +3160,12 @@ export const variant = (placeholderImage: string): ProductVariant => ({
       {
         __typename: "ProductVariant",
         id: "var3",
-        images: [
+        media: [
           {
-            __typename: "ProductImage",
+            __typename: "ProductMedia",
             id: "23123",
+            type: ProductMediaType.IMAGE,
+            oembedData: "{}",
             url: placeholderImage
           }
         ],
@@ -2933,10 +3175,12 @@ export const variant = (placeholderImage: string): ProductVariant => ({
       {
         __typename: "ProductVariant",
         id: "var4",
-        images: [
+        media: [
           {
-            __typename: "ProductImage",
+            __typename: "ProductMedia",
             id: "23123",
+            type: ProductMediaType.IMAGE,
+            oembedData: "{}",
             url: placeholderImage
           }
         ],
@@ -2956,24 +3200,47 @@ export const variant = (placeholderImage: string): ProductVariant => ({
         name: "Borders",
         slug: "Borders",
         valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav47282",
-            name: "portals",
-            reference: null,
-            slug: "portals"
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
           },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav17253",
-            name: "Baht",
-            reference: null,
-            slug: "Baht"
-          }
-        ]
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav47282",
+                name: "portals",
+                reference: null,
+                slug: "portals",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav17253",
+                name: "Baht",
+                reference: null,
+                slug: "Baht",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       },
       values: [
         {
@@ -2982,7 +3249,9 @@ export const variant = (placeholderImage: string): ProductVariant => ({
           id: "ptav47282",
           name: "portals",
           reference: null,
-          slug: "portals"
+          slug: "portals",
+          richText: null,
+          boolean: null
         }
       ]
     },
@@ -2996,40 +3265,75 @@ export const variant = (placeholderImage: string): ProductVariant => ({
         name: "Legacy",
         slug: "Legacy",
         valueRequired: true,
-        values: [
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav31282",
-            name: "payment",
-            reference: null,
-            slug: "payment"
+        unit: null,
+        choices: {
+          __typename: "AttributeValueCountableConnection",
+          pageInfo: {
+            endCursor: "WyI4IiwgIjMiXQ==",
+            hasNextPage: false,
+            hasPreviousPage: false,
+            startCursor: "WyIwIiwgIjQ5Il0=",
+            __typename: "PageInfo"
           },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav14907",
-            name: "Auto Loan Account",
-            reference: null,
-            slug: "Auto-Loan-Account"
-          },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav27366",
-            name: "Garden",
-            reference: null,
-            slug: "Garden"
-          },
-          {
-            __typename: "AttributeValue",
-            file: null,
-            id: "ptav11873",
-            name: "override",
-            reference: null,
-            slug: "override"
-          }
-        ]
+          edges: [
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav31282",
+                name: "payment",
+                reference: null,
+                slug: "payment",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav14907",
+                name: "Auto Loan Account",
+                reference: null,
+                slug: "Auto-Loan-Account",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav27366",
+                name: "Garden",
+                reference: null,
+                slug: "Garden",
+                richText: null,
+                boolean: null
+              }
+            },
+            {
+              __typename: "AttributeValueCountableEdge",
+              cursor: "",
+              node: {
+                __typename: "AttributeValue",
+                file: null,
+                id: "ptav11873",
+                name: "override",
+                reference: null,
+                slug: "override",
+                richText: null,
+                boolean: null
+              }
+            }
+          ]
+        }
       },
       values: [
         {
@@ -3038,7 +3342,9 @@ export const variant = (placeholderImage: string): ProductVariant => ({
           id: "ptav14907",
           name: "Auto Loan Account",
           reference: null,
-          slug: "Auto-Loan-Account"
+          slug: "Auto-Loan-Account",
+          richText: null,
+          boolean: null
         }
       ]
     }
@@ -3075,9 +3381,9 @@ export const variant = (placeholderImage: string): ProductVariant => ({
     value: 6
   }
 });
-export const variantImages = (placeholderImage: string) =>
-  variant(placeholderImage).images;
+export const variantMedia = (placeholderImage: string) =>
+  variant(placeholderImage).media;
 export const variantProductImages = (placeholderImage: string) =>
-  variant(placeholderImage).product.images;
+  variant(placeholderImage).product.media;
 export const variantSiblings = (placeholderImage: string) =>
   variant(placeholderImage).product.variants;

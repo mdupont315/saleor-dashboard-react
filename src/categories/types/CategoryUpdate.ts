@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { CategoryInput, ProductErrorCode } from "./../../types/globalTypes";
@@ -39,7 +40,7 @@ export interface CategoryUpdate_categoryUpdate_category {
   backgroundImage: CategoryUpdate_categoryUpdate_category_backgroundImage | null;
   name: string;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   parent: CategoryUpdate_categoryUpdate_category_parent | null;

@@ -1,15 +1,16 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { ProductTypeInput, AttributeTypeEnum, WeightUnitsEnum } from "./../../types/globalTypes";
+import { ProductTypeInput, AttributeTypeEnum, MeasurementUnitsEnum, AttributeInputTypeEnum, WeightUnitsEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: ProductTypeUpdate
 // ====================================================
 
 export interface ProductTypeUpdate_productTypeUpdate_errors {
-  __typename: "Error";
+  __typename: "ProductError";
   field: string | null;
   message: string | null;
 }
@@ -41,6 +42,8 @@ export interface ProductTypeUpdate_productTypeUpdate_productType_productAttribut
   visibleInStorefront: boolean;
   filterableInDashboard: boolean;
   filterableInStorefront: boolean;
+  unit: MeasurementUnitsEnum | null;
+  inputType: AttributeInputTypeEnum | null;
 }
 
 export interface ProductTypeUpdate_productTypeUpdate_productType_variantAttributes {
@@ -52,6 +55,8 @@ export interface ProductTypeUpdate_productTypeUpdate_productType_variantAttribut
   visibleInStorefront: boolean;
   filterableInDashboard: boolean;
   filterableInStorefront: boolean;
+  unit: MeasurementUnitsEnum | null;
+  inputType: AttributeInputTypeEnum | null;
 }
 
 export interface ProductTypeUpdate_productTypeUpdate_productType_weight {

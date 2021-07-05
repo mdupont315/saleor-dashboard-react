@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+import { TextField } from "@material-ui/core";
 import SingleSelectField from "@saleor/components/SingleSelectField";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 
 const useStyles = makeStyles(

@@ -1,4 +1,5 @@
 import { getChannelsCurrencyChoices } from "@saleor/channels/utils";
+import { useShopLimitsQuery } from "@saleor/components/Shop/query";
 import { configurationMenuUrl } from "@saleor/configuration";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
@@ -30,8 +31,13 @@ export const ChannelsList: React.FC<ChannelsListProps> = ({ params }) => {
   const intl = useIntl();
 
   const { data, refetch } = useChannelsList({ displayLoader: true });
+  const limitOpts = useShopLimitsQuery({
+    variables: {
+      channels: true
+    }
+  });
 
-  const selectedChannel = data?.channels.find(
+  const selectedChannel = data?.channels?.find(
     channel => channel.id === params?.id
   );
 
@@ -50,6 +56,7 @@ export const ChannelsList: React.FC<ChannelsListProps> = ({ params }) => {
         })
       });
       refetch();
+      limitOpts.refetch();
       closeModal();
     } else {
       errors.map(error =>
@@ -73,22 +80,22 @@ export const ChannelsList: React.FC<ChannelsListProps> = ({ params }) => {
 
   const navigateToChannelCreate = () => navigate(channelAddUrl);
 
-  const handleRemoveConfirm = (targetChannelId?: string) => {
-    if (targetChannelId) {
-      deleteChannel({
-        variables: { id: params.id, input: { targetChannel: targetChannelId } }
-      });
-    } else {
-      deleteChannel({
-        variables: { id: params.id }
-      });
-    }
+  const handleRemoveConfirm = (channelId?: string) => {
+    const inputVariables = channelId ? { input: { channelId } } : {};
+
+    deleteChannel({
+      variables: {
+        id: params.id,
+        ...inputVariables
+      }
+    });
   };
 
   return (
     <>
       <ChannelsListPage
         channelsList={data?.channels}
+        limits={limitOpts.data?.shop.limits}
         navigateToChannelCreate={navigateToChannelCreate}
         onBack={() => navigate(configurationMenuUrl)}
         onRowClick={id => () => navigate(channelUrl(id))}

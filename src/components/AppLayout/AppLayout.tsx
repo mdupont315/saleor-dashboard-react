@@ -1,12 +1,11 @@
-import LinearProgress from "@material-ui/core/LinearProgress";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { LinearProgress, useMediaQuery } from "@material-ui/core";
 import { createConfigurationMenu } from "@saleor/configuration";
 import useAppState from "@saleor/hooks/useAppState";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useTheme from "@saleor/hooks/useTheme";
 import useUser from "@saleor/hooks/useUser";
 import { staffMemberDetailsUrl } from "@saleor/staff/urls";
+import { makeStyles, SaleorTheme } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -127,7 +126,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [appState, dispatchAppState] = useAppState();
   const { location } = useRouter();
   const [isNavigatorVisible, setNavigatorVisibility] = React.useState(false);
-  const isMdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+  const isMdUp = useMediaQuery((theme: SaleorTheme) =>
+    theme.breakpoints.up("md")
+  );
   const [docked, setDocked] = React.useState(true);
   const {
     availableChannels,
@@ -239,8 +240,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 </div>
                 <main className={classes.view}>
                   {appState.error
-                    ? appState.error === "unhandled" && (
-                        <ErrorPage onBack={handleErrorBack} />
+                    ? appState.error.type === "unhandled" && (
+                        <ErrorPage
+                          id={appState.error.id}
+                          onBack={handleErrorBack}
+                        />
                       )
                     : children}
                 </main>

@@ -3,6 +3,58 @@
     "context": "dialog header",
     "string": "Cancel Order"
   },
+  "PageTypeDeleteWarningDialog multiple assigned items description": {
+    "context": "PageTypeDeleteWarningDialog multiple assigned items description",
+    "string": "Are you sure you want to delete selected page types? If you remove them you won’t be able to assign them to created pages."
+  },
+  "PageTypeDeleteWarningDialog multiple consent label": {
+    "context": "PageTypeDeleteWarningDialog multiple consent label",
+    "string": "Yes, I want to delete those pages types and assigned pages"
+  },
+  "PageTypeDeleteWarningDialog single assigned items description": {
+    "context": "PageTypeDeleteWarningDialog single assigned items description",
+    "string": "You are about to delete page type <b>{typeName}</b>. It is assigned to {assignedItemsCount} {assignedItemsCount,plural,one{page} other{pages}}. Deleting this page type will also delete those pages. Are you sure you want to do this?"
+  },
+  "PageTypeDeleteWarningDialog single consent label": {
+    "context": "PageTypeDeleteWarningDialog single consent label",
+    "string": "Yes, I want to delete this page type and assigned pages"
+  },
+  "PageTypeDeleteWarningDialog single no assigned items description": {
+    "context": "PageTypeDeleteWarningDialog single no assigned items description",
+    "string": "Are you sure you want to delete <b>{typeName}</b>? If you remove it you won’t be able to assign it to created pages."
+  },
+  "PageTypeDeleteWarningDialog with items multiple description": {
+    "context": "PageTypeDeleteWarningDialog with items multiple description",
+    "string": "You are about to delete multiple page types. Some of them are assigned to pages. Deleting those page types will also delete those pages"
+  },
+  "Previous discount label id": {
+    "context": "Previous discount label",
+    "string": "Previous discount value"
+  },
+  "ProductTypeDeleteWarningDialog multiple assigned items description": {
+    "context": "ProductTypeDeleteWarningDialog multiple assigned items description",
+    "string": "Are you sure you want to delete selected product types? If you remove them you won’t be able to assign them to created products."
+  },
+  "ProductTypeDeleteWarningDialog multiple consent label": {
+    "context": "ProductTypeDeleteWarningDialog multiple consent label",
+    "string": "Yes, I want to delete those products types and assigned products"
+  },
+  "ProductTypeDeleteWarningDialog single assigned items description": {
+    "context": "ProductTypeDeleteWarningDialog single assigned items description",
+    "string": "You are about to delete product type <b>{typeName}</b>. It is assigned to {assignedItemsCount} {assignedItemsCount,plural,one{product} other{products}}. Deleting this product type will also delete those products. Are you sure you want to do this?"
+  },
+  "ProductTypeDeleteWarningDialog single consent label": {
+    "context": "ProductTypeDeleteWarningDialog single consent label",
+    "string": "Yes, I want to delete this product type and assigned products"
+  },
+  "ProductTypeDeleteWarningDialog single no assigned items description": {
+    "context": "ProductTypeDeleteWarningDialog single no assigned items description",
+    "string": "Are you sure you want to delete <b>{typeName}</b>? If you remove it you won’t be able to assign it to created products."
+  },
+  "ProductTypeDeleteWarningDialog with items multiple description": {
+    "context": "ProductTypeDeleteWarningDialog with items multiple description",
+    "string": "You are about to delete multiple product types. Some of them are assigned to products. Deleting those product types will also delete those products"
+  },
   "amount title": {
     "context": "amount title",
     "string": "Refunded amount"
@@ -10,6 +62,22 @@
   "by preposition": {
     "context": "by preposition",
     "string": "by"
+  },
+  "channel hidden": {
+    "context": "channel publication status",
+    "string": "Hidden"
+  },
+  "channel publication date visible since": {
+    "context": "channel publication date",
+    "string": "Visible since {date}"
+  },
+  "channel publication date will become available": {
+    "context": "channel publication date",
+    "string": "Will become available on {date}"
+  },
+  "channel visible": {
+    "context": "channel publication status",
+    "string": "Visible"
   },
   "configurationMenuAttributes": {
     "string": "Determine attributes used to create product types"
@@ -50,6 +118,14 @@
   "configurationPluginsPages": {
     "string": "View and update your plugins and their settings."
   },
+  "discount value id": {
+    "context": "discount value",
+    "string": "discount"
+  },
+  "discount value label id": {
+    "context": "discount value label",
+    "string": "discount value"
+  },
   "event products list title refunded": {
     "context": "refunded products list title",
     "string": "Products refunded"
@@ -70,6 +146,30 @@
     "context": "draft created from replace event title",
     "string": "Draft was reissued from order "
   },
+  "event title marked as paid": {
+    "context": "order marked as paid event title",
+    "string": "Order was marked as paid by"
+  },
+  "event title order discount auto updated": {
+    "context": "order discount was updated automatically event title",
+    "string": "Order discount was updated automatically updated"
+  },
+  "event title order discount updated": {
+    "context": "order discount was updated event title",
+    "string": "Order discount was updated by"
+  },
+  "event title order discounted": {
+    "context": "order was discounted event title",
+    "string": "Order was discounted by"
+  },
+  "event title order line discount added": {
+    "context": "order line discount added title",
+    "string": "{productName} discount was added by "
+  },
+  "event title order line discount updated": {
+    "context": "order line discount updated title",
+    "string": "{productName} discount was updated by "
+  },
   "event title refunded": {
     "context": "refunded event title",
     "string": "Products were refunded by "
@@ -81,6 +181,14 @@
   "event title returned": {
     "context": "returned event title",
     "string": "Products were returned by"
+  },
+  "fixed amount subtitle id": {
+    "context": "Fixed amount subtitle",
+    "string": "Fixed amount"
+  },
+  "globalConfigPluginMessages title": {
+    "context": "global config plugin status popup title",
+    "string": "Global Plugin"
   },
   "homeActivityCardHeader": {
     "context": "header",
@@ -142,6 +250,14 @@
   "homeScreenHeader": {
     "context": "header",
     "string": "Hello there, {userName}"
+  },
+  "is filter range between value": {
+    "context": "is filter range or value",
+    "string": "between"
+  },
+  "is filter range equal to value": {
+    "context": "is filter range or value",
+    "string": "equal to"
   },
   "menuCreateDialogHeader": {
     "context": "dialog header",
@@ -231,6 +347,14 @@
   "menuPropertiesMenuTitle": {
     "string": "Menu Title"
   },
+  "new discount label id": {
+    "context": "new discount label",
+    "string": "New discount value"
+  },
+  "not published channel": {
+    "context": "product label",
+    "string": "Not published"
+  },
   "orderCustomerBillingAddressNotSet": {
     "context": "no address is set in draft order",
     "string": "Not set"
@@ -257,6 +381,14 @@
   },
   "pageTypeInputLabel": {
     "string": "Select content type"
+  },
+  "pluginChannelConfigurationCellMessages per channel": {
+    "context": "PluginChannelConfigurationCell channel title",
+    "string": "Per channel"
+  },
+  "product available for purchase": {
+    "context": "product availability",
+    "string": "Available for purchase"
   },
   "productExportFieldCategory": {
     "context": "product field",
@@ -301,10 +433,6 @@
   "productExportFieldVariantWeight": {
     "context": "product field",
     "string": "Export Variant Weight"
-  },
-  "productExportFieldVisibility": {
-    "context": "product field",
-    "string": "Visibility"
   },
   "productStockHeader": {
     "context": "product stock, section header",
@@ -352,6 +480,10 @@
     "context": "no warehouses info",
     "string": "There are no warehouses set up for your store. To add stock quantity to the product please <a>configure a warehouse</a>"
   },
+  "published channel": {
+    "context": "product label",
+    "string": "Published"
+  },
   "saleDetailsPageCategoriesQuantity": {
     "context": "number of categories",
     "string": "Categories ({quantity})"
@@ -376,9 +508,17 @@
     "context": "unassign product from sale, button",
     "string": "Unassign"
   },
+  "set availability date": {
+    "context": "product availability date label",
+    "string": "Set availability date"
+  },
   "shipment refund title": {
     "context": "shipment refund title",
     "string": "Shipment was refunded"
+  },
+  "shippingZoneChannels_dot_autocomplete_dot_label": {
+    "context": "ChannelsSection select field label",
+    "string": "Channel"
   },
   "shippingZoneDetailsDialogsDeleteShippingMethod": {
     "context": "delete shipping method",
@@ -389,12 +529,8 @@
     "string": "Are you sure you want to delete {name}?"
   },
   "shippingZoneWarehouses_dot_autocomplete_dot_label": {
-    "context": "autocomplete select label",
+    "context": "WarehousesSection select field label",
     "string": "Warehouse"
-  },
-  "siteSettingsMailingHelperText": {
-    "context": "helper text",
-    "string": "Mailing Configuration"
   },
   "src_dot_accept": {
     "context": "button",
@@ -408,13 +544,13 @@
     "context": "dialog header",
     "string": "Activate App"
   },
+  "src_dot_apps_dot_components_dot_AppActivateDialog_dot_2449960665": {
+    "context": "activate app",
+    "string": "Are you sure you want to activate this app? Activating will start gathering events."
+  },
   "src_dot_apps_dot_components_dot_AppActivateDialog_dot_3356885734": {
     "context": "activate app",
     "string": "Are you sure you want to activate {name}? Activating will start gathering events."
-  },
-  "src_dot_apps_dot_components_dot_AppActivateDialog_dot_3761045983": {
-    "context": "activate app",
-    "string": "Are you sure you want to activate this app? Activating will start gathering events"
   },
   "src_dot_apps_dot_components_dot_AppActivateDialog_dot_3865193889": {
     "context": "button label",
@@ -428,12 +564,20 @@
     "context": "dialog header",
     "string": "Dectivate App"
   },
-  "src_dot_apps_dot_components_dot_AppDeactivateDialog_dot_2955925498": {
+  "src_dot_apps_dot_components_dot_AppDeactivateDialog_dot_deactivateApp": {
     "context": "deactivate app",
     "string": "Are you sure you want to disable this app? Your data will be kept until you reactivate the app. You will be still billed for the app."
   },
-  "src_dot_apps_dot_components_dot_AppDeactivateDialog_dot_329373780": {
-    "context": "deactivate app",
+  "src_dot_apps_dot_components_dot_AppDeactivateDialog_dot_deactivateLocalApp": {
+    "context": "deactivate local app",
+    "string": "Are you sure you want to disable this app? Your data will be kept until you reactivate the app."
+  },
+  "src_dot_apps_dot_components_dot_AppDeactivateDialog_dot_deactivateLocalNamedApp": {
+    "context": "deactivate local named app",
+    "string": "Are you sure you want to disable {name}? Your data will be kept until you reactivate the app."
+  },
+  "src_dot_apps_dot_components_dot_AppDeactivateDialog_dot_deactivateNamedApp": {
+    "context": "deactivate named app",
     "string": "Are you sure you want to disable {name}? Your data will be kept until you reactivate the app. You will be still billed for the app."
   },
   "src_dot_apps_dot_components_dot_AppDeleteDialog_dot_1347203024": {
@@ -580,10 +724,6 @@
     "context": "header",
     "string": "Create New App"
   },
-  "src_dot_apps_dot_components_dot_CustomAppCreatePage_dot_570656367": {
-    "context": "checkbox label",
-    "string": "App is active"
-  },
   "src_dot_apps_dot_components_dot_CustomAppDefaultToken_dot_1336855942": {
     "string": "Generated Token"
   },
@@ -605,13 +745,17 @@
     "context": "checkbox label",
     "string": "Grant this app full access to the store"
   },
+  "src_dot_apps_dot_components_dot_CustomAppDetailsPage_dot_1782042241": {
+    "context": "link",
+    "string": "Deactivate"
+  },
   "src_dot_apps_dot_components_dot_CustomAppDetailsPage_dot_3076071936": {
     "context": "card description",
     "string": "Expand or restrict app permissions to access certain part of Saleor system."
   },
-  "src_dot_apps_dot_components_dot_CustomAppDetailsPage_dot_570656367": {
-    "context": "checkbox label",
-    "string": "App is active"
+  "src_dot_apps_dot_components_dot_CustomAppDetailsPage_dot_3865193889": {
+    "context": "link",
+    "string": "Activate"
   },
   "src_dot_apps_dot_components_dot_CustomAppInformation_dot_2860466085": {
     "context": "header",
@@ -751,6 +895,14 @@
     "context": "window title",
     "string": "Create App"
   },
+  "src_dot_apps_dot_views_dot_CustomAppDetails_dot_2021043385": {
+    "context": "snackbar text",
+    "string": "App activated"
+  },
+  "src_dot_apps_dot_views_dot_CustomAppDetails_dot_3791371350": {
+    "context": "snackbar text",
+    "string": "App deactivated"
+  },
   "src_dot_attributes": {
     "context": "attributes section name",
     "string": "Attributes"
@@ -777,6 +929,18 @@
     "context": "dialog content",
     "string": "Are you sure you want to delete {attributeName}?"
   },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_acreFt": {
+    "context": "acre-ft unit",
+    "string": "acre-ft"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_acreInch": {
+    "context": "acre-inch unit",
+    "string": "acre-inch"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_area": {
+    "context": "area units type",
+    "string": "Area"
+  },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_attributeLabel": {
     "context": "attribute's label",
     "string": "Default Label"
@@ -788,6 +952,14 @@
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_attributeSlugHelperText": {
     "context": "attribute slug input field helper text",
     "string": "This is used internally. Make sure you don’t use spaces"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_boolean": {
+    "context": "boolean attribute type",
+    "string": "Boolean"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_distance": {
+    "context": "distance units type",
+    "string": "Distance"
   },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_dropdown": {
     "context": "product attribute type",
@@ -801,17 +973,33 @@
     "context": "file attribute type",
     "string": "File"
   },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_imperial": {
+    "context": "imperial unit system",
+    "string": "Imperial"
+  },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_inputType": {
     "context": "attribute's editor component",
     "string": "Catalog Input type for Store Owner"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_metric": {
+    "context": "metric unit system",
+    "string": "Metric"
   },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_multiselect": {
     "context": "product attribute type",
     "string": "Multiple Select"
   },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_numeric": {
+    "context": "numeric attribute type",
+    "string": "Numeric"
+  },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_page": {
     "context": "page attribute entity type",
     "string": "Pages"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_pint": {
+    "context": "pint unit",
+    "string": "pint"
   },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_product": {
     "context": "product attribute entity type",
@@ -821,9 +1009,37 @@
     "context": "references attribute type",
     "string": "References"
   },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_selectUnit": {
+    "context": "check to require numeric attribute unit",
+    "string": "Select unit"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_text": {
+    "context": "text attribute type",
+    "string": "Text"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_unit": {
+    "context": "numeric attribute unit",
+    "string": "Unit"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_unitOf": {
+    "context": "numeric attribute units of",
+    "string": "Units of"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_unitSystem": {
+    "context": "numeric attribute unit system",
+    "string": "System"
+  },
   "src_dot_attributes_dot_components_dot_AttributeDetails_dot_valueRequired": {
     "context": "check to require attribute to have value",
     "string": "Value Required"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_volume": {
+    "context": "volume units types",
+    "string": "Volume"
+  },
+  "src_dot_attributes_dot_components_dot_AttributeDetails_dot_weight": {
+    "context": "weight units type",
+    "string": "Weight"
   },
   "src_dot_attributes_dot_components_dot_AttributeListPage_dot_2417065806": {
     "context": "tab name",
@@ -1012,12 +1228,23 @@
   "src_dot_auth_dot_components_dot_LoginPage_dot_2237029987": {
     "string": "Password"
   },
+  "src_dot_auth_dot_components_dot_LoginPage_dot_2981302356": {
+    "context": "link",
+    "string": "Use this link to recover it"
+  },
   "src_dot_auth_dot_components_dot_LoginPage_dot_3476994590": {
     "string": "Sorry, your username and/or password are incorrect. Please try again."
   },
-  "src_dot_auth_dot_components_dot_LoginPage_dot_4028609483": {
-    "context": "button",
-    "string": "Reset your password"
+  "src_dot_auth_dot_components_dot_LoginPage_dot_3762459576": {
+    "context": "description",
+    "string": "or login using"
+  },
+  "src_dot_auth_dot_components_dot_LoginPage_dot_534894384": {
+    "string": "Sorry, login went wrong. Please try again."
+  },
+  "src_dot_auth_dot_components_dot_LoginPage_dot_599516345": {
+    "context": "description",
+    "string": "Forgot password? {resetPasswordLink}"
   },
   "src_dot_auth_dot_components_dot_NewPasswordPage_dot_1254879564": {
     "string": "New Password"
@@ -1228,6 +1455,22 @@
     "context": "channels section name",
     "string": "Channels"
   },
+  "src_dot_channels_dot_ChannelsWithVariantsAvailabilityCard_dot_allVariantsLabel": {
+    "context": "all variants label",
+    "string": "All variants"
+  },
+  "src_dot_channels_dot_ChannelsWithVariantsAvailabilityCard_dot_variantCountLabel": {
+    "context": "variants count label",
+    "string": "{variantsCount} variants"
+  },
+  "src_dot_channels_dot_components_dot_CannotDefineChannelsAvailabilityCard_dot_subtitle": {
+    "context": "CannotDefineChannelsAvailabilityCard subtitle",
+    "string": "You will be able to define availability of product after creating variants."
+  },
+  "src_dot_channels_dot_components_dot_CannotDefineChannelsAvailabilityCard_dot_title": {
+    "context": "CannotDefineChannelsAvailabilityCard title",
+    "string": "Availability"
+  },
   "src_dot_channels_dot_components_dot_ChannelDeleteDialog_dot_deleteChannel": {
     "context": "dialog header",
     "string": "Delete Channel"
@@ -1308,6 +1551,30 @@
     "context": "activate",
     "string": "Activate"
   },
+  "src_dot_channels_dot_components_dot_ChannelsWithVariantsAvailabilityDialog_dot_title": {
+    "context": "channels variants availability dialog title",
+    "string": "Manage Channels"
+  },
+  "src_dot_channels_dot_components_dot_ChannelsWithVariantsAvailabilityDialog_dot_variantsSelectedLabel": {
+    "context": "variants selected label",
+    "string": "{variantsAmount} variants selected"
+  },
+  "src_dot_channels_dot_components_dot_ShippingZonesCard_dot_addZoneTitle": {
+    "context": "add shipping zone title",
+    "string": "Add Shipping Zones"
+  },
+  "src_dot_channels_dot_components_dot_ShippingZonesCard_dot_subtitle": {
+    "context": "card subtitle",
+    "string": "Select Shipping Zones that will be supplied via this channel. You can assign Shipping Zones to multiple channels."
+  },
+  "src_dot_channels_dot_components_dot_ShippingZonesCard_dot_title": {
+    "context": "title",
+    "string": "{zonesCount} Shipping Zones"
+  },
+  "src_dot_channels_dot_pages_dot_ChannelsListPage_dot_2754800034": {
+    "context": "alert",
+    "string": "Channel limit reached"
+  },
   "src_dot_channels_dot_pages_dot_ChannelsListPage_dot_3511613983": {
     "context": "channel name",
     "string": "Channel Name"
@@ -1322,6 +1589,9 @@
   "src_dot_channels_dot_pages_dot_ChannelsListPage_dot_4224047662": {
     "context": "button",
     "string": "Create Channel"
+  },
+  "src_dot_channels_dot_pages_dot_ChannelsListPage_dot_85767761": {
+    "string": "You have reached your channel limit, you will be no longer able to add channels to your store. If you would like to up your limit, contact your administration staff about raising your limits."
   },
   "src_dot_channels_dot_views_dot_ChannelCreate_dot_2071399707": {
     "context": "currency code select",
@@ -1630,7 +1900,7 @@
     "context": "attributes, section header",
     "string": "Attributes"
   },
-  "src_dot_components_dot_Attributes_dot_multipleValueLable": {
+  "src_dot_components_dot_Attributes_dot_multipleValueLabel": {
     "context": "attribute values",
     "string": "Values"
   },
@@ -1641,45 +1911,42 @@
   "src_dot_components_dot_AutocompleteSelectMenu_dot_2332404293": {
     "string": "No results"
   },
-  "src_dot_components_dot_AvailabilityCard_dot_1306298759": {
-    "context": "product availability",
-    "string": "Available for purchase"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_2162667201": {
-    "context": "channel publication date",
-    "string": "Visible since {date}"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_2232321263": {
-    "context": "product publication date label",
-    "string": "will become published on {date}"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_2938074852": {
-    "context": "product available for purchase date",
-    "string": "will become available on {date}"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_3285520461": {
-    "context": "channel publication date",
-    "string": "Will become available on {date}"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_570524410": {
-    "context": "product availability date label",
-    "string": "Set availability date"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_643174786": {
-    "context": "channel publication status",
-    "string": "Visible"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_77815154": {
-    "context": "channel publication status",
-    "string": "Hidden"
-  },
-  "src_dot_components_dot_AvailabilityCard_dot_825317195": {
-    "context": "product unavailability",
-    "string": "Unavailable for purchase"
-  },
   "src_dot_components_dot_BulkAttributeUnassignDialog_dot_3177750460": {
     "context": "unassign multiple attributes from item",
     "string": "{counter,plural,one{Are you sure you want to unassign this attribute from {itemTypeName}?} other{Are you sure you want to unassign {attributeQuantity} attributes from {itemTypeName}?}}"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_3326160357": {
+    "context": "section header",
+    "string": "Availability"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_370220662": {
+    "context": "channels availability text",
+    "string": "Available at {selectedChannelsCount} out of {allChannelsCount, plural, one {# channel} other {# channels}}"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_4037103586": {
+    "context": "section header button",
+    "string": "Manage"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_Channel_dot_1311467573": {
+    "string": "Show in product listings"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_Channel_dot_1815688500": {
+    "context": "date",
+    "string": "since {date}"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_Channel_dot_2060790769": {
+    "context": "publish on date",
+    "string": "Publish on"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_Channel_dot_2264302389": {
+    "string": "Disabling this checkbox will remove product from search and category pages. It will be available on collection pages."
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_Channel_dot_2699516026": {
+    "context": "available on date",
+    "string": "Set available on"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityCard_dot_Channel_dot_292404896": {
+    "string": "Set publication date"
   },
   "src_dot_components_dot_ChannelsAvailabilityContent_dot_1528830621": {
     "string": "Select channels you want for {contentType} to be available on"
@@ -1695,6 +1962,25 @@
   },
   "src_dot_components_dot_ChannelsAvailabilityContent_dot_4243012684": {
     "string": "Search through channels"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityDialogWrapper_dot_4243012684": {
+    "string": "Search through channels"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityDialogWrapper_dot_channelsAlphabeticallyTitle": {
+    "context": "channels alphabetically title",
+    "string": "Channels from A to Z"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityDialogWrapper_dot_notFoundTitle": {
+    "context": "no channels found title",
+    "string": "No Channels Found"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityDialogWrapper_dot_selectAllChannelsLabel": {
+    "context": "select all channels label",
+    "string": "Select All Channels"
+  },
+  "src_dot_components_dot_ChannelsAvailabilityDialogWrapper_dot_selectTitle": {
+    "context": "select title",
+    "string": "Select channels you want for {contentType} to be available on"
   },
   "src_dot_components_dot_ChannelsAvailabilityDropdown_dot_1043589445": {
     "context": "product channel publication status",
@@ -1715,39 +2001,6 @@
   "src_dot_components_dot_ChannelsAvailabilityDropdown_dot_802058289": {
     "context": "product status",
     "string": "Available in {count} out of {allCount, plural, one {# channel} other {# channels}}"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_1311467573": {
-    "string": "Show in product listings"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_1815688500": {
-    "context": "date",
-    "string": "since {date}"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_2060790769": {
-    "context": "publish on date",
-    "string": "Publish on"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_2264302389": {
-    "string": "Disabling this checkbox will remove product from search and category pages. It will be available on collection pages."
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_2699516026": {
-    "context": "available on date",
-    "string": "Set available on"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_292404896": {
-    "string": "Set publication date"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_3326160357": {
-    "context": "section header",
-    "string": "Availability"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_370220662": {
-    "context": "channels availability text",
-    "string": "Available at {selectedChannelsCount} out of {allChannelsCount, plural, one {# channel} other {# channels}}"
-  },
-  "src_dot_components_dot_ChannelsAvailability_dot_4037103586": {
-    "context": "section header button",
-    "string": "Manage"
   },
   "src_dot_components_dot_ColumnPicker_dot_1483881697": {
     "context": "button",
@@ -1824,10 +2077,6 @@
   "src_dot_components_dot_ErrorPage_dot_3182212440": {
     "string": "We've encountered a problem..."
   },
-  "src_dot_components_dot_FileUpload_dot_3050254265": {
-    "context": "upload file, button",
-    "string": "Upload"
-  },
   "src_dot_components_dot_FilterBar_dot_2173195312": {
     "context": "button",
     "string": "Delete Search"
@@ -1846,23 +2095,19 @@
     "context": "search",
     "string": "No results"
   },
-  "src_dot_components_dot_Filter_dot_2683154806": {
-    "context": "is filter range or value",
-    "string": "equal to"
-  },
-  "src_dot_components_dot_Filter_dot_2779594451": {
-    "context": "filter range separator",
-    "string": "and"
-  },
   "src_dot_components_dot_Filter_dot_4190318230": {
     "context": "search results",
     "string": "Show more"
   },
-  "src_dot_components_dot_Filter_dot_773313536": {
-    "context": "is filter range or value",
-    "string": "between"
-  },
   "src_dot_components_dot_Filter_dot_996289613": {
+    "context": "button",
+    "string": "Filters"
+  },
+  "src_dot_components_dot_Filter_dot_FilterContent_dot_2779594451": {
+    "context": "filter range separator",
+    "string": "and"
+  },
+  "src_dot_components_dot_Filter_dot_FilterContent_dot_996289613": {
     "string": "Filters"
   },
   "src_dot_components_dot_ImageUpload_dot_1731007575": {
@@ -2138,6 +2383,18 @@
   "src_dot_components_dot_SingleSelectField_dot_4205644805": {
     "string": "No results found"
   },
+  "src_dot_components_dot_StatusLabel_dot_active": {
+    "context": "status label active",
+    "string": "Active"
+  },
+  "src_dot_components_dot_StatusLabel_dot_deactivated": {
+    "context": "status label deactivated",
+    "string": "Deactivated"
+  },
+  "src_dot_components_dot_StatusLabel_dot_inactive": {
+    "context": "status label inactive",
+    "string": "Inactive"
+  },
   "src_dot_components_dot_TableHead_dot_868570480": {
     "string": "Selected {number} items"
   },
@@ -2262,6 +2519,22 @@
   "src_dot_containers_dot_BackgroundTasks_dot_invoiceGenerationFailedTitle": {
     "context": "dialog header, title",
     "string": "Invoice Generation"
+  },
+  "src_dot_containers_dot_ServiceWorker_dot_newVersionContent": {
+    "context": "new version notification content",
+    "string": "You need to update Saleor to the newest version. Before doing so - save all changes to prevent loss of data. To update use the button below."
+  },
+  "src_dot_containers_dot_ServiceWorker_dot_newVersionTitle": {
+    "context": "notification title",
+    "string": "System update required"
+  },
+  "src_dot_containers_dot_ServiceWorker_dot_refresh": {
+    "context": "button",
+    "string": "Refresh"
+  },
+  "src_dot_continue": {
+    "context": "button",
+    "string": "Continue"
   },
   "src_dot_create": {
     "context": "button",
@@ -2746,20 +3019,25 @@
     "context": "voucher code, button",
     "string": "Generate Code"
   },
-  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_2215544659": {
-    "string": "Limit number of times this discount can be used in total"
-  },
-  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_3459612469": {
+  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_applyOncePerCustomer": {
     "context": "limit voucher",
     "string": "Limit to one use per customer"
   },
-  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_3751756157": {
+  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_hasUsageLimit": {
+    "context": "limit voucher",
+    "string": "Limit number of times this discount can be used in total"
+  },
+  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_onlyForStaff": {
+    "context": "limit voucher",
+    "string": "Limit to staff only"
+  },
+  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_usageLimit": {
+    "context": "limit voucher",
+    "string": "Limit of Uses"
+  },
+  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_usageLimitsTitle": {
     "context": "voucher usage limit, header",
     "string": "Usage Limit"
-  },
-  "src_dot_discounts_dot_components_dot_VoucherLimits_dot_557552777": {
-    "context": "voucher",
-    "string": "Limit of Uses"
   },
   "src_dot_discounts_dot_components_dot_VoucherListPage_dot_1112241061": {
     "context": "tab name",
@@ -3117,6 +3395,9 @@
   "src_dot_lastName": {
     "string": "Last Name"
   },
+  "src_dot_limitReached": {
+    "string": "Reached limit for this plan"
+  },
   "src_dot_manage": {
     "context": "button",
     "string": "Manage"
@@ -3177,6 +3458,54 @@
     "context": "section header",
     "string": "Sales channel"
   },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_billingAddressDescription": {
+    "context": "dialog content",
+    "string": "Add a new address:"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_billingSameAsShipping": {
+    "context": "checkbox label",
+    "string": "Billing address same as shipping address"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_customerAddress": {
+    "context": "address type",
+    "string": "Use one of customer addresses"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_customerBillingAddressDescription": {
+    "context": "dialog content",
+    "string": "Select one of customer addresses or add a new address:"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_customerShippingAddressDescription": {
+    "context": "dialog content",
+    "string": "Which address would you like to use as shipping address for selected customer:"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_newAddress": {
+    "context": "address type",
+    "string": "Add new address"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_shippingAddressDescription": {
+    "context": "dialog content",
+    "string": "This customer doesn’t have any shipping addresses. Provide address for order:"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerAddressesEditDialog_dot_title": {
+    "context": "dialog header",
+    "string": "Shipping address for order"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerChangeDialog_dot_changeAddress": {
+    "context": "option label",
+    "string": "Change address"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerChangeDialog_dot_description": {
+    "context": "dialog description",
+    "string": "You have changed customer assigned to this order. What would you like to do with the shipping address?"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerChangeDialog_dot_keepAddress": {
+    "context": "option label",
+    "string": "Keep address"
+  },
+  "src_dot_orders_dot_components_dot_OrderCustomerChangeDialog_dot_title": {
+    "context": "dialog header",
+    "string": "Changed Customer"
+  },
   "src_dot_orders_dot_components_dot_OrderCustomerNote_dot_1505053535": {
     "string": "No notes from customer"
   },
@@ -3224,6 +3553,38 @@
     "context": "return button",
     "string": "Return / Replace order"
   },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_buttonLabel": {
+    "context": "add button label",
+    "string": "Add"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_discountReasonLabel": {
+    "context": "discount reason input lavel",
+    "string": "Reason"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_discountValueLabel": {
+    "context": "value input label",
+    "string": "Discount value"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_fixedAmountOption": {
+    "context": "fixed amount",
+    "string": "Fixed Amount"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_invalidValue": {
+    "context": "value input helper text",
+    "string": "Invalid value"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_itemDiscountTitle": {
+    "context": "dialog title item discount",
+    "string": "Discount Item"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_orderDiscountTitle": {
+    "context": "dialog title order discount",
+    "string": "Discount this Order by:"
+  },
+  "src_dot_orders_dot_components_dot_OrderDiscountCommonModal_dot_percentageOption": {
+    "context": "percentage option",
+    "string": "Percentage"
+  },
   "src_dot_orders_dot_components_dot_OrderDraftCancelDialog_dot_1961675716": {
     "context": "dialog header",
     "string": "Delete Daft Order"
@@ -3249,22 +3610,36 @@
     "context": "total price of ordered products",
     "string": "Total"
   },
-  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_2429341469": {
-    "context": "button",
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_addCustomerInfo": {
+    "context": "add customer first label",
+    "string": "add customer first"
+  },
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_addDiscount": {
+    "context": "add discount button",
+    "string": "Add Discount"
+  },
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_addShippingCarrier": {
+    "context": "add shipping carrier button",
     "string": "Add shipping carrier"
   },
-  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_3202709354": {
-    "string": "Taxes (VAT included)"
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_discount": {
+    "context": "discount button",
+    "string": "Discount"
   },
-  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_3594442178": {
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_noShippingCarriers": {
+    "context": "no shipping carriers title",
     "string": "No applicable shipping carriers"
   },
-  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_781550514": {
-    "context": "subtotal price or an order",
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_subtotal": {
+    "context": "subtotal price",
     "string": "Subtotal"
   },
-  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_878013594": {
-    "context": "total price of an order",
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_taxes": {
+    "context": "taxes title",
+    "string": "Taxes (VAT included)"
+  },
+  "src_dot_orders_dot_components_dot_OrderDraftDetailsSummary_dot_total": {
+    "context": "total price",
     "string": "Total"
   },
   "src_dot_orders_dot_components_dot_OrderDraftDetails_dot_2343989342": {
@@ -3466,6 +3841,10 @@
     "context": "order history message",
     "string": "Note was added to the order"
   },
+  "src_dot_orders_dot_components_dot_OrderHistory_dot_2308853031": {
+    "context": "order history message",
+    "string": "Order placed information was sent to customer"
+  },
   "src_dot_orders_dot_components_dot_OrderHistory_dot_2369495522": {
     "context": "order history message",
     "string": "Order confirmation was sent to customer"
@@ -3477,6 +3856,10 @@
   "src_dot_orders_dot_components_dot_OrderHistory_dot_2566971846": {
     "context": "order history message",
     "string": "Payment was voided"
+  },
+  "src_dot_orders_dot_components_dot_OrderHistory_dot_2607524598": {
+    "context": "order history message",
+    "string": "Products were deleted from an order"
   },
   "src_dot_orders_dot_components_dot_OrderHistory_dot_2655541129": {
     "context": "order history message",
@@ -3510,13 +3893,13 @@
     "context": "order history message",
     "string": "Payment was refunded"
   },
-  "src_dot_orders_dot_components_dot_OrderHistory_dot_3506022286": {
-    "context": "order history message",
-    "string": "Products were added to draft order"
-  },
   "src_dot_orders_dot_components_dot_OrderHistory_dot_3731274949": {
     "context": "order history message",
     "string": "Order was refunded by {refundedBy}"
+  },
+  "src_dot_orders_dot_components_dot_OrderHistory_dot_3796744261": {
+    "context": "order history message",
+    "string": "Products were added to an order"
   },
   "src_dot_orders_dot_components_dot_OrderHistory_dot_393045022": {
     "context": "order history message",
@@ -3528,10 +3911,6 @@
   "src_dot_orders_dot_components_dot_OrderHistory_dot_4015160303": {
     "context": "order history message",
     "string": "Oversold {quantity} items"
-  },
-  "src_dot_orders_dot_components_dot_OrderHistory_dot_4067959693": {
-    "context": "order history message",
-    "string": "Products were deleted from draft order"
   },
   "src_dot_orders_dot_components_dot_OrderHistory_dot_4121987561": {
     "context": "order history message",
@@ -3565,6 +3944,10 @@
     "context": "order history message",
     "string": "Order was cancelled"
   },
+  "src_dot_orders_dot_components_dot_OrderHistory_dot_ExtendedDiscountTimelineEvent_dot_reasonLabel": {
+    "context": "reason for discount label",
+    "string": "Reason for discount"
+  },
   "src_dot_orders_dot_components_dot_OrderHistory_dot_description": {
     "context": "replacement created order history message description",
     "string": "was created for replaced products"
@@ -3572,6 +3955,14 @@
   "src_dot_orders_dot_components_dot_OrderHistory_dot_draftNumber": {
     "context": "replacement created order history message draft number",
     "string": "Draft #{orderNumber} "
+  },
+  "src_dot_orders_dot_components_dot_OrderHistory_dot_orderDiscountRemoved": {
+    "context": "order discount removed title",
+    "string": "Order discount was removed by "
+  },
+  "src_dot_orders_dot_components_dot_OrderHistory_dot_productDiscountRemoved": {
+    "context": "product discount removed title",
+    "string": "{productName} discount was removed by"
   },
   "src_dot_orders_dot_components_dot_OrderInvoiceEmailSendDialog_dot_1821123638": {
     "string": "Are you sure you want to send this invoice: {invoiceNumber} to the customer?"
@@ -3599,6 +3990,10 @@
     "context": "generate invoice button",
     "string": "Generate"
   },
+  "src_dot_orders_dot_components_dot_OrderListPage_dot_2214147779": {
+    "context": "alert",
+    "string": "Order limit reached"
+  },
   "src_dot_orders_dot_components_dot_OrderListPage_dot_2225897825": {
     "context": "button",
     "string": "Order Settings"
@@ -3609,6 +4004,9 @@
   },
   "src_dot_orders_dot_components_dot_OrderListPage_dot_355376157": {
     "string": "Search Orders..."
+  },
+  "src_dot_orders_dot_components_dot_OrderListPage_dot_3769643084": {
+    "string": "You have reached your order limit, you will be billed extra for orders above limit. If you would like to up your limit, contact your administration staff about raising your limits."
   },
   "src_dot_orders_dot_components_dot_OrderListPage_dot_875489544": {
     "context": "tab name",
@@ -3692,6 +4090,10 @@
     "context": "vat included in order price",
     "string": "VAT included"
   },
+  "src_dot_orders_dot_components_dot_OrderPayment_dot_1934027242": {
+    "context": "voucher type order discount",
+    "string": "Voucher"
+  },
   "src_dot_orders_dot_components_dot_OrderPayment_dot_2183023165": {
     "context": "ordered products",
     "string": "{quantity} items"
@@ -3699,6 +4101,10 @@
   "src_dot_orders_dot_components_dot_OrderPayment_dot_2320183694": {
     "context": "order payment",
     "string": "Captured amount"
+  },
+  "src_dot_orders_dot_components_dot_OrderPayment_dot_2392156856": {
+    "context": "staff added type order discount",
+    "string": "Staff added"
   },
   "src_dot_orders_dot_components_dot_OrderPayment_dot_2444197639": {
     "context": "void payment, button",
@@ -3753,8 +4159,8 @@
   "src_dot_orders_dot_components_dot_OrderProductAddDialog_dot_2850255786": {
     "string": "Search Products"
   },
-  "src_dot_orders_dot_components_dot_OrderProductAddDialog_dot_353369701": {
-    "string": "No products matching given query"
+  "src_dot_orders_dot_components_dot_OrderProductAddDialog_dot_3284796469": {
+    "string": "No products available in order channel matching given query"
   },
   "src_dot_orders_dot_components_dot_OrderProductsCardElements_dot_1134347598": {
     "context": "product price",
@@ -3775,6 +4181,10 @@
   "src_dot_orders_dot_components_dot_OrderProductsCardElements_dot_878013594": {
     "context": "order line total price",
     "string": "Total"
+  },
+  "src_dot_orders_dot_components_dot_OrderRefundFulfilledProducts_dot_1097582574": {
+    "context": "section header returned",
+    "string": "Fulfillment returned"
   },
   "src_dot_orders_dot_components_dot_OrderRefundFulfilledProducts_dot_1134347598": {
     "context": "tabel column header",
@@ -3838,6 +4248,10 @@
   "src_dot_orders_dot_components_dot_OrderRefundReturnAmount_dot_553737700": {
     "context": "checkbox",
     "string": "Refund shipment costs"
+  },
+  "src_dot_orders_dot_components_dot_OrderRefundReturnAmount_dot_982301568": {
+    "context": "label",
+    "string": "No refund"
   },
   "src_dot_orders_dot_components_dot_OrderRefundReturnAmount_dot_amountTooBig": {
     "context": "Amount error message",
@@ -4091,19 +4505,23 @@
   "src_dot_orders_dot_views_dot_OrderDetails_dot_55607988": {
     "string": "Invoice is Generating"
   },
-  "src_dot_orders_dot_views_dot_OrderDetails_dot_580490159": {
-    "context": "window title",
-    "string": "Order #{orderNumber}"
-  },
   "src_dot_orders_dot_views_dot_OrderDetails_dot_617145655": {
     "string": "Shipping method successfully updated"
   },
-  "src_dot_orders_dot_views_dot_OrderDetails_dot_694622335": {
+  "src_dot_orders_dot_views_dot_OrderDetails_dot_927945225": {
+    "string": "Fulfillment successfully cancelled"
+  },
+  "src_dot_orders_dot_views_dot_OrderDetails_dot_OrderDraftDetails_dot_694622335": {
     "context": "window title",
     "string": "Draft Order #{orderNumber}"
   },
-  "src_dot_orders_dot_views_dot_OrderDetails_dot_927945225": {
-    "string": "Fulfillment successfully cancelled"
+  "src_dot_orders_dot_views_dot_OrderDetails_dot_OrderNormalDetails_dot_580490159": {
+    "context": "window title",
+    "string": "Order #{orderNumber}"
+  },
+  "src_dot_orders_dot_views_dot_OrderDetails_dot_OrderUnconfirmedDetails_dot_580490159": {
+    "context": "window title",
+    "string": "Order #{orderNumber}"
   },
   "src_dot_orders_dot_views_dot_OrderDraftList_dot_1161115149": {
     "context": "dialog header",
@@ -4195,18 +4613,6 @@
     "context": "header",
     "string": "Create Page Type"
   },
-  "src_dot_pageTypes_dot_components_dot_PageTypeDeleteDialog_dot_2364900868": {
-    "context": "delete page type with its pages",
-    "string": "Page Type you want to delete is used by some pages. Deleting this page type will also delete those pages. Are you sure you want to delete {name}? After doing so you won’t be able to revert changes."
-  },
-  "src_dot_pageTypes_dot_components_dot_PageTypeDeleteDialog_dot_3120835055": {
-    "context": "dialog header",
-    "string": "Delete Page Type"
-  },
-  "src_dot_pageTypes_dot_components_dot_PageTypeDeleteDialog_dot_3734861990": {
-    "context": "delete page type",
-    "string": "Are you sure you want to delete {name}? After doing so you won’t be able to revert changes."
-  },
   "src_dot_pageTypes_dot_components_dot_PageTypeDetailsPage_dot_1105469372": {
     "string": "These are general information about this Content Type."
   },
@@ -4241,6 +4647,14 @@
   },
   "src_dot_pageTypes_dot_components_dot_PageTypeList_dot_2965257236": {
     "string": "No page types found"
+  },
+  "src_dot_pageTypes_dot_hooks_dot_usePageTypeDelete_dot_title": {
+    "context": "PageTypeDeleteWarningDialog title",
+    "string": "Delete page {selectedTypesCount,plural,one{type} other{types}}"
+  },
+  "src_dot_pageTypes_dot_hooks_dot_usePageTypeDelete_dot_viewAssignedItemsButtonLabel": {
+    "context": "PageTypeDeleteWarningDialog single assigned items button label",
+    "string": "View pages"
   },
   "src_dot_pageTypes_dot_views_dot_2634056946": {
     "context": "dialog header",
@@ -4550,6 +4964,10 @@
     "context": "section header",
     "string": "Authorization"
   },
+  "src_dot_plugins_dot_components_dot_PluginDetailsChannelsCard_dot_noChannelsSubtitle": {
+    "context": "PluginDetailsChannelsCard no channels subtitle",
+    "string": "Plugin’s settings are set common across all channels"
+  },
   "src_dot_plugins_dot_components_dot_PluginInfo_dot_1049131348": {
     "context": "plugin name",
     "string": "Plugin Name"
@@ -4577,20 +4995,9 @@
     "context": "section header",
     "string": "Plugin Settings"
   },
-  "src_dot_plugins_dot_components_dot_PluginsDetailsPage_dot_1970881031": {
-    "context": "section header",
-    "string": "Plugin Settings"
-  },
   "src_dot_plugins_dot_components_dot_PluginsDetailsPage_dot_3352026836": {
     "context": "header",
     "string": "{pluginName} Details"
-  },
-  "src_dot_plugins_dot_components_dot_PluginsDetailsPage_dot_3425535100": {
-    "context": "section header",
-    "string": "Plugin Information and Status"
-  },
-  "src_dot_plugins_dot_components_dot_PluginsDetailsPage_dot_3799756739": {
-    "string": "These are general information about your store. They define what is the URL of your store and what is shown in browsers taskbar."
   },
   "src_dot_plugins_dot_components_dot_PluginsListPage_dot_3233248823": {
     "string": "Search Plugins..."
@@ -4600,27 +5007,55 @@
     "string": "All Plugins"
   },
   "src_dot_plugins_dot_components_dot_PluginsListPage_dot_active": {
-    "context": "plugin",
-    "string": "Active"
+    "context": "plugin filters error messages active",
+    "string": "Active is not selected"
   },
-  "src_dot_plugins_dot_components_dot_PluginsListPage_dot_deactivated": {
-    "context": "plugin",
-    "string": "Inactive"
+  "src_dot_plugins_dot_components_dot_PluginsListPage_dot_channelStatusSectionSubtitle": {
+    "context": "status section subtitle",
+    "string": "Channel status"
   },
-  "src_dot_plugins_dot_components_dot_PluginsList_dot_3247064221": {
-    "context": "plugin status",
-    "string": "Active"
+  "src_dot_plugins_dot_components_dot_PluginsListPage_dot_channelStatusSectionTitle": {
+    "context": "status section title",
+    "string": "Status in channel"
   },
-  "src_dot_plugins_dot_components_dot_PluginsList_dot_4120604650": {
-    "context": "user action bar",
-    "string": "Action"
+  "src_dot_plugins_dot_components_dot_PluginsListPage_dot_channels": {
+    "context": "plugin filters error messages channels",
+    "string": "No channels selected"
   },
-  "src_dot_plugins_dot_components_dot_PluginsList_dot_636461959": {
-    "context": "plugin name",
-    "string": "Name"
+  "src_dot_plugins_dot_components_dot_PluginsListPage_dot_configTypeSectionTitle": {
+    "context": "config type section title",
+    "string": "Configuration Type"
   },
   "src_dot_plugins_dot_components_dot_PluginsList_dot_666641390": {
     "string": "No plugins found"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_channelLabel": {
+    "context": "table header channel col label",
+    "string": "Channel"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_channelTitle": {
+    "context": "plugin channel availability status title",
+    "string": "Active in {activeChannelsCount}"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_confLabel": {
+    "context": "table header configuration col label",
+    "string": "Configuration"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_description": {
+    "context": "global config plugin status popup description",
+    "string": "Global plugins are set across all channels in your ecommerce. Only status is shown for those types of plugins"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_globalLabel": {
+    "context": "PluginChannelConfigurationCell global title",
+    "string": "Global"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_nameLabel": {
+    "context": "table header name col label",
+    "string": "Name"
+  },
+  "src_dot_plugins_dot_components_dot_PluginsList_dot_title": {
+    "context": "channel config plugin status popup title",
+    "string": "Assigned to {activeChannelsCount} of {allChannelsCount} channels"
   },
   "src_dot_plugins_dot_views_dot_1096544448": {
     "context": "header",
@@ -4654,14 +5089,6 @@
   "src_dot_productTypes_dot_components_dot_ProductTypeAttributes_dot_888493112": {
     "context": "section header",
     "string": "Variant Attributes"
-  },
-  "src_dot_productTypes_dot_components_dot_ProductTypeDeleteDialog_dot_2297471173": {
-    "context": "delete product type",
-    "string": "Are you sure you want to delete {name}?"
-  },
-  "src_dot_productTypes_dot_components_dot_ProductTypeDeleteDialog_dot_924066985": {
-    "context": "dialog header",
-    "string": "Delete Product Type"
   },
   "src_dot_productTypes_dot_components_dot_ProductTypeDetailsPage_dot_1217376589": {
     "context": "switch button",
@@ -4742,16 +5169,16 @@
   "src_dot_productTypes_dot_components_dot_ProductTypeShipping_dot_746695941": {
     "string": "Weight"
   },
+  "src_dot_productTypes_dot_hooks_dot_useProductTypeDelete_dot_title": {
+    "context": "ProductTypeDeleteWarningDialog title",
+    "string": "Delete product {selectedTypesCount,plural,one{type} other{types}}"
+  },
+  "src_dot_productTypes_dot_hooks_dot_useProductTypeDelete_dot_viewAssignedItemsButtonLabel": {
+    "context": "ProductTypeDeleteWarningDialog single assigned items button label",
+    "string": "View products"
+  },
   "src_dot_productTypes_dot_views_dot_3822478981": {
     "string": "Successfully created product type"
-  },
-  "src_dot_productTypes_dot_views_dot_ProductTypeList_dot_4080551769": {
-    "context": "dialog header",
-    "string": "Delete Product Types"
-  },
-  "src_dot_productTypes_dot_views_dot_ProductTypeList_dot_4269954457": {
-    "context": "dialog content",
-    "string": "{counter,plural,one{Are you sure you want to delete this product type?} other{Are you sure you want to delete {displayQuantity} product types?}}"
   },
   "src_dot_productTypes_dot_views_dot_ProductTypeUpdate_dot_3512959355": {
     "string": "Product type deleted"
@@ -4812,9 +5239,6 @@
   "src_dot_products_dot_components_dot_ProductExportDialog_dot_1547327218": {
     "context": "there are more elements of list that are hidden",
     "string": "and {number} more"
-  },
-  "src_dot_products_dot_components_dot_ProductExportDialog_dot_1583816707": {
-    "string": "Add all channels"
   },
   "src_dot_products_dot_components_dot_ProductExportDialog_dot_1890035856": {
     "context": "informations about product organization, header",
@@ -4898,29 +5322,13 @@
     "context": "informations about product prices etc, header",
     "string": "Financial Information"
   },
-  "src_dot_products_dot_components_dot_ProductImageNavigation_dot_3060635772": {
-    "context": "section header",
-    "string": "All Photos"
+  "src_dot_products_dot_components_dot_ProductExternalMediaDialog_dot_4146081479": {
+    "context": "modal header",
+    "string": "Media from the URL you supply will be shown in the media gallery. You will be able to define the order of the gallery."
   },
-  "src_dot_products_dot_components_dot_ProductImagePage_dot_1905082483": {
-    "context": "field is optional",
-    "string": "Optional"
-  },
-  "src_dot_products_dot_components_dot_ProductImagePage_dot_2546267317": {
-    "context": "header",
-    "string": "Edit Photo"
-  },
-  "src_dot_products_dot_components_dot_ProductImagePage_dot_367472710": {
-    "context": "section header",
-    "string": "Photo View"
-  },
-  "src_dot_products_dot_components_dot_ProductImagePage_dot_3822382625": {
-    "context": "section header",
-    "string": "Photo Information"
-  },
-  "src_dot_products_dot_components_dot_ProductImages_dot_3240888698": {
-    "context": "section header",
-    "string": "Images"
+  "src_dot_products_dot_components_dot_ProductExternalMediaDialog_dot_buttonMessage": {
+    "context": "modal button",
+    "string": "Upload URL"
   },
   "src_dot_products_dot_components_dot_ProductListPage_dot_1134347598": {
     "context": "product price",
@@ -4938,12 +5346,19 @@
     "context": "export products to csv file, button",
     "string": "Export Products"
   },
+  "src_dot_products_dot_components_dot_ProductListPage_dot_3024822321": {
+    "context": "alert",
+    "string": "SKU limit reached"
+  },
   "src_dot_products_dot_components_dot_ProductListPage_dot_3550330425": {
     "string": "Search Products..."
   },
   "src_dot_products_dot_components_dot_ProductListPage_dot_821159718": {
     "context": "tab name",
     "string": "All Products"
+  },
+  "src_dot_products_dot_components_dot_ProductListPage_dot_911702010": {
+    "string": "You have reached your SKU limit, you will be no longer able to add SKUs to your store. If you would like to up your limit, contact your administration staff about raising your limits."
   },
   "src_dot_products_dot_components_dot_ProductListPage_dot_available": {
     "context": "product status",
@@ -4998,6 +5413,42 @@
   "src_dot_products_dot_components_dot_ProductList_dot_636461959": {
     "context": "product",
     "string": "Name"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaNavigation_dot_allMedia": {
+    "context": "section header",
+    "string": "All Media"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaPage_dot_editMedia": {
+    "context": "header",
+    "string": "Edit Media"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaPage_dot_mediaInformation": {
+    "context": "section header",
+    "string": "Media Information"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaPage_dot_mediaView": {
+    "context": "section header",
+    "string": "Media View"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaPage_dot_optional": {
+    "context": "field is optional",
+    "string": "Optional"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaPopper_dot_uploadImages": {
+    "context": "modal button images upload",
+    "string": "Upload Images"
+  },
+  "src_dot_products_dot_components_dot_ProductMediaPopper_dot_uploadUrl": {
+    "context": "modal button url upload",
+    "string": "Upload URL"
+  },
+  "src_dot_products_dot_components_dot_ProductMedia_dot_media": {
+    "context": "section header",
+    "string": "Media"
+  },
+  "src_dot_products_dot_components_dot_ProductMedia_dot_upload": {
+    "context": "modal button upload",
+    "string": "Upload"
   },
   "src_dot_products_dot_components_dot_ProductOrganization_dot_150865454": {
     "context": "product is not configurable",
@@ -5089,6 +5540,10 @@
     "context": "button",
     "string": "Delete Variant"
   },
+  "src_dot_products_dot_components_dot_ProductVariantCreatePage_dot_pricingCardSubtitle": {
+    "context": "variant pricing section subtitle",
+    "string": "There is no channel to define prices for. You need to first add variant to channels to define prices."
+  },
   "src_dot_products_dot_components_dot_ProductVariantCreatePage_dot_saveVariant": {
     "context": "button",
     "string": "Save variant"
@@ -5099,6 +5554,9 @@
   },
   "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_1346828628": {
     "string": "Selected values will be used to create variants for the configurable product."
+  },
+  "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_1419085897": {
+    "string": "You choices will add {variantsNumber} SKUs to your catalog which will exceed your limit by {aboveLimitVariantsNumber}. If you would like to up your limit, contact your administration staff about raising your limits."
   },
   "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_168343345": {
     "context": "variant attribute",
@@ -5141,6 +5599,10 @@
   },
   "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_2877822536": {
     "string": "Skip pricing for now"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_3024822321": {
+    "context": "alert",
+    "string": "SKU limit reached"
   },
   "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_3387090508": {
     "string": "Apply unique stock by attribute to each SKU"
@@ -5190,6 +5652,10 @@
     "context": "variant name",
     "string": "Variant"
   },
+  "src_dot_products_dot_components_dot_ProductVariantCreatorPage_dot_multipleValueLabel": {
+    "context": "attribute values",
+    "string": "Values"
+  },
   "src_dot_products_dot_components_dot_ProductVariantDeleteDialog_dot_1583616500": {
     "context": "button",
     "string": "Delete variant"
@@ -5202,20 +5668,21 @@
     "context": "dialog header",
     "string": "Delete Variant"
   },
-  "src_dot_products_dot_components_dot_ProductVariantImageSelectDialog_dot_3196043669": {
+  "src_dot_products_dot_components_dot_ProductVariantImageSelectDialog_dot_2015102342": {
     "context": "dialog header",
-    "string": "Image Selection"
+    "string": "Media Selection"
   },
-  "src_dot_products_dot_components_dot_ProductVariantImages_dot_3240888698": {
-    "context": "section header",
-    "string": "Images"
-  },
-  "src_dot_products_dot_components_dot_ProductVariantImages_dot_3449133076": {
-    "string": "Select a specific variant image from product images"
-  },
-  "src_dot_products_dot_components_dot_ProductVariantImages_dot_989683980": {
+  "src_dot_products_dot_components_dot_ProductVariantMedia_dot_chooseMedia": {
     "context": "button",
-    "string": "Choose photos"
+    "string": "Choose media"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantMedia_dot_media": {
+    "context": "section header",
+    "string": "Media"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantMedia_dot_selectSpecificVariant": {
+    "context": "select variant media",
+    "string": "Select a specific variant media from product media"
   },
   "src_dot_products_dot_components_dot_ProductVariantNavigation_dot_1222345317": {
     "context": "default product variant indicator",
@@ -5233,6 +5700,18 @@
     "context": "variant name",
     "string": "New Variant"
   },
+  "src_dot_products_dot_components_dot_ProductVariantPage_dot_itemSubtitleHidden": {
+    "context": "VariantDetailsChannelsAvailabilityCard item subtitle hidden",
+    "string": "Hidden"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantPage_dot_itemSubtitlePublished": {
+    "context": "VariantDetailsChannelsAvailabilityCard item subtitle published",
+    "string": "Published since {publicationDate}"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantPage_dot_noItemsAvailable": {
+    "context": "VariantDetailsChannelsAvailabilityCard no items available",
+    "string": "This variant is not available at any of the channels"
+  },
   "src_dot_products_dot_components_dot_ProductVariantPage_dot_nonSelectionAttributes": {
     "context": "attributes, section header",
     "string": "Variant Attributes"
@@ -5240,6 +5719,14 @@
   "src_dot_products_dot_components_dot_ProductVariantPage_dot_selectionAttributesHeader": {
     "context": "attributes, section header",
     "string": "Variant Selection Attributes"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantPage_dot_subtitle": {
+    "context": "VariantDetailsChannelsAvailabilityCard subtitle",
+    "string": "Available in {publishedInChannelsCount} out of {availableChannelsCount}"
+  },
+  "src_dot_products_dot_components_dot_ProductVariantPage_dot_title": {
+    "context": "VariantDetailsChannelsAvailabilityCard title",
+    "string": "Availability"
   },
   "src_dot_products_dot_components_dot_ProductVariantPrice_dot_1099355007": {
     "context": "product pricing, section header",
@@ -5310,6 +5797,10 @@
   "src_dot_products_dot_components_dot_ProductVariants_dot_277989856": {
     "string": "Use variants for products that come in a variety of versions for example different sizes or colors"
   },
+  "src_dot_products_dot_components_dot_ProductVariants_dot_3024822321": {
+    "context": "alert",
+    "string": "SKU limit reached"
+  },
   "src_dot_products_dot_components_dot_ProductVariants_dot_3203451491": {
     "context": "filtering option",
     "string": "All Warehouses"
@@ -5328,6 +5819,9 @@
   },
   "src_dot_products_dot_components_dot_ProductVariants_dot_693960049": {
     "string": "SKU"
+  },
+  "src_dot_products_dot_components_dot_ProductVariants_dot_911702010": {
+    "string": "You have reached your SKU limit, you will be no longer able to add SKUs to your store. If you would like to up your limit, contact your administration staff about raising your limits."
   },
   "src_dot_products_dot_components_dot_ProductVariants_dot_998917294": {
     "context": "product variant name",
@@ -5380,27 +5874,27 @@
   "src_dot_products_dot_views_dot_ProductList_dot_44832327": {
     "string": "We are currently exporting your requested CSV. As soon as it is available it will be sent to your email address"
   },
-  "src_dot_products_dot_views_dot_ProductUpdate_dot_1177237881": {
-    "context": "dialog content",
-    "string": "{counter,plural,one{Are you sure you want to delete this variant?} other{Are you sure you want to delete {displayQuantity} variants?}}"
-  },
-  "src_dot_products_dot_views_dot_ProductUpdate_dot_1454532689": {
-    "context": "dialog header",
-    "string": "Delete Product Variants"
-  },
-  "src_dot_products_dot_views_dot_ProductUpdate_dot_2297471173": {
-    "context": "delete product",
-    "string": "Are you sure you want to delete {name}?"
-  },
   "src_dot_products_dot_views_dot_ProductUpdate_dot_3423943948": {
     "string": "Manage Products Channel Availability"
   },
   "src_dot_products_dot_views_dot_ProductUpdate_dot_4108890645": {
     "string": "Product removed"
   },
-  "src_dot_products_dot_views_dot_ProductUpdate_dot_879305849": {
-    "context": "dialog header",
+  "src_dot_products_dot_views_dot_ProductUpdate_dot_deleteProductDialogSubtitle": {
+    "context": "delete product dialog subtitle",
+    "string": "Are you sure you want to delete {name}?"
+  },
+  "src_dot_products_dot_views_dot_ProductUpdate_dot_deleteProductDialogTitle": {
+    "context": "delete product dialog title",
     "string": "Delete Product"
+  },
+  "src_dot_products_dot_views_dot_ProductUpdate_dot_deleteVariantDialogSubtitle": {
+    "context": "delete variant dialog subtitle",
+    "string": "{counter,plural,one{Are you sure you want to delete this variant?} other{Are you sure you want to delete {displayQuantity} variants?}}"
+  },
+  "src_dot_products_dot_views_dot_ProductUpdate_dot_deleteVariantDialogTitle": {
+    "context": "delete variant dialog title",
+    "string": "Delete Product Variants"
   },
   "src_dot_products_dot_views_dot_ProductVariantCreator_dot_2292700443": {
     "context": "success message",
@@ -5449,6 +5943,10 @@
   },
   "src_dot_savedChanges": {
     "string": "Saved changes"
+  },
+  "src_dot_select": {
+    "context": "select option, button",
+    "string": "Select"
   },
   "src_dot_selectAll": {
     "context": "select all options, button",
@@ -5568,6 +6066,10 @@
   "src_dot_shipping_dot_components_dot_ShippingMethodProducts_dot_4190792473": {
     "string": "Actions"
   },
+  "src_dot_shipping_dot_components_dot_ShippingRateInfo_dot_description": {
+    "context": "label",
+    "string": "Shipping Rate Description"
+  },
   "src_dot_shipping_dot_components_dot_ShippingRateInfo_dot_maxDays": {
     "context": "label",
     "string": "Max Delivery Time"
@@ -5579,13 +6081,6 @@
   "src_dot_shipping_dot_components_dot_ShippingRateInfo_dot_name": {
     "context": "label",
     "string": "Shipping rate name"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingRateZipCodeRangeRemoveDialog_dot_3640694505": {
-    "string": "Are you sure you want to remove this postal code rule?"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingRateZipCodeRangeRemoveDialog_dot_76039652": {
-    "context": "header",
-    "string": "Remove postal codes from Shipping Rate"
   },
   "src_dot_shipping_dot_components_dot_ShippingWeightUnitForm_dot_2863708228": {
     "string": "This unit will be used as default shipping weight"
@@ -5670,6 +6165,54 @@
     "context": "label",
     "string": "Shipping zone name"
   },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodeRangeDialog_dot_3070993206": {
+    "context": "range input label",
+    "string": "Postal codes (end)"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodeRangeDialog_dot_3099331554": {
+    "context": "add postal code range, button",
+    "string": "Add"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodeRangeDialog_dot_3419096551": {
+    "context": "range input label",
+    "string": "Postal codes (start)"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodeRangeDialog_dot_3668595137": {
+    "string": "Please provide range of postal codes you want to add to the include/exclude list."
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodeRangeDialog_dot_3849853790": {
+    "context": "dialog header",
+    "string": "Add postal codes"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_1301350004": {
+    "string": "This shipping rate has no postal codes assigned"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_1680649143": {
+    "context": "action",
+    "string": "Include postal codes"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_1779803917": {
+    "string": "Added postal codes will be excluded from using this delivery methods. If none are added all postal codes will be able to use that shipping rate"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_1909179974": {
+    "context": "button",
+    "string": "Add postal code range"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_2274108851": {
+    "context": "number of postal code ranges",
+    "string": "{number} postal code ranges"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_2965119249": {
+    "string": "Only added postal codes will be able to use this shipping rate"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_3782353530": {
+    "context": "postal codes, header",
+    "string": "Postal codes"
+  },
+  "src_dot_shipping_dot_components_dot_ShippingZonePostalCodes_dot_399764149": {
+    "context": "action",
+    "string": "Exclude postal codes"
+  },
   "src_dot_shipping_dot_components_dot_ShippingZoneRatesCreatePage_dot_1161979494": {
     "context": "page title",
     "string": "Price Rate Create"
@@ -5715,68 +6258,21 @@
     "context": "shipping method name",
     "string": "Name"
   },
-  "src_dot_shipping_dot_components_dot_ShippingZoneWarehouses_dot_1221560277": {
-    "context": "section header",
-    "string": "Warehouse"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneWarehouses_dot_2304484478": {
-    "context": "button",
+  "src_dot_shipping_dot_components_dot_ShippingZoneSettingsCard_dot_selectFieldAddText": {
+    "context": "WarehousesSection select field add text",
     "string": "Add New Warehouse"
   },
-  "src_dot_shipping_dot_components_dot_ShippingZoneWarehouses_dot_3852102652": {
-    "string": "Select warehouse from which you will ship products for this shipping zone. This warehouse address will also be used to calculate taxes."
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneWarehouses_dot_46197273": {
-    "context": "input placeholder",
+  "src_dot_shipping_dot_components_dot_ShippingZoneSettingsCard_dot_selectFieldPlaceholder": {
+    "context": "WarehousesSection select field placeholder",
     "string": "Select Warehouse"
   },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodeRangeDialog_dot_3070993206": {
-    "context": "range input label",
-    "string": "Postal codes (end)"
+  "src_dot_shipping_dot_components_dot_ShippingZoneSettingsCard_dot_subtitle": {
+    "context": "WarehousesSection subtitle",
+    "string": "Select warehouse from which you will ship products for this shipping zone. This warehouse address will also be used to calculate taxes."
   },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodeRangeDialog_dot_3099331554": {
-    "context": "add postal code range, button",
-    "string": "Add"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodeRangeDialog_dot_3419096551": {
-    "context": "range input label",
-    "string": "Postal codes (start)"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodeRangeDialog_dot_3668595137": {
-    "string": "Please provide range of postal codes you want to add to the include/exclude list."
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodeRangeDialog_dot_3849853790": {
-    "context": "dialog header",
-    "string": "Add postal codes"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_1301350004": {
-    "string": "This shipping rate has no postal codes assigned"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_1680649143": {
-    "context": "action",
-    "string": "Include postal codes"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_1779803917": {
-    "string": "Added postal codes will be excluded from using this delivery methods. If none are added all postal codes will be able to use that shipping rate"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_1909179974": {
-    "context": "button",
-    "string": "Add postal code range"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_2274108851": {
-    "context": "number of postal code ranges",
-    "string": "{number} postal code ranges"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_2965119249": {
-    "string": "Only added postal codes will be able to use this shipping rate"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_3782353530": {
-    "context": "postal codes, header",
-    "string": "Postal codes"
-  },
-  "src_dot_shipping_dot_components_dot_ShippingZoneZipCodes_dot_399764149": {
-    "context": "action",
-    "string": "Exclude postal codes"
+  "src_dot_shipping_dot_components_dot_ShippingZoneSettingsCard_dot_title": {
+    "context": "ShippingZoneSettingsCard title",
+    "string": "Settings"
   },
   "src_dot_shipping_dot_components_dot_ShippingZonesListPage_dot_1325966144": {
     "context": "header",
@@ -5837,10 +6333,6 @@
   "src_dot_shipping_dot_views_dot_PriceRatesUpdate_dot_3823295269": {
     "string": "Manage Channel Availability"
   },
-  "src_dot_shipping_dot_views_dot_PriceRatesUpdate_dot_4243341946": {
-    "context": "postal code range add error text",
-    "string": "Cannot add specified postal codes range."
-  },
   "src_dot_shipping_dot_views_dot_PriceRatesUpdate_dot_870815507": {
     "context": "unassign products from shipping method, button",
     "string": "Unassign"
@@ -5862,10 +6354,6 @@
   },
   "src_dot_shipping_dot_views_dot_WeightRatesUpdate_dot_3014453080": {
     "string": "Manage Channels Availability"
-  },
-  "src_dot_shipping_dot_views_dot_WeightRatesUpdate_dot_4243341946": {
-    "context": "postal code range add error text",
-    "string": "Cannot add specified postal codes range."
   },
   "src_dot_shipping_dot_views_dot_WeightRatesUpdate_dot_870815507": {
     "context": "unassign products from shipping method, button",
@@ -5898,32 +6386,6 @@
   "src_dot_siteSettings_dot_components_dot_SiteSettingsDetails_dot_529433178": {
     "string": "Store description is shown on taskbar after your store name"
   },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_1124962330": {
-    "string": "Mailing email address"
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_1672275992": {
-    "context": "email sender",
-    "string": "This will be visible as \"from\" name"
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_280712237": {
-    "context": "section header",
-    "string": "Mailing Configuration"
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_297689661": {
-    "string": "Configurate your email address from which all automatic emails will be sent to your customers."
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_3211348653": {
-    "string": "Customer password reset URL"
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_3447841451": {
-    "string": "This URL will be used as a main URL for password resets. It will be sent via email."
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_50742153": {
-    "string": "URL address"
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsMailing_dot_70179174": {
-    "string": "Mailing email sender"
-  },
   "src_dot_siteSettings_dot_components_dot_SiteSettingsPage_dot_1004240342": {
     "string": "This adress will be used to generate invoices and calculate shipping rates."
   },
@@ -5935,18 +6397,11 @@
     "context": "section header",
     "string": "Company Information"
   },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsPage_dot_280712237": {
-    "context": "section header",
-    "string": "Mailing Configuration"
-  },
   "src_dot_siteSettings_dot_components_dot_SiteSettingsPage_dot_3657173399": {
     "string": "Email adress you provide here will be used as a contact adress for your customers."
   },
   "src_dot_siteSettings_dot_components_dot_SiteSettingsPage_dot_3799756739": {
     "string": "These are general information about your store. They define what is the URL of your store and what is shown in browsers taskbar."
-  },
-  "src_dot_siteSettings_dot_components_dot_SiteSettingsPage_dot_866304242": {
-    "string": "This where you will find all of the settings determining your stores e-mails. You can determine main email address and some of the contents of your emails."
   },
   "src_dot_somethingWentWrong": {
     "string": "Saleor ran into an unexpected problem"
@@ -5978,6 +6433,13 @@
   "src_dot_staff_dot_components_dot_StaffListPage_dot_2852350932": {
     "context": "tab name",
     "string": "All Staff Members"
+  },
+  "src_dot_staff_dot_components_dot_StaffListPage_dot_378240223": {
+    "string": "You have reached your staff member limit, you will be no longer able to add staff members to your store. If you would like to up your limit, contact your administration staff about raising your limits."
+  },
+  "src_dot_staff_dot_components_dot_StaffListPage_dot_4002475974": {
+    "context": "alert",
+    "string": "Staff Member limit reached"
   },
   "src_dot_staff_dot_components_dot_StaffListPage_dot_61043583": {
     "string": "Search Staff Member"
@@ -6113,118 +6575,18 @@
   "src_dot_taxes_dot_components_dot_CountryList_dot_577035076": {
     "string": "Country Name"
   },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_1040021611": {
-    "context": "tax rate",
-    "string": "Accommodation"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_1260218997": {
-    "context": "tax rate",
-    "string": "Social housing"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_1323923780": {
-    "context": "tax rate",
-    "string": "Bikes"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_1451721797": {
-    "context": "tax rate",
-    "string": "Newspapers"
-  },
   "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_1755013298": {
     "string": "Category"
   },
   "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2022558114": {
     "string": "Tax Rate"
   },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2185495435": {
-    "context": "tax rate",
-    "string": "Admission to cultural events"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2201910191": {
-    "context": "tax rate",
-    "string": "Baby foodstuffs"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_231341634": {
-    "context": "tax rate",
-    "string": "Domestic services"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2332795012": {
-    "context": "tax rate",
-    "string": "Foodstuffs"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2394675125": {
-    "context": "tax rate",
-    "string": "Books"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2465450918": {
-    "context": "tax rate",
-    "string": "Agricultural supplies"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2482229874": {
-    "context": "tax rate",
-    "string": "Standard"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2553129615": {
-    "context": "tax rate",
-    "string": "Passenger transport"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2557534380": {
-    "context": "tax rate",
-    "string": "Admission to entertainment events"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2584490289": {
-    "context": "tax rate",
-    "string": "Children's clothing"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2616794607": {
-    "context": "tax rate",
-    "string": "Admission to sporting events"
-  },
   "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2737618795": {
     "context": "header",
     "string": "Tax Rates in {countryName}"
   },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_2948462144": {
-    "context": "tax rate",
-    "string": "Medical"
-  },
   "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_3066312070": {
     "string": "No reduced tax categories found"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_331632763": {
-    "context": "tax rate",
-    "string": "Hotels"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_331757068": {
-    "context": "tax rate",
-    "string": "E-books"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_3500730003": {
-    "context": "tax rate",
-    "string": "Domestic fuel"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_3525010870": {
-    "context": "tax rate",
-    "string": "Water"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_3911019760": {
-    "context": "tax rate",
-    "string": "Advertising"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_4199760668": {
-    "context": "tax rate",
-    "string": "Property renovations"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_752780599": {
-    "context": "tax rate",
-    "string": "Wine"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_776474251": {
-    "context": "tax rate",
-    "string": "Restaurants"
-  },
-  "src_dot_taxes_dot_components_dot_CountryTaxesPage_dot_815189256": {
-    "context": "tax rate",
-    "string": "Pharmaceuticals"
   },
   "src_dot_taxes_dot_components_dot_TaxConfiguration_dot_142803418": {
     "string": "All products prices are entered with tax included"
@@ -6374,9 +6736,17 @@
   "src_dot_translations_dot_components_dot_TranslationsProductTypesPage_dot_2642976392": {
     "string": "Attribute Name"
   },
+  "src_dot_translations_dot_components_dot_TranslationsProductTypesPage_dot_3495336243": {
+    "context": "attribute richtext value",
+    "string": "Text"
+  },
   "src_dot_translations_dot_components_dot_TranslationsProductTypesPage_dot_884093025": {
     "context": "header",
     "string": "Translation Attribute \"{attribute}\" - {languageCode}"
+  },
+  "src_dot_translations_dot_components_dot_TranslationsProductTypesPage_dot_values": {
+    "context": "section name",
+    "string": "Values"
   },
   "src_dot_translations_dot_components_dot_TranslationsProductsPage_dot_1406947243": {
     "string": "Search Engine Description"
@@ -6404,12 +6774,17 @@
   "src_dot_translations_dot_components_dot_TranslationsSalesPage_dot_898281424": {
     "string": "Sale Name"
   },
+  "src_dot_translations_dot_components_dot_TranslationsShippingMethodPage_dot_3374163063": {
+    "context": "shipping method description",
+    "string": "Description"
+  },
   "src_dot_translations_dot_components_dot_TranslationsShippingMethodPage_dot_3498202636": {
     "context": "header",
     "string": "Translation ShippingMethod \"{shippingMethodName}\" - {languageCode}"
   },
-  "src_dot_translations_dot_components_dot_TranslationsShippingMethodPage_dot_99732714": {
-    "string": "ShippingMethod Name"
+  "src_dot_translations_dot_components_dot_TranslationsShippingMethodPage_dot_636461959": {
+    "context": "shipping method name",
+    "string": "Name"
   },
   "src_dot_translations_dot_components_dot_TranslationsVouchersPage_dot_2447510181": {
     "context": "header",
@@ -6514,6 +6889,10 @@
   "src_dot_utils_dot_errors_dot_graphqlError": {
     "string": "API error"
   },
+  "src_dot_utils_dot_errors_dot_insufficientStock": {
+    "context": "error message",
+    "string": "Cannot change the quantity because of insufficient stock"
+  },
   "src_dot_utils_dot_errors_dot_invalid": {
     "string": "Invalid value"
   },
@@ -6542,6 +6921,10 @@
   },
   "src_dot_utils_dot_errors_dot_nameAlreadyTaken": {
     "string": "This name is already taken. Please provide another."
+  },
+  "src_dot_utils_dot_errors_dot_noCategorySet": {
+    "context": "no category set error",
+    "string": "Product category not set"
   },
   "src_dot_utils_dot_errors_dot_noShippingAddress": {
     "context": "error message",
@@ -6619,6 +7002,9 @@
   "src_dot_utils_dot_errors_dot_unknownError": {
     "string": "Unknown error"
   },
+  "src_dot_utils_dot_errors_dot_unsupportedMediaProvider": {
+    "string": "Unsupported media provider or incorrect URL"
+  },
   "src_dot_utils_dot_errors_dot_urlNotSet": {
     "context": "error message",
     "string": "URL not set for an invoice"
@@ -6668,6 +7054,13 @@
     "context": "tab name",
     "string": "All Warehouses"
   },
+  "src_dot_warehouses_dot_components_dot_WarehouseListPage_dot_3562691996": {
+    "context": "alert",
+    "string": "Warehouse limit reached"
+  },
+  "src_dot_warehouses_dot_components_dot_WarehouseListPage_dot_478107533": {
+    "string": "You have reached your warehouse limit, you will be no longer able to add warehouses to your store. If you would like to up your limit, contact your administration staff about raising your limits."
+  },
   "src_dot_warehouses_dot_components_dot_WarehouseListPage_dot_934572530": {
     "context": "button",
     "string": "Create Warehouse"
@@ -6716,6 +7109,10 @@
     "context": "dialog header",
     "string": "Delete Webhook"
   },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_1013231747": {
+    "context": "event",
+    "string": "Confirm payment"
+  },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_1087314240": {
     "context": "event",
     "string": "Checkout updated"
@@ -6732,9 +7129,25 @@
     "context": "section header",
     "string": "Events"
   },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_144149815": {
+    "context": "event",
+    "string": "Product variant deleted"
+  },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_1606361075": {
     "context": "event",
     "string": "Order updated"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_1616635110": {
+    "context": "event",
+    "string": "User notified"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_1624692657": {
+    "context": "event",
+    "string": "Refund payment"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_2126893364": {
+    "context": "event",
+    "string": "Product variant updated"
   },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_2240725235": {
     "context": "event",
@@ -6743,6 +7156,10 @@
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_2454751033": {
     "context": "event",
     "string": "All events"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_2745028894": {
+    "context": "event",
+    "string": "Page deleted"
   },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_2862596150": {
     "context": "event",
@@ -6756,6 +7173,10 @@
     "context": "webhook events",
     "string": "Expand or restrict webhooks permissions to register certain events in Saleor system."
   },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3285325968": {
+    "context": "event",
+    "string": "Product variant created"
+  },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3316426878": {
     "context": "event",
     "string": "Product updated"
@@ -6763,6 +7184,10 @@
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3345061702": {
     "context": "event",
     "string": "Order fully paid"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_337693660": {
+    "context": "event",
+    "string": "Void payment"
   },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3400883706": {
     "context": "event",
@@ -6772,6 +7197,18 @@
     "context": "event",
     "string": "Order cancelled"
   },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3618648517": {
+    "context": "event",
+    "string": "Page updated"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3671033983": {
+    "context": "event",
+    "string": "Product deleted"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3742472683": {
+    "context": "event",
+    "string": "Capture payment"
+  },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_3907151399": {
     "context": "event",
     "string": "Order fulfilled"
@@ -6780,9 +7217,9 @@
     "context": "event",
     "string": "Customer created"
   },
-  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_40035964": {
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_4053089191": {
     "context": "event",
-    "string": "Changed quantity in checkout"
+    "string": "List payment gateways"
   },
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_4186057882": {
     "context": "event",
@@ -6791,6 +7228,26 @@
   "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_4281441551": {
     "context": "event",
     "string": "Fulfillment created"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_4292269645": {
+    "context": "event",
+    "string": "Process payment"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_679080833": {
+    "context": "event",
+    "string": "Page created"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_759562905": {
+    "context": "event",
+    "string": "Authorize payment"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookEvents_dot_787792649": {
+    "context": "event",
+    "string": "Customer updated"
+  },
+  "src_dot_webhooks_dot_components_dot_WebhookInfo_dot_1089569085": {
+    "context": "webhook",
+    "string": "Secret Key"
   },
   "src_dot_webhooks_dot_components_dot_WebhookInfo_dot_1690209105": {
     "context": "webhook",
@@ -6811,10 +7268,6 @@
   "src_dot_webhooks_dot_components_dot_WebhookInfo_dot_3809115222": {
     "context": "webhook secret key help text",
     "string": "secret key is used to create a hash signature with each payload. *optional field"
-  },
-  "src_dot_webhooks_dot_components_dot_WebhookInfo_dot_3995417850": {
-    "context": "webhook",
-    "string": "Secrect Key"
   },
   "src_dot_webhooks_dot_components_dot_WebhookInfo_dot_4194304040": {
     "context": "webhook specific information",
@@ -6877,6 +7330,14 @@
     "context": "table column header",
     "string": "Quantity"
   },
+  "transaction reference subtitle": {
+    "context": "transaction reference subtitle",
+    "string": "Transaction reference"
+  },
+  "unavailable for purchase": {
+    "context": "product unavailability",
+    "string": "Unavailable for purchase"
+  },
   "voucherDetailsUnassignCategory": {
     "context": "unassign category from voucher, button",
     "string": "Unassign"
@@ -6888,5 +7349,13 @@
   "voucherDetailsUnassignProduct": {
     "context": "unassign product from voucher, button",
     "string": "Unassign"
+  },
+  "will become available on": {
+    "context": "product available for purchase date",
+    "string": "will become available on {date}"
+  },
+  "will become published on": {
+    "context": "product publication date label",
+    "string": "will become published on {date}"
   }
 }

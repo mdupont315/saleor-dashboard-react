@@ -36,8 +36,9 @@ storiesOf("Views / Orders / Fulfill order", module)
           __typename: "OrderError",
           code: OrderErrorCode.INSUFFICIENT_STOCK,
           field: null,
-          orderLine: orderToFulfill.lines[0].id,
-          warehouse: warehouseList[0].id
+          orderLines: [orderToFulfill.lines[0].id],
+          warehouse: warehouseList[0].id,
+          addressType: null
         }
       ]}
     />

@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderReturnProductsInput, OrderErrorCode } from "./../../types/globalTypes";
+import { OrderReturnProductsInput, OrderErrorCode, AddressTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: FulfillmentReturnProducts
@@ -12,6 +13,7 @@ export interface FulfillmentReturnProducts_orderFulfillmentReturnProducts_errors
   __typename: "OrderError";
   code: OrderErrorCode;
   field: string | null;
+  addressType: AddressTypeEnum | null;
 }
 
 export interface FulfillmentReturnProducts_orderFulfillmentReturnProducts_order {

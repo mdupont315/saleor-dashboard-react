@@ -1,10 +1,10 @@
-import { makeStyles } from "@material-ui/core/styles";
 import CardSpacer from "@saleor/components/CardSpacer";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
 import Money from "@saleor/components/Money";
 import RequirePermissions from "@saleor/components/RequirePermissions";
 import Skeleton from "@saleor/components/Skeleton";
+import { makeStyles } from "@saleor/theme";
 import { UserPermissionProps } from "@saleor/types";
 import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
@@ -95,6 +95,7 @@ const HomePage: React.FC<HomePageProps> = props => {
             <div className={classes.cardContainer}>
               <HomeAnalyticsCard
                 title={"Sales"}
+                testId="sales-analytics"
                 icon={
                   <Sales
                     className={classes.icon}
@@ -113,6 +114,7 @@ const HomePage: React.FC<HomePageProps> = props => {
               </HomeAnalyticsCard>
               <HomeAnalyticsCard
                 title={"Orders"}
+                testId="orders-analytics"
                 icon={
                   <Orders
                     className={classes.icon}
@@ -152,6 +154,7 @@ const HomePage: React.FC<HomePageProps> = props => {
               ]}
             >
               <HomeProductListCard
+                testId="top-products"
                 onRowClick={onProductClick}
                 topProducts={topProducts}
               />
@@ -165,7 +168,10 @@ const HomePage: React.FC<HomePageProps> = props => {
               userPermissions={userPermissions}
               requiredPermissions={[PermissionEnum.MANAGE_ORDERS]}
             >
-              <HomeActivityCard activities={activities} />
+              <HomeActivityCard
+                activities={activities}
+                testId="activity-card"
+              />
             </RequirePermissions>
           </div>
         )}

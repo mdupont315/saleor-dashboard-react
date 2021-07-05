@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { PermissionEnum } from "./../../types/globalTypes";
@@ -32,6 +33,8 @@ export interface TokenAuth_tokenCreate_user {
   firstName: string;
   lastName: string;
   isStaff: boolean;
+  isSupplier?: boolean;
+
   userPermissions: (TokenAuth_tokenCreate_user_userPermissions | null)[] | null;
   avatar: TokenAuth_tokenCreate_user_avatar | null;
 }

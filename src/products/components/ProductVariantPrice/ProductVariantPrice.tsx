@@ -1,27 +1,27 @@
 import {
+  Card,
+  CardContent,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   Typography
 } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import { ChannelPriceArgs, ChannelPriceData } from "@saleor/channels/utils";
+import { ChannelData, ChannelPriceArgs } from "@saleor/channels/utils";
 import CardTitle from "@saleor/components/CardTitle";
 import PriceField from "@saleor/components/PriceField";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
 import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
 import { renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import {
   getFormChannelError,
   getFormChannelErrors
 } from "@saleor/utils/errors";
 import getProductErrorMessage from "@saleor/utils/errors/product";
 import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage, MessageDescriptor, useIntl } from "react-intl";
 
 const useStyles = makeStyles(
   theme => ({
@@ -62,24 +62,52 @@ const useStyles = makeStyles(
 );
 
 interface ProductVariantPriceProps {
-  ProductVariantChannelListings: ChannelPriceData[];
-  errors: ProductChannelListingErrorFragment[];
+  ProductVariantChannelListings?: ChannelData[];
+  errors?: ProductChannelListingErrorFragment[];
   loading?: boolean;
-  onChange: (id: string, data: ChannelPriceArgs) => void;
+  disabled?: boolean;
+  onChange?: (id: string, data: ChannelPriceArgs) => void;
+  disabledMessage?: MessageDescriptor;
 }
 
 const numberOfColumns = 2;
 
 const ProductVariantPrice: React.FC<ProductVariantPriceProps> = props => {
   const {
+    disabled = false,
     errors = [],
-    ProductVariantChannelListings,
+    ProductVariantChannelListings = [],
     loading,
-    onChange
+    onChange,
+    disabledMessage
   } = props;
   const classes = useStyles(props);
   const intl = useIntl();
   const formErrors = getFormChannelErrors(["price", "costPrice"], errors);
+
+  if (disabled || !ProductVariantChannelListings.length) {
+    return (
+      <Card>
+        <CardTitle
+          title={intl.formatMessage({
+            defaultMessage: "Pricing",
+            description: "product pricing, section header"
+          })}
+        />
+        <CardContent>
+          <Typography variant="caption">
+            {intl.formatMessage(
+              disabledMessage || {
+                defaultMessage: "There is no channel to define prices for",
+                description: "variant pricing section subtitle",
+                id: "product variant pricing card disabled subtitle"
+              }
+            )}
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>

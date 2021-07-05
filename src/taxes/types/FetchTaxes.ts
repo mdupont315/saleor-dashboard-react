@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -7,7 +8,7 @@
 // ====================================================
 
 export interface FetchTaxes_shopFetchTaxRates_errors {
-  __typename: "Error";
+  __typename: "ShopError";
   field: string | null;
   message: string | null;
 }

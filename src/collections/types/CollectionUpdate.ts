@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { CollectionInput, CollectionErrorCode } from "./../../types/globalTypes";
@@ -48,7 +49,7 @@ export interface CollectionUpdate_collectionUpdate_collection {
   privateMetadata: (CollectionUpdate_collectionUpdate_collection_privateMetadata | null)[];
   backgroundImage: CollectionUpdate_collectionUpdate_collection_backgroundImage | null;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
 }

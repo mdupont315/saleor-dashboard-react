@@ -1,4 +1,4 @@
-import DialogContentText from "@material-ui/core/DialogContentText";
+import { DialogContentText } from "@material-ui/core";
 import ActionDialog from "@saleor/components/ActionDialog";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import { getStringOrPlaceholder } from "@saleor/misc";
@@ -41,7 +41,7 @@ const AppActivateDialog: React.FC<AppActivateDialogProps> = ({
       <DialogContentText>
         {["", null].includes(name) ? (
           <FormattedMessage
-            defaultMessage="Are you sure you want to activate this app? Activating will start gathering events"
+            defaultMessage="Are you sure you want to activate this app? Activating will start gathering events."
             description="activate app"
           />
         ) : (

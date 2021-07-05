@@ -1,5 +1,8 @@
 /* eslint-disable sort-keys */
-import { AttributeTypeEnum } from "@saleor/types/globalTypes";
+import {
+  AttributeInputTypeEnum,
+  AttributeTypeEnum
+} from "@saleor/types/globalTypes";
 
 import { PageTypeDetails_pageType } from "./types/PageTypeDetails";
 import { PageTypeList_pageTypes_edges_node } from "./types/PageTypeList";
@@ -46,7 +49,9 @@ export const pageType: PageTypeDetails_pageType = {
       visibleInStorefront: true,
       filterableInDashboard: true,
       filterableInStorefront: true,
-      type: AttributeTypeEnum.PAGE_TYPE
+      type: AttributeTypeEnum.PAGE_TYPE,
+      inputType: AttributeInputTypeEnum.DROPDOWN,
+      unit: null
     },
     {
       __typename: "Attribute" as "Attribute",
@@ -56,7 +61,9 @@ export const pageType: PageTypeDetails_pageType = {
       visibleInStorefront: true,
       filterableInDashboard: true,
       filterableInStorefront: true,
-      type: AttributeTypeEnum.PAGE_TYPE
+      type: AttributeTypeEnum.PAGE_TYPE,
+      inputType: AttributeInputTypeEnum.DROPDOWN,
+      unit: null
     },
     {
       __typename: "Attribute" as "Attribute",
@@ -66,7 +73,9 @@ export const pageType: PageTypeDetails_pageType = {
       visibleInStorefront: true,
       filterableInDashboard: true,
       filterableInStorefront: true,
-      type: AttributeTypeEnum.PAGE_TYPE
+      type: AttributeTypeEnum.PAGE_TYPE,
+      inputType: AttributeInputTypeEnum.DROPDOWN,
+      unit: null
     }
   ],
   privateMetadata: []

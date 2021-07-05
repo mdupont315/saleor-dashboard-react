@@ -1,10 +1,11 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
+import {
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableRow,
+  Typography
+} from "@material-ui/core";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
 import TableCellHeader from "@saleor/components/TableCellHeader";
@@ -16,6 +17,7 @@ import {
   renderCollection
 } from "@saleor/misc";
 import { StaffListUrlSortField } from "@saleor/staff/urls";
+import { makeStyles } from "@saleor/theme";
 import { ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import classNames from "classnames";

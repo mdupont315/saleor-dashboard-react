@@ -1,26 +1,49 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { AttributeInputTypeEnum, AttributeEntityTypeEnum, WeightUnitsEnum } from "./../../types/globalTypes";
+import { AttributeInputTypeEnum, AttributeEntityTypeEnum, MeasurementUnitsEnum, ProductMediaType, WeightUnitsEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL query operation: ProductDetails
 // ====================================================
 
-export interface ProductDetails_product_attributes_attribute_values_file {
+export interface ProductDetails_product_attributes_attribute_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface ProductDetails_product_attributes_attribute_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface ProductDetails_product_attributes_attribute_values {
+export interface ProductDetails_product_attributes_attribute_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: ProductDetails_product_attributes_attribute_values_file | null;
+  file: ProductDetails_product_attributes_attribute_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface ProductDetails_product_attributes_attribute_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: ProductDetails_product_attributes_attribute_choices_edges_node;
+}
+
+export interface ProductDetails_product_attributes_attribute_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: ProductDetails_product_attributes_attribute_choices_pageInfo;
+  edges: ProductDetails_product_attributes_attribute_choices_edges[];
 }
 
 export interface ProductDetails_product_attributes_attribute {
@@ -31,7 +54,8 @@ export interface ProductDetails_product_attributes_attribute {
   inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   valueRequired: boolean;
-  values: (ProductDetails_product_attributes_attribute_values | null)[] | null;
+  unit: MeasurementUnitsEnum | null;
+  choices: ProductDetails_product_attributes_attribute_choices | null;
 }
 
 export interface ProductDetails_product_attributes_values_file {
@@ -47,6 +71,8 @@ export interface ProductDetails_product_attributes_values {
   slug: string | null;
   file: ProductDetails_product_attributes_values_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
 }
 
 export interface ProductDetails_product_attributes {
@@ -55,26 +81,48 @@ export interface ProductDetails_product_attributes {
   values: (ProductDetails_product_attributes_values | null)[];
 }
 
-export interface ProductDetails_product_productType_variantAttributes_values_file {
+export interface ProductDetails_product_productType_variantAttributes_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface ProductDetails_product_productType_variantAttributes_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface ProductDetails_product_productType_variantAttributes_values {
+export interface ProductDetails_product_productType_variantAttributes_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: ProductDetails_product_productType_variantAttributes_values_file | null;
+  file: ProductDetails_product_productType_variantAttributes_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface ProductDetails_product_productType_variantAttributes_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: ProductDetails_product_productType_variantAttributes_choices_edges_node;
+}
+
+export interface ProductDetails_product_productType_variantAttributes_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: ProductDetails_product_productType_variantAttributes_choices_pageInfo;
+  edges: ProductDetails_product_productType_variantAttributes_choices_edges[];
 }
 
 export interface ProductDetails_product_productType_variantAttributes {
   __typename: "Attribute";
   id: string;
   name: string | null;
-  values: (ProductDetails_product_productType_variantAttributes_values | null)[] | null;
+  choices: ProductDetails_product_productType_variantAttributes_choices | null;
 }
 
 export interface ProductDetails_product_productType_taxType {
@@ -172,11 +220,18 @@ export interface ProductDetails_product_collections {
   name: string;
 }
 
-export interface ProductDetails_product_images {
-  __typename: "ProductImage";
+export interface ProductDetails_product_media {
+  __typename: "ProductMedia";
   id: string;
   alt: string;
   sortOrder: number | null;
+  url: string;
+  type: ProductMediaType;
+  oembedData: any;
+}
+
+export interface ProductDetails_product_variants_media {
+  __typename: "ProductMedia";
   url: string;
 }
 
@@ -226,6 +281,7 @@ export interface ProductDetails_product_variants {
   sku: string;
   name: string;
   margin: number | null;
+  media: ProductDetails_product_variants_media[] | null;
   stocks: (ProductDetails_product_variants_stocks | null)[] | null;
   trackInventory: boolean;
   channelListings: ProductDetails_product_variants_channelListings[] | null;
@@ -253,7 +309,7 @@ export interface ProductDetails_product {
   privateMetadata: (ProductDetails_product_privateMetadata | null)[];
   name: string;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoTitle: string | null;
   seoDescription: string | null;
   rating: number | null;
@@ -261,7 +317,7 @@ export interface ProductDetails_product {
   category: ProductDetails_product_category | null;
   collections: (ProductDetails_product_collections | null)[] | null;
   chargeTaxes: boolean;
-  images: (ProductDetails_product_images | null)[] | null;
+  media: ProductDetails_product_media[] | null;
   isAvailable: boolean | null;
   variants: (ProductDetails_product_variants | null)[] | null;
   weight: ProductDetails_product_weight | null;
@@ -282,4 +338,8 @@ export interface ProductDetails {
 export interface ProductDetailsVariables {
   id: string;
   channel?: string | null;
+  firstValues?: number | null;
+  afterValues?: string | null;
+  lastValues?: number | null;
+  beforeValues?: string | null;
 }

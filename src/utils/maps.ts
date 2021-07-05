@@ -3,8 +3,20 @@ import { ShopInfo_shop_countries } from "@saleor/components/Shop/types/ShopInfo"
 import { SingleAutocompleteChoiceType } from "@saleor/components/SingleAutocompleteSelectField";
 import { MetadataItem } from "@saleor/fragments/types/MetadataItem";
 import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPages";
-import { Node } from "@saleor/types";
+import { Node, SlugNode } from "@saleor/types";
 import { MetadataInput } from "@saleor/types/globalTypes";
+
+interface EdgesType<T> {
+  edges?: Array<{ node: T }>;
+}
+
+export function mapEdgesToItems<T>(data?: EdgesType<T>): T[] {
+  if (!data || !data?.edges) {
+    return [];
+  }
+
+  return data.edges.map(({ node }) => node);
+}
 
 export function mapCountriesToChoices(
   countries: ShopInfo_shop_countries[]
@@ -27,9 +39,26 @@ export function mapPagesToChoices(
 export function mapNodeToChoice(
   nodes: Array<Node & Record<"name", string>>
 ): Array<SingleAutocompleteChoiceType | MultiAutocompleteChoiceType> {
+  if (!nodes) {
+    return [];
+  }
+
   return nodes.map(node => ({
     label: node.name,
     value: node.id
+  }));
+}
+
+export function mapSlugNodeToChoice(
+  nodes: Array<SlugNode & Record<"name", string>>
+): Array<SingleAutocompleteChoiceType | MultiAutocompleteChoiceType> {
+  if (!nodes) {
+    return [];
+  }
+
+  return nodes.map(node => ({
+    label: node.name,
+    value: node.slug
   }));
 }
 

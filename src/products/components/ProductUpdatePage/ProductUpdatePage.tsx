@@ -7,8 +7,8 @@ import { ChannelData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import AssignAttributeValueDialog from "@saleor/components/AssignAttributeValueDialog";
 import Attributes, { AttributeInput } from "@saleor/components/Attributes";
-import AvailabilityCard from "@saleor/components/AvailabilityCard";
 import CardSpacer from "@saleor/components/CardSpacer";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
@@ -16,7 +16,7 @@ import Metadata from "@saleor/components/Metadata/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import SeoForm from "@saleor/components/SeoForm";
-import { SingleAutocompleteChoiceType } from "@saleor/components/SingleAutocompleteSelectField";
+import { RefreshLimits_shop_limits } from "@saleor/components/Shop/types/RefreshLimits";
 import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
 import { TaxTypeFragment } from "@saleor/fragments/types/TaxTypeFragment";
@@ -26,7 +26,10 @@ import { FormsetData } from "@saleor/hooks/useFormset";
 import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
+import ProductExternalMediaDialog from "@saleor/products/components/ProductExternalMediaDialog";
 import ProductVariantPrice from "@saleor/products/components/ProductVariantPrice";
+import { ChannelsWithVariantsData } from "@saleor/products/views/ProductUpdate/types";
+import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
 import { SearchCategories_search_edges_node } from "@saleor/searches/types/SearchCategories";
 import { SearchCollections_search_edges_node } from "@saleor/searches/types/SearchCollections";
 import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPages";
@@ -37,17 +40,19 @@ import {
   ListActions,
   ReorderAction
 } from "@saleor/types";
+import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
+import ChannelsWithVariantsAvailabilityCard from "../../../channels/ChannelsWithVariantsAvailabilityCard/ChannelsWithVariantsAvailabilityCard";
 import {
   ProductDetails_product,
-  ProductDetails_product_images,
+  ProductDetails_product_media,
   ProductDetails_product_variants
 } from "../../types/ProductDetails";
 import { getChoices, ProductUpdatePageFormData } from "../../utils/data";
 import ProductDetailsForm from "../ProductDetailsForm";
-import ProductImages from "../ProductImages";
+import ProductMedia from "../ProductMedia";
 import ProductOrganization from "../ProductOrganization";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks, { ProductStockInput } from "../ProductStocks";
@@ -59,20 +64,26 @@ import ProductUpdateForm, {
 } from "./form";
 
 export interface ProductUpdatePageProps extends ListActions, ChannelProps {
+  channelsWithVariantsData: ChannelsWithVariantsData;
+  setChannelsData: (data: ChannelData[]) => void;
+  onChannelsChange: (data: ChannelData[]) => void;
+  channelsData: ChannelData[];
+  currentChannels: ChannelData[];
+  allChannelsCount: number;
+  channelsErrors: ProductChannelListingErrorFragment[];
   defaultWeightUnit: string;
   errors: ProductErrorWithAttributesFragment[];
-  channelsErrors: ProductChannelListingErrorFragment[];
-  allChannelsCount: number;
-  currentChannels: ChannelData[];
-  channelChoices: SingleAutocompleteChoiceType[];
   placeholderImage: string;
   collections: SearchCollections_search_edges_node[];
   categories: SearchCategories_search_edges_node[];
+  attributeValues: SearchAttributeValues_attribute_choices_edges_node[];
   disabled: boolean;
   fetchMoreCategories: FetchMoreProps;
   fetchMoreCollections: FetchMoreProps;
+  isMediaUrlModalVisible?: boolean;
+  limits: RefreshLimits_shop_limits;
   variants: ProductDetails_product_variants[];
-  images: ProductDetails_product_images[];
+  media: ProductDetails_product_media[];
   hasChannelChanged: boolean;
   product: ProductDetails_product;
   header: string;
@@ -84,10 +95,13 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   assignReferencesAttributeId?: string;
   fetchMoreReferencePages?: FetchMoreProps;
   fetchMoreReferenceProducts?: FetchMoreProps;
+  fetchMoreAttributeValues?: FetchMoreProps;
+  isSimpleProduct: boolean;
   fetchCategories: (query: string) => void;
   fetchCollections: (query: string) => void;
   fetchReferencePages?: (data: string) => void;
   fetchReferenceProducts?: (data: string) => void;
+  fetchAttributeValues: (query: string, attributeId: string) => void;
   onAssignReferencesClick: (attribute: AttributeInput) => void;
   onCloseDialog: () => void;
   onVariantsAdd: () => void;
@@ -96,21 +110,19 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onImageDelete: (id: string) => () => void;
   onSubmit: (data: ProductUpdatePageSubmitData) => SubmitPromise;
   openChannelsModal: () => void;
-  onChannelsChange: (data: ChannelData[]) => void;
   onBack?();
   onDelete();
   onImageEdit?(id: string);
   onImageReorder?(event: { oldIndex: number; newIndex: number });
   onImageUpload(file: File);
+  onMediaUrlUpload(mediaUrl: string);
   onSeoClick?();
   onVariantAdd?();
   onSetDefaultVariant(variant: ProductDetails_product_variants);
   onWarehouseConfigure();
 }
 
-export interface ProductUpdatePageSubmitData
-  extends ProductUpdatePageFormData,
-    ChannelProps {
+export interface ProductUpdatePageSubmitData extends ProductUpdatePageFormData {
   addStocks: ProductStockInput[];
   attributes: AttributeInput[];
   attributesWithNewFileValue: FormsetData<null, File>;
@@ -125,42 +137,48 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   disabled,
   categories: categoryChoiceList,
   channelsErrors,
-  allChannelsCount,
-  currentChannels = [],
   collections: collectionChoiceList,
+  attributeValues,
+  isSimpleProduct,
   errors,
   fetchCategories,
   fetchCollections,
   fetchMoreCategories,
   fetchMoreCollections,
-  images,
+  media,
   hasChannelChanged,
   header,
+  limits,
   placeholderImage,
   product,
   saveButtonBarState,
   variants,
   warehouses,
+  setChannelsData,
   taxTypes,
   referencePages = [],
   referenceProducts = [],
   onBack,
   onDelete,
+  allChannelsCount,
+  currentChannels,
   onImageDelete,
   onImageEdit,
   onImageReorder,
   onImageUpload,
-  onChannelsChange,
+  onMediaUrlUpload,
   openChannelsModal,
   onSeoClick,
   onSubmit,
   onVariantAdd,
+  channelsData,
   onVariantsAdd,
   onSetDefaultVariant,
   onVariantShow,
   onVariantReorder,
   onWarehouseConfigure,
   isChecked,
+  isMediaUrlModalVisible,
   selected,
   selectedChannelId,
   toggle,
@@ -172,12 +190,20 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   fetchMoreReferencePages,
   fetchReferenceProducts,
   fetchMoreReferenceProducts,
-  onCloseDialog
+  fetchAttributeValues,
+  fetchMoreAttributeValues,
+  onCloseDialog,
+  channelsWithVariantsData,
+  onChannelsChange
 }) => {
   const intl = useIntl();
 
   const [selectedCategory, setSelectedCategory] = useStateFromProps(
     product?.category?.name || ""
+  );
+
+  const [mediaUrlModalStatus, setMediaUrlModalStatus] = useStateFromProps(
+    isMediaUrlModalVisible || false
   );
 
   const [selectedCollections, setSelectedCollections] = useStateFromProps(
@@ -217,10 +243,15 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
 
   return (
     <ProductUpdateForm
+      isSimpleProduct={isSimpleProduct}
+      currentChannels={currentChannels}
+      channelsData={channelsData}
+      setChannelsData={setChannelsData}
       onSubmit={onSubmit}
       product={product}
       categories={categories}
       collections={collections}
+      channelsWithVariants={channelsWithVariantsData}
       selectedCollections={selectedCollections}
       setSelectedCategory={setSelectedCategory}
       setSelectedCollections={setSelectedCollections}
@@ -228,7 +259,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
       setChannels={onChannelsChange}
       taxTypes={taxTypeChoices}
       warehouses={warehouses}
-      currentChannels={currentChannels}
       hasVariants={hasVariants}
       referencePages={referencePages}
       referenceProducts={referenceProducts}
@@ -262,18 +292,20 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   onChange={change}
                 />
                 <CardSpacer />
-                <ProductImages
-                  images={images}
+                <ProductMedia
+                  media={media}
                   placeholderImage={placeholderImage}
                   onImageDelete={onImageDelete}
                   onImageReorder={onImageReorder}
                   onImageEdit={onImageEdit}
                   onImageUpload={onImageUpload}
+                  openMediaUrlModal={() => setMediaUrlModalStatus(true)}
                 />
                 <CardSpacer />
                 {data.attributes.length > 0 && (
                   <Attributes
                     attributes={data.attributes}
+                    attributeValues={attributeValues}
                     errors={errors}
                     loading={disabled}
                     disabled={disabled}
@@ -283,10 +315,12 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     onReferencesRemove={handlers.selectAttributeReference}
                     onReferencesAddClick={onAssignReferencesClick}
                     onReferencesReorder={handlers.reorderAttributeValue}
+                    fetchAttributeValues={fetchAttributeValues}
+                    fetchMoreAttributeValues={fetchMoreAttributeValues}
                   />
                 )}
                 <CardSpacer />
-                {!!product?.productType && !hasVariants && (
+                {isSimpleProduct && (
                   <>
                     <ProductVariantPrice
                       ProductVariantChannelListings={data.channelListings}
@@ -300,6 +334,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                 {hasVariants ? (
                   <ProductVariants
                     disabled={disabled}
+                    limits={limits}
                     variants={variants}
                     product={product}
                     onRowClick={onVariantShow}
@@ -378,26 +413,51 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   onCollectionChange={handlers.selectCollection}
                 />
                 <CardSpacer />
-                <AvailabilityCard
-                  messages={{
-                    hiddenLabel: intl.formatMessage({
-                      defaultMessage: "Not published",
-                      description: "product label"
-                    }),
+                {isSimpleProduct ? (
+                  <ChannelsAvailabilityCard
+                    managePermissions={[PermissionEnum.MANAGE_PRODUCTS]}
+                    messages={{
+                      hiddenLabel: intl.formatMessage({
+                        defaultMessage: "Not published",
+                        description: "product label"
+                      }),
 
-                    visibleLabel: intl.formatMessage({
-                      defaultMessage: "Published",
-                      description: "product label"
-                    })
-                  }}
-                  errors={channelsErrors}
-                  selectedChannelsCount={data.channelListings.length}
-                  allChannelsCount={allChannelsCount}
-                  channels={data.channelListings}
-                  disabled={disabled}
-                  onChange={handlers.changeChannels}
-                  openModal={openChannelsModal}
-                />
+                      visibleLabel: intl.formatMessage({
+                        defaultMessage: "Published",
+                        description: "product label"
+                      })
+                    }}
+                    errors={channelsErrors}
+                    selectedChannelsCount={data.channelListings.length}
+                    allChannelsCount={allChannelsCount}
+                    channels={data.channelListings}
+                    disabled={disabled}
+                    onChange={handlers.changeChannels}
+                    openModal={openChannelsModal}
+                  />
+                ) : (
+                  <ChannelsWithVariantsAvailabilityCard
+                    messages={{
+                      hiddenLabel: intl.formatMessage({
+                        defaultMessage: "Not published",
+                        description: "product label",
+                        id: "not published channel"
+                      }),
+
+                      visibleLabel: intl.formatMessage({
+                        defaultMessage: "Published",
+                        description: "product label",
+                        id: "published channel"
+                      })
+                    }}
+                    errors={channelsErrors}
+                    channels={data.channelsData}
+                    channelsWithVariantsData={channelsWithVariantsData}
+                    variants={variants}
+                    onChange={handlers.changeChannels}
+                    openModal={openChannelsModal}
+                  />
+                )}
                 <CardSpacer />
                 <ProductTaxes
                   data={data}
@@ -441,6 +501,13 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                 }
               />
             )}
+
+            <ProductExternalMediaDialog
+              product={product}
+              onClose={() => setMediaUrlModalStatus(false)}
+              open={mediaUrlModalStatus}
+              onSubmit={onMediaUrlUpload}
+            />
           </Container>
         </>
       )}

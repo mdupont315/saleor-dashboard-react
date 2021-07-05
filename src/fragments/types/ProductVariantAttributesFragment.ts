@@ -1,26 +1,49 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { AttributeInputTypeEnum, AttributeEntityTypeEnum } from "./../../types/globalTypes";
+import { AttributeInputTypeEnum, AttributeEntityTypeEnum, MeasurementUnitsEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL fragment: ProductVariantAttributesFragment
 // ====================================================
 
-export interface ProductVariantAttributesFragment_attributes_attribute_values_file {
+export interface ProductVariantAttributesFragment_attributes_attribute_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface ProductVariantAttributesFragment_attributes_attribute_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface ProductVariantAttributesFragment_attributes_attribute_values {
+export interface ProductVariantAttributesFragment_attributes_attribute_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: ProductVariantAttributesFragment_attributes_attribute_values_file | null;
+  file: ProductVariantAttributesFragment_attributes_attribute_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface ProductVariantAttributesFragment_attributes_attribute_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: ProductVariantAttributesFragment_attributes_attribute_choices_edges_node;
+}
+
+export interface ProductVariantAttributesFragment_attributes_attribute_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: ProductVariantAttributesFragment_attributes_attribute_choices_pageInfo;
+  edges: ProductVariantAttributesFragment_attributes_attribute_choices_edges[];
 }
 
 export interface ProductVariantAttributesFragment_attributes_attribute {
@@ -31,7 +54,8 @@ export interface ProductVariantAttributesFragment_attributes_attribute {
   inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   valueRequired: boolean;
-  values: (ProductVariantAttributesFragment_attributes_attribute_values | null)[] | null;
+  unit: MeasurementUnitsEnum | null;
+  choices: ProductVariantAttributesFragment_attributes_attribute_choices | null;
 }
 
 export interface ProductVariantAttributesFragment_attributes_values_file {
@@ -47,6 +71,8 @@ export interface ProductVariantAttributesFragment_attributes_values {
   slug: string | null;
   file: ProductVariantAttributesFragment_attributes_values_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
 }
 
 export interface ProductVariantAttributesFragment_attributes {
@@ -55,26 +81,48 @@ export interface ProductVariantAttributesFragment_attributes {
   values: (ProductVariantAttributesFragment_attributes_values | null)[];
 }
 
-export interface ProductVariantAttributesFragment_productType_variantAttributes_values_file {
+export interface ProductVariantAttributesFragment_productType_variantAttributes_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface ProductVariantAttributesFragment_productType_variantAttributes_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface ProductVariantAttributesFragment_productType_variantAttributes_values {
+export interface ProductVariantAttributesFragment_productType_variantAttributes_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: ProductVariantAttributesFragment_productType_variantAttributes_values_file | null;
+  file: ProductVariantAttributesFragment_productType_variantAttributes_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface ProductVariantAttributesFragment_productType_variantAttributes_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: ProductVariantAttributesFragment_productType_variantAttributes_choices_edges_node;
+}
+
+export interface ProductVariantAttributesFragment_productType_variantAttributes_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: ProductVariantAttributesFragment_productType_variantAttributes_choices_pageInfo;
+  edges: ProductVariantAttributesFragment_productType_variantAttributes_choices_edges[];
 }
 
 export interface ProductVariantAttributesFragment_productType_variantAttributes {
   __typename: "Attribute";
   id: string;
   name: string | null;
-  values: (ProductVariantAttributesFragment_productType_variantAttributes_values | null)[] | null;
+  choices: ProductVariantAttributesFragment_productType_variantAttributes_choices | null;
 }
 
 export interface ProductVariantAttributesFragment_productType {

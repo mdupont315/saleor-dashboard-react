@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { AddressTypeEnum, AccountErrorCode } from "./../../types/globalTypes";
@@ -12,6 +13,7 @@ export interface SetCustomerDefaultAddress_addressSetDefault_errors {
   __typename: "AccountError";
   code: AccountErrorCode;
   field: string | null;
+  addressType: AddressTypeEnum | null;
 }
 
 export interface SetCustomerDefaultAddress_addressSetDefault_user_addresses_country {

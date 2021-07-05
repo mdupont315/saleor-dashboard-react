@@ -1,5 +1,4 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
+import { Button, Card } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import Container from "@saleor/components/Container";
 import PageHeader from "@saleor/components/PageHeader";
@@ -34,7 +33,12 @@ const PermissionGroupListPage: React.FC<PermissionGroupListPageProps> = ({
         {intl.formatMessage(sectionNames.configuration)}
       </AppHeader>
       <PageHeader title={intl.formatMessage(sectionNames.permissionGroups)}>
-        <Button color="primary" variant="contained" onClick={onAdd}>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={onAdd}
+          data-test-id="createPermissionGroup"
+        >
           <FormattedMessage
             defaultMessage="create permission group"
             description="button"

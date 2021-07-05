@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -165,7 +166,7 @@ export interface CategoryDetails_category {
   backgroundImage: CategoryDetails_category_backgroundImage | null;
   name: string;
   slug: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
   parent: CategoryDetails_category_parent | null;

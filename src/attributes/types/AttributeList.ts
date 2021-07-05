@@ -1,19 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { AttributeFilterInput, AttributeSortingInput, AttributeTypeEnum } from "./../../types/globalTypes";
+import { AttributeFilterInput, AttributeSortingInput, AttributeTypeEnum, MeasurementUnitsEnum, AttributeInputTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL query operation: AttributeList
 // ====================================================
-
-export interface AttributeList_attributes_edges_node_values {
-  __typename: "AttributeValue";
-  id: string;
-  name: string | null;
-  slug: string | null;
-}
 
 export interface AttributeList_attributes_edges_node {
   __typename: "Attribute";
@@ -24,7 +18,8 @@ export interface AttributeList_attributes_edges_node {
   visibleInStorefront: boolean;
   filterableInDashboard: boolean;
   filterableInStorefront: boolean;
-  values: (AttributeList_attributes_edges_node_values | null)[] | null;
+  unit: MeasurementUnitsEnum | null;
+  inputType: AttributeInputTypeEnum | null;
 }
 
 export interface AttributeList_attributes_edges {

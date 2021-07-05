@@ -1,19 +1,15 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
+import { TableBody, TableCell, TableFooter, TableRow } from "@material-ui/core";
 import { ChannelsAvailabilityDropdown } from "@saleor/components/ChannelsAvailabilityDropdown";
 import Checkbox from "@saleor/components/Checkbox";
 import MoneyRange from "@saleor/components/MoneyRange";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
-import TableCellAvatar, {
-  AVATAR_MARGIN
-} from "@saleor/components/TableCellAvatar";
+import TableCellAvatar from "@saleor/components/TableCellAvatar";
+import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { maybe, renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { ChannelProps, ListActions, ListProps } from "@saleor/types";
 import React from "react";
 import { FormattedMessage } from "react-intl";

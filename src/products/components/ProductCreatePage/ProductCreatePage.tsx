@@ -2,12 +2,13 @@ import {
   getAttributeValuesFromReferences,
   mergeAttributeValues
 } from "@saleor/attributes/utils/data";
+import CannotDefineChannelsAvailabilityCard from "@saleor/channels/components/CannotDefineChannelsAvailabilityCard/CannotDefineChannelsAvailabilityCard";
 import { ChannelData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import AssignAttributeValueDialog from "@saleor/components/AssignAttributeValueDialog";
 import Attributes, { AttributeInput } from "@saleor/components/Attributes";
-import AvailabilityCard from "@saleor/components/AvailabilityCard";
 import CardSpacer from "@saleor/components/CardSpacer";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
@@ -22,13 +23,16 @@ import { TaxTypeFragment } from "@saleor/fragments/types/TaxTypeFragment";
 import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
 import ProductVariantPrice from "@saleor/products/components/ProductVariantPrice";
+import { ProductType_productType } from "@saleor/products/types/ProductType";
 import { getChoices } from "@saleor/products/utils/data";
+import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
 import { SearchCategories_search_edges_node } from "@saleor/searches/types/SearchCategories";
 import { SearchCollections_search_edges_node } from "@saleor/searches/types/SearchCollections";
 import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPages";
 import { SearchProducts_search_edges_node } from "@saleor/searches/types/SearchProducts";
 import { SearchProductTypes_search_edges_node } from "@saleor/searches/types/SearchProductTypes";
 import { SearchWarehouses_search_edges_node } from "@saleor/searches/types/SearchWarehouses";
+import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -51,10 +55,12 @@ interface ProductCreatePageProps {
   currentChannels: ChannelData[];
   collections: SearchCollections_search_edges_node[];
   categories: SearchCategories_search_edges_node[];
+  attributeValues: SearchAttributeValues_attribute_choices_edges_node[];
   loading: boolean;
   fetchMoreCategories: FetchMoreProps;
   fetchMoreCollections: FetchMoreProps;
   fetchMoreProductTypes: FetchMoreProps;
+  fetchMoreAttributeValues?: FetchMoreProps;
   initial?: Partial<ProductCreateFormData>;
   productTypes?: SearchProductTypes_search_edges_node[];
   referencePages?: SearchPages_search_edges_node[];
@@ -64,9 +70,11 @@ interface ProductCreatePageProps {
   weightUnit: string;
   warehouses: SearchWarehouses_search_edges_node[];
   taxTypes: TaxTypeFragment[];
+  selectedProductType?: ProductType_productType;
   fetchCategories: (data: string) => void;
   fetchCollections: (data: string) => void;
   fetchProductTypes: (data: string) => void;
+  fetchAttributeValues: (query: string, attributeId: string) => void;
   onWarehouseConfigure: () => void;
   openChannelsModal: () => void;
   onChannelsChange: (data: ChannelData[]) => void;
@@ -77,6 +85,7 @@ interface ProductCreatePageProps {
   fetchMoreReferencePages?: FetchMoreProps;
   fetchMoreReferenceProducts?: FetchMoreProps;
   onCloseDialog: () => void;
+  onSelectProductType: (productTypeId: string) => void;
   onBack?();
   onSubmit?(data: ProductCreateData);
 }
@@ -88,6 +97,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   loading,
   categories: categoryChoiceList,
   collections: collectionChoiceList,
+  attributeValues,
   errors,
   fetchCategories,
   fetchCollections,
@@ -102,6 +112,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   saveButtonBarState,
   warehouses,
   taxTypes,
+  selectedProductType,
   onBack,
   fetchProductTypes,
   weightUnit,
@@ -115,7 +126,10 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   fetchMoreReferencePages,
   fetchReferenceProducts,
   fetchMoreReferenceProducts,
-  onCloseDialog
+  fetchAttributeValues,
+  fetchMoreAttributeValues,
+  onCloseDialog,
+  onSelectProductType
 }: ProductCreatePageProps) => {
   const intl = useIntl();
 
@@ -163,6 +177,8 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
     <ProductCreateForm
       onSubmit={onSubmit}
       initial={initial}
+      selectedProductType={selectedProductType}
+      onSelectProductType={onSelectProductType}
       categories={categories}
       collections={collections}
       productTypes={productTypeChoiceList}
@@ -176,7 +192,6 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
       taxTypes={taxTypeChoices}
       warehouses={warehouses}
       currentChannels={currentChannels}
-      productTypeChoiceList={productTypeChoiceList}
       fetchReferencePages={fetchReferencePages}
       fetchMoreReferencePages={fetchMoreReferencePages}
       fetchReferenceProducts={fetchReferenceProducts}
@@ -213,6 +228,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                 {data.attributes.length > 0 && (
                   <Attributes
                     attributes={data.attributes}
+                    attributeValues={attributeValues}
                     loading={loading}
                     disabled={loading}
                     errors={errors}
@@ -222,6 +238,8 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                     onReferencesRemove={handlers.selectAttributeReference}
                     onReferencesAddClick={onAssignReferencesClick}
                     onReferencesReorder={handlers.reorderAttributeValue}
+                    fetchAttributeValues={fetchAttributeValues}
+                    fetchMoreAttributeValues={fetchMoreAttributeValues}
                   />
                 )}
                 <CardSpacer />
@@ -300,26 +318,31 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                   collectionsInputDisplayValue={selectedCollections}
                 />
                 <CardSpacer />
-                <AvailabilityCard
-                  messages={{
-                    hiddenLabel: intl.formatMessage({
-                      defaultMessage: "Not published",
-                      description: "product label"
-                    }),
+                {isSimpleProduct ? (
+                  <ChannelsAvailabilityCard
+                    managePermissions={[PermissionEnum.MANAGE_PRODUCTS]}
+                    messages={{
+                      hiddenLabel: intl.formatMessage({
+                        defaultMessage: "Not published",
+                        description: "product label"
+                      }),
 
-                    visibleLabel: intl.formatMessage({
-                      defaultMessage: "Published",
-                      description: "product label"
-                    })
-                  }}
-                  errors={channelsErrors}
-                  selectedChannelsCount={data.channelListings.length}
-                  allChannelsCount={allChannelsCount}
-                  channels={data.channelListings}
-                  disabled={loading}
-                  onChange={handlers.changeChannels}
-                  openModal={openChannelsModal}
-                />
+                      visibleLabel: intl.formatMessage({
+                        defaultMessage: "Published",
+                        description: "product label"
+                      })
+                    }}
+                    errors={channelsErrors}
+                    selectedChannelsCount={data.channelListings?.length || 0}
+                    allChannelsCount={allChannelsCount}
+                    channels={data.channelListings || []}
+                    disabled={loading}
+                    onChange={handlers.changeChannels}
+                    openModal={openChannelsModal}
+                  />
+                ) : (
+                  <CannotDefineChannelsAvailabilityCard />
+                )}
                 <CardSpacer />
                 <ProductTaxes
                   data={data}

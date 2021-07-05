@@ -8,8 +8,7 @@ import {
 } from "@saleor/fragments/collections";
 import {
   collectionChannelListingErrorFragment,
-  collectionsErrorFragment,
-  productErrorFragment
+  collectionsErrorFragment
 } from "@saleor/fragments/errors";
 import makeMutation from "@saleor/hooks/makeMutation";
 import gql from "graphql-tag";
@@ -47,7 +46,7 @@ const collectionUpdate = gql`
       collection {
         ...CollectionDetailsFragment
       }
-      errors: collectionErrors {
+      errors {
         ...CollectionErrorFragment
       }
     }
@@ -86,7 +85,7 @@ const assignCollectionProduct = gql`
           }
         }
       }
-      errors: collectionErrors {
+      errors {
         ...CollectionErrorFragment
       }
     }
@@ -105,7 +104,7 @@ const createCollection = gql`
       collection {
         ...CollectionDetailsFragment
       }
-      errors: collectionErrors {
+      errors {
         ...CollectionErrorFragment
       }
     }
@@ -120,7 +119,7 @@ const removeCollection = gql`
   ${collectionsErrorFragment}
   mutation RemoveCollection($id: ID!) {
     collectionDelete(id: $id) {
-      errors: collectionErrors {
+      errors {
         ...CollectionErrorFragment
       }
     }
@@ -169,7 +168,7 @@ const unassignCollectionProduct = gql`
           }
         }
       }
-      errors: collectionErrors {
+      errors {
         ...CollectionErrorFragment
       }
     }
@@ -181,11 +180,11 @@ export const useUnassignCollectionProductMutation = makeMutation<
 >(unassignCollectionProduct);
 
 const collectionBulkDelete = gql`
-  ${productErrorFragment}
+  ${collectionsErrorFragment}
   mutation CollectionBulkDelete($ids: [ID]!) {
     collectionBulkDelete(ids: $ids) {
-      errors: productErrors {
-        ...ProductErrorFragment
+      errors {
+        ...CollectionErrorFragment
       }
     }
   }
@@ -202,7 +201,7 @@ const collectionChannelListingUpdate = gql`
     $input: CollectionChannelListingUpdateInput!
   ) {
     collectionChannelListingUpdate(id: $id, input: $input) {
-      errors: collectionChannelListingErrors {
+      errors {
         ...CollectionChannelListingErrorFragment
       }
     }

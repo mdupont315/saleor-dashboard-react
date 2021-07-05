@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import CardMenu from "@saleor/components/CardMenu";
 import CardSpacer from "@saleor/components/CardSpacer";
@@ -13,13 +12,13 @@ import Skeleton from "@saleor/components/Skeleton";
 import { sectionNames } from "@saleor/intl";
 import DraftOrderChannelSectionCard from "@saleor/orders/components/DraftOrderChannelSectionCard";
 import { SearchCustomers_search_edges_node } from "@saleor/searches/types/SearchCustomers";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps, UserPermissionProps } from "@saleor/types";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { DraftOrderInput } from "../../../types/globalTypes";
 import { OrderDetails_order } from "../../types/OrderDetails";
-import OrderCustomer from "../OrderCustomer";
+import OrderCustomer, { CustomerEditData } from "../OrderCustomer";
 import OrderDraftDetails from "../OrderDraftDetails/OrderDraftDetails";
 import { FormData as OrderDraftDetailsProductsFormData } from "../OrderDraftDetailsProducts";
 import OrderHistory, { FormData as HistoryFormData } from "../OrderHistory";
@@ -44,15 +43,11 @@ export interface OrderDraftPageProps
   order: OrderDetails_order;
   users: SearchCustomers_search_edges_node[];
   usersLoading: boolean;
-  countries: Array<{
-    code: string;
-    label: string;
-  }>;
   saveButtonBarState: ConfirmButtonTransitionState;
   fetchUsers: (query: string) => void;
   onBack: () => void;
   onBillingAddressEdit: () => void;
-  onCustomerEdit: (data: DraftOrderInput) => void;
+  onCustomerEdit: (data: CustomerEditData) => void;
   onDraftFinalize: () => void;
   onDraftRemove: () => void;
   onNoteAdd: (data: HistoryFormData) => void;
@@ -130,7 +125,6 @@ const OrderDraftPage: React.FC<OrderDraftPageProps> = props => {
       <Grid>
         <div>
           <OrderDraftDetails
-            disabled={!order?.channel}
             order={order}
             onOrderLineAdd={onOrderLineAdd}
             onOrderLineChange={onOrderLineChange}

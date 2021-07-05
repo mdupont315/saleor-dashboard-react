@@ -1,7 +1,4 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
+import { Button, Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
 import { commonMessages } from "@saleor/intl";
@@ -46,7 +43,11 @@ const VoucherInfo = ({
         title={intl.formatMessage(commonMessages.generalInformations)}
         toolbar={
           variant === "create" && (
-            <Button color="primary" onClick={onGenerateCode}>
+            <Button
+              color="primary"
+              onClick={onGenerateCode}
+              data-test-id="generate-code"
+            >
               <FormattedMessage
                 defaultMessage="Generate Code"
                 description="voucher code, button"

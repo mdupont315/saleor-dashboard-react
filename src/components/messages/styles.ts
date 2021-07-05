@@ -2,8 +2,8 @@ import errorIcon from "@assets/images/error-icon.svg";
 import infoIcon from "@assets/images/info-icon.svg";
 import successIcon from "@assets/images/success-icon.svg";
 import warningIcon from "@assets/images/warning-icon.svg";
-import { makeStyles } from "@material-ui/core/styles";
 import { darken } from "@material-ui/core/styles/colorManipulator";
+import { makeStyles } from "@saleor/theme";
 
 const successColor = "#60DAA0";
 const warningColor = "#FFB84E";
@@ -42,7 +42,7 @@ export const useStyles = makeStyles(
       position: "fixed",
       top: 0,
       width: "100%",
-      zIndex: 1200
+      zIndex: 10000
     },
     error: {
       "& > div": {

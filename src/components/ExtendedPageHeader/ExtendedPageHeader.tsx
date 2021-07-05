@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 
@@ -11,7 +11,7 @@ const useStyles = makeStyles(
       }
     },
     block: {
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("xs")]: {
         "&&": {
           display: "block"
         }
@@ -29,7 +29,8 @@ const useStyles = makeStyles(
     root: {
       alignItems: "center",
       display: "flex",
-      marginBottom: theme.spacing(3)
+      marginBottom: theme.spacing(3),
+      wordBreak: "break-all"
     },
     subtitle: {
       alignItems: "center",
@@ -51,15 +52,17 @@ interface ExtendedPageHeaderProps {
   className?: string;
   inline?: boolean;
   title?: React.ReactNode;
+  testId?: string;
 }
 
 const ExtendedPageHeader: React.FC<ExtendedPageHeaderProps> = props => {
-  const { children, className, inline, title } = props;
+  const { children, className, inline, title, testId } = props;
 
   const classes = useStyles(props);
 
   return (
     <div
+      data-test-id={testId}
       className={classNames(classes.root, className, {
         [classes.block]: !inline
       })}

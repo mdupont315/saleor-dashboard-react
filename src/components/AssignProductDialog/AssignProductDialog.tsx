@@ -1,14 +1,15 @@
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
+import {
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TableBody,
+  TableCell,
+  TableRow,
+  TextField
+} from "@material-ui/core";
 import ConfirmButton, {
   ConfirmButtonTransitionState
 } from "@saleor/components/ConfirmButton";
@@ -20,6 +21,7 @@ import { buttonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import { SearchProducts_search_edges_node } from "@saleor/searches/types/SearchProducts";
 import useScrollableDialogStyle from "@saleor/styles/useScrollableDialogStyle";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps } from "@saleor/types";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -165,7 +167,10 @@ const AssignProductDialog: React.FC<AssignProductDialogProps> = props => {
                     );
 
                     return (
-                      <TableRow key={product.id}>
+                      <TableRow
+                        key={product.id}
+                        data-test-id="assign-product-table-row"
+                      >
                         <TableCellAvatar
                           className={classes.avatar}
                           thumbnail={maybe(() => product.thumbnail.url)}
@@ -202,6 +207,7 @@ const AssignProductDialog: React.FC<AssignProductDialogProps> = props => {
           <FormattedMessage {...buttonMessages.back} />
         </Button>
         <ConfirmButton
+          data-test="submit"
           transitionState={confirmButtonState}
           color="primary"
           variant="contained"

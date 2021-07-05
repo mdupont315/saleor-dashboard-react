@@ -1,13 +1,10 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardContent, TextField, Typography } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Hr from "@saleor/components/Hr";
 import { WebhookErrorFragment } from "@saleor/fragments/types/WebhookErrorFragment";
 import { commonMessages } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import { getFormErrors } from "@saleor/utils/errors";
 import getWebhookErrorMessage from "@saleor/utils/errors/webhooks";
 import React from "react";
@@ -114,7 +111,7 @@ const WebhookInfo: React.FC<WebhookInfoProps> = ({
             })
           }
           label={intl.formatMessage({
-            defaultMessage: "Secrect Key",
+            defaultMessage: "Secret Key",
             description: "webhook"
           })}
           fullWidth

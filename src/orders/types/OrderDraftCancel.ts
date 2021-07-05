@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderErrorCode, OrderEventsEmailsEnum, OrderEventsEnum, FulfillmentStatus, PaymentChargeStatusEnum, OrderStatus, OrderAction, JobStatusEnum } from "./../../types/globalTypes";
+import { OrderErrorCode, AddressTypeEnum, OrderDiscountType, DiscountValueTypeEnum, OrderEventsEmailsEnum, OrderEventsEnum, FulfillmentStatus, PaymentChargeStatusEnum, OrderStatus, OrderAction, JobStatusEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: OrderDraftCancel
@@ -12,6 +13,7 @@ export interface OrderDraftCancel_draftOrderDelete_errors {
   __typename: "OrderError";
   code: OrderErrorCode;
   field: string | null;
+  addressType: AddressTypeEnum | null;
 }
 
 export interface OrderDraftCancel_draftOrderDelete_order_metadata {
@@ -48,6 +50,45 @@ export interface OrderDraftCancel_draftOrderDelete_order_billingAddress {
   streetAddress2: string;
 }
 
+export interface OrderDraftCancel_draftOrderDelete_order_discounts_amount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_discounts {
+  __typename: "OrderDiscount";
+  id: string;
+  type: OrderDiscountType;
+  calculationMode: DiscountValueTypeEnum;
+  value: any;
+  reason: string | null;
+  amount: OrderDraftCancel_draftOrderDelete_order_discounts_amount;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_events_discount_amount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_events_discount_oldAmount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_events_discount {
+  __typename: "OrderEventDiscountObject";
+  valueType: DiscountValueTypeEnum;
+  value: any;
+  reason: string | null;
+  amount: OrderDraftCancel_draftOrderDelete_order_events_discount_amount | null;
+  oldValueType: DiscountValueTypeEnum | null;
+  oldValue: any | null;
+  oldAmount: OrderDraftCancel_draftOrderDelete_order_events_discount_oldAmount | null;
+}
+
 export interface OrderDraftCancel_draftOrderDelete_order_events_relatedOrder {
   __typename: "Order";
   id: string;
@@ -62,6 +103,29 @@ export interface OrderDraftCancel_draftOrderDelete_order_events_user {
   lastName: string;
 }
 
+export interface OrderDraftCancel_draftOrderDelete_order_events_lines_discount_amount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_events_lines_discount_oldAmount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_events_lines_discount {
+  __typename: "OrderEventDiscountObject";
+  valueType: DiscountValueTypeEnum;
+  value: any;
+  reason: string | null;
+  amount: OrderDraftCancel_draftOrderDelete_order_events_lines_discount_amount | null;
+  oldValueType: DiscountValueTypeEnum | null;
+  oldValue: any | null;
+  oldAmount: OrderDraftCancel_draftOrderDelete_order_events_lines_discount_oldAmount | null;
+}
+
 export interface OrderDraftCancel_draftOrderDelete_order_events_lines_orderLine {
   __typename: "OrderLine";
   id: string;
@@ -72,6 +136,8 @@ export interface OrderDraftCancel_draftOrderDelete_order_events_lines_orderLine 
 export interface OrderDraftCancel_draftOrderDelete_order_events_lines {
   __typename: "OrderEventOrderLineObject";
   quantity: number | null;
+  itemName: string | null;
+  discount: OrderDraftCancel_draftOrderDelete_order_events_lines_discount | null;
   orderLine: OrderDraftCancel_draftOrderDelete_order_events_lines_orderLine | null;
 }
 
@@ -84,6 +150,7 @@ export interface OrderDraftCancel_draftOrderDelete_order_events {
   email: string | null;
   emailType: OrderEventsEmailsEnum | null;
   invoiceNumber: string | null;
+  discount: OrderDraftCancel_draftOrderDelete_order_events_discount | null;
   relatedOrder: OrderDraftCancel_draftOrderDelete_order_events_relatedOrder | null;
   message: string | null;
   quantity: number | null;
@@ -97,6 +164,31 @@ export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orde
   __typename: "ProductVariant";
   id: string;
   quantityAvailable: number;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_unitDiscount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_undiscountedUnitPrice_gross {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_undiscountedUnitPrice_net {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_undiscountedUnitPrice {
+  __typename: "TaxedMoney";
+  currency: string;
+  gross: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_undiscountedUnitPrice_gross;
+  net: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_undiscountedUnitPrice_net;
 }
 
 export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_unitPrice_gross {
@@ -131,7 +223,12 @@ export interface OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orde
   productSku: string;
   quantity: number;
   quantityFulfilled: number;
-  unitPrice: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_unitPrice | null;
+  unitDiscount: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_unitDiscount;
+  unitDiscountValue: any;
+  unitDiscountReason: string | null;
+  unitDiscountType: DiscountValueTypeEnum | null;
+  undiscountedUnitPrice: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_undiscountedUnitPrice;
+  unitPrice: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_unitPrice;
   thumbnail: OrderDraftCancel_draftOrderDelete_order_fulfillments_lines_orderLine_thumbnail | null;
 }
 
@@ -162,6 +259,31 @@ export interface OrderDraftCancel_draftOrderDelete_order_lines_variant {
   __typename: "ProductVariant";
   id: string;
   quantityAvailable: number;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_lines_unitDiscount {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_lines_undiscountedUnitPrice_gross {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_lines_undiscountedUnitPrice_net {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_lines_undiscountedUnitPrice {
+  __typename: "TaxedMoney";
+  currency: string;
+  gross: OrderDraftCancel_draftOrderDelete_order_lines_undiscountedUnitPrice_gross;
+  net: OrderDraftCancel_draftOrderDelete_order_lines_undiscountedUnitPrice_net;
 }
 
 export interface OrderDraftCancel_draftOrderDelete_order_lines_unitPrice_gross {
@@ -196,7 +318,12 @@ export interface OrderDraftCancel_draftOrderDelete_order_lines {
   productSku: string;
   quantity: number;
   quantityFulfilled: number;
-  unitPrice: OrderDraftCancel_draftOrderDelete_order_lines_unitPrice | null;
+  unitDiscount: OrderDraftCancel_draftOrderDelete_order_lines_unitDiscount;
+  unitDiscountValue: any;
+  unitDiscountReason: string | null;
+  unitDiscountType: DiscountValueTypeEnum | null;
+  undiscountedUnitPrice: OrderDraftCancel_draftOrderDelete_order_lines_undiscountedUnitPrice;
+  unitPrice: OrderDraftCancel_draftOrderDelete_order_lines_unitPrice;
   thumbnail: OrderDraftCancel_draftOrderDelete_order_lines_thumbnail | null;
 }
 
@@ -244,12 +371,25 @@ export interface OrderDraftCancel_draftOrderDelete_order_subtotal_gross {
   currency: string;
 }
 
+export interface OrderDraftCancel_draftOrderDelete_order_subtotal_net {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
 export interface OrderDraftCancel_draftOrderDelete_order_subtotal {
   __typename: "TaxedMoney";
   gross: OrderDraftCancel_draftOrderDelete_order_subtotal_gross;
+  net: OrderDraftCancel_draftOrderDelete_order_subtotal_net;
 }
 
 export interface OrderDraftCancel_draftOrderDelete_order_total_gross {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_total_net {
   __typename: "Money";
   amount: number;
   currency: string;
@@ -264,6 +404,7 @@ export interface OrderDraftCancel_draftOrderDelete_order_total_tax {
 export interface OrderDraftCancel_draftOrderDelete_order_total {
   __typename: "TaxedMoney";
   gross: OrderDraftCancel_draftOrderDelete_order_total_gross;
+  net: OrderDraftCancel_draftOrderDelete_order_total_net;
   tax: OrderDraftCancel_draftOrderDelete_order_total_tax;
 }
 
@@ -277,6 +418,24 @@ export interface OrderDraftCancel_draftOrderDelete_order_totalCaptured {
   __typename: "Money";
   amount: number;
   currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_undiscountedTotal_net {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_undiscountedTotal_gross {
+  __typename: "Money";
+  amount: number;
+  currency: string;
+}
+
+export interface OrderDraftCancel_draftOrderDelete_order_undiscountedTotal {
+  __typename: "TaxedMoney";
+  net: OrderDraftCancel_draftOrderDelete_order_undiscountedTotal_net;
+  gross: OrderDraftCancel_draftOrderDelete_order_undiscountedTotal_gross;
 }
 
 export interface OrderDraftCancel_draftOrderDelete_order_user {
@@ -298,12 +457,6 @@ export interface OrderDraftCancel_draftOrderDelete_order_availableShippingMethod
   price: OrderDraftCancel_draftOrderDelete_order_availableShippingMethods_price | null;
 }
 
-export interface OrderDraftCancel_draftOrderDelete_order_discount {
-  __typename: "Money";
-  amount: number;
-  currency: string;
-}
-
 export interface OrderDraftCancel_draftOrderDelete_order_invoices {
   __typename: "Invoice";
   id: string;
@@ -319,6 +472,7 @@ export interface OrderDraftCancel_draftOrderDelete_order_channel {
   id: string;
   name: string;
   currencyCode: string;
+  slug: string;
 }
 
 export interface OrderDraftCancel_draftOrderDelete_order {
@@ -327,31 +481,33 @@ export interface OrderDraftCancel_draftOrderDelete_order {
   metadata: (OrderDraftCancel_draftOrderDelete_order_metadata | null)[];
   privateMetadata: (OrderDraftCancel_draftOrderDelete_order_privateMetadata | null)[];
   billingAddress: OrderDraftCancel_draftOrderDelete_order_billingAddress | null;
+  isShippingRequired: boolean;
   canFinalize: boolean;
   created: any;
   customerNote: string;
+  discounts: OrderDraftCancel_draftOrderDelete_order_discounts[] | null;
   events: (OrderDraftCancel_draftOrderDelete_order_events | null)[] | null;
   fulfillments: (OrderDraftCancel_draftOrderDelete_order_fulfillments | null)[];
   lines: (OrderDraftCancel_draftOrderDelete_order_lines | null)[];
   number: string | null;
-  paymentStatus: PaymentChargeStatusEnum | null;
+  paymentStatus: PaymentChargeStatusEnum;
   shippingAddress: OrderDraftCancel_draftOrderDelete_order_shippingAddress | null;
   shippingMethod: OrderDraftCancel_draftOrderDelete_order_shippingMethod | null;
   shippingMethodName: string | null;
-  shippingPrice: OrderDraftCancel_draftOrderDelete_order_shippingPrice | null;
+  shippingPrice: OrderDraftCancel_draftOrderDelete_order_shippingPrice;
   status: OrderStatus;
-  subtotal: OrderDraftCancel_draftOrderDelete_order_subtotal | null;
-  total: OrderDraftCancel_draftOrderDelete_order_total | null;
+  subtotal: OrderDraftCancel_draftOrderDelete_order_subtotal;
+  total: OrderDraftCancel_draftOrderDelete_order_total;
   actions: (OrderAction | null)[];
-  totalAuthorized: OrderDraftCancel_draftOrderDelete_order_totalAuthorized | null;
-  totalCaptured: OrderDraftCancel_draftOrderDelete_order_totalCaptured | null;
+  totalAuthorized: OrderDraftCancel_draftOrderDelete_order_totalAuthorized;
+  totalCaptured: OrderDraftCancel_draftOrderDelete_order_totalCaptured;
+  undiscountedTotal: OrderDraftCancel_draftOrderDelete_order_undiscountedTotal;
   user: OrderDraftCancel_draftOrderDelete_order_user | null;
   userEmail: string | null;
   availableShippingMethods: (OrderDraftCancel_draftOrderDelete_order_availableShippingMethods | null)[] | null;
-  discount: OrderDraftCancel_draftOrderDelete_order_discount | null;
   invoices: (OrderDraftCancel_draftOrderDelete_order_invoices | null)[] | null;
   channel: OrderDraftCancel_draftOrderDelete_order_channel;
-  isPaid: boolean | null;
+  isPaid: boolean;
 }
 
 export interface OrderDraftCancel_draftOrderDelete {

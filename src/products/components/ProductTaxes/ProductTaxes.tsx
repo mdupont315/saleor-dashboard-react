@@ -1,6 +1,4 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import { Card, CardContent } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
 import Hr from "@saleor/components/Hr";
@@ -8,6 +6,7 @@ import SingleAutocompleteSelectField from "@saleor/components/SingleAutocomplete
 import { TaxTypeFragment } from "@saleor/fragments/types/TaxTypeFragment";
 import { FormChange } from "@saleor/hooks/useForm";
 import { sectionNames } from "@saleor/intl";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { useIntl } from "react-intl";
 

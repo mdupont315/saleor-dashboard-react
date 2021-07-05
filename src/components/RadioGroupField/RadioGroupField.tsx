@@ -1,11 +1,13 @@
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormLabel from "@material-ui/core/FormLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import { makeStyles } from "@material-ui/core/styles";
+import {
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  FormLabel,
+  MenuItem,
+  Radio,
+  RadioGroup
+} from "@material-ui/core";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 import { FormattedMessage } from "react-intl";
@@ -59,13 +61,14 @@ interface RadioGroupFieldProps {
   alignTop?: boolean;
   choices: RadioGroupFieldChoice[];
   className?: string;
+  innerContainerClassName?: string;
   disabled?: boolean;
   error?: boolean;
   hint?: string;
   label?: React.ReactNode;
   name?: string;
   value: string | number;
-  variant?: "block" | "inline";
+  variant?: "block" | "inline" | "inlineJustify";
   onChange: (event: React.ChangeEvent<any>) => void;
 }
 
@@ -81,7 +84,8 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = props => {
     onChange,
     name,
     hint,
-    variant = "block"
+    variant = "block",
+    innerContainerClassName
   } = props;
   const classes = useStyles(props);
 
@@ -102,7 +106,8 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = props => {
         value={value}
         onChange={onChange}
         className={classNames({
-          [classes.radioGroupInline]: variant === "inline"
+          [classes.radioGroupInline]: variant === "inline",
+          [innerContainerClassName]: !!innerContainerClassName
         })}
       >
         {choices.length > 0 ? (

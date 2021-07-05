@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -10,7 +11,7 @@ export interface CollectionTranslationFragment_collection {
   __typename: "Collection";
   id: string;
   name: string;
-  descriptionJson: any;
+  description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
 }
@@ -23,9 +24,9 @@ export interface CollectionTranslationFragment_translation_language {
 export interface CollectionTranslationFragment_translation {
   __typename: "CollectionTranslation";
   id: string;
-  descriptionJson: any;
+  description: any | null;
   language: CollectionTranslationFragment_translation_language;
-  name: string;
+  name: string | null;
   seoDescription: string | null;
   seoTitle: string | null;
 }

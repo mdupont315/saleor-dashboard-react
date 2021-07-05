@@ -2,6 +2,7 @@ import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
 import SaveFilterTabDialog, {
   SaveFilterTabDialogFormData
 } from "@saleor/components/SaveFilterTabDialog";
+import { useShopLimitsQuery } from "@saleor/components/Shop/query";
 import { WindowTitle } from "@saleor/components/WindowTitle";
 import { configurationMenuUrl } from "@saleor/configuration";
 import useListSettings from "@saleor/hooks/useListSettings";
@@ -12,10 +13,12 @@ import usePaginator, {
 } from "@saleor/hooks/usePaginator";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { getMutationStatus, maybe } from "@saleor/misc";
+import { getById } from "@saleor/orders/components/OrderReturnPage/utils";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createFilterHandlers from "@saleor/utils/handlers/filterHandlers";
 import createSortHandler from "@saleor/utils/handlers/sortHandler";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import { getSortParams } from "@saleor/utils/sort";
 import WarehouseDeleteDialog from "@saleor/warehouses/components/WarehouseDeleteDialog";
 import WarehouseListPage from "@saleor/warehouses/components/WarehouseListPage";
@@ -67,6 +70,11 @@ const WarehouseList: React.FC<WarehouseListProps> = ({ params }) => {
     displayLoader: true,
     variables: queryVariables
   });
+  const limitOpts = useShopLimitsQuery({
+    variables: {
+      warehouses: true
+    }
+  });
   const [deleteWarehouse, deleteWarehouseOpts] = useWarehouseDelete({
     onCompleted: data => {
       if (data.deleteWarehouse.errors.length === 0) {
@@ -75,6 +83,7 @@ const WarehouseList: React.FC<WarehouseListProps> = ({ params }) => {
           text: intl.formatMessage(commonMessages.savedChanges)
         });
         refetch();
+        limitOpts.refetch();
         closeModal();
       }
     }
@@ -141,8 +150,9 @@ const WarehouseList: React.FC<WarehouseListProps> = ({ params }) => {
         onTabChange={handleTabChange}
         onTabDelete={() => openModal("delete-search")}
         onTabSave={() => openModal("save-search")}
+        limits={limitOpts.data?.shop.limits}
         tabs={tabs.map(tab => tab.name)}
-        warehouses={maybe(() => data.warehouses.edges.map(edge => edge.node))}
+        warehouses={mapEdgesToItems(data?.warehouses)}
         settings={settings}
         disabled={loading}
         pageInfo={pageInfo}
@@ -157,11 +167,7 @@ const WarehouseList: React.FC<WarehouseListProps> = ({ params }) => {
       />
       <WarehouseDeleteDialog
         confirmButtonState={deleteTransitionState}
-        name={maybe(
-          () =>
-            data.warehouses.edges.find(edge => edge.node.id === params.id).node
-              .name
-        )}
+        name={mapEdgesToItems(data?.warehouses).find(getById(params.id))?.name}
         open={params.action === "delete"}
         onClose={closeModal}
         onConfirm={() =>

@@ -1,18 +1,20 @@
-import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
+import {
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TableBody,
+  TableCell,
+  TableRow,
+  TextField
+} from "@material-ui/core";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import useSearchQuery from "@saleor/hooks/useSearchQuery";
 import { buttonMessages } from "@saleor/intl";
 import useScrollableDialogStyle from "@saleor/styles/useScrollableDialogStyle";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps, Node } from "@saleor/types";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroller";

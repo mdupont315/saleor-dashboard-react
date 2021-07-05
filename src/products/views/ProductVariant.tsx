@@ -25,8 +25,10 @@ import { useProductVariantChannelListingUpdate } from "@saleor/products/mutation
 import { ProductVariantDetails_productVariant } from "@saleor/products/types/ProductVariantDetails";
 import usePageSearch from "@saleor/searches/usePageSearch";
 import useProductSearch from "@saleor/searches/useProductSearch";
+import createAttributeValueSearchHandler from "@saleor/utils/handlers/attributeValueSearchHandler";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createMetadataUpdateHandler from "@saleor/utils/handlers/metadataUpdateHandler";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import {
   useMetadataUpdate,
   usePrivateMetadataUpdate
@@ -43,8 +45,8 @@ import { ProductVariantUpdateSubmitData } from "../components/ProductVariantPage
 import {
   useProductVariantReorderMutation,
   useVariantDeleteMutation,
-  useVariantImageAssignMutation,
-  useVariantImageUnassignMutation,
+  useVariantMediaAssignMutation,
+  useVariantMediaUnassignMutation,
   useVariantUpdateMutation
 } from "../mutations";
 import { useProductVariantQuery } from "../queries";
@@ -91,7 +93,8 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
   const { data, loading } = useProductVariantQuery({
     displayLoader: true,
     variables: {
-      id: variantId
+      id: variantId,
+      firstValues: 10
     }
   });
   const [updateMetadata] = useMetadataUpdate({});
@@ -115,8 +118,8 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
 
   const [uploadFile, uploadFileOpts] = useFileUploadMutation({});
 
-  const [assignImage, assignImageOpts] = useVariantImageAssignMutation({});
-  const [unassignImage, unassignImageOpts] = useVariantImageUnassignMutation(
+  const [assignMedia, assignMediaOpts] = useVariantMediaAssignMutation({});
+  const [unassignMedia, unassignMediaOpts] = useVariantMediaUnassignMutation(
     {}
   );
   const [deleteVariant, deleteVariantOpts] = useVariantDeleteMutation({
@@ -130,6 +133,7 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
       navigate(productUrl(productId));
     }
   });
+
   const [updateVariant, updateVariantOpts] = useVariantUpdateMutation({
     onCompleted: data => {
       if (data.productVariantUpdate.errors.length === 0) {
@@ -198,24 +202,24 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
     uploadFileOpts.loading ||
     deleteVariantOpts.loading ||
     updateVariantOpts.loading ||
-    assignImageOpts.loading ||
-    unassignImageOpts.loading ||
+    assignMediaOpts.loading ||
+    unassignMediaOpts.loading ||
     reorderProductVariantsOpts.loading ||
     deleteAttributeValueOpts.loading;
 
-  const handleImageSelect = (id: string) => () => {
+  const handleMediaSelect = (id: string) => () => {
     if (variant) {
-      if (variant?.images?.map(image => image.id).indexOf(id) !== -1) {
-        unassignImage({
+      if (variant?.media?.map(media_obj => media_obj.id).indexOf(id) !== -1) {
+        unassignMedia({
           variables: {
-            imageId: id,
+            mediaId: id,
             variantId: variant.id
           }
         });
       } else {
-        assignImage({
+        assignMedia({
           variables: {
-            imageId: id,
+            mediaId: id,
             variantId: variant.id
           }
         });
@@ -252,7 +256,8 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
         sku: data.sku,
         stocks: data.updateStocks.map(mapFormsetStockToStockInput),
         trackInventory: data.trackInventory,
-        weight: weight(data.weight)
+        weight: weight(data.weight),
+        firstValues: 10
       }
     });
     await handleSubmitChannels(data, variant);
@@ -295,6 +300,11 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
   } = useProductSearch({
     variables: DEFAULT_INITIAL_SEARCH_DATA
   });
+  const {
+    loadMore: loadMoreAttributeValues,
+    search: searchAttributeValues,
+    result: searchAttributeValuesOpts
+  } = createAttributeValueSearchHandler(DEFAULT_INITIAL_SEARCH_DATA);
 
   const fetchMoreReferencePages = {
     hasMore: searchPagesOpts.data?.search?.pageInfo?.hasNextPage,
@@ -306,6 +316,16 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
     loading: searchProductsOpts.loading,
     onFetchMore: loadMoreProducts
   };
+  const fetchMoreAttributeValues = {
+    hasMore: !!searchAttributeValuesOpts.data?.attribute?.choices?.pageInfo
+      ?.hasNextPage,
+    loading: !!searchAttributeValuesOpts.loading,
+    onFetchMore: loadMoreAttributeValues
+  };
+
+  const attributeValues = mapEdgesToItems(
+    searchAttributeValuesOpts?.data?.attribute.choices
+  );
 
   return (
     <>
@@ -314,6 +334,7 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
         defaultWeightUnit={shop?.defaultWeightUnit}
         defaultVariantId={data?.productVariant.product.defaultVariant?.id}
         errors={errors}
+        attributeValues={attributeValues}
         channels={channels}
         channelErrors={
           updateChannelsOpts?.data?.productVariantChannelListingUpdate
@@ -325,13 +346,11 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
         placeholderImage={placeholderImg}
         variant={variant}
         header={variant?.name || variant?.sku}
-        warehouses={
-          warehouses.data?.warehouses.edges.map(edge => edge.node) || []
-        }
+        warehouses={mapEdgesToItems(warehouses?.data?.warehouses)}
         onAdd={() => navigate(productVariantAddUrl(productId))}
         onBack={handleBack}
         onDelete={() => openModal("remove")}
-        onImageSelect={handleImageSelect}
+        onMediaSelect={handleMediaSelect}
         onSubmit={async data => {
           await handleSubmit(data);
           await handleSubmitChannels(data, variant);
@@ -345,16 +364,14 @@ export const ProductVariant: React.FC<ProductUpdateProps> = ({
           params.action === "assign-attribute-value" && params.id
         }
         onAssignReferencesClick={handleAssignAttributeReferenceClick}
-        referencePages={searchPagesOpts.data?.search.edges.map(
-          edge => edge.node
-        )}
-        referenceProducts={searchProductsOpts.data?.search.edges.map(
-          edge => edge.node
-        )}
+        referencePages={mapEdgesToItems(searchPagesOpts?.data?.search)}
+        referenceProducts={mapEdgesToItems(searchProductsOpts?.data?.search)}
         fetchReferencePages={searchPages}
         fetchMoreReferencePages={fetchMoreReferencePages}
         fetchReferenceProducts={searchProducts}
         fetchMoreReferenceProducts={fetchMoreReferenceProducts}
+        fetchAttributeValues={searchAttributeValues}
+        fetchMoreAttributeValues={fetchMoreAttributeValues}
         onCloseDialog={() =>
           navigate(productVariantEditUrl(productId, variantId))
         }

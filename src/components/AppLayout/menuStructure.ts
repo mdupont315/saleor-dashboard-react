@@ -6,6 +6,8 @@ import homeIcon from "@assets/images/menu-home-icon.svg";
 import ordersIcon from "@assets/images/menu-orders-icon.svg";
 import translationIcon from "@assets/images/menu-translation-icon.svg";
 import { commonMessages, sectionNames } from "@saleor/intl";
+import { servicesUrl } from "@saleor/servicesTime/urls";
+import { storesManagementListUrl } from "@saleor/stores/urls";
 import { IntlShape } from "react-intl";
 
 import { appsListPath } from "../../apps/urls";
@@ -36,6 +38,20 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       label: intl.formatMessage(sectionNames.home),
       testingContextId: "home",
       url: "/"
+    },
+    {
+      ariaLabel: "stores",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.stores),
+      testingContextId: "stores",
+      url: storesManagementListUrl()
+    },
+    {
+      ariaLabel: "services time",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.serviceTime),
+      testingContextId: "serviceTime",
+      url: servicesUrl()
     },
     {
       ariaLabel: "catalogue",

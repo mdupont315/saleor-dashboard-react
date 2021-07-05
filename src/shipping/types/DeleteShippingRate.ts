@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { ShippingErrorCode, WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
+import { ShippingErrorCode, PostalCodeRuleInclusionTypeEnum, WeightUnitsEnum, ShippingMethodTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: DeleteShippingRate
@@ -32,9 +33,10 @@ export interface DeleteShippingRate_shippingPriceDelete_shippingZone_countries {
   country: string;
 }
 
-export interface DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_zipCodeRules {
-  __typename: "ShippingMethodZipCodeRule";
+export interface DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_postalCodeRules {
+  __typename: "ShippingMethodPostalCodeRule";
   id: string;
+  inclusionType: PostalCodeRuleInclusionTypeEnum | null;
   start: string | null;
   end: string | null;
 }
@@ -100,7 +102,7 @@ export interface DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMet
 export interface DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods {
   __typename: "ShippingMethod";
   id: string;
-  zipCodeRules: (DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_zipCodeRules | null)[] | null;
+  postalCodeRules: (DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_postalCodeRules | null)[] | null;
   metadata: (DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_metadata | null)[];
   privateMetadata: (DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_privateMetadata | null)[];
   minimumOrderWeight: DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_minimumOrderWeight | null;
@@ -108,6 +110,7 @@ export interface DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMet
   minimumDeliveryDays: number | null;
   maximumDeliveryDays: number | null;
   name: string;
+  description: any | null;
   type: ShippingMethodTypeEnum | null;
   channelListings: DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods_channelListings[] | null;
 }
@@ -128,7 +131,7 @@ export interface DeleteShippingRate_shippingPriceDelete_shippingZone {
   description: string | null;
   default: boolean;
   shippingMethods: (DeleteShippingRate_shippingPriceDelete_shippingZone_shippingMethods | null)[] | null;
-  warehouses: (DeleteShippingRate_shippingPriceDelete_shippingZone_warehouses | null)[] | null;
+  warehouses: DeleteShippingRate_shippingPriceDelete_shippingZone_warehouses[];
 }
 
 export interface DeleteShippingRate_shippingPriceDelete {

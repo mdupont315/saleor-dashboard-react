@@ -1,18 +1,19 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Card, CardActions, CardContent } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { Hr } from "@saleor/components/Hr";
 import Money, { subtractMoney } from "@saleor/components/Money";
 import Skeleton from "@saleor/components/Skeleton";
 import StatusLabel from "@saleor/components/StatusLabel";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { maybe, transformPaymentStatus } from "../../../misc";
-import { OrderAction, OrderStatus } from "../../../types/globalTypes";
+import {
+  OrderAction,
+  OrderDiscountType,
+  OrderStatus
+} from "../../../types/globalTypes";
 import { OrderDetails_order } from "../../types/OrderDetails";
 
 const useStyles = makeStyles(
@@ -163,7 +164,7 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                 )}
               </td>
             </tr>
-            {order?.discount?.amount > 0 && (
+            {order?.discounts?.map(discount => (
               <tr>
                 <td>
                   <FormattedMessage
@@ -171,12 +172,24 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                     description="order discount"
                   />
                 </td>
-                <td />
+                <td>
+                  {discount.type === OrderDiscountType.MANUAL ? (
+                    <FormattedMessage
+                      defaultMessage="Staff added"
+                      description="staff added type order discount"
+                    />
+                  ) : (
+                    <FormattedMessage
+                      defaultMessage="Voucher"
+                      description="voucher type order discount"
+                    />
+                  )}
+                </td>
                 <td className={classes.textRight}>
-                  -<Money money={order.discount} />
+                  -<Money money={discount.amount} />
                 </td>
               </tr>
-            )}
+            ))}
             <tr className={classes.totalRow}>
               <td>
                 <FormattedMessage
@@ -284,7 +297,12 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                 </Button>
               )}
               {canRefund && (
-                <Button color="primary" variant="text" onClick={onRefund}>
+                <Button
+                  color="primary"
+                  variant="text"
+                  onClick={onRefund}
+                  data-test-id="refund-button"
+                >
                   <FormattedMessage
                     defaultMessage="Refund"
                     description="button"

@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { PageInput, PageErrorCode, AttributeInputTypeEnum, AttributeEntityTypeEnum } from "./../../types/globalTypes";
+import { PageInput, PageErrorCode, AttributeInputTypeEnum, AttributeEntityTypeEnum, MeasurementUnitsEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: PageUpdate
@@ -15,19 +16,41 @@ export interface PageUpdate_pageUpdate_errors {
   attributes: string[] | null;
 }
 
-export interface PageUpdate_pageUpdate_page_attributes_attribute_values_file {
+export interface PageUpdate_pageUpdate_page_attributes_attribute_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface PageUpdate_pageUpdate_page_attributes_attribute_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface PageUpdate_pageUpdate_page_attributes_attribute_values {
+export interface PageUpdate_pageUpdate_page_attributes_attribute_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: PageUpdate_pageUpdate_page_attributes_attribute_values_file | null;
+  file: PageUpdate_pageUpdate_page_attributes_attribute_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface PageUpdate_pageUpdate_page_attributes_attribute_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: PageUpdate_pageUpdate_page_attributes_attribute_choices_edges_node;
+}
+
+export interface PageUpdate_pageUpdate_page_attributes_attribute_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: PageUpdate_pageUpdate_page_attributes_attribute_choices_pageInfo;
+  edges: PageUpdate_pageUpdate_page_attributes_attribute_choices_edges[];
 }
 
 export interface PageUpdate_pageUpdate_page_attributes_attribute {
@@ -38,7 +61,8 @@ export interface PageUpdate_pageUpdate_page_attributes_attribute {
   inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   valueRequired: boolean;
-  values: (PageUpdate_pageUpdate_page_attributes_attribute_values | null)[] | null;
+  unit: MeasurementUnitsEnum | null;
+  choices: PageUpdate_pageUpdate_page_attributes_attribute_choices | null;
 }
 
 export interface PageUpdate_pageUpdate_page_attributes_values_file {
@@ -54,6 +78,8 @@ export interface PageUpdate_pageUpdate_page_attributes_values {
   slug: string | null;
   file: PageUpdate_pageUpdate_page_attributes_values_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
 }
 
 export interface PageUpdate_pageUpdate_page_attributes {
@@ -62,19 +88,41 @@ export interface PageUpdate_pageUpdate_page_attributes {
   values: (PageUpdate_pageUpdate_page_attributes_values | null)[];
 }
 
-export interface PageUpdate_pageUpdate_page_pageType_attributes_values_file {
+export interface PageUpdate_pageUpdate_page_pageType_attributes_choices_pageInfo {
+  __typename: "PageInfo";
+  endCursor: string | null;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string | null;
+}
+
+export interface PageUpdate_pageUpdate_page_pageType_attributes_choices_edges_node_file {
   __typename: "File";
   url: string;
   contentType: string | null;
 }
 
-export interface PageUpdate_pageUpdate_page_pageType_attributes_values {
+export interface PageUpdate_pageUpdate_page_pageType_attributes_choices_edges_node {
   __typename: "AttributeValue";
   id: string;
   name: string | null;
   slug: string | null;
-  file: PageUpdate_pageUpdate_page_pageType_attributes_values_file | null;
+  file: PageUpdate_pageUpdate_page_pageType_attributes_choices_edges_node_file | null;
   reference: string | null;
+  richText: any | null;
+  boolean: boolean | null;
+}
+
+export interface PageUpdate_pageUpdate_page_pageType_attributes_choices_edges {
+  __typename: "AttributeValueCountableEdge";
+  cursor: string;
+  node: PageUpdate_pageUpdate_page_pageType_attributes_choices_edges_node;
+}
+
+export interface PageUpdate_pageUpdate_page_pageType_attributes_choices {
+  __typename: "AttributeValueCountableConnection";
+  pageInfo: PageUpdate_pageUpdate_page_pageType_attributes_choices_pageInfo;
+  edges: PageUpdate_pageUpdate_page_pageType_attributes_choices_edges[];
 }
 
 export interface PageUpdate_pageUpdate_page_pageType_attributes {
@@ -84,7 +132,7 @@ export interface PageUpdate_pageUpdate_page_pageType_attributes {
   inputType: AttributeInputTypeEnum | null;
   entityType: AttributeEntityTypeEnum | null;
   valueRequired: boolean;
-  values: (PageUpdate_pageUpdate_page_pageType_attributes_values | null)[] | null;
+  choices: PageUpdate_pageUpdate_page_pageType_attributes_choices | null;
 }
 
 export interface PageUpdate_pageUpdate_page_pageType {
@@ -116,7 +164,7 @@ export interface PageUpdate_pageUpdate_page {
   pageType: PageUpdate_pageUpdate_page_pageType;
   metadata: (PageUpdate_pageUpdate_page_metadata | null)[];
   privateMetadata: (PageUpdate_pageUpdate_page_privateMetadata | null)[];
-  contentJson: any;
+  content: any | null;
   seoTitle: string | null;
   seoDescription: string | null;
   publicationDate: any | null;
@@ -135,4 +183,8 @@ export interface PageUpdate {
 export interface PageUpdateVariables {
   id: string;
   input: PageInput;
+  firstValues?: number | null;
+  afterValues?: string | null;
+  lastValues?: number | null;
+  beforeValues?: string | null;
 }

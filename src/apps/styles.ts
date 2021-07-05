@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@saleor/theme";
 
 export const useStyles = makeStyles(
   theme => ({
@@ -198,6 +198,11 @@ export const useStyles = makeStyles(
       flex: 1,
       fontWeight: 500,
       lineHeight: 1
+    },
+    activateButton: {
+      "& img": {
+        marginRight: theme.spacing(1)
+      }
     }
   }),
   { name: "AppList" }

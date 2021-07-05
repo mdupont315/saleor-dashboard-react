@@ -1,9 +1,5 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Card, TableCell, TableRow } from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
 import CardTitle from "@saleor/components/CardTitle";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
@@ -12,6 +8,7 @@ import {
   SortableTableRow
 } from "@saleor/components/SortableTable";
 import TableCellAvatar from "@saleor/components/TableCellAvatar";
+import { makeStyles } from "@saleor/theme";
 import { ReorderAction } from "@saleor/types";
 import classNames from "classnames";
 import React from "react";
@@ -99,6 +96,10 @@ const ProductVariantNavigation: React.FC<ProductVariantNavigationProps> = props 
           {renderCollection(variants, (variant, variantIndex) => {
             const isDefault = variant && variant.id === defaultVariantId;
             const isActive = variant && variant.id === current;
+            const thumbnail = variant?.media?.filter(
+              mediaObj => mediaObj.type === "IMAGE"
+            )[0];
+
             return (
               <SortableTableRow
                 hover={!!variant}
@@ -111,7 +112,7 @@ const ProductVariantNavigation: React.FC<ProductVariantNavigationProps> = props 
               >
                 <TableCellAvatar
                   className={classes.colAvatar}
-                  thumbnail={variant?.images[0]?.url || fallbackThumbnail}
+                  thumbnail={thumbnail?.url || fallbackThumbnail}
                 />
                 <TableCell className={classes.colName}>
                   {variant ? variant.name || variant.sku : <Skeleton />}

@@ -4,25 +4,37 @@ import gql from "graphql-tag";
 import { Home, HomeVariables } from "./types/Home";
 
 const home = gql`
-  query Home($channel: String!) {
-    salesToday: ordersTotal(period: TODAY, channel: $channel) {
+  query Home(
+    $channel: String!
+    $datePeriod: DateRangeInput!
+    $PERMISSION_MANAGE_PRODUCTS: Boolean!
+    $PERMISSION_MANAGE_ORDERS: Boolean!
+  ) {
+    salesToday: ordersTotal(period: TODAY, channel: $channel)
+      @include(if: $PERMISSION_MANAGE_ORDERS) {
       gross {
         amount
         currency
       }
     }
-    ordersToday: orders(created: TODAY, channel: $channel) {
+    ordersToday: orders(filter: { created: $datePeriod }, channel: $channel)
+      @include(if: $PERMISSION_MANAGE_ORDERS) {
       totalCount
     }
-    ordersToFulfill: orders(status: READY_TO_FULFILL, channel: $channel) {
+    ordersToFulfill: orders(
+      filter: { status: READY_TO_FULFILL }
+      channel: $channel
+    ) @include(if: $PERMISSION_MANAGE_ORDERS) {
       totalCount
     }
-    ordersToCapture: orders(status: READY_TO_CAPTURE, channel: $channel) {
+    ordersToCapture: orders(
+      filter: { status: READY_TO_CAPTURE }
+      channel: $channel
+    ) @include(if: $PERMISSION_MANAGE_ORDERS) {
       totalCount
     }
     productsOutOfStock: products(
-      stockAvailability: OUT_OF_STOCK
-      channel: $channel
+      filter: { stockAvailability: OUT_OF_STOCK, channel: $channel }
     ) {
       totalCount
     }
@@ -30,7 +42,7 @@ const home = gql`
       period: TODAY
       first: 5
       channel: $channel
-    ) {
+    ) @include(if: $PERMISSION_MANAGE_PRODUCTS) {
       edges {
         node {
           id
@@ -57,7 +69,8 @@ const home = gql`
         }
       }
     }
-    activities: homepageEvents(last: 10) {
+    activities: homepageEvents(last: 10)
+      @include(if: $PERMISSION_MANAGE_ORDERS) {
       edges {
         node {
           amount

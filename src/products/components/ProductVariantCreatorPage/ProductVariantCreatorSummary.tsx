@@ -1,12 +1,9 @@
-import Card from "@material-ui/core/Card";
+import { Card, IconButton, TextField } from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
 import cyan from "@material-ui/core/colors/cyan";
 import green from "@material-ui/core/colors/green";
 import purple from "@material-ui/core/colors/purple";
 import yellow from "@material-ui/core/colors/yellow";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { ChannelPriceData } from "@saleor/channels/utils";
 import CardTitle from "@saleor/components/CardTitle";
@@ -14,6 +11,7 @@ import Hr from "@saleor/components/Hr";
 import PriceField from "@saleor/components/PriceField";
 import { WarehouseFragment } from "@saleor/fragments/types/WarehouseFragment";
 import { ProductVariantBulkCreate_productVariantBulkCreate_errors } from "@saleor/products/types/ProductVariantBulkCreate";
+import { makeStyles } from "@saleor/theme";
 import { ProductVariantBulkCreateInput } from "@saleor/types/globalTypes";
 import { getFormErrors } from "@saleor/utils/errors";
 import { getBulkProductErrorMessage } from "@saleor/utils/errors/product";
@@ -22,7 +20,7 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { ProductDetails_product_productType_variantAttributes } from "../../types/ProductDetails";
-import { ChannelPrice, ProductVariantCreateFormData } from "./form";
+import { Attribute, ChannelPrice, ProductVariantCreateFormData } from "./form";
 
 export interface ProductVariantCreatorSummaryProps {
   attributes: ProductDetails_product_productType_variantAttributes[];
@@ -55,11 +53,7 @@ type ClassKey =
 
 const colors = [blue, cyan, green, purple, yellow].map(color => color[800]);
 
-const useStyles = makeStyles<
-  Theme,
-  ProductVariantCreatorSummaryProps,
-  ClassKey
->(
+const useStyles = makeStyles<ProductVariantCreatorSummaryProps, ClassKey>(
   theme => ({
     attributeValue: {
       display: "inline-block",
@@ -119,18 +113,18 @@ const useStyles = makeStyles<
 
 function getVariantName(
   variant: ProductVariantBulkCreateInput,
-  attributes: ProductDetails_product_productType_variantAttributes[]
+  attributes: Attribute[]
 ): string[] {
   return attributes.reduce(
     (acc, attribute) => [
       ...acc,
-      attribute.values.find(
+      attribute.values?.find(
         value =>
-          value.slug ===
+          value?.slug ===
           variant.attributes.find(
             variantAttribute => variantAttribute.id === attribute.id
           ).values[0]
-      ).name
+      )?.value?.name
     ],
     []
   );
@@ -138,7 +132,6 @@ function getVariantName(
 
 const ProductVariantCreatorSummary: React.FC<ProductVariantCreatorSummaryProps> = props => {
   const {
-    attributes,
     channelListings,
     data,
     errors,
@@ -226,7 +219,7 @@ const ProductVariantCreatorSummary: React.FC<ProductVariantCreatorSummaryProps> 
                 .join(":")}
             >
               <div className={classNames(classes.col, classes.colName)}>
-                {getVariantName(variant, attributes).map(
+                {getVariantName(variant, data.attributes).map(
                   (value, valueIndex) => (
                     <span
                       className={classes.attributeValue}
@@ -307,6 +300,7 @@ const ProductVariantCreatorSummary: React.FC<ProductVariantCreatorSummaryProps> 
               ))}
               <div className={classNames(classes.col, classes.colSku)}>
                 <TextField
+                  name="sku"
                   className={classes.input}
                   error={!!variantFormErrors.sku}
                   helperText={getBulkProductErrorMessage(

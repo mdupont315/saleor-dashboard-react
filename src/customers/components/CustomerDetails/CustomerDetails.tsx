@@ -1,13 +1,10 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import { Card, CardContent, TextField, Typography } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { ControlledCheckbox } from "@saleor/components/ControlledCheckbox";
 import Skeleton from "@saleor/components/Skeleton";
 import { AccountErrorFragment } from "@saleor/fragments/types/AccountErrorFragment";
 import { maybe } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { getFormErrors } from "@saleor/utils/errors";
 import getAccountErrorMessage from "@saleor/utils/errors/account";
 import moment from "moment-timezone";

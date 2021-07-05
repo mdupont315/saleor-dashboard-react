@@ -1,7 +1,7 @@
 import { ChannelSaleData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailability from "@saleor/components/ChannelsAvailability";
+import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
@@ -15,7 +15,10 @@ import { validatePrice } from "@saleor/products/utils/validation";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { SaleType as SaleTypeEnum } from "../../../types/globalTypes";
+import {
+  PermissionEnum,
+  SaleType as SaleTypeEnum
+} from "../../../types/globalTypes";
 import DiscountDates from "../DiscountDates";
 import SaleInfo from "../SaleInfo";
 import SaleType from "../SaleType";
@@ -117,7 +120,8 @@ const SaleCreatePage: React.FC<SaleCreatePageProps> = ({
                 />
               </div>
               <div>
-                <ChannelsAvailability
+                <ChannelsAvailabilityCard
+                  managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
                   allChannelsCount={allChannelsCount}
                   channelsList={data.channelListings.map(channel => ({

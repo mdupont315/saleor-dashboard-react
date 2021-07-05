@@ -27,6 +27,7 @@ import {
   ProductDelete,
   ProductDeleteVariables
 } from "@saleor/products/types/ProductDelete";
+import { ProductType_productType } from "@saleor/products/types/ProductType";
 import {
   ProductVariantChannelListingUpdate,
   ProductVariantChannelListingUpdateVariables
@@ -36,14 +37,14 @@ import {
   VariantCreateVariables
 } from "@saleor/products/types/VariantCreate";
 import { getAvailabilityVariables } from "@saleor/products/utils/handlers";
-import { SearchProductTypes_search_edges_node } from "@saleor/searches/types/SearchProductTypes";
+import { getParsedDataForJsonStringField } from "@saleor/utils/richText/misc";
 import { MutationFetchResult } from "react-apollo";
 
 const getChannelsVariables = (productId: string, channels: ChannelData[]) => ({
   variables: {
     id: productId,
     input: {
-      addChannels: getAvailabilityVariables(channels)
+      updateChannels: getAvailabilityVariables(channels)
     }
   }
 });
@@ -65,7 +66,7 @@ const getSimpleProductVariables = (
 });
 
 export function createHandler(
-  productTypes: SearchProductTypes_search_edges_node[],
+  productType: ProductType_productType,
   uploadFile: (
     variables: FileUploadVariables
   ) => Promise<MutationFetchResult<FileUpload>>,
@@ -108,7 +109,7 @@ export function createHandler(
         category: formData.category,
         chargeTaxes: formData.chargeTaxes,
         collections: formData.collections,
-        descriptionJson: JSON.stringify(formData.description),
+        description: getParsedDataForJsonStringField(formData.description),
         name: formData.name,
         productType: formData.productType?.id,
         rating: formData.rating,
@@ -125,9 +126,7 @@ export function createHandler(
     const result = await productCreate(productVariables);
     let hasErrors = errors.length > 0;
 
-    const hasVariants = productTypes.find(
-      product => product.id === formData.productType.id
-    ).hasVariants;
+    const hasVariants = productType.hasVariants;
     const productId = result.data.productCreate.product?.id;
 
     if (!productId) {

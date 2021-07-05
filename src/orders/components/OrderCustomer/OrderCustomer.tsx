@@ -1,8 +1,4 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Button, Card, CardContent, Typography } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import ExternalLink from "@saleor/components/ExternalLink";
 import Form from "@saleor/components/Form";
@@ -14,6 +10,7 @@ import Skeleton from "@saleor/components/Skeleton";
 import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { buttonMessages } from "@saleor/intl";
 import { SearchCustomers_search_edges_node } from "@saleor/searches/types/SearchCustomers";
+import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps, UserPermissionProps } from "@saleor/types";
 import { PermissionEnum } from "@saleor/types/globalTypes";
 import createSingleAutocompleteSelectHandler from "@saleor/utils/handlers/singleAutocompleteSelectChangeHandler";
@@ -48,6 +45,13 @@ const useStyles = makeStyles(
   { name: "OrderCustomer" }
 );
 
+export interface CustomerEditData {
+  user?: string;
+  userEmail?: string;
+  prevUser?: string;
+  prevUserEmail?: string;
+}
+
 export interface OrderCustomerProps
   extends Partial<FetchMoreProps>,
     UserPermissionProps {
@@ -57,7 +61,7 @@ export interface OrderCustomerProps
   canEditAddresses: boolean;
   canEditCustomer: boolean;
   fetchUsers?: (query: string) => void;
-  onCustomerEdit?: (data: { user?: string; userEmail?: string }) => void;
+  onCustomerEdit?: (data: CustomerEditData) => void;
   onProfileView: () => void;
   onBillingAddressEdit?: () => void;
   onShippingAddressEdit?: () => void;
@@ -109,6 +113,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
               requiredPermissions={[PermissionEnum.MANAGE_USERS]}
             >
               <Button
+                data-test-id="edit-customer"
                 color="primary"
                 variant="text"
                 disabled={!onCustomerEdit}
@@ -131,6 +136,8 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
                 const value = event.target.value;
 
                 onCustomerEdit({
+                  prevUser: user?.id,
+                  prevUserEmail: userEmail,
                   [value.includes("@") ? "userEmail" : "user"]: value
                 });
                 toggleEditMode();
@@ -146,6 +153,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
               );
               return (
                 <SingleAutocompleteSelectField
+                  data-test-id="select-customer"
                   allowCustomValues={true}
                   choices={userChoices}
                   displayValue={userDisplayName}
@@ -173,7 +181,12 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
           )
         ) : (
           <>
-            <Typography className={classes.userEmail}>{user.email}</Typography>
+            <Typography
+              className={classes.userEmail}
+              data-test-id="customer-email"
+            >
+              {user.email}
+            </Typography>
             <RequirePermissions
               userPermissions={userPermissions}
               requiredPermissions={[PermissionEnum.MANAGE_USERS]}
@@ -246,6 +259,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
           {canEditAddresses && (
             <div className={classes.sectionHeaderToolbar}>
               <Button
+                data-test-id="edit-shipping-address"
                 color="primary"
                 variant="text"
                 onClick={onShippingAddressEdit}
@@ -303,6 +317,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
           {canEditAddresses && (
             <div className={classes.sectionHeaderToolbar}>
               <Button
+                data-test-id="edit-billing-address"
                 color="primary"
                 variant="text"
                 onClick={onBillingAddressEdit}

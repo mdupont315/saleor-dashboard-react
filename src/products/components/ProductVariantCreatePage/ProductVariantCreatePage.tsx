@@ -16,8 +16,8 @@ import Grid from "@saleor/components/Grid";
 import Metadata from "@saleor/components/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
+import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
 import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPages";
 import { SearchProducts_search_edges_node } from "@saleor/searches/types/SearchProducts";
 import { SearchWarehouses_search_edges_node } from "@saleor/searches/types/SearchWarehouses";
@@ -51,12 +51,16 @@ const messages = defineMessages({
   saveVariant: {
     defaultMessage: "Save variant",
     description: "button"
+  },
+  pricingCardSubtitle: {
+    defaultMessage:
+      "There is no channel to define prices for. You need to first add variant to channels to define prices.",
+    description: "variant pricing section subtitle"
   }
 });
 
 interface ProductVariantCreatePageProps {
   channels: ChannelPriceData[];
-  channelErrors: ProductChannelListingErrorFragment[] | undefined;
   disabled: boolean;
   errors: ProductErrorWithAttributesFragment[];
   header: string;
@@ -66,6 +70,7 @@ interface ProductVariantCreatePageProps {
   weightUnit: string;
   referencePages?: SearchPages_search_edges_node[];
   referenceProducts?: SearchProducts_search_edges_node[];
+  attributeValues: SearchAttributeValues_attribute_choices_edges_node[];
   onBack: () => void;
   onSubmit: (data: ProductVariantCreateData) => void;
   onVariantClick: (variantId: string) => void;
@@ -75,14 +80,15 @@ interface ProductVariantCreatePageProps {
   onAssignReferencesClick: (attribute: AttributeInput) => void;
   fetchReferencePages?: (data: string) => void;
   fetchReferenceProducts?: (data: string) => void;
+  fetchAttributeValues: (query: string, attributeId: string) => void;
   fetchMoreReferencePages?: FetchMoreProps;
   fetchMoreReferenceProducts?: FetchMoreProps;
+  fetchMoreAttributeValues?: FetchMoreProps;
   onCloseDialog: () => void;
 }
 
 const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
   channels,
-  channelErrors = [],
   disabled,
   errors,
   header,
@@ -92,6 +98,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
   weightUnit,
   referencePages = [],
   referenceProducts = [],
+  attributeValues,
   onBack,
   onSubmit,
   onVariantClick,
@@ -101,8 +108,10 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
   onAssignReferencesClick,
   fetchReferencePages,
   fetchReferenceProducts,
+  fetchAttributeValues,
   fetchMoreReferencePages,
   fetchMoreReferenceProducts,
+  fetchMoreAttributeValues,
   onCloseDialog
 }) => {
   const intl = useIntl();
@@ -171,6 +180,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                     attribute.data.variantAttributeScope ===
                     VariantAttributeScope.NOT_VARIANT_SELECTION
                 )}
+                attributeValues={attributeValues}
                 loading={disabled}
                 disabled={disabled}
                 errors={errors}
@@ -180,6 +190,8 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                 onReferencesRemove={handlers.selectAttributeReference}
                 onReferencesAddClick={onAssignReferencesClick}
                 onReferencesReorder={handlers.reorderAttributeValue}
+                fetchAttributeValues={fetchAttributeValues}
+                fetchMoreAttributeValues={fetchMoreAttributeValues}
               />
               <CardSpacer />
               <Attributes
@@ -189,6 +201,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                     attribute.data.variantAttributeScope ===
                     VariantAttributeScope.VARIANT_SELECTION
                 )}
+                attributeValues={attributeValues}
                 loading={disabled}
                 disabled={disabled}
                 errors={errors}
@@ -198,6 +211,8 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                 onReferencesRemove={handlers.selectAttributeReference}
                 onReferencesAddClick={onAssignReferencesClick}
                 onReferencesReorder={handlers.reorderAttributeValue}
+                fetchAttributeValues={fetchAttributeValues}
+                fetchMoreAttributeValues={fetchMoreAttributeValues}
               />
               <CardSpacer />
               <ProductShipping
@@ -209,15 +224,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
               />
               <CardSpacer />
               <ProductVariantPrice
-                ProductVariantChannelListings={data.channelListings.map(
-                  channel => ({
-                    ...channel.data,
-                    ...channel.value
-                  })
-                )}
-                errors={channelErrors}
-                loading={disabled}
-                onChange={handlers.changeChannels}
+                disabledMessage={messages.pricingCardSubtitle}
               />
               <CardSpacer />
               <ProductStocks

@@ -22,6 +22,7 @@ import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/Prod
 import { ProductVariant } from "@saleor/fragments/types/ProductVariant";
 import { WarehouseFragment } from "@saleor/fragments/types/WarehouseFragment";
 import { VariantUpdate_productVariantUpdate_errors } from "@saleor/products/types/VariantUpdate";
+import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
 import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPages";
 import { SearchProducts_search_edges_node } from "@saleor/searches/types/SearchProducts";
 import { FetchMoreProps, ReorderAction } from "@saleor/types";
@@ -31,8 +32,8 @@ import { defineMessages, useIntl } from "react-intl";
 import { maybe } from "../../../misc";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks, { ProductStockInput } from "../ProductStocks";
-import ProductVariantImages from "../ProductVariantImages";
-import ProductVariantImageSelectDialog from "../ProductVariantImageSelectDialog";
+import ProductVariantMediaSelectDialog from "../ProductVariantImageSelectDialog";
+import ProductVariantMedia from "../ProductVariantMedia";
 import ProductVariantNavigation from "../ProductVariantNavigation";
 import ProductVariantPrice from "../ProductVariantPrice";
 import ProductVariantSetDefault from "../ProductVariantSetDefault";
@@ -41,6 +42,7 @@ import ProductVariantUpdateForm, {
   ProductVariantUpdateHandlers,
   ProductVariantUpdateSubmitData
 } from "./form";
+import VariantDetailsChannelsAvailabilityCard from "./VariantDetailsChannelsAvailabilityCard";
 
 const messages = defineMessages({
   nonSelectionAttributes: {
@@ -86,10 +88,13 @@ interface ProductVariantPageProps {
   warehouses: WarehouseFragment[];
   referencePages?: SearchPages_search_edges_node[];
   referenceProducts?: SearchProducts_search_edges_node[];
+  attributeValues: SearchAttributeValues_attribute_choices_edges_node[];
   fetchMoreReferencePages?: FetchMoreProps;
   fetchMoreReferenceProducts?: FetchMoreProps;
+  fetchMoreAttributeValues?: FetchMoreProps;
   fetchReferencePages?: (data: string) => void;
   fetchReferenceProducts?: (data: string) => void;
+  fetchAttributeValues: (query: string, attributeId: string) => void;
   onAssignReferencesClick: (attribute: AttributeInput) => void;
   onCloseDialog: () => void;
   onVariantReorder: ReorderAction;
@@ -97,7 +102,7 @@ interface ProductVariantPageProps {
   onBack();
   onDelete();
   onSubmit(data: ProductVariantUpdateSubmitData);
-  onImageSelect(id: string);
+  onMediaSelect(id: string);
   onVariantClick(variantId: string);
   onSetDefaultVariant();
   onWarehouseConfigure();
@@ -117,10 +122,11 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
   warehouses,
   referencePages = [],
   referenceProducts = [],
+  attributeValues,
   onAdd,
   onBack,
   onDelete,
-  onImageSelect,
+  onMediaSelect,
   onSubmit,
   onVariantClick,
   onVariantReorder,
@@ -130,8 +136,10 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
   onAssignReferencesClick,
   fetchReferencePages,
   fetchReferenceProducts,
+  fetchAttributeValues,
   fetchMoreReferencePages,
   fetchMoreReferenceProducts,
+  fetchMoreAttributeValues,
   onCloseDialog
 }) => {
   const intl = useIntl();
@@ -139,12 +147,12 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
   const [isModalOpened, setModalStatus] = React.useState(false);
   const toggleModal = () => setModalStatus(!isModalOpened);
 
-  const variantImages = variant?.images?.map(image => image.id);
-  const productImages = variant?.product?.images?.sort((prev, next) =>
+  const variantMedia = variant?.media?.map(image => image.id);
+  const productMedia = variant?.product?.media?.sort((prev, next) =>
     prev.sortOrder > next.sortOrder ? 1 : -1
   );
-  const images = productImages
-    ?.filter(image => variantImages.indexOf(image.id) !== -1)
+  const media = productMedia
+    ?.filter(image => variantMedia.indexOf(image.id) !== -1)
     .sort((prev, next) => (prev.sortOrder > next.sortOrder ? 1 : -1));
 
   const canOpenAssignReferencesAttributeDialog = !!assignReferencesAttributeId;
@@ -217,6 +225,7 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                   />
                 </div>
                 <div>
+                  <VariantDetailsChannelsAvailabilityCard variant={variant} />
                   <Attributes
                     title={intl.formatMessage(messages.nonSelectionAttributes)}
                     attributes={data.attributes.filter(
@@ -224,6 +233,7 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                         attribute.data.variantAttributeScope ===
                         VariantAttributeScope.NOT_VARIANT_SELECTION
                     )}
+                    attributeValues={attributeValues}
                     loading={loading}
                     disabled={loading}
                     errors={errors}
@@ -233,6 +243,8 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                     onReferencesRemove={handlers.selectAttributeReference}
                     onReferencesAddClick={onAssignReferencesClick}
                     onReferencesReorder={handlers.reorderAttributeValue}
+                    fetchAttributeValues={fetchAttributeValues}
+                    fetchMoreAttributeValues={fetchMoreAttributeValues}
                   />
                   <CardSpacer />
                   <Attributes
@@ -244,6 +256,7 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                         attribute.data.variantAttributeScope ===
                         VariantAttributeScope.VARIANT_SELECTION
                     )}
+                    attributeValues={attributeValues}
                     loading={loading}
                     disabled={loading}
                     errors={errors}
@@ -253,16 +266,19 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                     onReferencesRemove={handlers.selectAttributeReference}
                     onReferencesAddClick={onAssignReferencesClick}
                     onReferencesReorder={handlers.reorderAttributeValue}
+                    fetchAttributeValues={fetchAttributeValues}
+                    fetchMoreAttributeValues={fetchMoreAttributeValues}
                   />
                   <CardSpacer />
-                  <ProductVariantImages
+                  <ProductVariantMedia
                     disabled={loading}
-                    images={images}
+                    media={media}
                     placeholderImage={placeholderImage}
                     onImageAdd={toggleModal}
                   />
                   <CardSpacer />
                   <ProductVariantPrice
+                    disabled={!variant}
                     ProductVariantChannelListings={data.channelListings.map(
                       channel => ({
                         ...channel.data,
@@ -334,12 +350,12 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
         </ProductVariantUpdateForm>
       </Container>
       {variant && (
-        <ProductVariantImageSelectDialog
+        <ProductVariantMediaSelectDialog
           onClose={toggleModal}
-          onImageSelect={onImageSelect}
+          onMediaSelect={onMediaSelect}
           open={isModalOpened}
-          images={productImages}
-          selectedImages={maybe(() => variant.images.map(image => image.id))}
+          media={productMedia}
+          selectedMedia={maybe(() => variant.media.map(image => image.id))}
         />
       )}
     </>

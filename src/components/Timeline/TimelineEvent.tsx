@@ -1,9 +1,11 @@
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Typography
+} from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 
 import TimelineEventHeader, { TitleElement } from "./TimelineEventHeader";
@@ -25,7 +27,6 @@ const useStyles = makeStyles(
         paddingTop: theme.spacing(2)
       },
       "&.Mui-expanded": {
-        borderColor: "red",
         margin: 0,
         minHeight: 0
       },
@@ -48,7 +49,7 @@ const useStyles = makeStyles(
       "&> .MuiExpansionPanelSummary-expandIcon": {
         padding: 0,
         position: "absolute",
-        right: theme.spacing(18)
+        right: theme.spacing(20)
       },
       margin: 0,
       minHeight: 0,

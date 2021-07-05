@@ -1,5 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import CardMenu from "@saleor/components/CardMenu";
 import { CardSpacer } from "@saleor/components/CardSpacer";
@@ -15,6 +14,7 @@ import Skeleton from "@saleor/components/Skeleton";
 import { SubmitPromise } from "@saleor/hooks/useForm";
 import { sectionNames } from "@saleor/intl";
 import OrderChannelSectionCard from "@saleor/orders/components/OrderChannelSectionCard";
+import { makeStyles } from "@saleor/theme";
 import { UserPermissionProps } from "@saleor/types";
 import { mapMetadataItemToInput } from "@saleor/utils/maps";
 import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
@@ -26,6 +26,8 @@ import { OrderStatus } from "../../../types/globalTypes";
 import { OrderDetails_order } from "../../types/OrderDetails";
 import OrderCustomer from "../OrderCustomer";
 import OrderCustomerNote from "../OrderCustomerNote";
+import OrderDraftDetails from "../OrderDraftDetails/OrderDraftDetails";
+import { FormData as OrderDraftDetailsProductsFormData } from "../OrderDraftDetailsProducts";
 import OrderFulfilledProductsCard from "../OrderFulfilledProductsCard";
 import OrderHistory, { FormData as HistoryFormData } from "../OrderHistory";
 import OrderInvoiceList from "../OrderInvoiceList";
@@ -56,12 +58,15 @@ export interface OrderDetailsPageProps extends UserPermissionProps {
     id: string;
     name: string;
   }>;
-  countries?: Array<{
-    code: string;
-    label: string;
-  }>;
   disabled: boolean;
   saveButtonBarState: ConfirmButtonTransitionState;
+  onOrderLineAdd?: () => void;
+  onOrderLineChange?: (
+    id: string,
+    data: OrderDraftDetailsProductsFormData
+  ) => void;
+  onOrderLineRemove?: (id: string) => void;
+  onShippingMethodEdit?: () => void;
   onBack();
   onBillingAddressEdit();
   onFulfillmentCancel(id: string);
@@ -121,6 +126,10 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
     onInvoiceGenerate,
     onInvoiceSend,
     onOrderReturn,
+    onOrderLineAdd,
+    onOrderLineChange,
+    onOrderLineRemove,
+    onShippingMethodEdit,
     onSubmit
   } = props;
   const classes = useStyles(props);
@@ -129,26 +138,30 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
   const {
     isMetadataModified,
     isPrivateMetadataModified,
-    makeChangeHandler: makeMetadataChangeHandler
+    makeChangeHandler: makeMetadataChangeHandler,
+    resetMetadataChanged
   } = useMetadataChangeTrigger();
 
-  const canCancel = maybe(() => order.status) !== OrderStatus.CANCELED;
-  const canEditAddresses = maybe(() => order.status) !== OrderStatus.CANCELED;
-  const canFulfill = maybe(() => order.status) !== OrderStatus.CANCELED;
-  const unfulfilled = maybe(() => order.lines, []).filter(
+  const isOrderUnconfirmed = order?.status === OrderStatus.UNCONFIRMED;
+  const canCancel = order?.status !== OrderStatus.CANCELED;
+  const canEditAddresses = order?.status !== OrderStatus.CANCELED;
+  const canFulfill = order?.status !== OrderStatus.CANCELED;
+  const unfulfilled = (order?.lines || []).filter(
     line => line.quantityFulfilled < line.quantity
   );
 
-  const handleSubmit = (data: MetadataFormData) => {
+  const handleSubmit = async (data: MetadataFormData) => {
     const metadata = isMetadataModified ? data.metadata : undefined;
     const privateMetadata = isPrivateMetadataModified
       ? data.privateMetadata
       : undefined;
 
-    return onSubmit({
+    const result = await onSubmit({
       metadata,
       privateMetadata
     });
+    resetMetadataChanged();
+    return result;
   };
 
   const initial: MetadataFormData = {
@@ -156,16 +169,16 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
     privateMetadata: order?.privateMetadata.map(mapMetadataItemToInput)
   };
 
-  const saveLabel =
-    order?.status === OrderStatus.UNCONFIRMED
-      ? intl.formatMessage(messages.confirmOrder)
-      : undefined;
+  const saveLabel = isOrderUnconfirmed
+    ? intl.formatMessage(messages.confirmOrder)
+    : undefined;
 
   const allowSave = (hasChanged: boolean) => {
-    if (order?.status !== OrderStatus.UNCONFIRMED) {
+    if (!isOrderUnconfirmed) {
       return disabled || !hasChanged;
+    } else if (!order?.lines?.length) {
+      return true;
     }
-
     return disabled;
   };
 
@@ -213,12 +226,25 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
               )}
             </div>
             <Grid>
-              <div>
-                <OrderUnfulfilledProductsCard
-                  canFulfill={canFulfill}
-                  lines={unfulfilled}
-                  onFulfill={onOrderFulfill}
-                />
+              <div data-test-id="orderFulfillment">
+                {!isOrderUnconfirmed ? (
+                  <OrderUnfulfilledProductsCard
+                    canFulfill={canFulfill}
+                    lines={unfulfilled}
+                    onFulfill={onOrderFulfill}
+                  />
+                ) : (
+                  <>
+                    <OrderDraftDetails
+                      order={order}
+                      onOrderLineAdd={onOrderLineAdd}
+                      onOrderLineChange={onOrderLineChange}
+                      onOrderLineRemove={onOrderLineRemove}
+                      onShippingMethodEdit={onShippingMethodEdit}
+                    />
+                    <CardSpacer />
+                  </>
+                )}
                 {order?.fulfillments?.map(fulfillment => (
                   <React.Fragment key={fulfillment.id}>
                     <OrderFulfilledProductsCard
@@ -234,15 +260,19 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
                     />
                   </React.Fragment>
                 ))}
-                <OrderPayment
-                  order={order}
-                  onCapture={onPaymentCapture}
-                  onMarkAsPaid={onPaymentPaid}
-                  onRefund={onPaymentRefund}
-                  onVoid={onPaymentVoid}
-                />
-                <CardSpacer />
-                <Metadata data={data} onChange={changeMetadata} />
+                {!isOrderUnconfirmed && (
+                  <>
+                    <OrderPayment
+                      order={order}
+                      onCapture={onPaymentCapture}
+                      onMarkAsPaid={onPaymentPaid}
+                      onRefund={onPaymentRefund}
+                      onVoid={onPaymentVoid}
+                    />
+                    <CardSpacer />
+                    <Metadata data={data} onChange={changeMetadata} />
+                  </>
+                )}
                 <OrderHistory
                   history={order?.events}
                   orderCurrency={order?.total?.gross.currency}
@@ -264,7 +294,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
                   selectedChannelName={order?.channel?.name}
                 />
                 <CardSpacer />
-                {order?.status !== OrderStatus.UNCONFIRMED && (
+                {!isOrderUnconfirmed && (
                   <>
                     <OrderInvoiceList
                       invoices={order?.invoices}

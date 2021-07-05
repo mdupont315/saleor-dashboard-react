@@ -1,6 +1,9 @@
 import gql from "graphql-tag";
 
-import { attributeValueFragment } from "./attributes";
+import {
+  attributeValueFragment,
+  attributeValueListFragment
+} from "./attributes";
 import { metadataFragment } from "./metadata";
 
 export const pageFragment = gql`
@@ -14,6 +17,7 @@ export const pageFragment = gql`
 
 export const pageAttributesFragment = gql`
   ${attributeValueFragment}
+  ${attributeValueListFragment}
   fragment PageAttributesFragment on Page {
     attributes {
       attribute {
@@ -23,8 +27,14 @@ export const pageAttributesFragment = gql`
         inputType
         entityType
         valueRequired
-        values {
-          ...AttributeValueFragment
+        unit
+        choices(
+          first: $firstValues
+          after: $afterValues
+          last: $lastValues
+          before: $beforeValues
+        ) {
+          ...AttributeValueListFragment
         }
       }
       values {
@@ -40,8 +50,13 @@ export const pageAttributesFragment = gql`
         inputType
         entityType
         valueRequired
-        values {
-          ...AttributeValueFragment
+        choices(
+          first: $firstValues
+          after: $afterValues
+          last: $lastValues
+          before: $beforeValues
+        ) {
+          ...AttributeValueListFragment
         }
       }
     }
@@ -56,7 +71,7 @@ export const pageDetailsFragment = gql`
     ...PageFragment
     ...PageAttributesFragment
     ...MetadataFragment
-    contentJson
+    content
     seoTitle
     seoDescription
     publicationDate

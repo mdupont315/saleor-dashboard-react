@@ -1,7 +1,5 @@
 import { OutputData } from "@editorjs/editorjs";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
+import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
@@ -37,10 +35,7 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
 }) => {
   const intl = useIntl();
 
-  const formErrors = getFormErrors(
-    ["name", "descriptionJson", "rating"],
-    errors
-  );
+  const formErrors = getFormErrors(["name", "description", "rating"], errors);
 
   return (
     <Card>
@@ -65,12 +60,13 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
         <RichTextEditor
           data={data.description}
           disabled={disabled}
-          error={!!formErrors.descriptionJson}
-          helperText={getProductErrorMessage(formErrors.descriptionJson, intl)}
+          error={!!formErrors.description}
+          helperText={getProductErrorMessage(formErrors.description, intl)}
           label={intl.formatMessage(commonMessages.description)}
           name="description"
           onChange={onDescriptionChange}
         />
+        <FormSpacer />
         <Hr />
         <FormSpacer />
         <Grid variant="uniform">

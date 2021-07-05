@@ -1,11 +1,12 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  Button,
+  Card,
+  IconButton,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableRow
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import Checkbox from "@saleor/components/Checkbox";
@@ -15,6 +16,7 @@ import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { ShippingZoneFragment } from "@saleor/fragments/types/ShippingZoneFragment";
 import { maybe, renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { ListActions, ListProps } from "@saleor/types";
 import { getFooterColSpanWithBulkActions } from "@saleor/utils/tables";
 import React from "react";
@@ -80,7 +82,11 @@ const ShippingZonesList: React.FC<ShippingZonesListProps> = props => {
           description: "sort shipping methods by zone, section header"
         })}
         toolbar={
-          <Button color="primary" onClick={onAdd}>
+          <Button
+            color="primary"
+            onClick={onAdd}
+            data-test-id="add-shipping-zone"
+          >
             <FormattedMessage
               defaultMessage="Create shipping zone"
               description="button"

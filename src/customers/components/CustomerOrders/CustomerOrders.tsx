@@ -1,16 +1,18 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  Button,
+  Card,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { DateTime } from "@saleor/components/Date";
 import Money from "@saleor/components/Money";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
 import StatusLabel from "@saleor/components/StatusLabel";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 

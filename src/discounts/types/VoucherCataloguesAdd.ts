@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
-import { CatalogueInput, DiscountErrorCode, DiscountValueTypeEnum, VoucherTypeEnum } from "./../../types/globalTypes";
+import { CatalogueInput, DiscountErrorCode, VoucherTypeEnum, DiscountValueTypeEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: VoucherCataloguesAdd
@@ -171,14 +172,15 @@ export interface VoucherCataloguesAdd_voucherCataloguesAdd_voucher {
   startDate: any;
   endDate: any | null;
   usageLimit: number | null;
+  type: VoucherTypeEnum;
   discountValueType: DiscountValueTypeEnum;
   countries: (VoucherCataloguesAdd_voucherCataloguesAdd_voucher_countries | null)[] | null;
   minCheckoutItemsQuantity: number | null;
   channelListings: VoucherCataloguesAdd_voucherCataloguesAdd_voucher_channelListings[] | null;
-  type: VoucherTypeEnum;
   used: number;
   applyOncePerOrder: boolean;
   applyOncePerCustomer: boolean;
+  onlyForStaff: boolean;
   products: VoucherCataloguesAdd_voucherCataloguesAdd_voucher_products | null;
   collections: VoucherCataloguesAdd_voucherCataloguesAdd_voucher_collections | null;
   categories: VoucherCataloguesAdd_voucherCataloguesAdd_voucher_categories | null;

@@ -1,8 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
+import { TableBody, TableCell, TableFooter, TableRow } from "@material-ui/core";
 import { CollectionListUrlSortField } from "@saleor/collections/urls";
 import { ChannelsAvailabilityDropdown } from "@saleor/components/ChannelsAvailabilityDropdown";
 import Checkbox from "@saleor/components/Checkbox";
@@ -12,6 +8,7 @@ import TableCellHeader from "@saleor/components/TableCellHeader";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { maybe, renderCollection } from "@saleor/misc";
+import { makeStyles } from "@saleor/theme";
 import { ChannelProps, ListActions, ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";

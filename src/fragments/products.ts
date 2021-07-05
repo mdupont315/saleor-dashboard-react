@@ -1,6 +1,9 @@
 import gql from "graphql-tag";
 
-import { attributeValueFragment } from "./attributes";
+import {
+  attributeValueFragment,
+  attributeValueListFragment
+} from "./attributes";
 import { metadataFragment } from "./metadata";
 import { taxTypeFragment } from "./taxes";
 import { weightFragment } from "./weight";
@@ -40,12 +43,14 @@ export const priceRangeFragment = gql`
   }
 `;
 
-export const fragmentProductImage = gql`
-  fragment ProductImageFragment on ProductImage {
+export const fragmentProductMedia = gql`
+  fragment ProductMediaFragment on ProductMedia {
     id
     alt
     sortOrder
     url
+    type
+    oembedData
   }
 `;
 
@@ -115,6 +120,7 @@ export const productFragment = gql`
 export const productVariantAttributesFragment = gql`
   ${priceRangeFragment}
   ${attributeValueFragment}
+  ${attributeValueListFragment}
   fragment ProductVariantAttributesFragment on Product {
     id
     attributes {
@@ -125,8 +131,14 @@ export const productVariantAttributesFragment = gql`
         inputType
         entityType
         valueRequired
-        values {
-          ...AttributeValueFragment
+        unit
+        choices(
+          first: $firstValues
+          after: $afterValues
+          last: $lastValues
+          before: $beforeValues
+        ) {
+          ...AttributeValueListFragment
         }
       }
       values {
@@ -138,8 +150,13 @@ export const productVariantAttributesFragment = gql`
       variantAttributes(variantSelection: VARIANT_SELECTION) {
         id
         name
-        values {
-          ...AttributeValueFragment
+        choices(
+          first: $firstValues
+          after: $afterValues
+          last: $lastValues
+          before: $beforeValues
+        ) {
+          ...AttributeValueListFragment
         }
       }
     }
@@ -159,7 +176,7 @@ export const productVariantAttributesFragment = gql`
 `;
 
 export const productFragmentDetails = gql`
-  ${fragmentProductImage}
+  ${fragmentProductMedia}
   ${productVariantAttributesFragment}
   ${stockFragment}
   ${weightFragment}
@@ -172,7 +189,7 @@ export const productFragmentDetails = gql`
     ...MetadataFragment
     name
     slug
-    descriptionJson
+    description
     seoTitle
     seoDescription
     rating
@@ -191,8 +208,8 @@ export const productFragmentDetails = gql`
     channelListings {
       ...ChannelListingProductFragment
     }
-    images {
-      ...ProductImageFragment
+    media {
+      ...ProductMediaFragment
     }
     isAvailable
     variants {
@@ -200,6 +217,9 @@ export const productFragmentDetails = gql`
       sku
       name
       margin
+      media {
+        url(size: 200)
+      }
       stocks {
         ...StockFragment
       }
@@ -226,7 +246,7 @@ export const productFragmentDetails = gql`
 `;
 
 export const variantAttributeFragment = gql`
-  ${attributeValueFragment}
+  ${attributeValueListFragment}
   fragment VariantAttributeFragment on Attribute {
     id
     name
@@ -234,8 +254,14 @@ export const variantAttributeFragment = gql`
     inputType
     entityType
     valueRequired
-    values {
-      ...AttributeValueFragment
+    unit
+    choices(
+      first: $firstValues
+      after: $afterValues
+      last: $lastValues
+      before: $beforeValues
+    ) {
+      ...AttributeValueListFragment
     }
   }
 `;
@@ -254,9 +280,10 @@ export const selectedVariantAttributeFragment = gql`
 `;
 
 export const fragmentVariant = gql`
+  ${fragmentProductMedia}
   ${selectedVariantAttributeFragment}
   ${priceRangeFragment}
-  ${fragmentProductImage}
+  ${fragmentProductMedia}
   ${stockFragment}
   ${weightFragment}
   ${metadataFragment}
@@ -272,9 +299,11 @@ export const fragmentVariant = gql`
     ) {
       ...SelectedVariantAttributeFragment
     }
-    images {
+    media {
       id
       url
+      type
+      oembedData
     }
     name
     product {
@@ -282,14 +311,16 @@ export const fragmentVariant = gql`
       defaultVariant {
         id
       }
-      images {
-        ...ProductImageFragment
+      media {
+        ...ProductMediaFragment
       }
       name
       thumbnail {
         url
       }
       channelListings {
+        publicationDate
+        isPublished
         channel {
           id
           name
@@ -305,9 +336,11 @@ export const fragmentVariant = gql`
         id
         name
         sku
-        images {
+        media {
           id
           url
+          type
+          oembedData
         }
       }
       defaultVariant {

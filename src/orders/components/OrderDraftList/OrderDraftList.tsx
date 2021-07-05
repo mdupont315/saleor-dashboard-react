@@ -1,8 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableRow from "@material-ui/core/TableRow";
+import { TableBody, TableCell, TableFooter, TableRow } from "@material-ui/core";
 import Checkbox from "@saleor/components/Checkbox";
 import { DateTime } from "@saleor/components/Date";
 import Money from "@saleor/components/Money";
@@ -18,6 +14,7 @@ import {
   transformPaymentStatus
 } from "@saleor/misc";
 import { OrderDraftListUrlSortField } from "@saleor/orders/urls";
+import { makeStyles } from "@saleor/theme";
 import { ListActions, ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";
@@ -170,6 +167,7 @@ export const OrderDraftList: React.FC<OrderDraftListProps> = props => {
 
             return (
               <TableRow
+                data-test-id="draft-order-table-row"
                 hover={!!order}
                 className={!!order ? classes.link : undefined}
                 onClick={order ? onRowClick(order.id) : undefined}

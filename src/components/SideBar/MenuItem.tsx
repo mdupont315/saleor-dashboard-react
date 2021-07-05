@@ -1,10 +1,12 @@
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
+import {
+  ClickAwayListener,
+  Paper,
+  Popper,
+  Typography
+} from "@material-ui/core";
 import { fade } from "@material-ui/core/styles/colorManipulator";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import Typography from "@material-ui/core/Typography";
 import { UseNavigatorResult } from "@saleor/hooks/useNavigator";
+import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
 import React from "react";
 import SVG from "react-inlinesvg";

@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 import { PermissionEnum } from "./../../types/globalTypes";
@@ -26,6 +27,8 @@ export interface VerifyToken_tokenVerify_user {
   firstName: string;
   lastName: string;
   isStaff: boolean;
+  isSupplier?: boolean;
+
   userPermissions: (VerifyToken_tokenVerify_user_userPermissions | null)[] | null;
   avatar: VerifyToken_tokenVerify_user_avatar | null;
 }

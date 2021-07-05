@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import Grid from "@saleor/components/Grid";
+import { makeStyles } from "@saleor/theme";
 import React from "react";
 
 const useStyles = makeStyles(
@@ -9,7 +9,8 @@ const useStyles = makeStyles(
       "&:last-of-type": {
         paddingBottom: 0
       },
-      padding: theme.spacing(2, 0)
+      padding: theme.spacing(2, 0),
+      wordBreak: "break-word"
     },
     attributeSectionLabel: {
       alignItems: "center",
@@ -20,7 +21,7 @@ const useStyles = makeStyles(
 );
 
 interface BasicAttributeRowProps {
-  label: string;
+  label: string | React.ReactNode;
 }
 
 const BasicAttributeRow: React.FC<BasicAttributeRowProps> = props => {

@@ -1,7 +1,5 @@
 import { OutputData } from "@editorjs/editorjs";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
+import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import RichTextEditor, {
@@ -33,7 +31,7 @@ export const CategoryDetailsForm: React.FC<CategoryDetailsFormProps> = ({
 }) => {
   const intl = useIntl();
 
-  const formErrors = getFormErrors(["name", "descriptionJson"], errors);
+  const formErrors = getFormErrors(["name", "description"], errors);
 
   return (
     <Card>
@@ -59,8 +57,8 @@ export const CategoryDetailsForm: React.FC<CategoryDetailsFormProps> = ({
         <RichTextEditor
           data={data.description}
           disabled={disabled}
-          error={!!formErrors.descriptionJson}
-          helperText={getProductErrorMessage(formErrors.descriptionJson, intl)}
+          error={!!formErrors.description}
+          helperText={getProductErrorMessage(formErrors.description, intl)}
           label={intl.formatMessage({
             defaultMessage: "Category Description"
           })}

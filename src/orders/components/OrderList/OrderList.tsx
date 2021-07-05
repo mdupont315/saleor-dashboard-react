@@ -1,9 +1,10 @@
-import { makeStyles } from "@material-ui/core/styles";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 import { CSSProperties } from "@material-ui/styles";
 import { DateTime } from "@saleor/components/Date";
 import Money from "@saleor/components/Money";
@@ -19,6 +20,7 @@ import {
   transformPaymentStatus
 } from "@saleor/misc";
 import { OrderListUrlSortField } from "@saleor/orders/urls";
+import { makeStyles } from "@saleor/theme";
 import { ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";
@@ -99,77 +101,79 @@ export const OrderList: React.FC<OrderListProps> = props => {
   return (
     <ResponsiveTable>
       <TableHead>
-        <TableCellHeader
-          direction={
-            sort.sort === OrderListUrlSortField.number
-              ? getArrowDirection(sort.asc)
-              : undefined
-          }
-          arrowPosition="right"
-          onClick={() => onSort(OrderListUrlSortField.number)}
-          className={classes.colNumber}
-        >
-          <FormattedMessage defaultMessage="No. of Order" />
-        </TableCellHeader>
-        <TableCellHeader
-          direction={
-            sort.sort === OrderListUrlSortField.date
-              ? getArrowDirection(sort.asc)
-              : undefined
-          }
-          onClick={() => onSort(OrderListUrlSortField.date)}
-          className={classes.colDate}
-        >
-          <FormattedMessage
-            defaultMessage="Date"
-            description="date when order was placed"
-          />
-        </TableCellHeader>
-        <TableCellHeader
-          direction={
-            sort.sort === OrderListUrlSortField.customer
-              ? getArrowDirection(sort.asc)
-              : undefined
-          }
-          onClick={() => onSort(OrderListUrlSortField.customer)}
-          className={classes.colCustomer}
-        >
-          <FormattedMessage
-            defaultMessage="Customer"
-            description="e-mail or full name"
-          />
-        </TableCellHeader>
-        <TableCellHeader
-          direction={
-            sort.sort === OrderListUrlSortField.payment
-              ? getArrowDirection(sort.asc)
-              : undefined
-          }
-          onClick={() => onSort(OrderListUrlSortField.payment)}
-          className={classes.colPayment}
-        >
-          <FormattedMessage
-            defaultMessage="Payment"
-            description="payment status"
-          />
-        </TableCellHeader>
-        <TableCellHeader
-          direction={
-            sort.sort === OrderListUrlSortField.fulfillment
-              ? getArrowDirection(sort.asc)
-              : undefined
-          }
-          onClick={() => onSort(OrderListUrlSortField.fulfillment)}
-          className={classes.colFulfillment}
-        >
-          <FormattedMessage defaultMessage="Fulfillment status" />
-        </TableCellHeader>
-        <TableCellHeader textAlign="right" className={classes.colTotal}>
-          <FormattedMessage
-            defaultMessage="Total"
-            description="total order price"
-          />
-        </TableCellHeader>
+        <TableRow>
+          <TableCellHeader
+            direction={
+              sort.sort === OrderListUrlSortField.number
+                ? getArrowDirection(sort.asc)
+                : undefined
+            }
+            arrowPosition="right"
+            onClick={() => onSort(OrderListUrlSortField.number)}
+            className={classes.colNumber}
+          >
+            <FormattedMessage defaultMessage="No. of Order" />
+          </TableCellHeader>
+          <TableCellHeader
+            direction={
+              sort.sort === OrderListUrlSortField.date
+                ? getArrowDirection(sort.asc)
+                : undefined
+            }
+            onClick={() => onSort(OrderListUrlSortField.date)}
+            className={classes.colDate}
+          >
+            <FormattedMessage
+              defaultMessage="Date"
+              description="date when order was placed"
+            />
+          </TableCellHeader>
+          <TableCellHeader
+            direction={
+              sort.sort === OrderListUrlSortField.customer
+                ? getArrowDirection(sort.asc)
+                : undefined
+            }
+            onClick={() => onSort(OrderListUrlSortField.customer)}
+            className={classes.colCustomer}
+          >
+            <FormattedMessage
+              defaultMessage="Customer"
+              description="e-mail or full name"
+            />
+          </TableCellHeader>
+          <TableCellHeader
+            direction={
+              sort.sort === OrderListUrlSortField.payment
+                ? getArrowDirection(sort.asc)
+                : undefined
+            }
+            onClick={() => onSort(OrderListUrlSortField.payment)}
+            className={classes.colPayment}
+          >
+            <FormattedMessage
+              defaultMessage="Payment"
+              description="payment status"
+            />
+          </TableCellHeader>
+          <TableCellHeader
+            direction={
+              sort.sort === OrderListUrlSortField.fulfillment
+                ? getArrowDirection(sort.asc)
+                : undefined
+            }
+            onClick={() => onSort(OrderListUrlSortField.fulfillment)}
+            className={classes.colFulfillment}
+          >
+            <FormattedMessage defaultMessage="Fulfillment status" />
+          </TableCellHeader>
+          <TableCellHeader textAlign="right" className={classes.colTotal}>
+            <FormattedMessage
+              defaultMessage="Total"
+              description="total order price"
+            />
+          </TableCellHeader>
+        </TableRow>
       </TableHead>
       <TableFooter>
         <TableRow>
@@ -191,6 +195,7 @@ export const OrderList: React.FC<OrderListProps> = props => {
           orderList,
           order => (
             <TableRow
+              data-test-id="order-table-row"
               hover={!!order}
               className={!!order ? classes.link : undefined}
               onClick={order ? onRowClick(order.id) : undefined}

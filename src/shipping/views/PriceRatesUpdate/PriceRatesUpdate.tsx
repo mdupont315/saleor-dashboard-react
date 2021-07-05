@@ -1,5 +1,4 @@
-import Button from "@material-ui/core/Button";
-import { useChannelsList } from "@saleor/channels/queries";
+import { Button } from "@material-ui/core";
 import {
   createShippingChannelsFromRate,
   createSortedShippingChannels
@@ -17,14 +16,17 @@ import usePaginator, {
 } from "@saleor/hooks/usePaginator";
 import { sectionNames } from "@saleor/intl";
 import { commonMessages } from "@saleor/intl";
+import {
+  getById,
+  getByUnmatchingId
+} from "@saleor/orders/components/OrderReturnPage/utils";
 import useProductSearch from "@saleor/searches/useProductSearch";
 import DeleteShippingRateDialog from "@saleor/shipping/components/DeleteShippingRateDialog";
 import ShippingMethodProductsAddDialog from "@saleor/shipping/components/ShippingMethodProductsAddDialog";
-import ShippingRateZipCodeRangeRemoveDialog from "@saleor/shipping/components/ShippingRateZipCodeRangeRemoveDialog";
+import ShippingZonePostalCodeRangeDialog from "@saleor/shipping/components/ShippingZonePostalCodeRangeDialog";
 import ShippingZoneRatesPage, {
   FormData
 } from "@saleor/shipping/components/ShippingZoneRatesPage";
-import ShippingZoneZipCodeRangeDialog from "@saleor/shipping/components/ShippingZoneZipCodeRangeDialog";
 import UnassignDialog from "@saleor/shipping/components/UnassignDialog";
 import {
   getShippingMethodChannelVariables,
@@ -32,8 +34,6 @@ import {
 } from "@saleor/shipping/handlers";
 import {
   useShippingMethodChannelListingUpdate,
-  useShippingMethodZipCodeRangeAssign,
-  useShippingMethodZipCodeRangeUnassign,
   useShippingPriceExcludeProduct,
   useShippingPriceRemoveProductsFromExclude,
   useShippingRateDelete,
@@ -46,9 +46,20 @@ import {
   ShippingRateUrlQueryParams,
   shippingZoneUrl
 } from "@saleor/shipping/urls";
-import { ShippingMethodTypeEnum } from "@saleor/types/globalTypes";
+import postalCodesReducer from "@saleor/shipping/views/reducer";
+import {
+  filterPostalCodes,
+  getPostalCodeRuleByMinMax,
+  getRuleObject
+} from "@saleor/shipping/views/utils";
+import { MinMax } from "@saleor/types";
+import {
+  PostalCodeRuleInclusionTypeEnum,
+  ShippingMethodTypeEnum
+} from "@saleor/types/globalTypes";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createMetadataUpdateHandler from "@saleor/utils/handlers/metadataUpdateHandler";
+import { mapEdgesToItems } from "@saleor/utils/maps";
 import {
   useMetadataUpdate,
   usePrivateMetadataUpdate
@@ -78,6 +89,11 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
     displayLoader: true,
     variables: { id, ...paginationState }
   });
+
+  const channelsData = data?.shippingZone?.channels;
+
+  const rate = data?.shippingZone?.shippingMethods?.find(getById(rateId));
+
   const {
     loadMore,
     search: productsSearch,
@@ -89,10 +105,6 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
     ShippingRateUrlQueryParams
   >(navigate, params => shippingPriceRatesEditUrl(id, rateId, params), params);
 
-  const rate = data?.shippingZone?.shippingMethods.find(
-    rate => rate.id === rateId
-  );
-
   const { isSelected, listElements, reset, toggle, toggleAll } = useBulkActions(
     []
   );
@@ -103,49 +115,10 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
     params
   );
 
-  const { data: channelsData } = useChannelsList({});
-
   const [
     updateShippingMethodChannelListing,
     updateShippingMethodChannelListingOpts
   ] = useShippingMethodChannelListingUpdate({});
-
-  const [
-    assignZipCodeRange,
-    assignZipCodeRangeOpts
-  ] = useShippingMethodZipCodeRangeAssign({
-    onCompleted: data => {
-      if (data.shippingMethodZipCodeRulesCreate.errors.length === 0) {
-        notify({
-          status: "success",
-          text: intl.formatMessage(commonMessages.savedChanges)
-        });
-        closeModal();
-      } else {
-        notify({
-          status: "error",
-          text: intl.formatMessage({
-            defaultMessage: "Cannot add specified postal codes range.",
-            description: "postal code range add error text"
-          })
-        });
-      }
-    }
-  });
-
-  const [
-    unassignZipCodeRange,
-    unassignZipCodeRangeOpts
-  ] = useShippingMethodZipCodeRangeUnassign({
-    onCompleted: data => {
-      if (data.shippingMethodZipCodeRulesDelete.errors.length === 0) {
-        notify({
-          status: "success",
-          text: intl.formatMessage(commonMessages.savedChanges)
-        });
-      }
-    }
-  });
 
   const [
     unassignProduct,
@@ -172,7 +145,7 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
   const shippingChannels = createShippingChannelsFromRate(
     rate?.channelListings
   );
-  const allChannels = createSortedShippingChannels(channelsData?.channels);
+  const allChannels = createSortedShippingChannels(channelsData);
 
   const {
     channelListElements,
@@ -209,13 +182,50 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
   const [updateMetadata] = useMetadataUpdate({});
   const [updatePrivateMetadata] = usePrivateMetadataUpdate({});
 
+  const [state, dispatch] = React.useReducer(postalCodesReducer, {
+    codesToDelete: [],
+    havePostalCodesChanged: false,
+    inclusionType: rate?.postalCodeRules[0]?.inclusionType,
+    originalCodes: [],
+    postalCodeRules: rate?.postalCodeRules || []
+  });
+
+  const postalCodeRulesLoaded =
+    !loading &&
+    !state.postalCodeRules?.length &&
+    !state.codesToDelete?.length &&
+    rate?.postalCodeRules?.length;
+
+  if (postalCodeRulesLoaded) {
+    dispatch({ postalCodeRules: rate.postalCodeRules });
+  }
+
+  const onPostalCodeInclusionChange = (
+    inclusion: PostalCodeRuleInclusionTypeEnum
+  ) => {
+    dispatch({
+      codesToDelete: rate.postalCodeRules.map(code => code.id),
+      havePostalCodesChanged: true,
+      inclusionType: inclusion,
+      postalCodeRules: []
+    });
+  };
+
   const updateData = async (formData: FormData): Promise<unknown[]> => {
     const response = await updateShippingRate({
-      variables: getUpdateShippingPriceRateVariables(formData, id, rateId)
+      variables: getUpdateShippingPriceRateVariables(
+        formData,
+        id,
+        rateId,
+        state.postalCodeRules,
+        state.codesToDelete
+      )
     });
+    dispatch({ codesToDelete: [] });
     const errors = response.data.shippingPriceUpdate.errors;
     if (errors.length === 0) {
       handleSuccess();
+      dispatch({ havePostalCodesChanged: false });
       updateShippingMethodChannelListing({
         variables: getShippingMethodChannelVariables(
           rateId,
@@ -246,6 +256,43 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
       variables: { id: rateId, products: ids }
     });
     reset();
+  };
+
+  const onPostalCodeAssign = (rule: MinMax) => {
+    if (!state.originalCodes.length) {
+      dispatch({ originalCodes: rate.postalCodeRules });
+    }
+
+    if (
+      state.postalCodeRules.filter(getPostalCodeRuleByMinMax(rule)).length > 0
+    ) {
+      closeModal();
+      return;
+    }
+
+    const newCode = getRuleObject(rule, state.inclusionType);
+    dispatch({
+      havePostalCodesChanged: true,
+      postalCodeRules: [...state.postalCodeRules, newCode]
+    });
+    closeModal();
+  };
+
+  const onPostalCodeUnassign = code => {
+    if (code.id !== undefined) {
+      dispatch({
+        codesToDelete: [...state.codesToDelete, code.id],
+        havePostalCodesChanged: true,
+        postalCodeRules: state.postalCodeRules.filter(
+          getByUnmatchingId(code.id)
+        )
+      });
+    } else {
+      dispatch({
+        havePostalCodesChanged: true,
+        postalCodeRules: filterPostalCodes(state.postalCodeRules, code)
+      });
+    }
   };
 
   const handleBack = () => navigate(shippingZoneUrl(id));
@@ -295,9 +342,9 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
         loading={productsSearchOpts.loading}
         open={params.action === "assign-product"}
         hasMore={productsSearchOpts.data?.search?.pageInfo.hasNextPage}
-        products={productsSearchOpts.data?.search?.edges
-          .map(edge => edge.node)
-          .filter(suggestedProduct => suggestedProduct.id)}
+        products={mapEdgesToItems(productsSearchOpts?.data?.search).filter(
+          suggestedProduct => suggestedProduct.id
+        )}
         onClose={closeModal}
         onFetch={productsSearch}
         onFetchMore={loadMore}
@@ -314,6 +361,7 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
           assignProductOpts?.status === "loading"
         }
         hasChannelChanged={shippingChannels?.length !== currentChannels?.length}
+        havePostalCodesChanged={state.havePostalCodesChanged}
         saveButtonBarState={updateShippingRateOpts.status}
         onDelete={() => openModal("remove")}
         onSubmit={handleSubmit}
@@ -344,44 +392,16 @@ export const PriceRatesUpdate: React.FC<PriceRatesUpdateProps> = ({
             />
           </Button>
         }
-        onZipCodeAssign={() => openModal("add-range")}
-        onZipCodeUnassign={id =>
-          openModal("remove-range", {
-            id
-          })
-        }
+        onPostalCodeInclusionChange={onPostalCodeInclusionChange}
+        onPostalCodeAssign={() => openModal("add-range")}
+        onPostalCodeUnassign={onPostalCodeUnassign}
+        postalCodeRules={state.postalCodeRules}
       />
-      <ShippingZoneZipCodeRangeDialog
-        confirmButtonState={assignZipCodeRangeOpts.status}
+      <ShippingZonePostalCodeRangeDialog
+        confirmButtonState={"default"}
         onClose={closeModal}
-        onSubmit={data =>
-          assignZipCodeRange({
-            variables: {
-              id: rateId,
-              input: {
-                zipCodeRules: [
-                  {
-                    end: data.max || null,
-                    start: data.min
-                  }
-                ]
-              }
-            }
-          })
-        }
+        onSubmit={code => onPostalCodeAssign(code)}
         open={params.action === "add-range"}
-      />
-      <ShippingRateZipCodeRangeRemoveDialog
-        confirmButtonState={unassignZipCodeRangeOpts.status}
-        onClose={closeModal}
-        onConfirm={() =>
-          unassignZipCodeRange({
-            variables: {
-              id: params.id
-            }
-          })
-        }
-        open={params.action === "remove-range"}
       />
     </>
   );
