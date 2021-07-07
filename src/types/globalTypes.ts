@@ -73,6 +73,11 @@ export enum AppTypeEnum {
   THIRDPARTY = "THIRDPARTY",
 }
 
+export enum OptionInputTypeEnum{
+  SINGLE = "single",
+  MULTIPLE = "multiple" 
+}
+
 export enum AttributeEntityTypeEnum {
   PAGE = "PAGE",
   PRODUCT = "PRODUCT",
@@ -1098,7 +1103,15 @@ export interface AppTokenInput {
   name?: string | null;
   app: string;
 }
+//Option
+export interface OptionCreateInput {
+  name: string;
+  type: AttributeTypeEnum;
+  required?: boolean | null;
+  values?: (AttributeValueCreateInput | null)[] | null;
+  }
 
+//
 export interface AttributeCreateInput {
   inputType?: AttributeInputTypeEnum | null;
   entityType?: AttributeEntityTypeEnum | null;

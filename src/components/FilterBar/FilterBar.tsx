@@ -7,7 +7,7 @@ import { FilterProps } from "../../types";
 import Filter from "../Filter";
 import { FilterErrorMessages, IFilter } from "../Filter/types";
 import { SearchBarProps } from "../SearchBar";
-import SearchInput from "../SearchBar/SearchInput";
+// import SearchInput from "../SearchBar/SearchInput";
 import FilterTabs, { FilterTab } from "../TableFilter";
 
 export interface FilterBarProps<TKeys extends string = string>
@@ -42,17 +42,18 @@ const FilterBar: React.FC<FilterBarProps> = props => {
     currencySymbol,
     filterStructure,
     currentTab,
+    tabs,
+    onAll /*
     initialSearch,
     searchPlaceholder,
-    tabs,
-    onAll,
-    onSearchChange,
+    onSearchChange,*/,
     onFilterChange,
     onFilterAttributeFocus,
     onTabChange,
     onTabDelete,
     onTabSave,
-    errorMessages
+    errorMessages,
+    isCustomExact
   } = props;
 
   const classes = useStyles(props);
@@ -86,18 +87,21 @@ const FilterBar: React.FC<FilterBarProps> = props => {
         )}
       </FilterTabs>
       <div className={classes.root}>
-        <Filter
-          errorMessages={errorMessages}
-          menu={filterStructure}
-          currencySymbol={currencySymbol}
-          onFilterAdd={onFilterChange}
-          onFilterAttributeFocus={onFilterAttributeFocus}
-        />
+        {!isCustomExact && (
+          <Filter
+            errorMessages={errorMessages}
+            menu={filterStructure}
+            currencySymbol={currencySymbol}
+            onFilterAdd={onFilterChange}
+            onFilterAttributeFocus={onFilterAttributeFocus}
+          />
+        )}
+        {/*         
         <SearchInput
           initialSearch={initialSearch}
           placeholder={searchPlaceholder}
           onSearchChange={onSearchChange}
-        />
+        /> */}
         {displayTabAction &&
           (displayTabAction === "save" ? (
             <Button

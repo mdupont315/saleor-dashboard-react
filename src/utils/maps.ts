@@ -6,7 +6,7 @@ import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPage
 import { Node, SlugNode } from "@saleor/types";
 import { MetadataInput } from "@saleor/types/globalTypes";
 
-interface EdgesType<T> {
+export interface EdgesType<T> {
   edges?: Array<{ node: T }>;
 }
 

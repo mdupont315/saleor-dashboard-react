@@ -42,6 +42,7 @@ import ProductOrganization from "../ProductOrganization";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks from "../ProductStocks";
 import ProductTaxes from "../ProductTaxes";
+// import ProductTypeAttributes from "../ProductTypeAttributes"
 import ProductCreateForm, {
   ProductCreateData,
   ProductCreateFormData,
@@ -224,6 +225,18 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                   onChange={change}
                   onDescriptionChange={handlers.changeDescription}
                 />
+                <CardSpacer />
+                {/* <ProductTypeAttributes
+                  // attributes={maybe(() => productType.productAttributes)}
+                  // disabled={disabled}
+                  // type={ProductAttributeType.PRODUCT}
+                  // onAttributeAssign={onAttributeAdd}
+                  // onAttributeClick={onAttributeClick}
+                  // onAttributeReorder={(event: ReorderEvent) =>
+                  //   onAttributeReorder(event, ProductAttributeType.PRODUCT)
+                  // }
+                  // onAttributeUnassign={onAttributeUnassign}
+                /> */}
                 <CardSpacer />
                 {data.attributes.length > 0 && (
                   <Attributes

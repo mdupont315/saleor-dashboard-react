@@ -1,5 +1,6 @@
 import { ChannelData, createSortedChannelsData } from "@saleor/channels/utils";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
+// import AssignAttributeDialog from "@saleor/components/AssignAttributeDialog";
 import { AttributeInput } from "@saleor/components/Attributes";
 import ChannelsAvailabilityDialog from "@saleor/components/ChannelsAvailabilityDialog";
 import { WindowTitle } from "@saleor/components/WindowTitle";
@@ -20,7 +21,9 @@ import {
   useVariantCreateMutation
 } from "@saleor/products/mutations";
 import { useProductCreateMutation } from "@saleor/products/mutations";
-import { useProductTypeQuery } from "@saleor/products/queries";
+import {
+  /* useListOptionData, */ useProductTypeQuery
+} from "@saleor/products/queries";
 import {
   productAddUrl,
   ProductCreateUrlDialog,
@@ -127,6 +130,12 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
     },
     skip: !selectedProductTypeId
   });
+
+  // const { data: listData, loading: listLoading, refetch } = useListOptionData({
+  //   variables: {
+  //     first: 10
+  //   }
+  // })
 
   const productTypes = mapEdgesToItems(searchProductTypesOpts?.data?.search);
 
@@ -345,6 +354,51 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
         selectedProductType={selectedProductType?.productType}
         onSelectProductType={id => setSelectedProductTypeId(id)}
       />
+      {/*
+        listData && <AssignAttributeDialog
+          attributes={mapEdgesToItems(
+            listData?.data?.productType?.availableAttributes
+        )}
+        // confirmButtonState={assignAttribute.opts.status}
+        errors={maybe(
+          () =>
+          listData.opts.data.productAttributeAssign.errors.map(
+              err => err.message
+            ),
+          []
+        )}
+        loading={listLoading}
+        onClose={closeModal}
+        // onSubmit={handleAssignAttribute}
+        // onFetch={search}
+        // onFetchMore={loadMore}
+        onOpen={refetch}
+        hasMore={maybe(
+          () =>
+          listData.data.productType.availableAttributes
+              .pageInfo.hasNextPage,
+          false
+        )}
+        open={
+          null 
+        }
+        // selected={maybe(() => params.ids, [])}
+        // onToggle={attributeId => {
+        //   const ids = maybe(() => params.ids, []);
+        //   navigate(
+        //     productTypeUrl(id, {
+        //       ...params,
+        //       ids: ids.includes(attributeId)
+        //         ? params.ids.filter(
+        //             selectedId => selectedId !== attributeId
+        //           )
+        //         : [...ids, attributeId]
+        //     })
+        //   );
+        // }}
+        //   key={key}
+        />
+      */}
     </>
   );
 };

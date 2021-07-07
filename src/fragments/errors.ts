@@ -7,6 +7,13 @@ export const attributeErrorFragment = gql`
   }
 `;
 
+export const optionErrorFlagment = gql`
+  fragment OptionErrorFragment on OptionError {
+    code
+    field
+  }
+`;
+
 export const productErrorFragment = gql`
   fragment ProductErrorFragment on ProductError {
     code

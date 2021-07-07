@@ -48,6 +48,8 @@ import { commonMessages } from "./intl";
 import NavigationSection from "./navigation";
 import { navigationSection } from "./navigation/urls";
 import { NotFound } from "./NotFound";
+import OptionSection from "./options";
+import { optionSection } from "./options/urls";
 import OrdersSection from "./orders";
 import PageSection from "./pages";
 import PageTypesSection from "./pageTypes";
@@ -159,7 +161,6 @@ const Routes: React.FC = () => {
 
   const homePageLoading =
     (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
-
   return (
     <>
       <WindowTitle title={intl.formatMessage(commonMessages.dashboard)} />
@@ -291,6 +292,13 @@ const Routes: React.FC = () => {
                 permissions={[PermissionEnum.MANAGE_CHANNELS]}
                 path={channelsSection}
                 component={ChannelsSection}
+              />
+              <SectionRoute
+                permissions={[
+                  PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
+                ]}
+                path={optionSection}
+                component={OptionSection}
               />
               {createConfigurationMenu(intl).filter(menu =>
                 menu.menuItems.map(item => hasPermission(item.permission, user))

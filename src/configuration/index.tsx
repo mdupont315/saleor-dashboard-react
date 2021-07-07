@@ -1,4 +1,3 @@
-import { attributeListUrl } from "@saleor/attributes/urls";
 import { channelsListUrl } from "@saleor/channels/urls";
 import { WindowTitle } from "@saleor/components/WindowTitle";
 import useNavigator from "@saleor/hooks/useNavigator";
@@ -19,6 +18,7 @@ import Warehouses from "@saleor/icons/Warehouses";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import { menuListUrl } from "@saleor/navigation/urls";
+import { optionListUrl } from "@saleor/options/urls";
 import { pageListUrl } from "@saleor/pages/urls";
 import { pageTypeListUrl } from "@saleor/pageTypes/urls";
 import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
@@ -50,7 +50,7 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           icon: <Attributes fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
           title: intl.formatMessage(sectionNames.attributes),
-          url: attributeListUrl(),
+          url: optionListUrl(),
           testId: "configurationMenuAttributes"
         },
         {
