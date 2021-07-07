@@ -43,6 +43,7 @@ import BackgroundTasksProvider from "./containers/BackgroundTasks";
 import ServiceWorker from "./containers/ServiceWorker/ServiceWorker";
 import { CustomerSection } from "./customers";
 import DiscountSection from "./discounts";
+import EmergencySection from "./emergency";
 import HomePage from "./home";
 import { commonMessages } from "./intl";
 import NavigationSection from "./navigation";
@@ -182,6 +183,7 @@ const Routes: React.FC = () => {
               <SectionRoute exact path="/" component={HomePage} />
               <SectionRoute path="/stores" component={StoreSection} />
               <SectionRoute path="/secvices-time" component={ServiceSection} />
+              <SectionRoute path="/emergency" component={EmergencySection} />
 
               <SectionRoute
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}

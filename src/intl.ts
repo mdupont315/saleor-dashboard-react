@@ -20,6 +20,9 @@ export const commonMessages = defineMessages({
   stores: {
     defaultMessage: "Stores Manage"
   },
+  emergency: {
+    defaultMessage: "Emergency"
+  },
   deliveryService: {
     defaultMessage: "Delivery service hours"
   },
@@ -225,6 +228,10 @@ export const sectionNames = defineMessages({
   serviceTime: {
     defaultMessage: "Service time",
     description: "service section name"
+  },
+  emergency: {
+    defaultMessage: "Emergency",
+    description: "emergency section name"
   },
   channels: {
     defaultMessage: "Channels",

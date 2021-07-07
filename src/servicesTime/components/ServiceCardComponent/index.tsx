@@ -18,7 +18,7 @@ import { useIntl } from "react-intl";
 
 const initTime = {
   days: [false, false, false, false, false, false, false],
-  open: "0:0",
+  open: "00:00",
   close: "23:55"
 };
 
@@ -48,6 +48,14 @@ const checkDay = (input?: any) => {
   }
 };
 
+function padLeadingZeros(num, size) {
+  let s = num + "";
+  while (s.length < size) {
+    s = "0" + s;
+  }
+  return s;
+}
+
 const renHours = () => {
   const result = [];
   const hours = new Date();
@@ -59,8 +67,14 @@ const renHours = () => {
 
     hours.setMinutes(t);
     result.push({
-      label: `${hours.getHours()}:${hours.getMinutes()}`,
-      value: `${hours.getHours()}:${hours.getMinutes()}`
+      label: `${padLeadingZeros(hours.getHours(), 2)}:${padLeadingZeros(
+        hours.getMinutes(),
+        2
+      )}`,
+      value: `${padLeadingZeros(hours.getHours(), 2)}:${padLeadingZeros(
+        hours.getMinutes(),
+        2
+      )}`
     });
     if (hours.getHours() === 0 && hours.getMinutes() === 0) {
       break;
@@ -227,15 +241,18 @@ function ServiceCardComponent({
                 </FormControl>
               </div>
               <FormSpacer />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => onDeleteSlot(indexItem)}
-                >
-                  Delete timeslot
-                </Button>
-              </div>
+              {indexItem !== 0 && (
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => onDeleteSlot(indexItem)}
+                  >
+                    Delete timeslot
+                  </Button>
+                </div>
+              )}
+
               <FormSpacer />
               <hr />
               <FormSpacer />
