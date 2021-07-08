@@ -17,7 +17,7 @@ import {
 import TableHead from "@saleor/components/TableHead";
 import { maybe, renderCollection, stopPropagation } from "@saleor/misc";
 import { makeStyles } from "@saleor/theme";
-import { ListActions, ReorderAction } from "@saleor/types";
+// import { ListActions, ReorderAction } from "@saleor/types";
 import { ProductAttributeType } from "@saleor/types/globalTypes";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -52,16 +52,20 @@ const useStyles = makeStyles(
   { name: "ProductTypeAttributes" }
 );
 
-interface ProductTypeAttributesProps extends ListActions {
+interface ProductTypeAttributesProps {
   attributes:
     | ProductTypeDetails_productType_productAttributes[]
     | ProductTypeDetails_productType_variantAttributes[];
-  disabled: boolean;
-  type: string;
-  onAttributeAssign: (type: ProductAttributeType) => void;
-  onAttributeClick: (id: string) => void;
-  onAttributeReorder: ReorderAction;
-  onAttributeUnassign: (id: string) => void;
+  onAttributeAssign?: (type: ProductAttributeType) => void;
+  toggle?: (id: string) => void;
+  toggleAll?: () => void;
+  onAttributeUnassign?: (id: string) => void;
+  onAttributeReorder?: () => void;
+  onAttributeClick?: (id: string) => void;
+  onAttributeUnassignAll: () => void;
+  isChecked: any;
+  type?: string;
+  disabled?: boolean;
 }
 
 const numberOfColumns = 5;
@@ -69,18 +73,16 @@ const numberOfColumns = 5;
 const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
   const {
     attributes,
-
-    disabled,
     isChecked,
-    selected,
     toggle,
     toggleAll,
-    toolbar,
     type,
+    disabled,
     onAttributeAssign,
-    onAttributeClick,
+    onAttributeUnassign,
     onAttributeReorder,
-    onAttributeUnassign
+    onAttributeClick,
+    onAttributeUnassignAll
   } = props;
   const classes = useStyles(props);
 
@@ -102,7 +104,7 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
                 description: "section header"
               })
             : intl.formatMessage({
-                defaultMessage: "Variant Attributes",
+                defaultMessage: "Attributes",
                 description: "section header"
               })
         }
@@ -132,17 +134,28 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
             colSpan={numberOfColumns}
             disabled={disabled}
             dragRows
-            selected={selected}
-            items={attributes}
+            selected={isChecked.length}
+            items={undefined}
             toggleAll={toggleAll}
-            toolbar={toolbar}
+            toolbar={
+              <Button
+                color="primary"
+                variant="text"
+                onClick={() => onAttributeUnassignAll()}
+              >
+                <FormattedMessage
+                  defaultMessage="Un Assign "
+                  description="button"
+                />
+              </Button>
+            }
           >
             <TableCell className={classes.colName}>
               <FormattedMessage defaultMessage="Attribute name" />
             </TableCell>
             <TableCell className={classes.colName}>
               <FormattedMessage
-                defaultMessage="Slug"
+                defaultMessage="Type"
                 description="attribute internal name"
               />
             </TableCell>
@@ -153,7 +166,11 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
           {renderCollection(
             attributes,
             (attribute, attributeIndex) => {
-              const isSelected = attribute ? isChecked(attribute.id) : false;
+              const isSelected = attribute
+                ? !!isChecked.find(
+                    selectedAttribute => selectedAttribute === attribute.id
+                  )
+                : false;
 
               return (
                 <SortableTableRow
@@ -185,9 +202,9 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
                       <Skeleton />
                     )}
                   </TableCell>
-                  <TableCell className={classes.colSlug} data-test="slug">
-                    {maybe(() => attribute.slug) ? (
-                      attribute.slug
+                  <TableCell className={classes.colSlug} data-test="type">
+                    {maybe(() => attribute.type) ? (
+                      attribute.type
                     ) : (
                       <Skeleton />
                     )}

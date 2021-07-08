@@ -56,7 +56,7 @@ import ProductMedia from "../ProductMedia";
 import ProductOrganization from "../ProductOrganization";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks, { ProductStockInput } from "../ProductStocks";
-import ProductTaxes from "../ProductTaxes";
+import ProductTypeAttributes from "../ProductTypeAttributes";
 import ProductVariants from "../ProductVariants";
 import ProductUpdateForm, {
   ProductUpdateData,
@@ -69,6 +69,8 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onChannelsChange: (data: ChannelData[]) => void;
   channelsData: ChannelData[];
   currentChannels: ChannelData[];
+  values?: any;
+  isCheckedOption?: any;
   allChannelsCount: number;
   channelsErrors: ProductChannelListingErrorFragment[];
   defaultWeightUnit: string;
@@ -109,6 +111,11 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onVariantReorder: ReorderAction;
   onImageDelete: (id: string) => () => void;
   onSubmit: (data: ProductUpdatePageSubmitData) => SubmitPromise;
+  onAttributeUnassignAll?: () => void;
+  onAttributeUnassign?: (id: string) => void;
+  onToggle?: (id: string) => void;
+  onToggleAll?: () => void;
+  onAttributeAdd?: () => void;
   openChannelsModal: () => void;
   onBack?();
   onDelete();
@@ -130,6 +137,7 @@ export interface ProductUpdatePageSubmitData extends ProductUpdatePageFormData {
   description: OutputData;
   removeStocks: string[];
   updateStocks: ProductStockInput[];
+  options: string[];
 }
 
 export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
@@ -192,9 +200,16 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   fetchMoreReferenceProducts,
   fetchAttributeValues,
   fetchMoreAttributeValues,
+  values,
   onCloseDialog,
   channelsWithVariantsData,
-  onChannelsChange
+  onChannelsChange,
+  onAttributeAdd,
+  onAttributeUnassign,
+  onAttributeUnassignAll,
+  onToggle,
+  onToggleAll,
+  isCheckedOption
 }) => {
   const intl = useIntl();
 
@@ -208,10 +223,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
 
   const [selectedCollections, setSelectedCollections] = useStateFromProps(
     getChoices(maybe(() => product.collections, []))
-  );
-
-  const [selectedTaxType, setSelectedTaxType] = useStateFromProps(
-    product?.taxType.description
   );
 
   const categories = getChoices(categoryChoiceList);
@@ -255,10 +266,11 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
       selectedCollections={selectedCollections}
       setSelectedCategory={setSelectedCategory}
       setSelectedCollections={setSelectedCollections}
-      setSelectedTaxType={setSelectedTaxType}
+      setSelectedTaxType={null}
       setChannels={onChannelsChange}
       taxTypes={taxTypeChoices}
       warehouses={warehouses}
+      options={values.map(value => value.id)}
       hasVariants={hasVariants}
       referencePages={referencePages}
       referenceProducts={referenceProducts}
@@ -290,6 +302,25 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   errors={errors}
                   onDescriptionChange={handlers.changeDescription}
                   onChange={change}
+                />
+                <CardSpacer />
+                <ProductTypeAttributes
+                  attributes={maybe(() => values)}
+                  isChecked={isCheckedOption}
+                  toggle={onToggle}
+                  toggleAll={onToggleAll}
+                  onAttributeAssign={() => {
+                    onAttributeAdd();
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeUnassign={(id: string) => {
+                    onAttributeUnassign(id);
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeUnassignAll={() => {
+                    onAttributeUnassignAll();
+                    handlers.handlerAttribute();
+                  }}
                 />
                 <CardSpacer />
                 <ProductMedia
@@ -458,15 +489,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     openModal={openChannelsModal}
                   />
                 )}
-                <CardSpacer />
-                <ProductTaxes
-                  data={data}
-                  disabled={disabled}
-                  selectedTaxTypeDisplayName={selectedTaxType}
-                  taxTypes={taxTypes}
-                  onChange={change}
-                  onTaxTypeChange={handlers.selectTaxRate}
-                />
               </div>
             </Grid>
             <SaveButtonBar

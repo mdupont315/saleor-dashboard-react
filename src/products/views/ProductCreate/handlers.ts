@@ -119,7 +119,8 @@ export function createHandler(
         },
         slug: formData.slug,
         taxCode: formData.changeTaxCode ? formData.taxCode : undefined,
-        weight: weight(formData.weight)
+        weight: weight(formData.weight),
+        options: formData.options
       }
     };
 

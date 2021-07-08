@@ -329,6 +329,7 @@ export interface ProductUpdate_productUpdate_product {
   variants: (ProductUpdate_productUpdate_product_variants | null)[] | null;
   weight: ProductUpdate_productUpdate_product_weight | null;
   taxType: ProductUpdate_productUpdate_product_taxType | null;
+  options?: string[];
 }
 
 export interface ProductUpdate_productUpdate {

@@ -121,6 +121,7 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     },
     skip: !params.productTypes?.length
   });
+
   const searchCategories = useCategorySearch({
     variables: {
       ...DEFAULT_INITIAL_SEARCH_DATA,

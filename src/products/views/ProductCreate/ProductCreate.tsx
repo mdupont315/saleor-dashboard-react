@@ -1,6 +1,6 @@
 import { ChannelData, createSortedChannelsData } from "@saleor/channels/utils";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
-// import AssignAttributeDialog from "@saleor/components/AssignAttributeDialog";
+import AssignAttributeDialog from "@saleor/components/AssignAttributeDialog";
 import { AttributeInput } from "@saleor/components/Attributes";
 import ChannelsAvailabilityDialog from "@saleor/components/ChannelsAvailabilityDialog";
 import { WindowTitle } from "@saleor/components/WindowTitle";
@@ -13,6 +13,7 @@ import useChannels from "@saleor/hooks/useChannels";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import useShop from "@saleor/hooks/useShop";
+import { maybe } from "@saleor/misc";
 import ProductCreatePage from "@saleor/products/components/ProductCreatePage";
 import {
   useProductChannelListingUpdate,
@@ -22,7 +23,8 @@ import {
 } from "@saleor/products/mutations";
 import { useProductCreateMutation } from "@saleor/products/mutations";
 import {
-  /* useListOptionData, */ useProductTypeQuery
+  useListOptionData,
+  useProductTypeQuery
 } from "@saleor/products/queries";
 import {
   productAddUrl,
@@ -62,12 +64,20 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
   const notify = useNotifier();
   const shop = useShop();
   const intl = useIntl();
-  const [productCreateComplete, setProductCreateComplete] = React.useState(
-    false
-  );
+  const [productCreateComplete, setProductCreateComplete] = React.useState<
+    boolean
+  >(false);
   const [selectedProductTypeId, setSelectedProductTypeId] = React.useState<
     string
   >();
+
+  const [values, setValues] = React.useState<any>([]);
+
+  const [checking, setChecking] = React.useState<any>([]);
+
+  const [assignAttribute, setAssignAttribute] = React.useState<any>([]);
+
+  const [toggle, setToggle] = React.useState<any>([]);
 
   const [openModal, closeModal] = createDialogActionHandlers<
     ProductCreateUrlDialog,
@@ -131,11 +141,11 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
     skip: !selectedProductTypeId
   });
 
-  // const { data: listData, loading: listLoading, refetch } = useListOptionData({
-  //   variables: {
-  //     first: 10
-  //   }
-  // })
+  const { data: listData, loading: listLoading, refetch } = useListOptionData({
+    variables: {
+      first: 100
+    }
+  });
 
   const productTypes = mapEdgesToItems(searchProductTypesOpts?.data?.search);
 
@@ -215,11 +225,48 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
       updateMetadata,
       updatePrivateMetadata
     )(data);
-
     if (result) {
       setProductCreateComplete(true);
     }
   };
+
+  const handleAssignAttribute = () => {
+    if (assignAttribute.length > 0) {
+      setValues(assignAttribute);
+      closeModal();
+    }
+  };
+
+  const onAttributeUnassign = id => {
+    setValues(values.filter(value => value.id !== id));
+    setToggle(toggle.filter(toggleId => toggleId !== id));
+  };
+
+  const onToggle = id => {
+    const troggleCheck = toggle.find(toggleId => toggleId === id);
+    if (troggleCheck) {
+      setToggle(toggle.filter(toggleId => toggleId !== id));
+    } else {
+      setToggle([...toggle, id]);
+    }
+  };
+
+  const onToggleAll = () => {
+    if (toggle.length > 0) {
+      setToggle([]);
+    } else {
+      setToggle(checking);
+    }
+  };
+
+  const onAttributeUnassignAll = () => {
+    toggle.reverse().forEach(index => {
+      const indexValues = values.findIndex(value => value.id === index);
+      values.splice(indexValues, 1);
+      setValues([...values]);
+    });
+  };
+  const loadMore = () => null;
 
   const handleAssignAttributeReferenceClick = (attribute: AttributeInput) =>
     navigate(
@@ -353,52 +400,69 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
         onCloseDialog={() => navigate(productAddUrl())}
         selectedProductType={selectedProductType?.productType}
         onSelectProductType={id => setSelectedProductTypeId(id)}
+        values={values}
+        onAttributeAdd={() => openModal("assign-attribute-value")}
+        onAttributeUnassign={onAttributeUnassign}
+        toggle={onToggle}
+        toggleAll={onToggleAll}
+        isChecked={toggle}
+        onAttributeUnassignAll={onAttributeUnassignAll}
       />
-      {/*
-        listData && <AssignAttributeDialog
-          attributes={mapEdgesToItems(
-            listData?.data?.productType?.availableAttributes
-        )}
-        // confirmButtonState={assignAttribute.opts.status}
-        errors={maybe(
-          () =>
-          listData.opts.data.productAttributeAssign.errors.map(
-              err => err.message
-            ),
-          []
-        )}
-        loading={listLoading}
-        onClose={closeModal}
-        // onSubmit={handleAssignAttribute}
-        // onFetch={search}
-        // onFetchMore={loadMore}
-        onOpen={refetch}
-        hasMore={maybe(
-          () =>
-          listData.data.productType.availableAttributes
-              .pageInfo.hasNextPage,
-          false
-        )}
-        open={
-          null 
-        }
-        // selected={maybe(() => params.ids, [])}
-        // onToggle={attributeId => {
-        //   const ids = maybe(() => params.ids, []);
-        //   navigate(
-        //     productTypeUrl(id, {
-        //       ...params,
-        //       ids: ids.includes(attributeId)
-        //         ? params.ids.filter(
-        //             selectedId => selectedId !== attributeId
-        //           )
-        //         : [...ids, attributeId]
-        //     })
-        //   );
-        // }}
-        //   key={key}
+      {listData && (
+        <AssignAttributeDialog
+          attributes={maybe(() =>
+            mapEdgesToItems(listData.options).map(value =>
+              // @ts-ignore
+              ({
+                id: value.id,
+                name: value.name,
+                slug: value.type,
+                __typename: "Attribute"
+              })
+            )
+          )}
+          errors={maybe(
+            () =>
+              listData.opts.data.productAttributeAssign.errors.map(
+                err => err.message
+              ),
+            []
+          )}
+          showFillter={false}
+          loading={listLoading}
+          onClose={closeModal}
+          onSubmit={handleAssignAttribute}
+          onFetch={refetch}
+          onFetchMore={loadMore}
+          onOpen={refetch}
+          hasMore={maybe(
+            () =>
+              listData.data.productType.availableAttributes.pageInfo
+                .hasNextPage,
+            false
+          )}
+          selected={checking}
+          open={params.action === "assign-attribute-value"}
+          onToggle={attributeId => {
+            const checkHadValues = checking.find(id => id === attributeId);
+            if (checkHadValues) {
+              setChecking(checking.filter(id => id !== attributeId));
+              setAssignAttribute(
+                assignAttribute.filter(value => value.id !== attributeId)
+              );
+            } else {
+              setChecking([...checking, attributeId]);
+              setAssignAttribute([
+                ...assignAttribute,
+                mapEdgesToItems(listData.options).find(
+                  // @ts-ignore
+                  value => value.id === attributeId
+                )
+              ]);
+            }
+          }}
         />
-      */}
+      )}
     </>
   );
 };

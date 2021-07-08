@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface AvailableAttributeFragment {
-  __typename: "Attribute";
+  __typename?: "Attribute";
   id: string;
   name: string | null;
   slug: string | null;

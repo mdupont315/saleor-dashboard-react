@@ -193,6 +193,11 @@ export const productFragmentDetails = gql`
     seoTitle
     seoDescription
     rating
+    options {
+      id
+      name
+      type
+    }
     defaultVariant {
       id
     }

@@ -1668,6 +1668,7 @@ export interface ProductCreateInput {
   collections?: string[] | null;
   description?: any | null;
   name?: string | null;
+  options?: any | null;
   slug?: string | null;
   taxCode?: string | null;
   seo?: SeoInput | null;
@@ -1705,6 +1706,7 @@ export interface ProductInput {
   seo?: SeoInput | null;
   weight?: any | null;
   rating?: number | null;
+  options?: string[] | null;
 }
 
 export interface ProductOrder {
