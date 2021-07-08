@@ -19,30 +19,16 @@ const emergency = gql`
 
 export const useMutationEmergency = makeMutation<any, any>(emergency);
 
-const getServiceTime = gql`
-  query ListServiceTime($first: Int) {
-    serviceTimes(first: $first) {
-      edges {
-        node {
-          id
-          dlDeliveryTime
-          dlTimeGap
-          dlAsSoonAsPosible
-          dlAllowPreorder
-          dlPreorderDay
-          dlSameDayOrder
-          dlServiceTime
-          puDeliveryTime
-          puTimeGap
-          puAsSoonAsPosible
-          puAllowPreorder
-          puPreorderDay
-          puSameDayOrder
-          puServiceTime
-        }
-      }
+const getMyStore = gql`
+  query {
+    myStore {
+      id
+      name
+      domain
+      deliveryStatus
+      pickupStatus
     }
   }
 `;
 
-export const useListServiceTime = makeQuery<any, any>(getServiceTime);
+export const useGetMyStore = makeQuery<any, any>(getMyStore);

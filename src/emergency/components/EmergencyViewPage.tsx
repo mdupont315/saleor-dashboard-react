@@ -6,6 +6,7 @@ import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
+import { useGetMyStore } from "../queries";
 import EmergencyCard from "./EmergencyCard";
 
 function EmergencyViewPage() {
@@ -49,6 +50,18 @@ function EmergencyViewPage() {
       variables
     });
   };
+
+  const { data } = useGetMyStore({ variables: {} });
+
+  React.useEffect(() => {
+    if (typeof data !== "undefined") {
+      setEmergency({
+        ...emergency,
+        e_pickup: new Date(data.myStore.pickupStatus).getDate(),
+        e_delivery: new Date(data.myStore.deliveryStatus).getDate()
+      });
+    }
+  }, [data]);
 
   return (
     <Container>

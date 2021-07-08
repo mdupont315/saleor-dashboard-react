@@ -17,10 +17,26 @@ function EmergencyCard({ setEmergency, emergency }: any) {
   const intl = useIntl();
 
   const handleChange = e => {
-    setEmergency({
-      ...emergency,
-      [e.target.name]: parseInt(e.target.value, 0)
-    });
+    const name = e.target.name;
+    const value = e.target.value === "true" ? true : false;
+    if (value) {
+      setEmergency({
+        ...emergency,
+        [name]: new Date().getDate() - 1
+      });
+    } else {
+      setEmergency({
+        ...emergency,
+        [name]: new Date().getDate()
+      });
+    }
+  };
+
+  const compareToday = input => {
+    if (input === new Date().getDate()) {
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -32,7 +48,7 @@ function EmergencyCard({ setEmergency, emergency }: any) {
           <RadioGroup
             aria-label="gender"
             name="e_delivery"
-            value={emergency.e_delivery}
+            value={compareToday(emergency.e_delivery)}
             onChange={handleChange}
           >
             <div
@@ -42,13 +58,9 @@ function EmergencyCard({ setEmergency, emergency }: any) {
                 gridTemplateColumns: "auto auto"
               }}
             >
+              <FormControlLabel value={true} control={<Radio />} label="Open" />
               <FormControlLabel
-                value={new Date().getDate() - 1}
-                control={<Radio />}
-                label="Open"
-              />
-              <FormControlLabel
-                value={new Date().getDate()}
+                value={false}
                 control={<Radio />}
                 label="Close"
               />
@@ -63,7 +75,7 @@ function EmergencyCard({ setEmergency, emergency }: any) {
           <RadioGroup
             aria-label="gender"
             name="e_pickup"
-            value={emergency.e_pickup}
+            value={compareToday(emergency.e_pickup)}
             onChange={handleChange}
           >
             <div
@@ -73,13 +85,9 @@ function EmergencyCard({ setEmergency, emergency }: any) {
                 gridTemplateColumns: "auto auto"
               }}
             >
+              <FormControlLabel value={true} control={<Radio />} label="Open" />
               <FormControlLabel
-                value={new Date().getDate() - 1}
-                control={<Radio />}
-                label="Open"
-              />
-              <FormControlLabel
-                value={new Date().getDate()}
+                value={false}
                 control={<Radio />}
                 label="Close"
               />
