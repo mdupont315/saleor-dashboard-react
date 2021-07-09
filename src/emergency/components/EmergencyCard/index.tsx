@@ -1,14 +1,7 @@
-import {
-  Card,
-  CardContent,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup
-} from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
-import FormSpacer from "@saleor/components/FormSpacer";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
+// import FormSpacer from "@saleor/components/FormSpacer";
 import { commonMessages } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -18,7 +11,7 @@ function EmergencyCard({ setEmergency, emergency }: any) {
 
   const handleChange = e => {
     const name = e.target.name;
-    const value = e.target.value === "true" ? true : false;
+    const value = e.target.value;
     if (value) {
       setEmergency({
         ...emergency,
@@ -30,6 +23,7 @@ function EmergencyCard({ setEmergency, emergency }: any) {
         [name]: new Date().getDate()
       });
     }
+    // console.log(e.target.name, e.target.value);
   };
 
   const compareToday = input => {
@@ -43,57 +37,21 @@ function EmergencyCard({ setEmergency, emergency }: any) {
     <Card>
       <CardTitle title={intl.formatMessage(commonMessages.emergency)} />
       <CardContent>
-        <FormControl component="fieldset" fullWidth>
-          <FormLabel component="legend">Delivery status</FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            name="e_delivery"
-            value={compareToday(emergency.e_delivery)}
-            onChange={handleChange}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridColumnGap: "10px",
-                gridTemplateColumns: "auto auto"
-              }}
-            >
-              <FormControlLabel value={true} control={<Radio />} label="Open" />
-              <FormControlLabel
-                value={false}
-                control={<Radio />}
-                label="Close"
-              />
-            </div>
-          </RadioGroup>
-        </FormControl>
+        <ControlledSwitch
+          name="e_delivery"
+          label="Delivery close"
+          checked={compareToday(emergency.e_delivery)}
+          onChange={handleChange}
+          // disabled={disabled}
+        />
 
-        <FormSpacer />
-
-        <FormControl component="fieldset" fullWidth>
-          <FormLabel component="legend">Pickup status</FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            name="e_pickup"
-            value={compareToday(emergency.e_pickup)}
-            onChange={handleChange}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridColumnGap: "10px",
-                gridTemplateColumns: "auto auto"
-              }}
-            >
-              <FormControlLabel value={true} control={<Radio />} label="Open" />
-              <FormControlLabel
-                value={false}
-                control={<Radio />}
-                label="Close"
-              />
-            </div>
-          </RadioGroup>
-        </FormControl>
+        <ControlledSwitch
+          name="e_pickup"
+          label="Pickup close"
+          checked={compareToday(emergency.e_pickup)}
+          onChange={handleChange}
+          // disabled={disabled}
+        />
       </CardContent>
     </Card>
   );
