@@ -211,9 +211,9 @@ function ServiceViewPage() {
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.serviceTime)}>
-        <Button color="primary" variant="outlined">
+        {/* <Button color="primary" variant="outlined">
           <FormattedMessage defaultMessage="Cancle" description="button" />
-        </Button>
+        </Button> */}
         <Button color="primary" variant="contained" onClick={handleClick}>
           <FormattedMessage
             defaultMessage="Save changes"

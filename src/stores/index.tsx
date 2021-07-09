@@ -1,10 +1,11 @@
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { useGetMyStore } from "@saleor/emergency/queries";
 import { sectionNames } from "@saleor/intl";
 import { asSortParams } from "@saleor/utils/sort";
 import { parse as parseQs } from "qs";
 import React from "react";
 import { useIntl } from "react-intl";
-import { Route, RouteComponentProps, Switch } from "react-router";
+import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
 
 import {
   storeAddPath,
@@ -37,27 +38,41 @@ const DetailStoreView: React.FC<RouteComponentProps<
       id={decodeURIComponent(match.params.id)}
       params={params}
     />
-    // <h2>ádasd</h2>
   );
 };
 
-function StoreSection() {
+function StoreSection({ isAdmin }: any) {
   const intl = useIntl();
+  const { data } = useGetMyStore({ variables: {} });
+
+  const checkAdmin = isAdmin => {
+    if (isAdmin) {
+      return (
+        <Switch>
+          <Route exact path={storeAddPath} component={DetailStoreView} />
+          <Route
+            exact
+            path={storeEditPath(":id")}
+            component={DetailStoreView}
+          />
+          <Route exact path={storeListPath} component={StoreListView} />
+        </Switch>
+      );
+    }
+    return (
+      <Switch>
+        <Route exact path={storeEditPath(":id")} component={DetailStoreView} />
+        {!isAdmin && typeof data !== "undefined" && (
+          <Redirect to={storeEditPath(data?.myStore?.id)} />
+        )}
+      </Switch>
+    );
+  };
 
   return (
     <>
       <WindowTitle title={intl.formatMessage(sectionNames.stores)} />
-      <Switch>
-        <Route exact path={storeListPath} component={StoreListView} />
-        <Route exact path={storeAddPath} component={DetailStoreView} />
-        <Route exact path={storeEditPath(":id")} component={DetailStoreView} />
-
-        {/* <Route exact path={storeListPath} component={StoreListView} />
-        <Route exact path={storeUploadPath(":id")} component={StoreUpLoad} />
-
-        <Route exact path={storeEditPath(":id")} component={DetailStoreView} />
-        <Route exact path={storePath(":id")} component={DetailStoreViewMode} /> */}
-      </Switch>
+      {checkAdmin(isAdmin)}
     </>
   );
 }

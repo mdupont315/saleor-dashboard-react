@@ -8,6 +8,7 @@ export const fragmentUser = gql`
     lastName
     isStaff
     isSupplier
+    isSuperuser
     userPermissions {
       code
       name

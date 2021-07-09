@@ -1,4 +1,5 @@
 import { Button, Container } from "@material-ui/core";
+import FormSpacer from "@saleor/components/FormSpacer";
 import PageHeader from "@saleor/components/PageHeader";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
@@ -6,15 +7,12 @@ import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { useGetMyStore } from "../queries";
-import EmergencyCard from "./EmergencyCard";
+// import { useGetMyStore } from "../queries";
+import DeliveryAreaCard from "./DeliveryAreaCard";
+import DeliveryFeeCard from "./DeliveryFeeCard";
 
-function EmergencyViewPage() {
+function DeliveryViewPage() {
   const intl = useIntl();
-  const [emergency, setEmergency] = React.useState({
-    e_pickup: new Date().getDate(),
-    e_delivery: new Date().getDate()
-  });
 
   const notify = useNotifier();
 
@@ -37,13 +35,8 @@ function EmergencyViewPage() {
   });
 
   const handleClick = () => {
-    const temp = new Date();
     const variables = {
-      id: "U3RvcmU6MQ==",
-      input: {
-        pickupStatus: new Date(temp.setDate(emergency.e_pickup)),
-        deliveryStatus: new Date(temp.setDate(emergency.e_delivery))
-      }
+      id: "U3RvcmU6MQ=="
     };
 
     updateEmergency({
@@ -51,17 +44,9 @@ function EmergencyViewPage() {
     });
   };
 
-  const { data } = useGetMyStore({ variables: {} });
+  // const { data } = useGetMyStore({ variables: {} });
 
-  React.useEffect(() => {
-    if (typeof data !== "undefined") {
-      setEmergency({
-        ...emergency,
-        e_pickup: new Date(data.myStore.pickupStatus).getDate(),
-        e_delivery: new Date(data.myStore.deliveryStatus).getDate()
-      });
-    }
-  }, [data]);
+  // React.useEffect(() => {}, [data]);
 
   return (
     <Container>
@@ -73,13 +58,11 @@ function EmergencyViewPage() {
           />
         </Button>
       </PageHeader>
-      <EmergencyCard emergency={emergency} setEmergency={setEmergency} />
-
-      {/* <Grid>
-        <div></div>
-      </Grid> */}
+      <DeliveryAreaCard />
+      <FormSpacer />
+      <DeliveryFeeCard />
     </Container>
   );
 }
 
-export default EmergencyViewPage;
+export default DeliveryViewPage;

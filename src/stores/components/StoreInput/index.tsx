@@ -94,7 +94,6 @@ function StoreInput({
             helperText={errors.name && touched.name && errors.name}
           />
           <FormSpacer />
-
           <TextField
             label={intl.formatMessage({
               defaultMessage: "Domain*"
@@ -110,6 +109,32 @@ function StoreInput({
           <FormSpacer />
           {storeId ? (
             <>
+              <TextField
+                label={intl.formatMessage({
+                  defaultMessage: "Address"
+                })}
+                fullWidth
+                name="address"
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.address && touched.address}
+                helperText={errors.address && touched.address && errors.address}
+              />
+              <FormSpacer />
+              <TextField
+                label={intl.formatMessage({
+                  defaultMessage: "Phone"
+                })}
+                fullWidth
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.phone && touched.phone}
+                helperText={errors.phone && touched.phone && errors.phone}
+              />
+              <FormSpacer />
               <StoreMedia
                 title="Logo"
                 placeholderImage={placeholderImage}

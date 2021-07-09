@@ -99,7 +99,9 @@ const StoreDetailPage: React.FC<IProps> = ({
           email: initialValues.store.email,
           password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],
-          coverPhoto: [initialValues.store.coverPhoto || ""]
+          coverPhoto: [initialValues.store.coverPhoto || ""],
+          address: initialValues.store.address,
+          phone: initialValues.store.phone
         }
       : {
           name: "",
@@ -107,7 +109,9 @@ const StoreDetailPage: React.FC<IProps> = ({
           email: "",
           password: "",
           logo: [],
-          coverPhoto: []
+          coverPhoto: [],
+          address: "",
+          phone: ""
         };
   return (
     <Container>

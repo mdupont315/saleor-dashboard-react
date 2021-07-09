@@ -5,6 +5,7 @@ import discountsIcon from "@assets/images/menu-discounts-icon.svg";
 import homeIcon from "@assets/images/menu-home-icon.svg";
 import ordersIcon from "@assets/images/menu-orders-icon.svg";
 import translationIcon from "@assets/images/menu-translation-icon.svg";
+import { deliveryUrl } from "@saleor/delivery/urls";
 import { emergencyUrl } from "@saleor/emergency/urls";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { servicesUrl } from "@saleor/servicesTime/urls";
@@ -12,6 +13,7 @@ import { storesManagementListUrl } from "@saleor/stores/urls";
 import { IntlShape } from "react-intl";
 
 import { appsListPath } from "../../apps/urls";
+import { useAuth } from "../../auth/AuthProvider";
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
 import { customerListUrl } from "../../customers/urls";
@@ -32,6 +34,78 @@ export interface IMenuItem {
 }
 
 function createMenuStructure(intl: IntlShape): IMenuItem[] {
+  const { user } = useAuth();
+
+  const checkPermissionsHeader =
+    user.isSuperuser === true
+      ? [
+          {
+            ariaLabel: "services time",
+            icon: homeIcon,
+            label: intl.formatMessage(sectionNames.serviceTime),
+            testingContextId: "serviceTime",
+            url: servicesUrl()
+          },
+          {
+            ariaLabel: "emergency",
+            icon: homeIcon,
+            label: intl.formatMessage(sectionNames.emergency),
+            testingContextId: "emergency",
+            url: emergencyUrl()
+          },
+          {
+            ariaLabel: "delivery",
+            icon: homeIcon,
+            label: intl.formatMessage(sectionNames.delivery),
+            testingContextId: "delivery",
+            url: deliveryUrl()
+          }
+        ]
+      : [];
+
+  const checkPermissionsFooter =
+    user.isSuperuser === true
+      ? [
+          {
+            ariaLabel: "discounts",
+            children: [
+              {
+                ariaLabel: "sales",
+                label: intl.formatMessage(sectionNames.sales),
+                testingContextId: "sales",
+                url: saleListUrl()
+              },
+              {
+                ariaLabel: "vouchers",
+                label: intl.formatMessage(sectionNames.vouchers),
+                testingContextId: "vouchers",
+                url: voucherListUrl()
+              }
+            ],
+            icon: discountsIcon,
+            label: intl.formatMessage(commonMessages.discounts),
+            permission: PermissionEnum.MANAGE_DISCOUNTS,
+            testingContextId: "discounts"
+          },
+          {
+            ariaLabel: "apps",
+            icon: appsIcon,
+            label: intl.formatMessage(sectionNames.apps),
+            permission: PermissionEnum.MANAGE_APPS,
+            testingContextId: "apps",
+            url: appsListPath
+          },
+          {
+            ariaLabel: "translations",
+            icon: translationIcon,
+            label: intl.formatMessage(sectionNames.translations),
+            permission: PermissionEnum.MANAGE_TRANSLATIONS,
+            testingContextId: "translations",
+            url: languageListUrl
+          }
+        ]
+      : [];
+
   return [
     {
       ariaLabel: "home",
@@ -47,20 +121,7 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       testingContextId: "stores",
       url: storesManagementListUrl()
     },
-    {
-      ariaLabel: "services time",
-      icon: homeIcon,
-      label: intl.formatMessage(sectionNames.serviceTime),
-      testingContextId: "serviceTime",
-      url: servicesUrl()
-    },
-    {
-      ariaLabel: "emergency",
-      icon: homeIcon,
-      label: intl.formatMessage(sectionNames.emergency),
-      testingContextId: "emergency",
-      url: emergencyUrl()
-    },
+    ...checkPermissionsHeader,
     {
       ariaLabel: "catalogue",
       children: [
@@ -119,44 +180,7 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       testingContextId: "customers",
       url: customerListUrl()
     },
-
-    {
-      ariaLabel: "discounts",
-      children: [
-        {
-          ariaLabel: "sales",
-          label: intl.formatMessage(sectionNames.sales),
-          testingContextId: "sales",
-          url: saleListUrl()
-        },
-        {
-          ariaLabel: "vouchers",
-          label: intl.formatMessage(sectionNames.vouchers),
-          testingContextId: "vouchers",
-          url: voucherListUrl()
-        }
-      ],
-      icon: discountsIcon,
-      label: intl.formatMessage(commonMessages.discounts),
-      permission: PermissionEnum.MANAGE_DISCOUNTS,
-      testingContextId: "discounts"
-    },
-    {
-      ariaLabel: "apps",
-      icon: appsIcon,
-      label: intl.formatMessage(sectionNames.apps),
-      permission: PermissionEnum.MANAGE_APPS,
-      testingContextId: "apps",
-      url: appsListPath
-    },
-    {
-      ariaLabel: "translations",
-      icon: translationIcon,
-      label: intl.formatMessage(sectionNames.translations),
-      permission: PermissionEnum.MANAGE_TRANSLATIONS,
-      testingContextId: "translations",
-      url: languageListUrl
-    }
+    ...checkPermissionsFooter
   ];
 }
 

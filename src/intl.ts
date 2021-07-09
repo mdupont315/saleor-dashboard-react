@@ -225,6 +225,10 @@ export const sectionNames = defineMessages({
     defaultMessage: "Stores",
     description: "stores section name"
   },
+  delivery: {
+    defaultMessage: "Delivery",
+    description: "delivery section name"
+  },
   serviceTime: {
     defaultMessage: "Service time",
     description: "service section name"

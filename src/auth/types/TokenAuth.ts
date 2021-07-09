@@ -34,7 +34,7 @@ export interface TokenAuth_tokenCreate_user {
   lastName: string;
   isStaff: boolean;
   isSupplier?: boolean;
-
+  isSuperuser?:boolean;
   userPermissions: (TokenAuth_tokenCreate_user_userPermissions | null)[] | null;
   avatar: TokenAuth_tokenCreate_user_avatar | null;
 }
