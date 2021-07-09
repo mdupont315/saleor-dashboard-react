@@ -28,7 +28,7 @@ export interface User {
   firstName: string;
   lastName: string;
   isStaff: boolean;
-  
+  isSuperuser?:boolean;
   userPermissions: (User_userPermissions | null)[] | null;
   avatar: User_avatar | null;
 }

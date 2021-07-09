@@ -5,6 +5,7 @@ import discountsIcon from "@assets/images/menu-discounts-icon.svg";
 import homeIcon from "@assets/images/menu-home-icon.svg";
 import ordersIcon from "@assets/images/menu-orders-icon.svg";
 import translationIcon from "@assets/images/menu-translation-icon.svg";
+import { deliveryUrl } from "@saleor/delivery/urls";
 import { emergencyUrl } from "@saleor/emergency/urls";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { servicesUrl } from "@saleor/servicesTime/urls";
@@ -60,6 +61,13 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       label: intl.formatMessage(sectionNames.emergency),
       testingContextId: "emergency",
       url: emergencyUrl()
+    },
+    {
+      ariaLabel: "delivery",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.delivery),
+      testingContextId: "delivery",
+      url: deliveryUrl()
     },
     {
       ariaLabel: "catalogue",

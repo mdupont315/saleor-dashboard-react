@@ -23,7 +23,6 @@ function EmergencyCard({ setEmergency, emergency }: any) {
         [name]: new Date().getDate()
       });
     }
-    // console.log(e.target.name, e.target.value);
   };
 
   const compareToday = input => {
@@ -39,7 +38,9 @@ function EmergencyCard({ setEmergency, emergency }: any) {
       <CardContent>
         <ControlledSwitch
           name="e_delivery"
-          label="Delivery close"
+          label={`Delivery ${
+            compareToday(emergency.e_delivery) ? "close" : "open"
+          }`}
           checked={compareToday(emergency.e_delivery)}
           onChange={handleChange}
           // disabled={disabled}
@@ -47,7 +48,9 @@ function EmergencyCard({ setEmergency, emergency }: any) {
 
         <ControlledSwitch
           name="e_pickup"
-          label="Pickup close"
+          label={`Pickup ${
+            compareToday(emergency.e_pickup) ? "close" : "open"
+          }`}
           checked={compareToday(emergency.e_pickup)}
           onChange={handleChange}
           // disabled={disabled}
