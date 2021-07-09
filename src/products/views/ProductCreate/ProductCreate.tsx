@@ -410,17 +410,15 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
       />
       {listData && (
         <AssignAttributeDialog
-          attributes={maybe(() =>
-            mapEdgesToItems(listData.options).map(value =>
-              // @ts-ignore
-              ({
-                id: value.id,
-                name: value.name,
-                slug: value.type,
-                __typename: "Attribute"
-              })
-            )
-          )}
+          attributes={maybe(() => {
+            const attributes: any = mapEdgesToItems(listData.options);
+            return attributes.map(value => ({
+              id: value.id,
+              name: value.name,
+              slug: value.type,
+              __typename: "Attribute"
+            }));
+          })}
           errors={maybe(
             () =>
               listData.opts.data.productAttributeAssign.errors.map(
