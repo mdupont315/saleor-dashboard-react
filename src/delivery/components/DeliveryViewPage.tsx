@@ -7,7 +7,7 @@ import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { useGetMyStore } from "../queries";
+// import { useGetMyStore } from "../queries";
 import DeliveryAreaCard from "./DeliveryAreaCard";
 import DeliveryFeeCard from "./DeliveryFeeCard";
 
@@ -44,7 +44,7 @@ function DeliveryViewPage() {
     });
   };
 
-  const { data } = useGetMyStore({ variables: {} });
+  // const { data } = useGetMyStore({ variables: {} });
 
   // React.useEffect(() => {}, [data]);
 
