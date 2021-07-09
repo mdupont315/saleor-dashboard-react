@@ -37,7 +37,7 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
   const { user } = useAuth();
 
   const checkPermissionsHeader =
-    user.isSuperuser === true
+    user.isSuperuser === false
       ? [
           {
             ariaLabel: "services time",
@@ -64,7 +64,7 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       : [];
 
   const checkPermissionsFooter =
-    user.isSuperuser === true
+    user.isSuperuser === false
       ? [
           {
             ariaLabel: "discounts",
