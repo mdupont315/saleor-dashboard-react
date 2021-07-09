@@ -12,7 +12,6 @@ export interface FormProps<T> {
 function Form<T>(props: FormProps<T>) {
   const { children, initial, resetOnSubmit, onSubmit } = props;
   const renderProps = useForm(initial, onSubmit);
-
   function handleSubmit(event?: React.FormEvent<any>, cb?: () => void) {
     const { reset, submit } = renderProps;
 

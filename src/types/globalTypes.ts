@@ -73,6 +73,11 @@ export enum AppTypeEnum {
   THIRDPARTY = "THIRDPARTY",
 }
 
+export enum OptionInputTypeEnum{
+  SINGLE = "single",
+  MULTIPLE = "multiple" 
+}
+
 export enum AttributeEntityTypeEnum {
   PAGE = "PAGE",
   PRODUCT = "PRODUCT",
@@ -788,6 +793,7 @@ export enum PermissionEnum {
   MANAGE_STAFF = "MANAGE_STAFF",
   MANAGE_TRANSLATIONS = "MANAGE_TRANSLATIONS",
   MANAGE_USERS = "MANAGE_USERS",
+  MANAGE_NOTIFICATION = "MANAGE_NOTIFICATION"
 }
 
 export enum PermissionGroupErrorCode {
@@ -1098,7 +1104,15 @@ export interface AppTokenInput {
   name?: string | null;
   app: string;
 }
+//Option
+export interface OptionCreateInput {
+  name: string;
+  type: AttributeTypeEnum;
+  required?: boolean | null;
+  values?: (AttributeValueCreateInput | null)[] | null;
+  }
 
+//
 export interface AttributeCreateInput {
   inputType?: AttributeInputTypeEnum | null;
   entityType?: AttributeEntityTypeEnum | null;
@@ -1655,6 +1669,7 @@ export interface ProductCreateInput {
   collections?: string[] | null;
   description?: any | null;
   name?: string | null;
+  options?: any | null;
   slug?: string | null;
   taxCode?: string | null;
   seo?: SeoInput | null;
@@ -1692,6 +1707,7 @@ export interface ProductInput {
   seo?: SeoInput | null;
   weight?: any | null;
   rating?: number | null;
+  options?: string[] | null;
 }
 
 export interface ProductOrder {

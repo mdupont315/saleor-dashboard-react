@@ -61,16 +61,17 @@ const useStyles = makeStyles(
 );
 
 export interface AssignAttributeDialogProps extends FetchMoreProps {
-  confirmButtonState: ConfirmButtonTransitionState;
+  confirmButtonState?: ConfirmButtonTransitionState;
   errors: string[];
   open: boolean;
   attributes: AvailableAttributeFragment[];
   selected: string[];
   onClose: () => void;
-  onFetch: (query: string) => void;
+  onFetch?: (query: string) => void;
   onOpen: () => void;
   onSubmit: () => void;
   onToggle: (id: string) => void;
+  showFillter?: boolean;
 }
 
 const AssignAttributeDialog: React.FC<AssignAttributeDialogProps> = ({
@@ -86,7 +87,8 @@ const AssignAttributeDialog: React.FC<AssignAttributeDialogProps> = ({
   onFetchMore,
   onOpen,
   onSubmit,
-  onToggle
+  onToggle,
+  showFillter
 }: AssignAttributeDialogProps) => {
   const intl = useIntl();
   const classes = useStyles({});
@@ -108,24 +110,29 @@ const AssignAttributeDialog: React.FC<AssignAttributeDialogProps> = ({
           description="dialog header"
         />
       </DialogTitle>
-      <DialogContent>
-        <TextField
-          name="query"
-          value={query}
-          onChange={onQueryChange}
-          label={intl.formatMessage({
-            defaultMessage: "Search Attributes"
-          })}
-          placeholder={intl.formatMessage({
-            defaultMessage: "Search by attribute name"
-          })}
-          fullWidth
-          InputProps={{
-            autoComplete: "off",
-            endAdornment: loading && <CircularProgress size={16} />
-          }}
-        />
-      </DialogContent>
+      {showFillter === false ? (
+        <></>
+      ) : (
+        <DialogContent>
+          <TextField
+            name="query"
+            value={query}
+            onChange={onQueryChange}
+            label={intl.formatMessage({
+              defaultMessage: "Search Attributes"
+            })}
+            placeholder={intl.formatMessage({
+              defaultMessage: "Search by attribute name"
+            })}
+            fullWidth
+            InputProps={{
+              autoComplete: "off",
+              endAdornment: loading && <CircularProgress size={16} />
+            }}
+          />
+        </DialogContent>
+      )}
+
       <DialogContent className={classes.scrollArea} ref={anchor}>
         <InfiniteScroll
           pageStart={0}

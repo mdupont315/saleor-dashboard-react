@@ -69,6 +69,7 @@ export interface ProductCreateFormData extends MetadataFormData {
   taxCode: string;
   trackInventory: boolean;
   weight: string;
+  options: string[];
 }
 export interface ProductCreateData extends ProductCreateFormData {
   attributes: AttributeInput[];
@@ -97,6 +98,7 @@ export interface ProductCreateHandlers
         data: Omit<ChannelData, "name" | "price" | "currency" | "id">
       ) => void
     >,
+    Record<"handlerAttribute", () => void>,
     Record<"selectAttributeReference", FormsetChange<string[]>>,
     Record<"selectAttributeFile", FormsetChange<File>>,
     Record<"reorderAttributeValue", FormsetChange<ReorderEvent>>,
@@ -138,6 +140,7 @@ export interface UseProductCreateFormOpts
   assignReferencesAttributeId?: string;
   selectedProductType?: ProductType_productType;
   onSelectProductType: (productTypeId: string) => void;
+  options?: string[];
 }
 
 export interface ProductCreateFormProps extends UseProductCreateFormOpts {
@@ -172,7 +175,8 @@ function useProductCreateForm(
     stockQuantity: null,
     taxCode: null,
     trackInventory: false,
-    weight: ""
+    weight: "",
+    options: opts.options
   };
 
   const [changed, setChanged] = React.useState(false);
@@ -290,6 +294,8 @@ function useProductCreateForm(
     triggerChange
   );
 
+  const handlerAttribute = () => triggerChange();
+
   const getData = (): ProductCreateData => ({
     ...form.data,
     attributes: getAttributesDisplayData(
@@ -301,7 +307,8 @@ function useProductCreateForm(
     attributesWithNewFileValue: attributesWithNewFileValue.data,
     description: description.current,
     productType: opts.selectedProductType,
-    stocks: stocks.data
+    stocks: stocks.data,
+    options: opts.options
   });
   const data = getData();
   const submit = () => onSubmit(data);
@@ -336,7 +343,8 @@ function useProductCreateForm(
       selectCategory: handleCategorySelect,
       selectCollection: handleCollectionSelect,
       selectProductType: handleProductTypeSelect,
-      selectTaxRate: handleTaxTypeSelect
+      selectTaxRate: handleTaxTypeSelect,
+      handlerAttribute
     },
     hasChanged: changed,
     submit

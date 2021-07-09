@@ -110,6 +110,7 @@ export interface FilterProps<TKeys extends string> {
   currencySymbol?: string;
   onFilterChange: (filter: IFilter<TKeys>) => void;
   onFilterAttributeFocus?: (id?: string) => void;
+  isCustomExact?: boolean;
 }
 
 export interface TabPageProps {

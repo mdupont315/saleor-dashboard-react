@@ -22,6 +22,7 @@ import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/Prod
 import { TaxTypeFragment } from "@saleor/fragments/types/TaxTypeFragment";
 import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
+import { maybe } from "@saleor/misc";
 import ProductVariantPrice from "@saleor/products/components/ProductVariantPrice";
 import { ProductType_productType } from "@saleor/products/types/ProductType";
 import { getChoices } from "@saleor/products/utils/data";
@@ -41,7 +42,7 @@ import ProductDetailsForm from "../ProductDetailsForm";
 import ProductOrganization from "../ProductOrganization";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks from "../ProductStocks";
-import ProductTaxes from "../ProductTaxes";
+import ProductTypeAttributes from "../ProductTypeAttributes";
 import ProductCreateForm, {
   ProductCreateData,
   ProductCreateFormData,
@@ -52,6 +53,8 @@ interface ProductCreatePageProps {
   errors: ProductErrorWithAttributesFragment[];
   channelsErrors: ProductChannelListingErrorFragment[];
   allChannelsCount: number;
+  values?: any;
+  isChecked?: any;
   currentChannels: ChannelData[];
   collections: SearchCollections_search_edges_node[];
   categories: SearchCategories_search_edges_node[];
@@ -85,7 +88,12 @@ interface ProductCreatePageProps {
   fetchMoreReferencePages?: FetchMoreProps;
   fetchMoreReferenceProducts?: FetchMoreProps;
   onCloseDialog: () => void;
-  onSelectProductType: (productTypeId: string) => void;
+  onAttributeAdd?: () => void;
+  toggle?: (id: string) => void;
+  toggleAll?: () => void;
+  onAttributeUnassignAll?: () => void;
+  onAttributeUnassign?: (id: string) => void;
+  onSelectProductType?: (productTypeId: string) => void;
   onBack?();
   onSubmit?(data: ProductCreateData);
 }
@@ -129,7 +137,14 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   fetchAttributeValues,
   fetchMoreAttributeValues,
   onCloseDialog,
-  onSelectProductType
+  onSelectProductType,
+  values,
+  isChecked,
+  onAttributeAdd,
+  onAttributeUnassign,
+  toggle,
+  toggleAll,
+  onAttributeUnassignAll
 }: ProductCreatePageProps) => {
   const intl = useIntl();
 
@@ -141,10 +156,6 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   const [selectedCollections, setSelectedCollections] = useStateFromProps<
     MultiAutocompleteChoiceType[]
   >([]);
-
-  const [selectedTaxType, setSelectedTaxType] = useStateFromProps(
-    initial?.taxCode || null
-  );
 
   const categories = getChoices(categoryChoiceList);
   const collections = getChoices(collectionChoiceList);
@@ -187,10 +198,11 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
       selectedCollections={selectedCollections}
       setSelectedCategory={setSelectedCategory}
       setSelectedCollections={setSelectedCollections}
-      setSelectedTaxType={setSelectedTaxType}
+      setSelectedTaxType={null}
       setChannels={onChannelsChange}
       taxTypes={taxTypeChoices}
       warehouses={warehouses}
+      options={values.map(ids => ids.id)}
       currentChannels={currentChannels}
       fetchReferencePages={fetchReferencePages}
       fetchMoreReferencePages={fetchMoreReferencePages}
@@ -223,6 +235,25 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                   errors={errors}
                   onChange={change}
                   onDescriptionChange={handlers.changeDescription}
+                />
+                <CardSpacer />
+                <ProductTypeAttributes
+                  attributes={maybe(() => values)}
+                  isChecked={isChecked}
+                  toggle={toggle}
+                  toggleAll={toggleAll}
+                  onAttributeAssign={() => {
+                    onAttributeAdd();
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeUnassign={(id: string) => {
+                    onAttributeUnassign(id);
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeUnassignAll={() => {
+                    onAttributeUnassignAll();
+                    handlers.handlerAttribute();
+                  }}
                 />
                 <CardSpacer />
                 {data.attributes.length > 0 && (
@@ -343,15 +374,6 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                 ) : (
                   <CannotDefineChannelsAvailabilityCard />
                 )}
-                <CardSpacer />
-                <ProductTaxes
-                  data={data}
-                  disabled={loading}
-                  onChange={change}
-                  onTaxTypeChange={handlers.selectTaxRate}
-                  selectedTaxTypeDisplayName={selectedTaxType}
-                  taxTypes={taxTypes}
-                />
               </div>
             </Grid>
             <SaveButtonBar

@@ -79,7 +79,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                 name={"name" as keyof AttributeValueEditDialogFormData}
                 label={intl.formatMessage({
                   defaultMessage: "Name",
-                  description: "attribute name"
+                  description: "option name"
                 })}
                 value={data.name}
                 onChange={change}
