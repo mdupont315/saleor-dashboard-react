@@ -4,30 +4,20 @@ import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import Attributes from "@saleor/icons/Attributes";
 import Channels from "@saleor/icons/Channels";
-import Navigation from "@saleor/icons/Navigation";
-import Pages from "@saleor/icons/Pages";
-import PageTypes from "@saleor/icons/PageTypes";
 import PermissionGroups from "@saleor/icons/PermissionGroups";
 import Plugins from "@saleor/icons/Plugins";
 import ProductTypes from "@saleor/icons/ProductTypes";
 import ShippingMethods from "@saleor/icons/ShippingMethods";
-import SiteSettings from "@saleor/icons/SiteSettings";
 import StaffMembers from "@saleor/icons/StaffMembers";
-import Taxes from "@saleor/icons/Taxes";
 import Warehouses from "@saleor/icons/Warehouses";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
-import { menuListUrl } from "@saleor/navigation/urls";
 import { optionListUrl } from "@saleor/options/urls";
-import { pageListUrl } from "@saleor/pages/urls";
-import { pageTypeListUrl } from "@saleor/pageTypes/urls";
 import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
 import { pluginListUrl } from "@saleor/plugins/urls";
 import { productTypeListUrl } from "@saleor/productTypes/urls";
 import { shippingZonesListUrl } from "@saleor/shipping/urls";
-import { siteSettingsUrl } from "@saleor/siteSettings/urls";
 import { staffListUrl } from "@saleor/staff/urls";
-import { taxSection } from "@saleor/taxes/urls";
 import { PermissionEnum } from "@saleor/types/globalTypes";
 import { warehouseSection } from "@saleor/warehouses/urls";
 import React from "react";
@@ -63,24 +53,6 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           title: intl.formatMessage(sectionNames.productTypes),
           url: productTypeListUrl(),
           testId: "configurationMenuProductTypes"
-        }
-      ]
-    },
-    {
-      label: intl.formatMessage({
-        defaultMessage: "Product Settings"
-      }),
-      menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Manage how your store charges tax",
-            id: "configurationMenuTaxes"
-          }),
-          icon: <Taxes fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
-          title: intl.formatMessage(sectionNames.taxes),
-          url: taxSection,
-          testId: "configurationMenuTaxes"
         }
       ]
     },
@@ -163,60 +135,9 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "Content Management"
-      }),
-      menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define types of content pages used in your store",
-            id: "configurationMenuPageTypes"
-          }),
-          icon: <PageTypes fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_PAGES,
-          title: intl.formatMessage(sectionNames.pageTypes),
-          url: pageTypeListUrl(),
-          testId: "configurationMenuPageTypes"
-        },
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Manage and add additional pages",
-            id: "configurationMenuPages"
-          }),
-          icon: <Pages fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_PAGES,
-          title: intl.formatMessage(sectionNames.pages),
-          url: pageListUrl(),
-          testId: "configurationMenuPages"
-        }
-      ]
-    },
-    {
-      label: intl.formatMessage({
         defaultMessage: "Miscellaneous"
       }),
       menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define how users can navigate through your store",
-            id: "configurationMenuNavigation"
-          }),
-          icon: <Navigation fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_MENUS,
-          title: intl.formatMessage(sectionNames.navigation),
-          url: menuListUrl(),
-          testId: "configurationMenuNavigation"
-        },
-        {
-          description: intl.formatMessage({
-            defaultMessage: "View and update your site settings",
-            id: "configurationMenuSiteSettings"
-          }),
-          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
-          title: intl.formatMessage(sectionNames.siteSettings),
-          url: siteSettingsUrl(),
-          testId: "configurationMenuSiteSettings"
-        },
         {
           description: intl.formatMessage({
             defaultMessage: "View and update your plugins and their settings.",

@@ -48,11 +48,15 @@ import { commonMessages } from "./intl";
 import NavigationSection from "./navigation";
 import { navigationSection } from "./navigation/urls";
 import { NotFound } from "./NotFound";
+import NotificationSection from "./notifications";
+import { notificationSection } from "./notifications/urls";
 import OptionSection from "./options";
 import { optionSection } from "./options/urls";
 import OrdersSection from "./orders";
 import PageSection from "./pages";
 import PageTypesSection from "./pageTypes";
+import PaymentSection from "./payments";
+import { paymentSection } from "./payments/urls";
 import PermissionGroupSection from "./permissionGroups";
 import PluginsSection from "./plugins";
 import ProductSection from "./products";
@@ -300,6 +304,11 @@ const Routes: React.FC = () => {
                 path={optionSection}
                 component={OptionSection}
               />
+              <SectionRoute
+                path={notificationSection}
+                component={NotificationSection}
+              />
+              <SectionRoute path={paymentSection} component={PaymentSection} />
               {createConfigurationMenu(intl).filter(menu =>
                 menu.menuItems.map(item => hasPermission(item.permission, user))
               ).length > 0 && (
