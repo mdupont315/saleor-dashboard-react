@@ -451,13 +451,11 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
                 assignAttribute.filter(value => value.id !== attributeId)
               );
             } else {
+              const assign: any = mapEdgesToItems(listData.options);
               setChecking([...checking, attributeId]);
               setAssignAttribute([
                 ...assignAttribute,
-                mapEdgesToItems(listData.options).find(
-                  // @ts-ignore
-                  value => value.id === attributeId
-                )
+                assign.find(value => value.id === attributeId)
               ]);
             }
           }}

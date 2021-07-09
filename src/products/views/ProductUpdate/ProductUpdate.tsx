@@ -566,22 +566,17 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
   };
 
   const listDataAttribute = () => {
-    const array = [] as AvailableAttributeFragment[];
-    const formatList = listData && mapEdgesToItems(listData.options);
+    const array: any = [];
+    const formatList: any = listData && mapEdgesToItems(listData.options);
 
     if (data && formatList) {
       values.forEach(index => {
-        const indexList = formatList.findIndex(
-          value =>
-            // @ts-ignore
-            value.id === index.id
-        );
+        const indexList = formatList.findIndex(value => value.id === index.id);
         formatList.splice(indexList, 1);
       });
     }
     formatList.map(value => {
       if (value) {
-        // @ts-ignore
         array.push({
           __typename: "Attribute",
           id: value.id || "",
