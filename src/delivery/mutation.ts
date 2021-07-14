@@ -2,11 +2,8 @@ import makeMutation from "@saleor/hooks/makeMutation";
 import gql from "graphql-tag";
 
 const emergency = gql`
-  mutation emergency($id: ID!, $input: DeliveryUpdate!) {
+  mutation DeliveryUpdate($id: ID!, $input: DeliveryUpdateInput!) {
     deliveryUpdate(id: $id, input: $input) {
-      delivery {
-        id
-      }
       errors {
         field
         message
