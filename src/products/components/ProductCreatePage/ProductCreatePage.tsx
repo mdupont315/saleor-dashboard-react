@@ -2,13 +2,11 @@ import {
   getAttributeValuesFromReferences,
   mergeAttributeValues
 } from "@saleor/attributes/utils/data";
-import CannotDefineChannelsAvailabilityCard from "@saleor/channels/components/CannotDefineChannelsAvailabilityCard/CannotDefineChannelsAvailabilityCard";
 import { ChannelData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import AssignAttributeValueDialog from "@saleor/components/AssignAttributeValueDialog";
 import Attributes, { AttributeInput } from "@saleor/components/Attributes";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
@@ -33,15 +31,12 @@ import { SearchPages_search_edges_node } from "@saleor/searches/types/SearchPage
 import { SearchProducts_search_edges_node } from "@saleor/searches/types/SearchProducts";
 import { SearchProductTypes_search_edges_node } from "@saleor/searches/types/SearchProductTypes";
 import { SearchWarehouses_search_edges_node } from "@saleor/searches/types/SearchWarehouses";
-import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
 import { FetchMoreProps } from "../../../types";
 import ProductDetailsForm from "../ProductDetailsForm";
 import ProductOrganization from "../ProductOrganization";
-import ProductShipping from "../ProductShipping/ProductShipping";
-import ProductStocks from "../ProductStocks";
 import ProductTypeAttributes from "../ProductTypeAttributes";
 import ProductCreateForm, {
   ProductCreateData,
@@ -99,7 +94,6 @@ interface ProductCreatePageProps {
 }
 
 export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
-  allChannelsCount,
   channelsErrors,
   currentChannels,
   loading,
@@ -123,11 +117,8 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   selectedProductType,
   onBack,
   fetchProductTypes,
-  weightUnit,
   onSubmit,
   onChannelsChange,
-  onWarehouseConfigure,
-  openChannelsModal,
   assignReferencesAttributeId,
   onAssignReferencesClick,
   fetchReferencePages,
@@ -235,6 +226,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                   errors={errors}
                   onChange={change}
                   onDescriptionChange={handlers.changeDescription}
+                  onChangeStock={handlers.changeStock}
                 />
                 <CardSpacer />
                 <ProductTypeAttributes
@@ -276,33 +268,11 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                 <CardSpacer />
                 {isSimpleProduct && (
                   <>
-                    <ProductShipping
-                      data={data}
-                      disabled={loading}
-                      errors={errors}
-                      weightUnit={weightUnit}
-                      onChange={change}
-                    />
-                    <CardSpacer />
                     <ProductVariantPrice
                       ProductVariantChannelListings={data.channelListings}
                       errors={channelsErrors}
                       loading={loading}
                       onChange={handlers.changeChannelPrice}
-                    />
-                    <CardSpacer />
-                    <ProductStocks
-                      data={data}
-                      disabled={loading}
-                      hasVariants={false}
-                      onFormDataChange={change}
-                      errors={errors}
-                      stocks={data.stocks}
-                      warehouses={warehouses}
-                      onChange={handlers.changeStock}
-                      onWarehouseStockAdd={handlers.addStock}
-                      onWarehouseStockDelete={handlers.deleteStock}
-                      onWarehouseConfigure={onWarehouseConfigure}
                     />
                     <CardSpacer />
                   </>
@@ -349,31 +319,6 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                   collectionsInputDisplayValue={selectedCollections}
                 />
                 <CardSpacer />
-                {isSimpleProduct ? (
-                  <ChannelsAvailabilityCard
-                    managePermissions={[PermissionEnum.MANAGE_PRODUCTS]}
-                    messages={{
-                      hiddenLabel: intl.formatMessage({
-                        defaultMessage: "Not published",
-                        description: "product label"
-                      }),
-
-                      visibleLabel: intl.formatMessage({
-                        defaultMessage: "Published",
-                        description: "product label"
-                      })
-                    }}
-                    errors={channelsErrors}
-                    selectedChannelsCount={data.channelListings?.length || 0}
-                    allChannelsCount={allChannelsCount}
-                    channels={data.channelListings || []}
-                    disabled={loading}
-                    onChange={handlers.changeChannels}
-                    openModal={openChannelsModal}
-                  />
-                ) : (
-                  <CannotDefineChannelsAvailabilityCard />
-                )}
               </div>
             </Grid>
             <SaveButtonBar

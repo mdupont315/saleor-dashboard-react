@@ -104,7 +104,7 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
                 description: "section header"
               })
             : intl.formatMessage({
-                defaultMessage: "Attributes",
+                defaultMessage: "Option",
                 description: "section header"
               })
         }
@@ -115,7 +115,7 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
             onClick={() => onAttributeAssign(ProductAttributeType[type])}
           >
             <FormattedMessage
-              defaultMessage="Assign attribute"
+              defaultMessage="Assign option"
               description="button"
             />
           </Button>

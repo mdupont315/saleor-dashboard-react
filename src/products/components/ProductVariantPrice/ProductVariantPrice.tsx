@@ -7,7 +7,7 @@ import {
   TableRow,
   Typography
 } from "@material-ui/core";
-import { ChannelData, ChannelPriceArgs } from "@saleor/channels/utils";
+import { ChannelPriceArgs } from "@saleor/channels/utils";
 import CardTitle from "@saleor/components/CardTitle";
 import PriceField from "@saleor/components/PriceField";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
@@ -68,6 +68,20 @@ interface ProductVariantPriceProps {
   disabled?: boolean;
   onChange?: (id: string, data: ChannelPriceArgs) => void;
   disabledMessage?: MessageDescriptor;
+}
+
+export interface ChannelData {
+  id: string;
+  name: string;
+  isPublished?: boolean;
+  publicationDate?: string | null;
+  currency?: string;
+  variantsIds?: string[];
+  price?: string;
+  costPrice?: string;
+  availableForPurchase?: string;
+  isAvailableForPurchase?: boolean;
+  visibleInListings?: boolean;
 }
 
 const numberOfColumns = 2;

@@ -17,7 +17,7 @@ import { useAuth } from "../../auth/AuthProvider";
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
 import { customerListUrl } from "../../customers/urls";
-import { saleListUrl, voucherListUrl } from "../../discounts/urls";
+import { saleListUrl /* voucherListUrl*/ } from "../../discounts/urls";
 import { orderDraftListUrl, orderListUrl } from "../../orders/urls";
 import { productListUrl } from "../../products/urls";
 import { languageListUrl } from "../../translations/urls";
@@ -68,24 +68,11 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       ? [
           {
             ariaLabel: "discounts",
-            children: [
-              {
-                ariaLabel: "sales",
-                label: intl.formatMessage(sectionNames.sales),
-                testingContextId: "sales",
-                url: saleListUrl()
-              },
-              {
-                ariaLabel: "vouchers",
-                label: intl.formatMessage(sectionNames.vouchers),
-                testingContextId: "vouchers",
-                url: voucherListUrl()
-              }
-            ],
             icon: discountsIcon,
             label: intl.formatMessage(commonMessages.discounts),
             permission: PermissionEnum.MANAGE_DISCOUNTS,
-            testingContextId: "discounts"
+            testingContextId: "discounts",
+            url: saleListUrl()
           },
           {
             ariaLabel: "apps",
