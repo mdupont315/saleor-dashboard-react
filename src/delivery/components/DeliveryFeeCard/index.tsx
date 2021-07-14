@@ -6,7 +6,13 @@ import { commonMessages } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
 
-function DeliveryFeeCard({}: any) {
+function DeliveryFeeCard({
+  values,
+  handleChange,
+  handleBlur,
+  touched,
+  errors
+}: any) {
   const intl = useIntl();
 
   // const handleChange = e => {};
@@ -27,12 +33,14 @@ function DeliveryFeeCard({}: any) {
                 min: 0
               }
             }}
-            name="name"
-            // value={values.name}
-            // onChange={handleChange}
-            // onBlur={handleBlur}
-            // error={errors.name && touched.name}
-            // helperText={errors.name && touched.name && errors.name}
+            name="deliveryFee"
+            value={values.deliveryFee}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={errors.deliveryFee && touched.deliveryFee}
+            helperText={
+              errors.deliveryFee && touched.deliveryFee && errors.deliveryFee
+            }
           />
 
           <FormSpacer />
@@ -43,37 +51,38 @@ function DeliveryFeeCard({}: any) {
             })}
             fullWidth
             type="number"
-            name="name"
-            // value={values.name}
-            // onChange={handleChange}
+            name="minOrder"
+            value={values.minOrder}
+            onChange={handleChange}
             InputProps={{
               inputProps: {
                 min: 0
               }
             }}
-            // onBlur={handleBlur}
-            // error={errors.name && touched.name}
-            // helperText={errors.name && touched.name && errors.name}
+            onBlur={handleBlur}
+            error={errors.minOrder && touched.minOrder}
+            helperText={errors.minOrder && touched.minOrder && errors.minOrder}
           />
           <FormSpacer />
-
           <TextField
             label={intl.formatMessage({
               defaultMessage: "Free delivery from"
             })}
             fullWidth
             type="number"
-            name="name"
-            // value={values.name}
-            // onChange={handleChange}
+            name="fromDelivery"
+            value={values.fromDelivery}
+            onChange={handleChange}
             InputProps={{
               inputProps: {
                 min: 0
               }
             }}
-            // onBlur={handleBlur}
-            // error={errors.name && touched.name}
-            // helperText={errors.name && touched.name && errors.name}
+            onBlur={handleBlur}
+            error={errors.fromDelivery && touched.fromDelivery}
+            helperText={
+              errors.fromDelivery && touched.fromDelivery && errors.fromDelivery
+            }
           />
         </>
       </CardContent>

@@ -1,9 +1,7 @@
-import { Card, Checkbox, TableCell, TextField } from "@material-ui/core";
+import { Card, Checkbox, Grid, TextField } from "@material-ui/core";
 import createSvgIcon from "@material-ui/icons/utils/createSvgIcon";
+import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
-import ResponsiveTable from "@saleor/components/ResponsiveTable";
-import {} from "@saleor/components/SortableTable";
-// import TableHead from "@saleor/components/TableHead";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { /* FormattedMessage ,*/ useIntl } from "react-intl";
@@ -39,16 +37,14 @@ const Draggable = createSvgIcon(
 const useStyles = makeStyles(
   {
     colAction: {
-      "&:last-child": {
-        paddingRight: 0
-      },
-      width: 80
+      width: "50%"
     },
     colGrab: {
       width: 60
     },
     colName: {
-      width: "20%"
+      marginTop: 25,
+      width: "30%"
     },
     colSlug: {
       width: 300
@@ -60,14 +56,42 @@ const useStyles = makeStyles(
       textAlign: "left"
     },
     draggable: {
-      marginLeft: "20px",
+      width: "5%",
+      marginTop: 21,
+      marginLeft: 20
+    },
+    checkbox: {
+      marginTop: 13,
       width: "10%"
     }
   },
   { name: "ProductTypeAttributes" }
 );
 
-function ServiceProcessCard() {
+const Text = [
+  {
+    label: "Contant",
+    cost: "contantCost",
+    enable: "contantEnable"
+  },
+  {
+    label: "iDeal",
+    cost: "stripeCost",
+    enable: "stripeEnable"
+  }
+];
+
+export interface PaymentProcessCard {
+  values: any;
+  handleChange: any;
+  errors: any;
+}
+
+const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
+  values,
+  handleChange,
+  errors
+}) => {
   const classes = useStyles();
   const intl = useIntl();
 
@@ -75,28 +99,41 @@ function ServiceProcessCard() {
     <Card data-test={"product-attributes"}>
       <CardTitle
         title={intl.formatMessage({
-          defaultMessage: "Product Attributes",
+          defaultMessage: "Payment methods",
           description: "section header"
         })}
       />
-      <ResponsiveTable>
-        <div>
-          <div className={classes.draggable}>
-            <Draggable />
-          </div>
-          <TableCell padding="checkbox">
-            <Checkbox />
-          </TableCell>
-          <TableCell className={classes.colName} data-test="name">
-            Contant
-          </TableCell>
-          <TableCell className={classes.colAction} data-test="type">
-            <TextField />
-          </TableCell>
-        </div>
-      </ResponsiveTable>
+      <CardSpacer />
+      {Text.map((value, index) => (
+        <>
+          <Grid key={index} container direction="row">
+            <Grid className={classes.draggable}>
+              <Draggable />
+            </Grid>
+            <Grid className={classes.checkbox}>
+              <Checkbox
+                value={values?.[value.enable]}
+                checked={values?.[value.enable] === true}
+                name={value.enable}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid className={classes.colName}>{value.label}</Grid>
+            <Grid className={classes.colAction}>
+              <TextField
+                error={!!errors?.[value.cost]}
+                value={values?.[value.cost]}
+                name={value.cost}
+                onChange={handleChange}
+                helperText={errors?.[value.cost]}
+              />
+            </Grid>
+          </Grid>
+          <CardSpacer />
+        </>
+      ))}
     </Card>
   );
-}
+};
 
 export default ServiceProcessCard;
