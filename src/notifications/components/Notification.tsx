@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, LinearProgress } from "@material-ui/core";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -81,7 +81,7 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
               )}
             </Formik>
           ) : (
-            <></>
+            <LinearProgress color="primary" />
           )}
         </div>
       </Grid>

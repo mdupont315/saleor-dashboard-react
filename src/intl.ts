@@ -226,6 +226,10 @@ export const sectionNames = defineMessages({
     defaultMessage: "Notifications",
     description: "Notifications section name"
   },
+  Payment: {
+    defaultMessage: "Payment",
+    description: "Payment section name"
+  },
   attributes: {
     defaultMessage: "Attributes",
     description: "attributes section name"
