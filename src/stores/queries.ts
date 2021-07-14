@@ -99,6 +99,8 @@ export const storeForUser = gql`
       id
       name
       domain
+      phone
+      address
       logo {
         url
         alt

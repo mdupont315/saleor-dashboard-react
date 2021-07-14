@@ -65,6 +65,8 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
 const validateSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   domain: yup.string().required("Required!"),
+  phone: yup.string().required("Required!"),
+  address: yup.string().required("Required!"),
   email: yup
     .string()
     .required("Required!")

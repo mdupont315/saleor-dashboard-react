@@ -25,6 +25,8 @@ const getMyStore = gql`
       id
       name
       domain
+      address
+      phone
       deliveryStatus
       pickupStatus
       logo {

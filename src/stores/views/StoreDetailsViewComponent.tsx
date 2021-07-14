@@ -65,6 +65,8 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
         input: {
           name: data.name,
           domain: data.domain,
+          phone: data.phone,
+          address: data.address,
           logo: data.logo[0].image,
           coverPhoto: data.coverPhoto[0].image
         }
