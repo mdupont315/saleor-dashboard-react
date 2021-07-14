@@ -12,14 +12,16 @@ import StaffMembers from "@saleor/icons/StaffMembers";
 import Warehouses from "@saleor/icons/Warehouses";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
+import { notificationUrl } from "@saleor/notifications/urls";
 import { optionListUrl } from "@saleor/options/urls";
+import { paymentUrl } from "@saleor/payments/urls";
 import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
 import { pluginListUrl } from "@saleor/plugins/urls";
 import { productTypeListUrl } from "@saleor/productTypes/urls";
-import { shippingZonesListUrl } from "@saleor/shipping/urls";
+// import { shippingZonesListUrl } from "@saleor/shipping/urls";
 import { staffListUrl } from "@saleor/staff/urls";
 import { PermissionEnum } from "@saleor/types/globalTypes";
-import { warehouseSection } from "@saleor/warehouses/urls";
+// import { warehouseSection } from "@saleor/warehouses/urls";
 import React from "react";
 import { IntlShape, useIntl } from "react-intl";
 
@@ -99,7 +101,7 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_SHIPPING,
           title: intl.formatMessage(sectionNames.shipping),
-          url: shippingZonesListUrl(),
+          url: notificationUrl(),
           testId: "configurationMenuShipping"
         },
         {
@@ -110,7 +112,7 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           icon: <Warehouses fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_PRODUCTS,
           title: intl.formatMessage(sectionNames.warehouses),
-          url: warehouseSection,
+          url: paymentUrl(),
           testId: "configurationMenuWarehouses"
         }
       ]

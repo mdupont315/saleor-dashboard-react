@@ -14,7 +14,23 @@ import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
 import { useIntl } from "react-intl";
 
-function ServiceProcessCard() {
+import { InitialFormNotification } from "../Notification";
+
+export interface ServiceProcessCard {
+  values: InitialFormNotification;
+  handleChange: any;
+  setFieldValue: any;
+  handleBlur: any;
+  errors: any;
+}
+
+const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
+  values,
+  handleChange,
+  handleBlur,
+  setFieldValue,
+  errors
+}) => {
   const intl = useIntl();
   return (
     <Card>
@@ -34,14 +50,22 @@ function ServiceProcessCard() {
                   }}
                 >
                   <FormControlLabel
+                    name="emailNotifications"
                     value={true}
                     control={<Radio />}
+                    onBlur={handleBlur}
+                    checked={values && values.emailNotifications === true}
                     label="Enable"
+                    onChange={() => setFieldValue("emailNotifications", true)}
                   />
                   <FormControlLabel
+                    name="emailNotifications"
                     value={false}
                     control={<Radio />}
+                    onBlur={handleBlur}
+                    checked={values && values.emailNotifications === false}
                     label="Disable"
+                    onChange={() => setFieldValue("emailNotifications", false)}
                   />
                 </div>
               </RadioGroup>
@@ -49,17 +73,17 @@ function ServiceProcessCard() {
             <Grid xs={6}>
               <FormSpacer />
               <TextField
-                // error={!!formErrors.name}
-                // helperText={getProductErrorMessage(formErrors.name, intl)}
+                error={!!errors.emailAddress}
+                helperText={errors.emailAddress}
                 // disabled={disabled}
                 fullWidth
                 label={intl.formatMessage({
                   defaultMessage: "Email address for notifications",
                   description: "Email address for notifications"
                 })}
-                name="name"
-                // value={data.name}
-                // onChange={onChange}
+                name="emailAddress"
+                value={values && values.emailAddress}
+                onChange={handleChange}
               />
             </Grid>
           </Grid>
@@ -67,6 +91,6 @@ function ServiceProcessCard() {
       </CardContent>
     </Card>
   );
-}
+};
 
 export default ServiceProcessCard;
