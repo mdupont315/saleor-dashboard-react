@@ -218,16 +218,16 @@ function ServiceViewPage() {
   const compareWithData = () => {
     delete listService?.serviceTimes?.edges[0].node.id;
     delete listService?.serviceTimes?.edges[0].node.__typename;
-    const removeSpace = {
-      dlServiceTime: listService?.serviceTimes?.edges[0].node.dlServiceTime.replace(
-        /\s/g,
-        ""
-      ),
-      puServiceTime: listService?.serviceTimes?.edges[0].node.puServiceTime.replace(
-        /\s/g,
-        ""
-      )
-    };
+    // const removeSpace = {
+    //   dlServiceTime: listService?.serviceTimes?.edges[0].node.dlServiceTime.replace(
+    //     /\s/g,
+    //     ""
+    //   ),
+    //   puServiceTime: listService?.serviceTimes?.edges[0].node.puServiceTime.replace(
+    //     /\s/g,
+    //     ""
+    //   )
+    // };
 
     // const data = listService && Object.assign(listService?.serviceTimes?.edges[0].node, removeSpace);
 
