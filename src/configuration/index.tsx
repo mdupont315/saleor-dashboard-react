@@ -90,28 +90,28 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "Shipping Settings"
+        defaultMessage: "Notification Settings"
       }),
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage how you ship out orders",
-            id: "configurationMenuShipping"
+            defaultMessage: "Manage and update your notification",
+            id: "configurationNotification"
           }),
           icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_SHIPPING,
-          title: intl.formatMessage(sectionNames.shipping),
+          title: intl.formatMessage(sectionNames.Notification),
           url: notificationUrl(),
           testId: "configurationMenuShipping"
         },
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage and update your warehouse information",
-            id: "configurationMenuWarehouses"
+            defaultMessage: "Manage and update your payment",
+            id: "configurationPayment"
           }),
           icon: <Warehouses fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_PRODUCTS,
-          title: intl.formatMessage(sectionNames.warehouses),
+          title: intl.formatMessage(sectionNames.Payment),
           url: paymentUrl(),
           testId: "configurationMenuWarehouses"
         }

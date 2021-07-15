@@ -6,6 +6,7 @@ const getMyDelivery = gql`
     currentDelivery {
       id
       deliveryArea
+      deliveryFee
       fromDelivery
       minOrder
       __typename

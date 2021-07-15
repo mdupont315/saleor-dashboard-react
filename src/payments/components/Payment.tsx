@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, LinearProgress } from "@material-ui/core";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -63,14 +63,14 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
                   <SaveButtonBar
                     disabled={disable}
                     state={state}
-                    onCancel={() => onBack}
+                    onCancel={onBack}
                     onSave={handleSubmit}
                   />
                 </Form>
               )}
             </Formik>
           ) : (
-            <></>
+            <LinearProgress color="primary" />
           )}
         </div>
       </Grid>

@@ -4,6 +4,15 @@ export const commonMessages = defineMessages({
   availability: {
     defaultMessage: "Availability"
   },
+  delivery: {
+    defaultMessage: "Delivery"
+  },
+  deliveryArea: {
+    defaultMessage: "Delivery area"
+  },
+  deliveryFees: {
+    defaultMessage: "Delivery fees"
+  },
   catalog: {
     defaultMessage: "Catalog"
   },
@@ -216,6 +225,10 @@ export const sectionNames = defineMessages({
   Notification: {
     defaultMessage: "Notifications",
     description: "Notifications section name"
+  },
+  Payment: {
+    defaultMessage: "Payment",
+    description: "Payment section name"
   },
   attributes: {
     defaultMessage: "Attributes",

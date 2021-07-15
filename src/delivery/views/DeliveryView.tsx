@@ -1,5 +1,6 @@
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
+import { maybe } from "@saleor/misc";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -10,17 +11,16 @@ import { useGetMyCurrentDelivery } from "../queries";
 function DeliveryView() {
   const intl = useIntl();
   const notify = useNotifier();
-  const { data } = useGetMyCurrentDelivery({});
-
-  // console.log(data);
+  const { data, refetch } = useGetMyCurrentDelivery({});
 
   const [updateEmergency, updateEmergencyOpts] = useMutationEmergency({
     onCompleted: data => {
-      if (data.storeUpdate.errors.length === 0) {
+      if (data.deliveryUpdate.errors.length === 0) {
         notify({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",
@@ -32,19 +32,26 @@ function DeliveryView() {
     }
   });
 
-  const onSubmit = (input: any) => {
-    // console.log(input);
-    // const variables = {
-    //   id: "U3RvcmU6MQ=="
-    // };
-    // updateEmergency({
-    //   variables
-    // });
+  const onSubmit = async input => {
+    const generatorInput = {
+      deliveryFee: input.deliveryFee,
+      minOrder: input.minOrder,
+      fromDelivery: input.fromDelivery,
+      deliveryArea: JSON.stringify({ areas: input.deliveryArea })
+    };
+    const result = await updateEmergency({
+      variables: {
+        id: input.id,
+        input: generatorInput
+      }
+    });
+    return result;
   };
 
   return (
     <>
       <DeliveryViewPage
+        data={maybe(() => data.currentDelivery)}
         onSubmit={onSubmit}
         updateEmergencyOpts={updateEmergencyOpts}
       />

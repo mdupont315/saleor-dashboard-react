@@ -8,7 +8,6 @@ import AppHeader from "@saleor/components/AppHeader";
 import AssignAttributeValueDialog from "@saleor/components/AssignAttributeValueDialog";
 import Attributes, { AttributeInput } from "@saleor/components/Attributes";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
@@ -40,11 +39,9 @@ import {
   ListActions,
   ReorderAction
 } from "@saleor/types";
-import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import ChannelsWithVariantsAvailabilityCard from "../../../channels/ChannelsWithVariantsAvailabilityCard/ChannelsWithVariantsAvailabilityCard";
 import {
   ProductDetails_product,
   ProductDetails_product_media,
@@ -54,8 +51,7 @@ import { getChoices, ProductUpdatePageFormData } from "../../utils/data";
 import ProductDetailsForm from "../ProductDetailsForm";
 import ProductMedia from "../ProductMedia";
 import ProductOrganization from "../ProductOrganization";
-import ProductShipping from "../ProductShipping/ProductShipping";
-import ProductStocks, { ProductStockInput } from "../ProductStocks";
+import { ProductStockInput } from "../ProductStocks";
 import ProductTypeAttributes from "../ProductTypeAttributes";
 import ProductVariants from "../ProductVariants";
 import ProductUpdateForm, {
@@ -141,7 +137,6 @@ export interface ProductUpdatePageSubmitData extends ProductUpdatePageFormData {
 }
 
 export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
-  defaultWeightUnit,
   disabled,
   categories: categoryChoiceList,
   channelsErrors,
@@ -168,14 +163,12 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   referenceProducts = [],
   onBack,
   onDelete,
-  allChannelsCount,
   currentChannels,
   onImageDelete,
   onImageEdit,
   onImageReorder,
   onImageUpload,
   onMediaUrlUpload,
-  openChannelsModal,
   onSeoClick,
   onSubmit,
   onVariantAdd,
@@ -184,7 +177,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   onSetDefaultVariant,
   onVariantShow,
   onVariantReorder,
-  onWarehouseConfigure,
   isChecked,
   isMediaUrlModalVisible,
   selected,
@@ -381,29 +373,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     toggleAll={toggleAll}
                   />
                 ) : (
-                  <>
-                    <ProductShipping
-                      data={data}
-                      disabled={disabled}
-                      errors={errors}
-                      weightUnit={product?.weight?.unit || defaultWeightUnit}
-                      onChange={change}
-                    />
-                    <CardSpacer />
-                    <ProductStocks
-                      data={data}
-                      disabled={disabled}
-                      hasVariants={false}
-                      errors={errors}
-                      stocks={data.stocks}
-                      warehouses={warehouses}
-                      onChange={handlers.changeStock}
-                      onFormDataChange={change}
-                      onWarehouseStockAdd={handlers.addStock}
-                      onWarehouseStockDelete={handlers.deleteStock}
-                      onWarehouseConfigure={onWarehouseConfigure}
-                    />
-                  </>
+                  <></>
                 )}
                 <CardSpacer />
                 <SeoForm
@@ -444,51 +414,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   onCollectionChange={handlers.selectCollection}
                 />
                 <CardSpacer />
-                {isSimpleProduct ? (
-                  <ChannelsAvailabilityCard
-                    managePermissions={[PermissionEnum.MANAGE_PRODUCTS]}
-                    messages={{
-                      hiddenLabel: intl.formatMessage({
-                        defaultMessage: "Not published",
-                        description: "product label"
-                      }),
-
-                      visibleLabel: intl.formatMessage({
-                        defaultMessage: "Published",
-                        description: "product label"
-                      })
-                    }}
-                    errors={channelsErrors}
-                    selectedChannelsCount={data.channelListings.length}
-                    allChannelsCount={allChannelsCount}
-                    channels={data.channelListings}
-                    disabled={disabled}
-                    onChange={handlers.changeChannels}
-                    openModal={openChannelsModal}
-                  />
-                ) : (
-                  <ChannelsWithVariantsAvailabilityCard
-                    messages={{
-                      hiddenLabel: intl.formatMessage({
-                        defaultMessage: "Not published",
-                        description: "product label",
-                        id: "not published channel"
-                      }),
-
-                      visibleLabel: intl.formatMessage({
-                        defaultMessage: "Published",
-                        description: "product label",
-                        id: "published channel"
-                      })
-                    }}
-                    errors={channelsErrors}
-                    channels={data.channelsData}
-                    channelsWithVariantsData={channelsWithVariantsData}
-                    variants={variants}
-                    onChange={handlers.changeChannels}
-                    openModal={openChannelsModal}
-                  />
-                )}
               </div>
             </Grid>
             <SaveButtonBar

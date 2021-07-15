@@ -8,21 +8,22 @@ import RichTextEditor, {
   RichTextEditorChange
 } from "@saleor/components/RichTextEditor";
 import { ProductErrorFragment } from "@saleor/fragments/types/ProductErrorFragment";
+import { FormsetChange } from "@saleor/hooks/useFormset";
 import { commonMessages } from "@saleor/intl";
 import { getFormErrors, getProductErrorMessage } from "@saleor/utils/errors";
 import React from "react";
 import { useIntl } from "react-intl";
-
 interface ProductDetailsFormProps {
   data: {
     description: OutputData;
     name: string;
     rating: number;
+    sku: any;
   };
   disabled?: boolean;
   errors: ProductErrorFragment[];
-
   onDescriptionChange: RichTextEditorChange;
+  onChangeStock?: FormsetChange;
   onChange(event: any);
 }
 
@@ -35,7 +36,10 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
 }) => {
   const intl = useIntl();
 
-  const formErrors = getFormErrors(["name", "description", "rating"], errors);
+  const formErrors = getFormErrors(
+    ["name", "description", "rating", "sku"],
+    errors
+  );
 
   return (
     <Card>
@@ -71,16 +75,16 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
         <FormSpacer />
         <Grid variant="uniform">
           <TextField
-            type="number"
-            error={!!formErrors.rating}
-            helperText={getProductErrorMessage(formErrors.rating, intl)}
+            error={!!formErrors.sku}
+            helperText={getProductErrorMessage(formErrors.sku, intl)}
             disabled={disabled}
             label={intl.formatMessage({
-              defaultMessage: "Product Rating",
+              defaultMessage: "SKU (Stock Keeping Unit)",
               description: "product rating"
             })}
-            name="rating"
-            value={data.rating || ""}
+            name="sku"
+            required
+            value={data.sku || ""}
             onChange={onChange}
           />
         </Grid>

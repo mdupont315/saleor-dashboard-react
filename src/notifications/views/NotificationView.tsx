@@ -14,7 +14,7 @@ function NotificationView() {
   const navigate = useNavigator();
   const notify = useNotifier();
 
-  const { data } = useGetMyStore({ variables: {} });
+  const { data, refetch } = useGetMyStore({ variables: {} });
 
   const [updateEmergency, updateEmergencyOpts] = useUpdateStoreMutation({
     onCompleted: data => {
@@ -23,6 +23,7 @@ function NotificationView() {
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",

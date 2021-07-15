@@ -15,11 +15,9 @@ function DeliveryFeeCard({
 }: any) {
   const intl = useIntl();
 
-  // const handleChange = e => {};
-
   return (
     <Card>
-      <CardTitle title={intl.formatMessage(commonMessages.emergency)} />
+      <CardTitle title={intl.formatMessage(commonMessages.deliveryFees)} />
       <CardContent>
         <>
           <TextField

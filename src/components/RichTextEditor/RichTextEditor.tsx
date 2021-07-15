@@ -27,7 +27,6 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onReady
 }) => {
   const classes = useStyles({});
-
   const [isFocused, setFocus] = React.useState(false);
   const editor = React.useRef<EditorJS>();
   const editorContainer = React.useRef<HTMLDivElement>();
@@ -42,10 +41,10 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           holder: editorContainer.current,
           logLevel: "ERROR" as LogLevels,
           onChange: async api => {
-            if (!api.readOnly) {
-              const savedData = await api.saver.save();
-              onChange(savedData);
-            }
+            // if (!api.readOnly) {
+            const savedData = await api.saver.save();
+            onChange(savedData);
+            // }
           },
           onReady: () => {
             // FIXME: This throws an error and is not working

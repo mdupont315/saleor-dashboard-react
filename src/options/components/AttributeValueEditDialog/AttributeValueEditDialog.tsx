@@ -101,13 +101,18 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
     { closeModal, openModal }
   );
 
-  const initialForm: AttributeValueEditDialogFormData =
-    params !== "edit-value"
+  const initialForm =
+    params === "edit-value" &&
+    attributeValue &&
+    Object.keys(attributeValue).length > 0
       ? {
+          name: attributeValue?.name ?? "",
+          channelListing: attributeValue?.channelListing ?? []
+        }
+      : {
           name: "",
           channelListing: currentChannels
-        }
-      : attributeValue;
+        };
 
   return (
     <Dialog onClose={onClose} open={open} fullWidth maxWidth="sm">

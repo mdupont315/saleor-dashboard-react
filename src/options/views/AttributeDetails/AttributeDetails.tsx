@@ -135,6 +135,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
           text: intl.formatMessage(commonMessages.savedChanges)
         });
         refetch();
+        closeModal();
         setRemoveValues([]);
         setAddValues([]);
       }
@@ -160,29 +161,32 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
     closeModal();
   };
 
-  const handleValueCreate = (input: AttributeValueEditDialogFormData) => {
-    const option = {
-      id: Math.random()
-        .toString(36)
-        .substr(2, 9),
-      ...input,
-      __typename: "OptionCreate"
+  const handleValueCreate = async (data: AttributeValueEditDialogFormData) => {
+    const input = {
+      addValues: [
+        {
+          name: data.name,
+          channelListing: data.channelListing.map(channel => ({
+            channelId: channel.id,
+            price: channel.discountValue
+          }))
+        }
+      ]
     };
-    setAddValues([...addValues, option]);
-    setCacheValues({
-      option: {
-        ...cacheValues.option,
-        optionValues: [...cacheValues.option.optionValues, option]
+    const result = await attributeUpdate({
+      variables: {
+        id,
+        input
       }
     });
-    closeModal();
+    return result;
   };
 
   const handleValueUpdate = async (input: AttributeValueEditDialogFormData) => {
-    const findElement = data.option.optionValues.filter(
+    const findElement = cacheValues.option.optionValues.filter(
       value => params.id === value.id
     )[0];
-    const channelListingUpdate = input.channelListing.map(value => ({
+    const channelListingUpdate = input.channelListing?.map(value => ({
       channelId: value.id,
       price: value.discountValue,
       id: findElement.channelListing.find(find => find.channel.id === value.id)
@@ -310,6 +314,8 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
       <AttributeValueEditDialog
         attributeValue={null}
         disabled={loading}
+        params={"add-value"}
+        confirmButtonState={attributeUpdateOpts.status}
         open={params.action === "add-value"}
         onClose={closeModal}
         onSubmit={handleValueCreate}
@@ -317,15 +323,26 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
       <AttributeValueEditDialog
         attributeValue={maybe(() => {
           const beforeData =
-            cacheData &&
-            cacheData.option.optionValues.find(value => params.id === value.id);
+            cacheValues &&
+            cacheValues.option.optionValues.find(
+              value => value.id === params.id
+            );
           const newChannelListing = [];
           beforeData.channelListing.map(data => {
             allChannels.find(value => {
-              if (value.id === data.channel.id) {
-                value.discountValue = data.price.toString();
-                newChannelListing.push(value);
-                return value;
+              if (beforeData.__typename === "OptionValue") {
+                if (value.id === data.channel.id) {
+                  value.discountValue = data.price.toString();
+                  newChannelListing.push(value);
+                  return value;
+                }
+              }
+              if (beforeData.__typename === "OptionCreate") {
+                if (value.id === data.id) {
+                  value.discountValue = data.discountValue.toString();
+                  newChannelListing.push(value);
+                  return value;
+                }
               }
             });
           });

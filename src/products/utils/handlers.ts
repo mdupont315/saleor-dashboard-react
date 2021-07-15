@@ -4,7 +4,7 @@ import {
   ChannelPriceData
 } from "@saleor/channels/utils";
 import { FormChange } from "@saleor/hooks/useForm";
-
+import moment from "moment-timezone";
 export function createChannelsPriceChangeHandler(
   channelListings: ChannelData[],
   updateChannels: (data: ChannelData[]) => void,
@@ -15,6 +15,7 @@ export function createChannelsPriceChangeHandler(
     const channelIndex = channelListings.findIndex(
       channel => channel.id === id
     );
+
     const channel = channelListings[channelIndex];
 
     const updatedChannels = [
@@ -22,7 +23,11 @@ export function createChannelsPriceChangeHandler(
       {
         ...channel,
         costPrice,
-        price
+        price,
+        publicationDate: moment(new Date()).format("DD/MM/YYYY"),
+        isAvailableForPurchase: false,
+        isPublished: true,
+        visibleInListings: true
       },
       ...channelListings.slice(channelIndex + 1)
     ];

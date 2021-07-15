@@ -36,19 +36,25 @@ const useStyles = makeStyles(
   { name: "DeliveryViewPage" }
 );
 
-function DeliveryViewPage({ onSubmit, updateEmergencyOpts }) {
+function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
   const intl = useIntl();
   const S = useStyles();
 
-  // const { data } = useGetMyStore({ variables: {} });
-
-  // React.useEffect(() => {}, [data]);
-  const initialForm = {
-    deliveryFee: 0,
-    minOrder: 0,
-    fromDelivery: 0,
-    deliveryArea: [{ to: "", from: "" }]
-  };
+  const initialForm =
+    data && Object.keys(data).length > 0
+      ? {
+          id: data.id,
+          deliveryFee: data.deliveryFee,
+          minOrder: data.minOrder,
+          fromDelivery: data.fromDelivery,
+          deliveryArea: JSON.parse(data.deliveryArea).areas
+        }
+      : {
+          deliveryFee: 0,
+          minOrder: 0,
+          fromDelivery: 0,
+          deliveryArea: [{ to: "", from: "" }]
+        };
 
   const compareWithData = values => {
     if (JSON.stringify(initialForm).length === JSON.stringify(values).length) {
@@ -59,77 +65,87 @@ function DeliveryViewPage({ onSubmit, updateEmergencyOpts }) {
 
   return (
     <Container>
-      <Formik
-        initialValues={initialForm}
-        onSubmit={onSubmit}
-        validationSchema={validateSchema}
-      >
-        {({
-          handleChange,
-          handleSubmit,
-          values,
-          handleBlur,
-          touched,
-          errors
-        }) => (
-          <Form>
-            <PageHeader title={intl.formatMessage(sectionNames.emergency)} />
-            <FieldArray
-              name="deliveryArea"
-              render={arrayHelpers => (
-                <>
-                  <Card>
-                    <CardTitle
-                      title={intl.formatMessage(commonMessages.emergency)}
-                    />
-                    <CardContent>
-                      {values.deliveryArea.map((value, index) => (
-                        <DeliveryAreaCard
-                          key={index}
-                          value={value}
-                          arrayHelpers={arrayHelpers}
-                          index={index}
-                          errors={errors}
-                          touched={touched}
-                          handleChange={handleChange}
-                          handleBlur={handleBlur}
+      <div>
+        {data !== undefined ? (
+          <Formik
+            initialValues={initialForm}
+            onSubmit={onSubmit}
+            validationSchema={validateSchema}
+          >
+            {({
+              handleChange,
+              handleSubmit,
+              values,
+              handleBlur,
+              touched,
+              errors
+            }) => (
+              <Form>
+                <PageHeader title={intl.formatMessage(sectionNames.delivery)} />
+                <FieldArray
+                  name="deliveryArea"
+                  render={arrayHelpers => (
+                    <>
+                      <Card>
+                        <CardTitle
+                          title={intl.formatMessage(
+                            commonMessages.deliveryArea
+                          )}
                         />
-                      ))}
-                    </CardContent>
-                    <Grid className={S.grid}>
-                      <Button
-                        href={""}
-                        color="primary"
-                        variant="contained"
-                        target="_blank"
-                        onClick={() => arrayHelpers.push({ to: "", from: "" })}
-                      >
-                        <FormattedMessage
-                          defaultMessage="Add delivery Area"
-                          description="button"
-                        />
-                      </Button>
-                    </Grid>
-                  </Card>
-                  <FormSpacer />
-                </>
-              )}
-            />
-            <DeliveryFeeCard
-              handleChange={handleChange}
-              values={values}
-              handleBlur={handleBlur}
-              errors={errors}
-              touched={touched}
-            />
-            <SaveButtonBar
-              disabled={compareWithData(values)}
-              state={updateEmergencyOpts.loading}
-              onSave={handleSubmit}
-            />
-          </Form>
+                        <CardContent>
+                          {values.deliveryArea.map((value, index) => (
+                            <DeliveryAreaCard
+                              key={index}
+                              value={value}
+                              arrayHelpers={arrayHelpers}
+                              index={index}
+                              errors={errors}
+                              touched={touched}
+                              handleChange={handleChange}
+                              handleBlur={handleBlur}
+                            />
+                          ))}
+                        </CardContent>
+                        <Grid className={S.grid}>
+                          <Button
+                            href={""}
+                            color="primary"
+                            variant="contained"
+                            target="_blank"
+                            onClick={() =>
+                              arrayHelpers.push({ to: "", from: "" })
+                            }
+                          >
+                            <FormattedMessage
+                              defaultMessage="Add a postcode range"
+                              description="button"
+                            />
+                          </Button>
+                        </Grid>
+                      </Card>
+                      <FormSpacer />
+                    </>
+                  )}
+                />
+                <DeliveryFeeCard
+                  handleChange={handleChange}
+                  values={values}
+                  handleBlur={handleBlur}
+                  errors={errors}
+                  touched={touched}
+                />
+                <SaveButtonBar
+                  disabled={compareWithData(values)}
+                  state={updateEmergencyOpts.loading}
+                  onSave={handleSubmit}
+                />
+              </Form>
+            )}
+          </Formik>
+        ) : (
+          <></>
         )}
-      </Formik>
+      </div>
     </Container>
   );
 }
