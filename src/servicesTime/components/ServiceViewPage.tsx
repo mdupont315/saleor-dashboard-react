@@ -1,11 +1,12 @@
-import { Button, Container } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
+import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 
 import {
   useCreateServiceTime,
@@ -58,6 +59,10 @@ function ServiceViewPage() {
 
   const [serviceProcess, setServiceProcess] = React.useState(initProcess);
 
+  // console.log(serviceTime);
+
+  // console.log(serviceProcess);
+
   const { data: listService, refetch } = useListServiceTime({
     variables: { first: 10 }
   });
@@ -70,6 +75,7 @@ function ServiceViewPage() {
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",
@@ -81,13 +87,14 @@ function ServiceViewPage() {
     }
   });
 
-  const [updateServiceTime] = useUpdateServiceTime({
+  const [updateServiceTime, updateServiceTimeOpts] = useUpdateServiceTime({
     onCompleted: data => {
       if (data.serviceTimeUpdate.errors.length === 0) {
         notify({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",
@@ -208,20 +215,47 @@ function ServiceViewPage() {
     }
   };
 
+  const compareWithData = () => {
+    delete listService?.serviceTimes?.edges[0].node.id;
+    delete listService?.serviceTimes?.edges[0].node.__typename;
+    // const removeSpace = {
+    //   dlServiceTime: listService?.serviceTimes?.edges[0].node.dlServiceTime.replace(
+    //     /\s/g,
+    //     ""
+    //   ),
+    //   puServiceTime: listService?.serviceTimes?.edges[0].node.puServiceTime.replace(
+    //     /\s/g,
+    //     ""
+    //   )
+    // };
+
+    // const data = listService && Object.assign(listService?.serviceTimes?.edges[0].node, removeSpace);
+
+    // console.log(data);
+    // console.log(input);
+
+    // console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(input));
+
+    // if(data && input){
+    //   console.log(data &&  JSON.stringify(data) === JSON.stringify(input));
+    // }
+
+    // if (JSON.stringify(data) === JSON.stringify(input)) {
+    //   console.log(true);
+
+    //   // return true;
+    // }
+    // console.log(false);
+
+    return false;
+  };
+
+  compareWithData();
+
   return (
     <Container>
-      <PageHeader title={intl.formatMessage(sectionNames.serviceTime)}>
-        {/* <Button color="primary" variant="outlined">
-          <FormattedMessage defaultMessage="Cancle" description="button" />
-        </Button> */}
-        <Button color="primary" variant="contained" onClick={handleClick}>
-          <FormattedMessage
-            defaultMessage="Save changes"
-            description="button"
-          />
-        </Button>
-      </PageHeader>
-
+      <PageHeader title={intl.formatMessage(sectionNames.serviceTime)} />
       <Grid>
         <div>
           <ServiceCardComponent
@@ -255,6 +289,11 @@ function ServiceViewPage() {
           />
         </div>
       </Grid>
+      <SaveButtonBar
+        disabled={updateServiceTimeOpts.loading}
+        state={updateServiceTimeOpts.status}
+        onSave={handleClick}
+      />
     </Container>
   );
 }

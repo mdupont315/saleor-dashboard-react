@@ -1,6 +1,6 @@
-import AppHeader from "@saleor/components/AppHeader";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
+import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { sectionNames } from "@saleor/intl";
 import { Formik } from "formik";
@@ -87,7 +87,8 @@ const StoreDetailPage: React.FC<IProps> = ({
   onBack,
   saveButtonBarState,
   storeId,
-  onSubmit
+  onSubmit,
+  disabled
 }) => {
   const intl = useIntl();
 
@@ -117,11 +118,7 @@ const StoreDetailPage: React.FC<IProps> = ({
         };
   return (
     <Container>
-      <AppHeader onBack={onBack}>
-        {storeId
-          ? intl.formatMessage(sectionNames.stores)
-          : intl.formatMessage(sectionNames.stores)}
-      </AppHeader>
+      <PageHeader title={intl.formatMessage(sectionNames.stores)} />
       <Formik
         initialValues={initialForm}
         validationSchema={storeId ? validateSchemaUpdate : validateSchema}
@@ -145,7 +142,7 @@ const StoreDetailPage: React.FC<IProps> = ({
             </form>
             <SaveButtonBar
               state={saveButtonBarState}
-              disabled={false}
+              disabled={disabled}
               onCancel={onBack}
               onSave={handleSubmit}
             />

@@ -24,7 +24,8 @@ export function createChannelsPriceChangeHandler(
         ...channel,
         costPrice,
         price,
-        publicationDate: moment(new Date()).format("DD/MM/YYYY"),
+        availableForPurchase: moment(new Date().getDate()).format("YYYY-MM-DD"),
+        publicationDate: moment(new Date().getDate()).format("YYYY-MM-DD"),
         isAvailableForPurchase: false,
         isPublished: true,
         visibleInListings: true
