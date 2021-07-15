@@ -1,10 +1,11 @@
-import { Button, Container } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import PageHeader from "@saleor/components/PageHeader";
+import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 
 import { useGetMyStore } from "../queries";
 import EmergencyCard from "./EmergencyCard";
@@ -18,7 +19,7 @@ function EmergencyViewPage() {
 
   const notify = useNotifier();
 
-  const [updateEmergency] = useUpdateStoreMutation({
+  const [updateEmergency, updateEmergencyOpts] = useUpdateStoreMutation({
     onCompleted: data => {
       if (data.storeUpdate.errors.length === 0) {
         notify({
@@ -39,7 +40,7 @@ function EmergencyViewPage() {
   const handleClick = () => {
     const temp = new Date();
     const variables = {
-      id: "U3RvcmU6MQ==",
+      id: data.myStore.id,
       input: {
         pickupStatus: new Date(temp.setDate(emergency.e_pickup)),
         deliveryStatus: new Date(temp.setDate(emergency.e_delivery))
@@ -65,19 +66,13 @@ function EmergencyViewPage() {
 
   return (
     <Container>
-      <PageHeader title={intl.formatMessage(sectionNames.emergency)}>
-        <Button color="primary" variant="contained" onClick={handleClick}>
-          <FormattedMessage
-            defaultMessage="Save changes"
-            description="button"
-          />
-        </Button>
-      </PageHeader>
+      <PageHeader title={intl.formatMessage(sectionNames.emergency)} />
       <EmergencyCard emergency={emergency} setEmergency={setEmergency} />
-
-      {/* <Grid>
-        <div></div>
-      </Grid> */}
+      <SaveButtonBar
+        disabled={updateEmergencyOpts.loading}
+        state={updateEmergencyOpts.status}
+        onSave={handleClick}
+      />
     </Container>
   );
 }

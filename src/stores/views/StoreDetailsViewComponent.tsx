@@ -30,7 +30,7 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
   const intl = useIntl();
 
   if (id !== "undefined") {
-    const { data, loading, refetch } = useStoreById({
+    const { data, refetch } = useStoreById({
       displayLoader: true,
       variables: { id }
     });
@@ -40,7 +40,7 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
       variables: { id }
     });
 
-    const [updateStore] = useUpdateStoreMutation({
+    const [updateStore, updateStoreOpts] = useUpdateStoreMutation({
       onCompleted: data => {
         if (data.storeUpdate.errors.length === 0) {
           notify({
@@ -80,10 +80,11 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
           <>
             <WindowTitle title="Store detail" />
             <StoreDetailPage
-              disabled={loading}
+              disabled={updateStoreOpts.loading}
               storeId={id}
               initialValues={data}
               userData={userData}
+              saveButtonBarState={updateStoreOpts.status}
               onBack={() => navigate(storePath(id))}
               handleRefetch={refetch}
               onSubmit={handleSubmit}
@@ -93,7 +94,7 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
       </>
     );
   } else {
-    const [createStore] = useCreateStoreMutation({
+    const [createStore, createStoreOpts] = useCreateStoreMutation({
       onCompleted: data => {
         if (data.storeCreate.errors.length === 0) {
           notify({
@@ -133,6 +134,8 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
         <StoreDetailPage
           onBack={() => navigate(storesManagementSection)}
           onSubmit={handleSubmit}
+          saveButtonBarState={createStoreOpts.status}
+          disabled={createStoreOpts.loading}
         />
       </>
     );
