@@ -50,7 +50,7 @@ interface CollectionListProps
   channelsCount: number;
 }
 
-const numberOfColumns = 4;
+const numberOfColumns = 3;
 
 const CollectionList: React.FC<CollectionListProps> = props => {
   const {

@@ -1,4 +1,4 @@
-import { Container, LinearProgress } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -22,7 +22,6 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
   data,
   onSubmit,
   onBack,
-  disable,
   state
 }) => {
   const intl = useIntl();
@@ -30,9 +29,9 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
   const initialForm =
     data && Object.keys(data).length > 0
       ? {
-          contantCost: data?.contantCost ?? 0,
+          contantCost: JSON.stringify(data?.contantCost ?? 0),
           contantEnable: data?.contantEnable ?? false,
-          stripeCost: data?.stripeCost ?? 0,
+          stripeCost: JSON.stringify(data?.stripeCost ?? 0),
           stripeEnable: data?.stripeEnable ?? false
         }
       : {
@@ -42,9 +41,12 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
           stripeEnable: false
         };
 
+  const compareWithData = values =>
+    JSON.stringify(initialForm) === JSON.stringify(values);
+
   return (
     <Container>
-      <PageHeader title={intl.formatMessage(sectionNames.serviceTime)} />
+      <PageHeader title={intl.formatMessage(sectionNames.Payment)} />
       <Grid>
         <div>
           {data !== undefined ? (
@@ -61,7 +63,7 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
                     errors={errors}
                   />
                   <SaveButtonBar
-                    disabled={disable}
+                    disabled={compareWithData(values)}
                     state={state}
                     onCancel={onBack}
                     onSave={handleSubmit}
@@ -70,7 +72,7 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
               )}
             </Formik>
           ) : (
-            <LinearProgress color="primary" />
+            <></>
           )}
         </div>
       </Grid>

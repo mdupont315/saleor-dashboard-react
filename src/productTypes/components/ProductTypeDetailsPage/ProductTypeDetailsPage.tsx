@@ -9,8 +9,10 @@ import Metadata from "@saleor/components/Metadata/Metadata";
 import { MetadataFormData } from "@saleor/components/Metadata/types";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import { ChangeEvent, FormChange, SubmitPromise } from "@saleor/hooks/useForm";
-import useStateFromProps from "@saleor/hooks/useStateFromProps";
+import {
+  /* ChangeEvent, FormChange,*/ SubmitPromise
+} from "@saleor/hooks/useForm";
+// import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import { ListActions, ReorderEvent, UserError } from "@saleor/types";
@@ -29,8 +31,8 @@ import {
 } from "../../types/ProductTypeDetails";
 import ProductTypeAttributes from "../ProductTypeAttributes/ProductTypeAttributes";
 import ProductTypeDetails from "../ProductTypeDetails/ProductTypeDetails";
-import ProductTypeShipping from "../ProductTypeShipping/ProductTypeShipping";
-import ProductTypeTaxes from "../ProductTypeTaxes/ProductTypeTaxes";
+// import ProductTypeShipping from "../ProductTypeShipping/ProductTypeShipping";
+// import ProductTypeTaxes from "../ProductTypeTaxes/ProductTypeTaxes";
 
 interface ChoiceType {
   label: string;
@@ -67,27 +69,27 @@ export interface ProductTypeDetailsPageProps {
   onSubmit: (data: ProductTypeForm) => SubmitPromise;
 }
 
-function handleTaxTypeChange(
-  event: ChangeEvent,
-  taxTypes: ProductTypeDetails_taxTypes[],
-  formChange: FormChange,
-  displayChange: (name: string) => void
-) {
-  formChange(event);
-  displayChange(
-    taxTypes.find(taxType => taxType.taxCode === event.target.value).description
-  );
-}
+// function handleTaxTypeChange(
+//   event: ChangeEvent,
+//   taxTypes: ProductTypeDetails_taxTypes[],
+//   formChange: FormChange,
+//   displayChange: (name: string) => void
+// ) {
+//   formChange(event);
+//   displayChange(
+//     taxTypes.find(taxType => taxType.taxCode === event.target.value).description
+//   );
+// }
 
 const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
-  defaultWeightUnit,
+  // defaultWeightUnit,
   disabled,
   errors,
   pageTitle,
   productType,
   productAttributeList,
   saveButtonBarState,
-  taxTypes,
+  // taxTypes,
   variantAttributeList,
   onAttributeAdd,
   onAttributeUnassign,
@@ -105,9 +107,10 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
     makeChangeHandler: makeMetadataChangeHandler
   } = useMetadataChangeTrigger();
 
-  const [taxTypeDisplayName, setTaxTypeDisplayName] = useStateFromProps(
-    maybe(() => productType.taxType.description, "")
-  );
+  // const [taxTypeDisplayName, setTaxTypeDisplayName] = useStateFromProps(
+  //   maybe(() => productType.taxType.description, "")
+  // );
+
   const formInitialData: ProductTypeForm = {
     hasVariants:
       maybe(() => productType.hasVariants) !== undefined
@@ -171,7 +174,7 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                   onChange={change}
                 />
                 <CardSpacer />
-                <ProductTypeTaxes
+                {/* <ProductTypeTaxes
                   disabled={disabled}
                   data={data}
                   taxTypes={taxTypes}
@@ -184,7 +187,7 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                       setTaxTypeDisplayName
                     )
                   }
-                />
+                /> */}
                 <CardSpacer />
                 <ProductTypeAttributes
                   attributes={maybe(() => productType.productAttributes)}
@@ -229,14 +232,14 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                 <CardSpacer />
                 <Metadata data={data} onChange={changeMetadata} />
               </div>
-              <div>
+              {/* <div>
                 <ProductTypeShipping
                   disabled={disabled}
                   data={data}
                   weightUnit={productType?.weight?.unit || defaultWeightUnit}
                   onChange={change}
                 />
-              </div>
+              </div> */}
             </Grid>
             <SaveButtonBar
               onCancel={onBack}

@@ -6,31 +6,12 @@ import { commonMessages } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
 
-function EmergencyCard({ setEmergency, emergency }: any) {
+function EmergencyCard({ emergency, setFieldValue }: any) {
   const intl = useIntl();
 
-  const handleChange = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    if (value) {
-      setEmergency({
-        ...emergency,
-        [name]: new Date().getDate() - 1
-      });
-    } else {
-      setEmergency({
-        ...emergency,
-        [name]: new Date().getDate()
-      });
-    }
-  };
+  const compareToday = input => input === new Date().getDate();
 
-  const compareToday = input => {
-    if (input === new Date().getDate()) {
-      return false;
-    }
-    return true;
-  };
+  const date = new Date().getDate();
 
   return (
     <Card>
@@ -42,18 +23,25 @@ function EmergencyCard({ setEmergency, emergency }: any) {
             compareToday(emergency.e_delivery) ? "close" : "open"
           }`}
           checked={compareToday(emergency.e_delivery)}
-          onChange={handleChange}
-          // disabled={disabled}
+          onChange={e =>
+            setFieldValue(
+              "e_delivery",
+              e.target.value === false ? date - 1 : date
+            )
+          }
         />
-
         <ControlledSwitch
           name="e_pickup"
           label={`Pickup ${
             compareToday(emergency.e_pickup) ? "close" : "open"
           }`}
           checked={compareToday(emergency.e_pickup)}
-          onChange={handleChange}
-          // disabled={disabled}
+          onChange={e =>
+            setFieldValue(
+              "e_pickup",
+              e.target.value === false ? date - 1 : date
+            )
+          }
         />
       </CardContent>
     </Card>

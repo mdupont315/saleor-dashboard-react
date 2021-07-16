@@ -50,13 +50,19 @@ function NotificationView() {
 
   return (
     <>
-      <NotifactionViewPage
-        onSubmit={onSubmit}
-        onBack={onBack}
-        data={maybe(() => data.myStore)}
-        state={updateEmergencyOpts.status}
-        disable={updateEmergencyOpts.loading}
-      />
+      {data && data.myStore !== undefined ? (
+        <NotifactionViewPage
+          onSubmit={onSubmit}
+          onBack={onBack}
+          data={maybe(() => data.myStore)}
+          state={updateEmergencyOpts.status}
+          disable={updateEmergencyOpts.loading}
+        />
+      ) : (
+        <>
+          <></>
+        </>
+      )}
     </>
   );
 }

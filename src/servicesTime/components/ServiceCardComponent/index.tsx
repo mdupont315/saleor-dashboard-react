@@ -90,31 +90,43 @@ function ServiceCardComponent({
   setServiceTime
 }: IProps) {
   const intl = useIntl();
+
   const handleChange = (_: any, indexItem: number, index: number) => {
     if (type === "delivery") {
-      const clone = { ...serviceTime };
-      clone.deliveryService[indexItem].days[index] = !clone.deliveryService[
-        indexItem
-      ].days[index];
-      setServiceTime(clone);
+      const editValue = [...serviceTime.deliveryService];
+      editValue[indexItem] = {
+        ...editValue[indexItem],
+        days: editValue[indexItem].days.map((item, i) =>
+          i === index ? !item : item
+        )
+      };
+      setServiceTime({ ...serviceTime, deliveryService: editValue });
     } else {
-      const clone = { ...serviceTime };
-      clone.pickupService[indexItem].days[index] = !clone.pickupService[
-        indexItem
-      ].days[index];
-      setServiceTime(clone);
+      const editValue = [...serviceTime.pickupService];
+      editValue[indexItem] = {
+        ...editValue[indexItem],
+        days: editValue[indexItem].days.map((item, i) =>
+          i === index ? !item : item
+        )
+      };
+      setServiceTime({ ...serviceTime, pickupService: editValue });
     }
   };
   const arr = renHours();
 
   const onAddNewTimeSlot = () => {
+    const newTest = { ...initTime };
     if (type === "delivery") {
-      const clone = { ...serviceTime };
-      clone.deliveryService.push(initTime);
+      const clone = {
+        ...serviceTime,
+        deliveryService: [...serviceTime.deliveryService, { ...newTest }]
+      };
       setServiceTime(clone);
     } else {
-      const clone = { ...serviceTime };
-      clone.pickupService.push(initTime);
+      const clone = {
+        ...serviceTime,
+        pickupService: [...serviceTime.pickupService, { ...newTest }]
+      };
       setServiceTime(clone);
     }
   };

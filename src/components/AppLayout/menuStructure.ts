@@ -17,7 +17,7 @@ import { useAuth } from "../../auth/AuthProvider";
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
 import { customerListUrl } from "../../customers/urls";
-import { saleListUrl /* voucherListUrl*/ } from "../../discounts/urls";
+import { voucherListPath /* voucherListUrl*/ } from "../../discounts/urls";
 import { orderDraftListUrl, orderListUrl } from "../../orders/urls";
 import { productListUrl } from "../../products/urls";
 import { languageListUrl } from "../../translations/urls";
@@ -72,7 +72,7 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
             label: intl.formatMessage(commonMessages.discounts),
             permission: PermissionEnum.MANAGE_DISCOUNTS,
             testingContextId: "discounts",
-            url: saleListUrl()
+            url: voucherListPath
           },
           {
             ariaLabel: "apps",

@@ -1,4 +1,4 @@
-import { Container, LinearProgress } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -28,8 +28,7 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
   data,
   onSubmit,
   onBack,
-  state,
-  disable
+  state
 }) => {
   const intl = useIntl();
 
@@ -43,6 +42,9 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
           emailNotifications: true,
           emailAddress: ""
         };
+
+  const compareWithData = values =>
+    JSON.stringify(initialForm) === JSON.stringify(values);
 
   return (
     <Container>
@@ -72,7 +74,7 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
                     errors={errors}
                   />
                   <SaveButtonBar
-                    disabled={disable}
+                    disabled={compareWithData(values)}
                     state={state}
                     onCancel={onBack}
                     onSave={handleSubmit}
@@ -81,7 +83,7 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
               )}
             </Formik>
           ) : (
-            <LinearProgress color="primary" />
+            <></>
           )}
         </div>
       </Grid>

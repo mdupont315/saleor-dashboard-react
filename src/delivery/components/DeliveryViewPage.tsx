@@ -56,12 +56,8 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
           deliveryArea: [{ to: "", from: "" }]
         };
 
-  const compareWithData = values => {
-    if (JSON.stringify(initialForm).length === JSON.stringify(values).length) {
-      return true;
-    }
-    return false;
-  };
+  const compareWithData = values =>
+    JSON.stringify(initialForm) === JSON.stringify(values);
 
   return (
     <Container>
@@ -162,8 +158,20 @@ const validateSchema = Yup.object().shape({
     .matches(/^[0-9]+$/, "Must be only digits"),
   deliveryArea: Yup.array().of(
     Yup.object().shape({
-      to: Yup.string().required("Please enter up to"),
-      from: Yup.string().required("PLease enter including")
+      to: Yup.number()
+        .required("Please enter up to")
+        .test(
+          "Is positive?",
+          "The number must be greater than 0!",
+          value => value > 0
+        ),
+      from: Yup.number()
+        .required("PLease enter including")
+        .test(
+          "Is positive?",
+          "The number must be greater than 0!",
+          value => value > 0
+        )
     })
   )
 });

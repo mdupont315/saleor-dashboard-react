@@ -109,6 +109,8 @@ export const storeForUser = gql`
         url
         alt
       }
+      address
+      phone
     }
   }
 `;
@@ -150,6 +152,8 @@ export const storeTypeQuery = gql`
         node {
           id
           name
+          address
+          phone
         }
       }
     }
