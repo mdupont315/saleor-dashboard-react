@@ -179,6 +179,11 @@ function ServiceViewPage() {
           checkErr = true;
         }
       });
+      serviceTime.pickupService.map(item => {
+        if (item.close < item.open) {
+          checkErr = true;
+        }
+      });
       if (checkErr) {
         notify({
           status: "error",
