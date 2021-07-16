@@ -10,13 +10,11 @@ function DeliveryAreaCard({
   arrayHelpers,
   index,
   handleChange,
-  handleBlur
+  handleBlur,
+  touched,
+  errors
 }: any) {
   const intl = useIntl();
-
-  // const handleChange = e => {
-  //   console.log(e);
-  // };
 
   return (
     <>
@@ -34,6 +32,23 @@ function DeliveryAreaCard({
           })}
           name={`deliveryArea.${index}.to`}
           fullWidth
+          type="number"
+          helperText={
+            errors &&
+            errors.deliveryArea &&
+            errors.deliveryArea[index] &&
+            errors.deliveryArea[index]?.to
+          }
+          error={
+            errors &&
+            errors.deliveryArea &&
+            errors.deliveryArea[index] &&
+            errors.deliveryArea[index]?.to &&
+            touched &&
+            touched.deliveryArea &&
+            touched.deliveryArea[index] &&
+            touched.deliveryArea[index]?.to
+          }
           value={value.to}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -45,7 +60,24 @@ function DeliveryAreaCard({
           })}
           name={`deliveryArea.${index}.from`}
           fullWidth
+          type="number"
           value={value.from}
+          helperText={
+            errors &&
+            errors.deliveryArea &&
+            errors.deliveryArea[index] &&
+            errors.deliveryArea[index]?.from
+          }
+          error={
+            errors &&
+            errors.deliveryArea &&
+            errors.deliveryArea[index] &&
+            errors.deliveryArea[index]?.from &&
+            touched &&
+            touched.deliveryArea &&
+            touched.deliveryArea[index] &&
+            touched.deliveryArea[index]?.from
+          }
           onChange={handleChange}
           onBlur={handleBlur}
         />
