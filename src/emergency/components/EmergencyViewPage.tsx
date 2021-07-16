@@ -4,6 +4,7 @@ import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { useUpdateStoreMutation } from "@saleor/stores/queries";
+import { Form, Formik } from "formik";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -12,10 +13,6 @@ import EmergencyCard from "./EmergencyCard";
 
 function EmergencyViewPage() {
   const intl = useIntl();
-  const [emergency, setEmergency] = React.useState({
-    e_pickup: new Date().getDate(),
-    e_delivery: new Date().getDate()
-  });
 
   const notify = useNotifier();
 
@@ -26,6 +23,7 @@ function EmergencyViewPage() {
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",
@@ -37,42 +35,61 @@ function EmergencyViewPage() {
     }
   });
 
-  const handleClick = () => {
+  const onSubmit = async value => {
     const temp = new Date();
     const variables = {
       id: data.myStore.id,
       input: {
-        pickupStatus: new Date(temp.setDate(emergency.e_pickup)),
-        deliveryStatus: new Date(temp.setDate(emergency.e_delivery))
+        pickupStatus: new Date(temp.setDate(value.e_pickup)),
+        deliveryStatus: new Date(temp.setDate(value.e_delivery))
       }
     };
 
-    updateEmergency({
+    const result = await updateEmergency({
       variables
     });
+
+    return result;
   };
 
-  const { data } = useGetMyStore({ variables: {} });
+  const { data, refetch } = useGetMyStore({ variables: {} });
 
-  React.useEffect(() => {
-    if (typeof data !== "undefined") {
-      setEmergency({
-        ...emergency,
-        e_pickup: new Date(data.myStore.pickupStatus).getDate(),
-        e_delivery: new Date(data.myStore.deliveryStatus).getDate()
-      });
-    }
-  }, [data]);
+  const compareStatus = values =>
+    JSON.stringify({
+      e_pickup: new Date(data?.myStore.pickupStatus).getDate(),
+      e_delivery: new Date(data?.myStore.deliveryStatus).getDate()
+    }) === JSON.stringify(values);
+
+  const initialForm =
+    data && Object.keys(data).length > 0
+      ? {
+          e_pickup: new Date(data.myStore.pickupStatus).getDate(),
+          e_delivery: new Date(data.myStore.deliveryStatus).getDate()
+        }
+      : {
+          e_pickup: new Date().getDate(),
+          e_delivery: new Date().getDate()
+        };
 
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.emergency)} />
-      <EmergencyCard emergency={emergency} setEmergency={setEmergency} />
-      <SaveButtonBar
-        disabled={updateEmergencyOpts.loading}
-        state={updateEmergencyOpts.status}
-        onSave={handleClick}
-      />
+      {data !== undefined ? (
+        <Formik initialValues={initialForm} onSubmit={onSubmit}>
+          {({ handleSubmit, setFieldValue, values }) => (
+            <Form>
+              <EmergencyCard emergency={values} setFieldValue={setFieldValue} />
+              <SaveButtonBar
+                disabled={compareStatus(values)}
+                state={updateEmergencyOpts.status}
+                onSave={handleSubmit}
+              />
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 }

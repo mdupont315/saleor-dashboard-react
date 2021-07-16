@@ -67,6 +67,8 @@ function ServiceViewPage() {
     variables: { first: 10 }
   });
 
+  const ids = listService && JSON.parse(JSON.stringify(listService));
+
   const [createServiceTime] = useCreateServiceTime({
     onCompleted: data => {
       refetch();
@@ -163,8 +165,8 @@ function ServiceViewPage() {
     puTimeGap: serviceProcess.pickupProcess.timePickerGap,
     puAsSoonAsPosible: serviceProcess.pickupProcess.asSoonAs,
     puAllowPreorder: serviceProcess.pickupProcess.preOrder,
-    puSameDayOrder: serviceProcess.pickupProcess.sameDayOrder,
     puPreorderDay: serviceProcess.pickupProcess.preOrderDay,
+    puSameDayOrder: serviceProcess.pickupProcess.sameDayOrder,
     puServiceTime: JSON.stringify({ pu: serviceTime.pickupService })
   };
 
@@ -215,43 +217,25 @@ function ServiceViewPage() {
     }
   };
 
-  const compareWithData = () => {
-    delete listService?.serviceTimes?.edges[0].node.id;
-    delete listService?.serviceTimes?.edges[0].node.__typename;
-    // const removeSpace = {
-    //   dlServiceTime: listService?.serviceTimes?.edges[0].node.dlServiceTime.replace(
-    //     /\s/g,
-    //     ""
-    //   ),
-    //   puServiceTime: listService?.serviceTimes?.edges[0].node.puServiceTime.replace(
-    //     /\s/g,
-    //     ""
-    //   )
-    // };
+  const compareStatus = input => {
+    delete ids?.serviceTimes?.edges[0].node.id;
+    delete ids?.serviceTimes?.edges[0].node.__typename;
+    const comapareValue = { ...ids?.serviceTimes?.edges[0].node };
+    const data =
+      ids &&
+      Object.assign(comapareValue, {
+        dlServiceTime: ids?.serviceTimes?.edges[0].node.dlServiceTime.replace(
+          /\s/g,
+          ""
+        ),
+        puServiceTime: ids?.serviceTimes?.edges[0].node.puServiceTime.replace(
+          /\s/g,
+          ""
+        )
+      });
 
-    // const data = listService && Object.assign(listService?.serviceTimes?.edges[0].node, removeSpace);
-
-    // console.log(data);
-    // console.log(input);
-
-    // console.log(JSON.stringify(data));
-    // console.log(JSON.stringify(input));
-
-    // if(data && input){
-    //   console.log(data &&  JSON.stringify(data) === JSON.stringify(input));
-    // }
-
-    // if (JSON.stringify(data) === JSON.stringify(input)) {
-    //   console.log(true);
-
-    //   // return true;
-    // }
-    // console.log(false);
-
-    return false;
+    return JSON.stringify(data) === JSON.stringify(input);
   };
-
-  compareWithData();
 
   return (
     <Container>
@@ -289,11 +273,13 @@ function ServiceViewPage() {
           />
         </div>
       </Grid>
-      <SaveButtonBar
-        disabled={updateServiceTimeOpts.loading}
-        state={updateServiceTimeOpts.status}
-        onSave={handleClick}
-      />
+      {Object.keys(serviceProcess).length > 0 && (
+        <SaveButtonBar
+          disabled={compareStatus(input)}
+          state={updateServiceTimeOpts.status}
+          onSave={handleClick}
+        />
+      )}
     </Container>
   );
 }

@@ -85,8 +85,7 @@ const StoreDetailPage: React.FC<IProps> = ({
   onBack,
   saveButtonBarState,
   storeId,
-  onSubmit,
-  disabled
+  onSubmit
 }) => {
   const intl = useIntl();
 
@@ -97,8 +96,8 @@ const StoreDetailPage: React.FC<IProps> = ({
       ? {
           name: initialValues.store.name,
           domain: initialValues.store.domain,
-          email: initialValues.store.email,
-          password: initialValues.store.password,
+          // email: initialValues.store.email,
+          // password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],
           coverPhoto: [initialValues.store.coverPhoto || ""],
           address: initialValues.store.address,
@@ -107,13 +106,26 @@ const StoreDetailPage: React.FC<IProps> = ({
       : {
           name: "",
           domain: "",
-          email: "",
-          password: "",
+          // email: "",
+          // password: "",
           logo: [],
           coverPhoto: [],
           address: "",
           phone: ""
         };
+
+  const compareStatus = values => {
+    delete initialValues?.store.id;
+    delete initialValues?.store.__typename;
+    const cloneObject = { ...values };
+    const value = Object.assign(cloneObject, {
+      logo: initialValues.store.logo || "",
+      coverPhoto: initialValues.store.coverPhoto || ""
+    });
+
+    return JSON.stringify(value) === JSON.stringify(initialValues?.store);
+  };
+
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.stores)} />
@@ -140,7 +152,7 @@ const StoreDetailPage: React.FC<IProps> = ({
             </form>
             <SaveButtonBar
               state={saveButtonBarState}
-              disabled={disabled}
+              disabled={compareStatus(values)}
               onCancel={onBack}
               onSave={handleSubmit}
             />

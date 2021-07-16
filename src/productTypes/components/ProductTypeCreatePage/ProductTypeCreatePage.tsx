@@ -7,8 +7,8 @@ import Grid from "@saleor/components/Grid";
 import Metadata, { MetadataFormData } from "@saleor/components/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import { ChangeEvent, FormChange } from "@saleor/hooks/useForm";
-import useStateFromProps from "@saleor/hooks/useStateFromProps";
+// import { ChangeEvent, FormChange } from "@saleor/hooks/useForm";
+// import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { sectionNames } from "@saleor/intl";
 import { ProductTypeDetails_taxTypes } from "@saleor/productTypes/types/ProductTypeDetails";
 import { UserError } from "@saleor/types";
@@ -18,8 +18,8 @@ import React from "react";
 import { useIntl } from "react-intl";
 
 import ProductTypeDetails from "../ProductTypeDetails/ProductTypeDetails";
-import ProductTypeShipping from "../ProductTypeShipping/ProductTypeShipping";
-import ProductTypeTaxes from "../ProductTypeTaxes/ProductTypeTaxes";
+// import ProductTypeShipping from "../ProductTypeShipping/ProductTypeShipping";
+// import ProductTypeTaxes from "../ProductTypeTaxes/ProductTypeTaxes";
 
 export interface ProductTypeForm extends MetadataFormData {
   name: string;
@@ -48,30 +48,30 @@ const formInitialData: ProductTypeForm = {
   weight: 0
 };
 
-function handleTaxTypeChange(
-  event: ChangeEvent,
-  taxTypes: ProductTypeDetails_taxTypes[],
-  formChange: FormChange,
-  displayChange: (name: string) => void
-) {
-  formChange(event);
-  displayChange(
-    taxTypes.find(taxType => taxType.taxCode === event.target.value).description
-  );
-}
+// function handleTaxTypeChange(
+//   event: ChangeEvent,
+//   taxTypes: ProductTypeDetails_taxTypes[],
+//   formChange: FormChange,
+//   displayChange: (name: string) => void
+// ) {
+//   formChange(event);
+//   displayChange(
+//     taxTypes.find(taxType => taxType.taxCode === event.target.value).description
+//   );
+// }
 
 const ProductTypeCreatePage: React.FC<ProductTypeCreatePageProps> = ({
-  defaultWeightUnit,
+  // defaultWeightUnit,
   disabled,
   errors,
   pageTitle,
   saveButtonBarState,
-  taxTypes,
+  // taxTypes,
   onBack,
   onSubmit
 }: ProductTypeCreatePageProps) => {
   const intl = useIntl();
-  const [taxTypeDisplayName, setTaxTypeDisplayName] = useStateFromProps("");
+  // const [taxTypeDisplayName, setTaxTypeDisplayName] = useStateFromProps("");
   const {
     makeChangeHandler: makeMetadataChangeHandler
   } = useMetadataChangeTrigger();
@@ -96,7 +96,7 @@ const ProductTypeCreatePage: React.FC<ProductTypeCreatePageProps> = ({
                   onChange={change}
                 />
                 <CardSpacer />
-                <ProductTypeTaxes
+                {/* <ProductTypeTaxes
                   disabled={disabled}
                   data={data}
                   taxTypes={taxTypes}
@@ -109,18 +109,18 @@ const ProductTypeCreatePage: React.FC<ProductTypeCreatePageProps> = ({
                       setTaxTypeDisplayName
                     )
                   }
-                />
+                /> */}
                 <CardSpacer />
                 <Metadata data={data} onChange={changeMetadata} />
               </div>
-              <div>
+              {/* <div>
                 <ProductTypeShipping
                   disabled={disabled}
                   data={data}
                   weightUnit={defaultWeightUnit}
                   onChange={change}
                 />
-              </div>
+              </div> */}
             </Grid>
             <SaveButtonBar
               onCancel={onBack}

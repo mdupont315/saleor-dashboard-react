@@ -72,7 +72,7 @@ interface OrderListProps extends ListProps, SortPage<OrderListUrlSortField> {
   orders: OrderList_orders_edges_node[];
 }
 
-const numberOfColumns = 6;
+const numberOfColumns = 5;
 
 export const OrderList: React.FC<OrderListProps> = props => {
   const {
@@ -156,7 +156,7 @@ export const OrderList: React.FC<OrderListProps> = props => {
               description="payment status"
             />
           </TableCellHeader>
-          <TableCellHeader
+          {/* <TableCellHeader
             direction={
               sort.sort === OrderListUrlSortField.fulfillment
                 ? getArrowDirection(sort.asc)
@@ -166,7 +166,7 @@ export const OrderList: React.FC<OrderListProps> = props => {
             className={classes.colFulfillment}
           >
             <FormattedMessage defaultMessage="Fulfillment status" />
-          </TableCellHeader>
+          </TableCellHeader> */}
           <TableCellHeader textAlign="right" className={classes.colTotal}>
             <FormattedMessage
               defaultMessage="Total"
@@ -236,7 +236,7 @@ export const OrderList: React.FC<OrderListProps> = props => {
                   <Skeleton />
                 )}
               </TableCell>
-              <TableCell className={classes.colFulfillment}>
+              {/* <TableCell className={classes.colFulfillment}>
                 {maybe(() => order.status) ? (
                   <StatusLabel
                     status={order.status.status}
@@ -245,7 +245,7 @@ export const OrderList: React.FC<OrderListProps> = props => {
                 ) : (
                   <Skeleton />
                 )}
-              </TableCell>
+              </TableCell> */}
               <TableCell className={classes.colTotal}>
                 {maybe(() => order.total.gross) ? (
                   <Money money={order.total.gross} />

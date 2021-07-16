@@ -56,12 +56,8 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
           deliveryArea: [{ to: "", from: "" }]
         };
 
-  const compareWithData = values => {
-    if (JSON.stringify(initialForm).length === JSON.stringify(values).length) {
-      return true;
-    }
-    return false;
-  };
+  const compareWithData = values =>
+    JSON.stringify(initialForm) === JSON.stringify(values);
 
   return (
     <Container>

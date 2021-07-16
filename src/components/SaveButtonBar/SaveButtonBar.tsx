@@ -92,7 +92,7 @@ export const SaveButtonBar: React.FC<SaveButtonBarProps> = props => {
 
   return appAction.anchor ? (
     <Portal container={appAction.anchor.current}>
-      <div className={classes.root} {...rest}>
+      <div id="duyocbo" className={classes.root} {...rest}>
         <Container>
           <Card
             className={classes.paper}
