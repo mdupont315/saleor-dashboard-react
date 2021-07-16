@@ -22,7 +22,6 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
   data,
   onSubmit,
   onBack,
-  disable,
   state
 }) => {
   const intl = useIntl();
@@ -41,6 +40,9 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
           stripeCost: 0,
           stripeEnable: false
         };
+
+  const compareWithData = values =>
+    JSON.stringify(initialForm) === JSON.stringify(values);
 
   return (
     <Container>
@@ -61,7 +63,7 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
                     errors={errors}
                   />
                   <SaveButtonBar
-                    disabled={disable}
+                    disabled={compareWithData(values)}
                     state={state}
                     onCancel={onBack}
                     onSave={handleSubmit}
