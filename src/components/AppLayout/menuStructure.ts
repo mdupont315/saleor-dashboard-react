@@ -67,11 +67,11 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
     user.isSuperuser === false
       ? [
           {
-            ariaLabel: "discounts",
+            ariaLabel: "vouchers",
             icon: discountsIcon,
-            label: intl.formatMessage(commonMessages.discounts),
+            label: intl.formatMessage(commonMessages.vouchers),
             permission: PermissionEnum.MANAGE_DISCOUNTS,
-            testingContextId: "discounts",
+            testingContextId: "vouchers",
             url: voucherListPath
           },
           {

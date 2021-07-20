@@ -65,8 +65,8 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
 const validateSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   domain: yup.string().required("Required!"),
-  phone: yup.string().required("Required!"),
-  address: yup.string().required("Required!"),
+  // phone: yup.string().required("Required!"),
+  // address: yup.string().required("Required!"),
   email: yup
     .string()
     .required("Required!")
@@ -79,7 +79,9 @@ const validateSchema = yup.object().shape({
 
 const validateSchemaUpdate = yup.object().shape({
   name: yup.string().required("Required!"),
-  domain: yup.string().required("Required!")
+  domain: yup.string().required("Required!"),
+  phone: yup.string().required("Required!"),
+  address: yup.string().required("Required!")
 });
 
 const StoreDetailPage: React.FC<IProps> = ({
@@ -91,15 +93,13 @@ const StoreDetailPage: React.FC<IProps> = ({
 }) => {
   const intl = useIntl();
 
-  // console.log(initialValues, "-initialValues");
-
   const initialForm =
     initialValues && initialValues?.store
       ? {
           name: initialValues.store.name,
           domain: initialValues.store.domain,
-          // email: initialValues.store.email,
-          // password: initialValues.store.password,
+          email: initialValues.store.email,
+          password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],
           coverPhoto: [initialValues.store.coverPhoto || ""],
           address: initialValues.store.address,
@@ -108,12 +108,12 @@ const StoreDetailPage: React.FC<IProps> = ({
       : {
           name: "",
           domain: "",
-          // email: "",
-          // password: "",
-          logo: [],
-          coverPhoto: [],
-          address: "",
-          phone: ""
+          email: "",
+          password: ""
+          // logo: [],
+          // coverPhoto: [],
+          // address: "",
+          // phone: ""
         };
 
   const compareStatus = values => {
@@ -121,8 +121,8 @@ const StoreDetailPage: React.FC<IProps> = ({
     delete initialValues?.store.__typename;
     const cloneObject = { ...values };
     const value = Object.assign(cloneObject, {
-      logo: initialValues.store.logo || "",
-      coverPhoto: initialValues.store.coverPhoto || ""
+      logo: initialValues?.store?.logo || "",
+      coverPhoto: initialValues?.store?.coverPhoto || ""
     });
 
     return JSON.stringify(value) === JSON.stringify(initialValues?.store);
