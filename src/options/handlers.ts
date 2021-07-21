@@ -40,7 +40,8 @@ export function formatChannelsChangeHandler(
 ) {
   const newFormat = channelListings.map(value => ({
     channelId: value.id,
-    price: Number(value.discountValue)
+    price: Number(value.discountValue),
+    currency: value.currency
   }));
   return newFormat;
 }

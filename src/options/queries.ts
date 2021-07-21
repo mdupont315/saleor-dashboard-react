@@ -149,7 +149,10 @@ const optionDetails = gql`
         name
         channelListing {
           id
-          price
+          price {
+            currency
+            amount
+          }
           channel {
             id
             name

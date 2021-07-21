@@ -210,7 +210,8 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
         name: value.name,
         channelListing: value.channelListing.map(channel => ({
           channelId: channel.id,
-          price: channel.discountValue
+          price: channel.discountValue,
+          currency: channel.currency
         }))
       })),
       removeValues
@@ -332,14 +333,14 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
             allChannels.find(value => {
               if (beforeData.__typename === "OptionValue") {
                 if (value.id === data.channel.id) {
-                  value.discountValue = data.price.toString();
+                  value.discountValue = data.price.amount.toString();
                   newChannelListing.push(value);
                   return value;
                 }
               }
               if (beforeData.__typename === "OptionCreate") {
                 if (value.id === data.id) {
-                  value.discountValue = data.discountValue.toString();
+                  value.discountValue = data.price.amount.toString();
                   newChannelListing.push(value);
                   return value;
                 }

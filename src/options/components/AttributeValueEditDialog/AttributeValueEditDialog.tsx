@@ -139,7 +139,9 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
             <Form>
               <TextField
                 classes={{ root: classes.formControlRoot }}
-                InputLabelProps={{ classes: { root: classes.inputLabelRoot } }}
+                InputLabelProps={{
+                  classes: { root: classes.inputLabelRoot }
+                }}
                 autoFocus
                 disabled={disabled}
                 error={!!errors.name}
@@ -213,14 +215,14 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                                         <TextField
                                           disabled={disabled}
                                           /* helperText={
-                                                      error
-                                                        ? getDiscountErrorMessage(
-                                                            formErrors.value,
-                                                            intl
-                                                          )
-                                                        : ""
-                                                    }
-                                                 */
+                                                        error
+                                                          ? getDiscountErrorMessage(
+                                                              formErrors.value,
+                                                              intl
+                                                            )
+                                                          : ""
+                                                      }
+                                                   */
                                           name={`channelListing.${index}.discountValue`}
                                           label={intl.formatMessage({
                                             defaultMessage: "option Value",
