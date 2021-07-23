@@ -70,11 +70,11 @@ const VoucherRequirements = ({
     {
       label: minimalOrderValueText,
       value: RequirementsPicker.ORDER
-    },
-    {
-      label: minimalQuantityText,
-      value: RequirementsPicker.ITEM
     }
+    // {
+    //   label: minimalQuantityText,
+    //   value: RequirementsPicker.ITEM
+    // }
   ];
 
   return (

@@ -45,6 +45,7 @@ export interface FormData {
   type: VoucherTypeEnum;
   usageLimit: string;
   value: number;
+  active: boolean;
 }
 
 export interface VoucherCreatePageProps {
@@ -91,7 +92,8 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
     startTime: "",
     type: VoucherTypeEnum.ENTIRE_ORDER,
     usageLimit: "0",
-    value: 0
+    value: 0,
+    active: false
   };
 
   return (
@@ -132,6 +134,7 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   disabled={disabled}
                   onChange={event => handleDiscountTypeChange(data, event)}
                   variant="create"
+                  onCbxChange={change}
                 />
                 <CardSpacer />
                 <VoucherTypes
@@ -162,12 +165,12 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   onChange={change}
                 />
                 <CardSpacer />
-                <VoucherLimits
+                {/* <VoucherLimits
                   data={data}
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
-                />
+                /> */}
                 <CardSpacer />
                 <VoucherDates
                   data={data}
@@ -176,7 +179,7 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   onChange={change}
                 />
               </div>
-              <div>
+              {/* <div>
                 <ChannelsAvailabilityCard
                   managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
@@ -188,7 +191,7 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   disabled={disabled}
                   openModal={openChannelsModal}
                 />
-              </div>
+              </div> */}
             </Grid>
             <SaveButtonBar
               disabled={

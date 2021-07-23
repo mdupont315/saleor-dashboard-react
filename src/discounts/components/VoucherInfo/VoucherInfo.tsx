@@ -1,5 +1,13 @@
-import { Button, Card, CardContent, TextField } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  Grid,
+  TextField
+} from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
+import { ControlledCheckbox } from "@saleor/components/ControlledCheckbox";
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
 import { commonMessages } from "@saleor/intl";
 import { getFormErrors } from "@saleor/utils/errors";
@@ -16,6 +24,7 @@ interface VoucherInfoProps {
   disabled: boolean;
   variant: "create" | "update";
   onChange: (event: any) => void;
+  onCbxChange: (event: React.ChangeEvent<any>) => void;
 }
 
 const VoucherInfo = ({
@@ -23,7 +32,8 @@ const VoucherInfo = ({
   disabled,
   errors,
   variant,
-  onChange
+  onChange,
+  onCbxChange
 }: VoucherInfoProps) => {
   const intl = useIntl();
 
@@ -36,7 +46,6 @@ const VoucherInfo = ({
         value: generateCode(10)
       }
     });
-
   return (
     <Card>
       <CardTitle
@@ -69,6 +78,14 @@ const VoucherInfo = ({
           value={data.code}
           onChange={onChange}
         />
+        <Grid>
+          <ControlledCheckbox
+            checked={data.active}
+            name={"active" as keyof VoucherDetailsPageFormData}
+            onChange={onCbxChange}
+            label="Active"
+          />
+        </Grid>
       </CardContent>
     </Card>
   );

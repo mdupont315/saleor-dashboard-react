@@ -178,7 +178,7 @@ const VoucherValue: React.FC<VoucherValueProps> = props => {
           </>
         )}
         <FormSpacer />
-        <ControlledCheckbox
+        {/* <ControlledCheckbox
           name={"applyOncePerOrder" as keyof VoucherDetailsPageFormData}
           label={
             <>
@@ -194,7 +194,7 @@ const VoucherValue: React.FC<VoucherValueProps> = props => {
           checked={data.applyOncePerOrder}
           onChange={onChange}
           disabled={disabled}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

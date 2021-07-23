@@ -127,6 +127,7 @@ export const voucherDetailsFragment = gql`
     applyOncePerOrder
     applyOncePerCustomer
     onlyForStaff
+    active
     products(after: $after, before: $before, first: $first, last: $last) {
       edges {
         node {

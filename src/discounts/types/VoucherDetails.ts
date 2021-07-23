@@ -177,6 +177,7 @@ export interface VoucherDetails_voucher {
   products: VoucherDetails_voucher_products | null;
   collections: VoucherDetails_voucher_collections | null;
   categories: VoucherDetails_voucher_categories | null;
+  active: boolean;
 }
 
 export interface VoucherDetails {

@@ -75,7 +75,7 @@ const Text = [
     enable: "contantEnable"
   },
   {
-    label: "iDeal",
+    label: "Stripe",
     cost: "stripeCost",
     enable: "stripeEnable"
   }
@@ -121,6 +121,7 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
             <Grid className={classes.colName}>{value.label}</Grid>
             <Grid className={classes.colAction}>
               <TextField
+                type="number"
                 error={!!errors?.[value.cost]}
                 value={values?.[value.cost]}
                 name={value.cost}

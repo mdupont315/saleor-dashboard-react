@@ -72,6 +72,7 @@ export interface VoucherDetailsPageFormData {
   startTime: string;
   type: VoucherTypeEnum;
   usageLimit: string;
+  active: boolean;
 }
 
 export interface VoucherDetailsPageProps
@@ -167,7 +168,6 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
       : voucher?.discountValueType === DiscountValueTypeEnum.PERCENTAGE
       ? DiscountTypeEnum.VALUE_PERCENTAGE
       : DiscountTypeEnum.VALUE_FIXED;
-
   const initialForm: VoucherDetailsPageFormData = {
     applyOncePerCustomer: voucher?.applyOncePerCustomer || false,
     applyOncePerOrder: voucher?.applyOncePerOrder || false,
@@ -187,7 +187,8 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
     startDate: splitDateTime(maybe(() => voucher.startDate, "")).date,
     startTime: splitDateTime(maybe(() => voucher.startDate, "")).time,
     type: maybe(() => voucher.type, VoucherTypeEnum.ENTIRE_ORDER),
-    usageLimit: maybe(() => voucher.usageLimit.toString(), "0")
+    usageLimit: maybe(() => voucher.usageLimit.toString(), "0"),
+    active: voucher?.active || false
   };
 
   return (
@@ -223,6 +224,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   errors={errors}
                   onChange={change}
                   variant="update"
+                  onCbxChange={change}
                 />
                 <CardSpacer />
                 <VoucherTypes
@@ -380,7 +382,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                     onCountryUnassign={onCountryUnassign}
                   />
                 ) : null}
-                <CardSpacer />
+                {/* <CardSpacer />
                 <VoucherRequirements
                   data={data}
                   disabled={disabled}
@@ -394,7 +396,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
-                />
+                /> */}
                 <CardSpacer />
                 <DiscountDates
                   data={data}
@@ -408,7 +410,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   voucher={voucher}
                   selectedChannelId={selectedChannelId}
                 />
-                <CardSpacer />
+                {/* <CardSpacer />
                 <ChannelsAvailabilityCard
                   managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
@@ -419,7 +421,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   }))}
                   disabled={disabled}
                   openModal={openChannelsModal}
-                />
+                /> */}
               </div>
             </Grid>
             <SaveButtonBar
