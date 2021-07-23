@@ -1,7 +1,7 @@
 import { ChannelVoucherData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
+// import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
@@ -18,11 +18,11 @@ import { validatePrice } from "@saleor/products/utils/validation";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { PermissionEnum, VoucherTypeEnum } from "../../../types/globalTypes";
+import { VoucherTypeEnum } from "../../../types/globalTypes";
 import { DiscountTypeEnum, RequirementsPicker } from "../../types";
 import VoucherDates from "../VoucherDates";
 import VoucherInfo from "../VoucherInfo";
-import VoucherLimits from "../VoucherLimits";
+// import VoucherLimits from "../VoucherLimits";
 import VoucherRequirements from "../VoucherRequirements";
 import VoucherTypes from "../VoucherTypes";
 import VoucherValue from "../VoucherValue";
@@ -62,7 +62,7 @@ export interface VoucherCreatePageProps {
 }
 
 const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
-  allChannelsCount,
+  // allChannelsCount,
   channelListings = [],
   disabled,
   errors,
@@ -70,8 +70,8 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
   onBack,
   onChannelsChange,
   onSubmit,
-  hasChannelChanged,
-  openChannelsModal
+  hasChannelChanged
+  // openChannelsModal
 }) => {
   const intl = useIntl();
 

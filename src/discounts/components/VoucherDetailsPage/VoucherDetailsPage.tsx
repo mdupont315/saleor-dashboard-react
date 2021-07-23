@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core";
 import { ChannelVoucherData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
+// import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import CountryList from "@saleor/components/CountryList";
@@ -26,7 +26,7 @@ import { maybe, splitDateTime } from "../../../misc";
 import { ChannelProps, ListProps, TabListActions } from "../../../types";
 import {
   DiscountValueTypeEnum,
-  PermissionEnum,
+  // PermissionEnum,
   VoucherTypeEnum
 } from "../../../types/globalTypes";
 import { VoucherDetails_voucher } from "../../types/VoucherDetails";
@@ -35,8 +35,8 @@ import DiscountCollections from "../DiscountCollections";
 import DiscountDates from "../DiscountDates";
 import DiscountProducts from "../DiscountProducts";
 import VoucherInfo from "../VoucherInfo";
-import VoucherLimits from "../VoucherLimits";
-import VoucherRequirements from "../VoucherRequirements";
+// import VoucherLimits from "../VoucherLimits";
+// import VoucherRequirements from "../VoucherRequirements";
 import VoucherSummary from "../VoucherSummary";
 import VoucherTypes from "../VoucherTypes";
 import VoucherValue from "../VoucherValue";
@@ -137,7 +137,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
   onProductUnassign,
   onTabClick,
   hasChannelChanged,
-  openChannelsModal,
+  // openChannelsModal,
   onRemove,
   onSubmit,
   toggle,
