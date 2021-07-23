@@ -15,12 +15,13 @@ import {
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
 import { sectionNames } from "@saleor/intl";
 import { validatePrice } from "@saleor/products/utils/validation";
+import moment from "moment-timezone";
 import React from "react";
 import { useIntl } from "react-intl";
 
 import { VoucherTypeEnum } from "../../../types/globalTypes";
 import { DiscountTypeEnum, RequirementsPicker } from "../../types";
-import VoucherDates from "../VoucherDates";
+// import VoucherDates from "../VoucherDates";
 import VoucherInfo from "../VoucherInfo";
 // import VoucherLimits from "../VoucherLimits";
 import VoucherRequirements from "../VoucherRequirements";
@@ -88,8 +89,8 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
     hasUsageLimit: false,
     minCheckoutItemsQuantity: "0",
     requirementsPicker: RequirementsPicker.NONE,
-    startDate: "",
-    startTime: "",
+    startDate: moment().format("YYYY-MM-DD"),
+    startTime: "00:00",
     type: VoucherTypeEnum.ENTIRE_ORDER,
     usageLimit: "0",
     value: 0,
@@ -171,13 +172,13 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   errors={errors}
                   onChange={change}
                 /> */}
-                <CardSpacer />
-                <VoucherDates
-                  data={data}
-                  disabled={disabled}
-                  errors={errors}
-                  onChange={change}
-                />
+                {/* <CardSpacer />
+                  <VoucherDates
+                    data={data}
+                    disabled={disabled}
+                    errors={errors}
+                    onChange={change}
+                  /> */}
               </div>
               {/* <div>
                 <ChannelsAvailabilityCard

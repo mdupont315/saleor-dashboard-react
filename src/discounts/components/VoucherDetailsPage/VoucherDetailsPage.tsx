@@ -32,12 +32,12 @@ import {
 import { VoucherDetails_voucher } from "../../types/VoucherDetails";
 import DiscountCategories from "../DiscountCategories";
 import DiscountCollections from "../DiscountCollections";
-import DiscountDates from "../DiscountDates";
+// import DiscountDates from "../DiscountDates";
 import DiscountProducts from "../DiscountProducts";
 import VoucherInfo from "../VoucherInfo";
 // import VoucherLimits from "../VoucherLimits";
-// import VoucherRequirements from "../VoucherRequirements";
-import VoucherSummary from "../VoucherSummary";
+import VoucherRequirements from "../VoucherRequirements";
+// import VoucherSummary from "../VoucherSummary";
 import VoucherTypes from "../VoucherTypes";
 import VoucherValue from "../VoucherValue";
 
@@ -168,6 +168,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
       : voucher?.discountValueType === DiscountValueTypeEnum.PERCENTAGE
       ? DiscountTypeEnum.VALUE_PERCENTAGE
       : DiscountTypeEnum.VALUE_FIXED;
+
   const initialForm: VoucherDetailsPageFormData = {
     applyOncePerCustomer: voucher?.applyOncePerCustomer || false,
     applyOncePerOrder: voucher?.applyOncePerOrder || false,
@@ -382,7 +383,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                     onCountryUnassign={onCountryUnassign}
                   />
                 ) : null}
-                {/* <CardSpacer />
+                <CardSpacer />
                 <VoucherRequirements
                   data={data}
                   disabled={disabled}
@@ -391,25 +392,25 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   onChannelChange={handleChannelChange}
                 />
                 <CardSpacer />
-                <VoucherLimits
+                {/* <VoucherLimits
                   data={data}
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
                 /> */}
-                <CardSpacer />
-                <DiscountDates
+                {/* <CardSpacer /> */}
+                {/* <DiscountDates
                   data={data}
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
-                />
+                /> */}
               </div>
               <div>
-                <VoucherSummary
+                {/* <VoucherSummary
                   voucher={voucher}
                   selectedChannelId={selectedChannelId}
-                />
+                /> */}
                 {/* <CardSpacer />
                 <ChannelsAvailabilityCard
                   managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
