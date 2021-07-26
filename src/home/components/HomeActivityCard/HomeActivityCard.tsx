@@ -8,11 +8,13 @@ import {
 import CardTitle from "@saleor/components/CardTitle";
 import { DateTime } from "@saleor/components/Date";
 import Skeleton from "@saleor/components/Skeleton";
+import useNavigator from "@saleor/hooks/useNavigator";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { renderCollection } from "../../../misc";
+import { orderUrl } from "../../../orders/urls";
 import { Home_activities_edges_node } from "../../types/Home";
 import { getActivityMessage } from "./activityMessages";
 
@@ -25,6 +27,9 @@ const useStyles = makeStyles(
     noProducts: {
       paddingBottom: "16px",
       paddingTop: "16px"
+    },
+    notify: {
+      cursor: "pointer"
     }
   },
   { name: "HomeActivityCard" }
@@ -40,6 +45,10 @@ const HomeActivityCard: React.FC<HomeActivityCardProps> = props => {
   const classes = useStyles(props);
 
   const intl = useIntl();
+  const navigate = useNavigator();
+  const onOrderDetailClick = item => {
+    navigate(orderUrl(item.order.id));
+  };
 
   return (
     <Card data-test-id={testId}>
@@ -54,9 +63,10 @@ const HomeActivityCard: React.FC<HomeActivityCardProps> = props => {
         {renderCollection(
           activities,
           (activity, activityId) => (
-            <ListItem key={activityId}>
+            <ListItem className={classes.notify} key={activityId}>
               {activity ? (
                 <ListItemText
+                  onClick={_e => onOrderDetailClick(activity)}
                   primary={
                     <Typography>
                       {getActivityMessage(activity, intl)}
