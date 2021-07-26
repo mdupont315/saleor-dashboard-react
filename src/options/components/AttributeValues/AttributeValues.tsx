@@ -83,7 +83,7 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
     <Card>
       <CardTitle
         title={intl.formatMessage({
-          defaultMessage: "Attribute Values",
+          defaultMessage: "Modifiers Values",
           description: "section header"
         })}
         toolbar={
@@ -101,13 +101,13 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
             <TableCell className={classes.columnDrag} />
             <TableCell className={classes.columnAdmin}>
               <FormattedMessage
-                defaultMessage="Admin"
+                defaultMessage="Value"
                 description="attribute values list: slug column header"
               />
             </TableCell>
             <TableCell className={classes.columnStore}>
               <FormattedMessage
-                defaultMessage="Default Store View"
+                defaultMessage="Store View"
                 description="attribute values list: name column header"
               />
             </TableCell>

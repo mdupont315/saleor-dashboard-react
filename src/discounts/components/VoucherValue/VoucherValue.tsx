@@ -46,7 +46,6 @@ const numberOfColumns = 2;
 
 const VoucherValue: React.FC<VoucherValueProps> = props => {
   const { data, disabled, errors, variant, onChange, onChannelChange } = props;
-
   const classes = useStyles(props);
   const intl = useIntl();
 
