@@ -167,12 +167,12 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                         })}
                       />
                       <CardContent className={classes.card}>
-                        <Typography variant="caption" className={classes.info}>
+                        {/* <Typography variant="caption" className={classes.info}>
                           <FormattedMessage
                             defaultMessage="Channels that don’t have assigned discounts will use their parent channel to define the price. Price will be converted to channel’s currency"
                             description="channels sale info"
                           />
-                        </Typography>
+                        </Typography> */}
                         <div className={classes.tableContainer}>
                           <ResponsiveTable className={classes.table}>
                             <TableHead
@@ -192,7 +192,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                                 <span>
                                   <FormattedMessage
                                     defaultMessage="Value"
-                                    description="sale value, header"
+                                    description=""
                                   />
                                 </span>
                               </TableCell>
@@ -225,8 +225,8 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                                                    */
                                           name={`channelListing.${index}.discountValue`}
                                           label={intl.formatMessage({
-                                            defaultMessage: "option Value",
-                                            description: "sale discount"
+                                            defaultMessage: "Value",
+                                            description: ""
                                           })}
                                           value={listing.discountValue || ""}
                                           onChange={handleChange}

@@ -5,17 +5,26 @@ import {
   Tooltip,
   Typography
 } from "@material-ui/core";
-import { styled } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FormSpacer from "@saleor/components/FormSpacer";
+// import { useIntl } from "react-intl";
+import { makeStyles } from "@saleor/theme";
 // import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
-import { useIntl } from "react-intl";
 
-const MTypography = styled(Typography)({
-  paddingTop: "15px",
-  textAlign: "center"
-});
+const useStyles = makeStyles(
+  {
+    // style rule
+    textCenter: {
+      paddingTop: "15px",
+      textAlign: "center"
+    }
+  },
+  {
+    name:
+      "D:Projects\new-orderichsaleor-dashboardsrcdeliverycomponentsDeliveryAreaCardindex"
+  }
+);
 
 function DeliveryAreaCard({
   value,
@@ -26,7 +35,8 @@ function DeliveryAreaCard({
   touched,
   errors
 }: any) {
-  const intl = useIntl();
+  // const intl = useIntl();
+  const classes = useStyles();
 
   return (
     <>
@@ -66,7 +76,9 @@ function DeliveryAreaCard({
           />
         </Grid>
         <Grid item xs={3}>
-          <MTypography component="div">up to and including</MTypography>
+          <Typography className={classes.textCenter}>
+            up to and including
+          </Typography>
         </Grid>
         <Grid item xs={3}>
           <TextField

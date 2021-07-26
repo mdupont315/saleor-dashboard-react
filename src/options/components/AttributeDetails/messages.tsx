@@ -3,7 +3,7 @@ import { defineMessages } from "react-intl";
 
 export const messages = defineMessages({
   attributeLabel: {
-    defaultMessage: "Name Label",
+    defaultMessage: "Modifier Name",
     description: "name's label"
   },
 
@@ -23,12 +23,12 @@ export const messages = defineMessages({
   },
 
   inputType: {
-    defaultMessage: "Catalog Input type for Store Owner",
+    defaultMessage: "Modifier Type",
     description: "attribute's editor component"
   },
 
   valueRequired: {
-    defaultMessage: "Value Required",
+    defaultMessage: "Required",
     description: "check to require attribute to have value"
   },
 

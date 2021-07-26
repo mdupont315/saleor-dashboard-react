@@ -84,6 +84,9 @@ const home = gql`
           oversoldItems
           quantity
           type
+          order {
+            id
+          }
           user {
             id
             email
