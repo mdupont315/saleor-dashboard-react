@@ -325,7 +325,13 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
               onCancel={onBack}
               onSave={submit}
               state={saveButtonBarState}
-              disabled={loading || !onSubmit || formDisabled || !hasChanged}
+              disabled={
+                loading ||
+                !onSubmit ||
+                formDisabled ||
+                !hasChanged ||
+                !selectedCategory
+              }
             />
             {canOpenAssignReferencesAttributeDialog && (
               <AssignAttributeValueDialog
