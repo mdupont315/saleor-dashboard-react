@@ -1,3 +1,4 @@
+/* eslint-disable chai-friendly/no-unused-expressions */
 import placeholderImg from "@assets/images/placeholder255x255.png";
 import { DialogContentText, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -215,13 +216,38 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
   const [uploadFile, uploadFileOpts] = useFileUploadMutation({});
 
   const handleUpdate = (data: ProductUpdateMutationResult) => {
-    if (data.productUpdate.errors.length === 0) {
+    // if (data.productUpdate.errors.length === 0) {
+    //   notify({
+    //     status: "success",
+    //     text: intl.formatMessage(commonMessages.savedChanges)
+    //   });
+    // } else {
+
+    // }
+    let err = false;
+    Object.keys(data).map(item => {
+      if (data[item]?.errors.length !== 0) {
+        data[item]?.errors.map(error => {
+          notify({
+            status: "error",
+            text: getProductErrorMessage(error, intl)
+          });
+        });
+        err = false;
+      } else {
+        err = true;
+      }
+    });
+
+    if (err) {
       notify({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
     }
+    // console.log(data, "---------");
   };
+
   const [updateProduct, updateProductOpts] = useProductUpdateMutation({
     onCompleted: handleUpdate
   });

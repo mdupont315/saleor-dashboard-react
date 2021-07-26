@@ -225,6 +225,7 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
       updateMetadata,
       updatePrivateMetadata
     )(data);
+
     if (result) {
       setProductCreateComplete(true);
     }
