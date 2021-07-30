@@ -229,6 +229,10 @@ export const sectionNames = defineMessages({
     defaultMessage: "Notifications",
     description: "Notifications section name"
   },
+  QRcode: {
+    defaultMessage: "QRcode",
+    description: "QRcode section name"
+  },
   Payment: {
     defaultMessage: "Payment",
     description: "Payment section name"

@@ -977,6 +977,10 @@ export enum UserSortField {
   ORDER_COUNT = "ORDER_COUNT",
 }
 
+export enum TableSortField {
+ NAME="NAME"
+}
+
 export enum VoucherDiscountType {
   FIXED = "FIXED",
   PERCENTAGE = "PERCENTAGE",
