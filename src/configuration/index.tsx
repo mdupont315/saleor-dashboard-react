@@ -121,6 +121,24 @@ export function createConfigurationMenu(
           testId: "configurationMenuWarehouses"
         }
       ]
+    },
+    {
+      label: intl.formatMessage({
+        defaultMessage: "QRcode"
+      }),
+      menuItems: [
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Define and manage your table QRcode",
+            id: "configurationMenuChannels"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SETTINGS,
+          title: intl.formatMessage(sectionNames.QRcode),
+          url: qrListUrl(),
+          testId: "configurationMenuChannels"
+        }
+      ]
     }
     // {
     //   label: intl.formatMessage({
@@ -167,24 +185,6 @@ export function createConfigurationMenu(
   ];
   if (isSuperuser) {
     menus.push({
-      label: intl.formatMessage({
-        defaultMessage: "QRcode"
-      }),
-      menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define and manage your table QRcode",
-            id: "configurationMenuChannels"
-          }),
-          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
-          title: intl.formatMessage(sectionNames.QRcode),
-          url: qrListUrl(),
-          testId: "configurationMenuChannels"
-        }
-      ]
-    },
-    {
       label: intl.formatMessage({
         defaultMessage: "Miscellaneous"
       }),
