@@ -9,6 +9,9 @@
   "configurationMenuChannels": {
     "string": "Define and manage your sales channels"
   },
+  "configurationMenuQRcode": {
+    "string": "Define and manage your qr codes"
+  },
   "configurationMenuNavigation": {
     "string": "Define how users can navigate through your store"
   },

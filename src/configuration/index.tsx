@@ -130,13 +130,13 @@ export function createConfigurationMenu(
         {
           description: intl.formatMessage({
             defaultMessage: "Define and manage your table QRcode",
-            id: "configurationMenuChannels"
+            id: "configurationMenuQRcode"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_SETTINGS,
           title: intl.formatMessage(sectionNames.QRcode),
           url: qrListUrl(),
-          testId: "configurationMenuChannels"
+          testId: "configurationMenuQRcode"
         }
       ]
     }
