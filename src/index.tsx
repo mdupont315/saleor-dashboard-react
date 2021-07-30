@@ -63,6 +63,7 @@ import PermissionGroupSection from "./permissionGroups";
 import PluginsSection from "./plugins";
 import ProductSection from "./products";
 import ProductTypesSection from "./productTypes";
+import QRcodeSection from "./qrcode";
 import errorTracker from "./services/errorTracking";
 import ServiceSection from "./servicesTime";
 import ShippingSection from "./shipping";
@@ -193,6 +194,7 @@ const Routes: React.FC = () => {
               <SectionRoute path="/secvices-time" component={ServiceSection} />
               <SectionRoute path="/emergency" component={EmergencySection} />
               <SectionRoute path="/delivery" component={DeliverySection} />
+              <SectionRoute path="/qrcode" component={QRcodeSection} />
 
               <SectionRoute
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}

@@ -8,6 +8,7 @@ import PermissionGroups from "@saleor/icons/PermissionGroups";
 import Plugins from "@saleor/icons/Plugins";
 import ProductTypes from "@saleor/icons/ProductTypes";
 import ShippingMethods from "@saleor/icons/ShippingMethods";
+import SiteSettings from "@saleor/icons/SiteSettings";
 import StaffMembers from "@saleor/icons/StaffMembers";
 import Warehouses from "@saleor/icons/Warehouses";
 import { sectionNames } from "@saleor/intl";
@@ -18,6 +19,7 @@ import { paymentUrl } from "@saleor/payments/urls";
 import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
 import { pluginListUrl } from "@saleor/plugins/urls";
 import { productTypeListUrl } from "@saleor/productTypes/urls";
+import { qrListUrl } from "@saleor/qrcode/urls";
 // import { shippingZonesListUrl } from "@saleor/shipping/urls";
 import { staffListUrl } from "@saleor/staff/urls";
 import { PermissionEnum } from "@saleor/types/globalTypes";
@@ -165,6 +167,24 @@ export function createConfigurationMenu(
   ];
   if (isSuperuser) {
     menus.push({
+      label: intl.formatMessage({
+        defaultMessage: "QRcode"
+      }),
+      menuItems: [
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Define and manage your table QRcode",
+            id: "configurationMenuChannels"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SETTINGS,
+          title: intl.formatMessage(sectionNames.QRcode),
+          url: qrListUrl(),
+          testId: "configurationMenuChannels"
+        }
+      ]
+    },
+    {
       label: intl.formatMessage({
         defaultMessage: "Miscellaneous"
       }),

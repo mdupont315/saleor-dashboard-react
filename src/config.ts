@@ -5,6 +5,8 @@ import { ListSettings, ListViews, Pagination } from "./types";
 export const APP_MOUNT_URI = process.env.APP_MOUNT_URI;
 export const APP_DEFAULT_URI = "/";
 export const API_URI = process.env.API_URI;
+export const API_QR = process.env.QRCODE_BASE;
+
 export const SW_INTERVAL = parseInt(process.env.SW_INTERVAL, 0);
 
 export const DEFAULT_INITIAL_SEARCH_DATA: SearchVariables = {
@@ -29,6 +31,7 @@ export interface AppListViewSettings {
   [ListViews.COLLECTION_LIST]: ListSettings;
   [ListViews.CUSTOMER_LIST]: ListSettings;
   [ListViews.STORE_LIST]: ListSettings;
+  [ListViews.TABLE_LIST]: ListSettings;
   [ListViews.DRAFT_LIST]: ListSettings;
   [ListViews.NAVIGATION_LIST]: ListSettings;
   [ListViews.ORDER_LIST]: ListSettings;
@@ -61,6 +64,9 @@ export const defaultListSettings: AppListViewSettings = {
     rowNumber: PAGINATE_BY
   },
   [ListViews.STORE_LIST]: {
+    rowNumber: PAGINATE_BY
+  },
+  [ListViews.TABLE_LIST]: {
     rowNumber: PAGINATE_BY
   },
   [ListViews.DRAFT_LIST]: {
