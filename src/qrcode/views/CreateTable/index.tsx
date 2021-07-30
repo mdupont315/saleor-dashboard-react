@@ -35,6 +35,7 @@ function TableCreateViewComponent({ id }: IProps) {
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        navigate(qrListUrl());
       }
     }
   });

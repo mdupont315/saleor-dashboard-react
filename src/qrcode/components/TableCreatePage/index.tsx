@@ -34,14 +34,20 @@ function TableCreatePage({ onBack, id, data, onSubmit }: IProps) {
     tableName: Yup.string().required("Required")
   });
   // console.log(API_QR, "-----------");
+  const t = window.location.origin.split(":");
+  t.splice(-1, 1);
 
   const handleSubmit = values => {
     setUrl(
-      `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${window.location.origin}/?qr=${values.tableName}`
+      `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
+        ":"
+      )}/?qr=${values.tableName}`
     );
     onSubmit({
       ...values,
-      tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${window.location.origin}/?qr=${values.tableName}`
+      tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
+        ":"
+      )}/?qr=${values.tableName}`
     });
   };
 
@@ -52,7 +58,9 @@ function TableCreatePage({ onBack, id, data, onSubmit }: IProps) {
   React.useEffect(() => {
     if (data) {
       setUrl(
-        `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${window.location.origin}/?qr=${data.tableName}`
+        `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
+          ":"
+        )}/?qr=${data.tableName}`
       );
     }
   }, []);
