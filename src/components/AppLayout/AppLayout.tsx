@@ -138,7 +138,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   } = useAppChannel(false);
 
   const menuStructure = createMenuStructure(intl);
-  const configurationMenu = createConfigurationMenu(intl);
+  const configurationMenu = createConfigurationMenu(intl, user.isSuperuser);
   const userPermissions = user?.userPermissions || [];
 
   const renderConfigure = configurationMenu.some(section =>

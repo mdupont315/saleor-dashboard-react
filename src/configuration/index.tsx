@@ -1,9 +1,9 @@
-import { channelsListUrl } from "@saleor/channels/urls";
+// import { channelsListUrl } from "@saleor/channels/urls";
 import { WindowTitle } from "@saleor/components/WindowTitle";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import Attributes from "@saleor/icons/Attributes";
-import Channels from "@saleor/icons/Channels";
+// import Channels from "@saleor/icons/Channels";
 import PermissionGroups from "@saleor/icons/PermissionGroups";
 import Plugins from "@saleor/icons/Plugins";
 import ProductTypes from "@saleor/icons/ProductTypes";
@@ -27,8 +27,11 @@ import { IntlShape, useIntl } from "react-intl";
 
 import ConfigurationPage, { MenuSection } from "./ConfigurationPage";
 
-export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
-  return [
+export function createConfigurationMenu(
+  intl: IntlShape,
+  isSuperuser?: boolean
+): MenuSection[] {
+  const menus = [
     {
       label: intl.formatMessage({
         defaultMessage: "Attributes and Product Types"
@@ -116,26 +119,52 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           testId: "configurationMenuWarehouses"
         }
       ]
-    },
-    {
-      label: intl.formatMessage({
-        defaultMessage: "Multichannel"
-      }),
-      menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define and manage your sales channels",
-            id: "configurationMenuChannels"
-          }),
-          icon: <Channels fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_CHANNELS,
-          title: intl.formatMessage(sectionNames.channels),
-          url: channelsListUrl(),
-          testId: "configurationMenuChannels"
-        }
-      ]
-    },
-    {
+    }
+    // {
+    //   label: intl.formatMessage({
+    //     defaultMessage: "Multichannel"
+    //   }),
+    //   menuItems: [
+    //     {
+    //       description: intl.formatMessage({
+    //         defaultMessage: "Define and manage your sales channels",
+    //         id: "configurationMenuChannels"
+    //       }),
+    //       icon: <Channels fontSize="inherit" viewBox="0 0 44 44" />,
+    //       permission: PermissionEnum.MANAGE_CHANNELS,
+    //       title: intl.formatMessage(sectionNames.channels),
+    //       url: channelsListUrl(),
+    //       testId: "configurationMenuChannels"
+    //     }
+    //   ]
+    // },
+    // {
+    //   label: intl.formatMessage({
+    //     defaultMessage: "Miscellaneous"
+    //   }),
+    //   menuItems: [
+    //     {
+    //       description: intl.formatMessage({
+    //         defaultMessage: "View and update your plugins and their settings.",
+    //         id: "configurationPluginsPages"
+    //       }),
+    //       icon: (
+    //         <Plugins
+    //           fontSize="inherit"
+    //           viewBox="-8 -5 44 44"
+    //           preserveAspectRatio="xMinYMin meet"
+    //         />
+    //       ),
+    //       permission: PermissionEnum.MANAGE_PLUGINS,
+    //       title: intl.formatMessage(sectionNames.plugins),
+    //       url: pluginListUrl(),
+    //       testId: "configurationPluginsPages"
+    //     }
+    //   ]
+    // }
+  ];
+  if (isSuperuser) {
+    menus.push({
       label: intl.formatMessage({
         defaultMessage: "Miscellaneous"
       }),
@@ -158,8 +187,9 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           testId: "configurationPluginsPages"
         }
       ]
-    }
-  ];
+    });
+  }
+  return menus;
 }
 
 export const configurationMenuUrl = "/configuration/";
@@ -169,11 +199,13 @@ export const ConfigurationSection: React.FC = () => {
   const user = useUser();
   const intl = useIntl();
 
+  const menus = createConfigurationMenu(intl, user?.user?.isSuperuser);
+
   return (
     <>
       <WindowTitle title={intl.formatMessage(sectionNames.configuration)} />
       <ConfigurationPage
-        menu={createConfigurationMenu(intl)}
+        menu={menus}
         user={maybe(() => user.user)}
         onSectionClick={navigate}
       />

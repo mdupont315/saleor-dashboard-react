@@ -1,4 +1,4 @@
-import appsIcon from "@assets/images/menu-apps-icon.svg";
+// import appsIcon from "@assets/images/menu-apps-icon.svg";
 import catalogIcon from "@assets/images/menu-catalog-icon.svg";
 import customerIcon from "@assets/images/menu-customers-icon.svg";
 import discountsIcon from "@assets/images/menu-discounts-icon.svg";
@@ -12,7 +12,7 @@ import { servicesUrl } from "@saleor/servicesTime/urls";
 import { storesManagementListUrl } from "@saleor/stores/urls";
 import { IntlShape } from "react-intl";
 
-import { appsListPath } from "../../apps/urls";
+// import { appsListPath } from "../../apps/urls";
 import { useAuth } from "../../auth/AuthProvider";
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
@@ -74,14 +74,14 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
             testingContextId: "vouchers",
             url: voucherListPath
           },
-          {
-            ariaLabel: "apps",
-            icon: appsIcon,
-            label: intl.formatMessage(sectionNames.apps),
-            permission: PermissionEnum.MANAGE_APPS,
-            testingContextId: "apps",
-            url: appsListPath
-          },
+          // {
+          //   ariaLabel: "apps",
+          //   icon: appsIcon,
+          //   label: intl.formatMessage(sectionNames.apps),
+          //   permission: PermissionEnum.MANAGE_APPS,
+          //   testingContextId: "apps",
+          //   url: appsListPath
+          // },
           {
             ariaLabel: "translations",
             icon: translationIcon,
