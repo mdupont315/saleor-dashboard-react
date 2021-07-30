@@ -238,7 +238,7 @@ export const sectionNames = defineMessages({
     description: "Payment section name"
   },
   attributes: {
-    defaultMessage: "Attributes",
+    defaultMessage: "Modifiers",
     description: "attributes section name"
   },
   categories: {

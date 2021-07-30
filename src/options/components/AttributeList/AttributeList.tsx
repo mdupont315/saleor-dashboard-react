@@ -102,12 +102,12 @@ const AttributeList: React.FC<AttributeListProps> = ({
         >
           <FormattedMessage defaultMessage="Name" description="name's label'" />
         </TableCellHeader>
-        <TableCellHeader className={classes.colName}>
+        {/* <TableCellHeader className={classes.colName}>
           <FormattedMessage
             defaultMessage="Description"
             description="description's label'"
           />
-        </TableCellHeader>
+        </TableCellHeader> */}
         <TableCellHeader className={classes.colName}>
           <FormattedMessage defaultMessage="Type" description="Type's label'" />
         </TableCellHeader>
@@ -152,9 +152,9 @@ const AttributeList: React.FC<AttributeListProps> = ({
                 <TableCell className={classes.colName} data-test="name">
                   {attribute ? attribute.name : <Skeleton />}
                 </TableCell>
-                <TableCell className={classes.colName} data-test="description">
+                {/* <TableCell className={classes.colName} data-test="description">
                   {attribute ? attribute.description : <Skeleton />}
-                </TableCell>
+                </TableCell> */}
                 <TableCell className={classes.colName} data-test="type">
                   {attribute ? attribute.type : <Skeleton />}
                 </TableCell>

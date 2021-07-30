@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 import {
   Button,
   Card,
@@ -159,14 +160,26 @@ const validateSchema = Yup.object().shape({
   deliveryArea: Yup.array().of(
     Yup.object().shape({
       to: Yup.number()
-        .required("Please enter up to")
+        .required("Required")
         .test(
           "Is positive?",
           "The number must be greater than 0!",
           value => value > 0
-        ),
+        )
+        .test({
+          name: "from",
+          exclusive: false,
+          params: {},
+          message: `Must be more than or equals from value`,
+          test: function(value) {
+            if (this.parent.from) {
+              return value >= this.parent.from;
+            }
+            return true;
+          }
+        }),
       from: Yup.number()
-        .required("PLease enter including")
+        .required("Required")
         .test(
           "Is positive?",
           "The number must be greater than 0!",

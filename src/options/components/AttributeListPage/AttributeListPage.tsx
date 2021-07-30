@@ -59,7 +59,7 @@ const AttributeListPage: React.FC<AttributeListPageProps> = ({
       <PageHeader title={intl.formatMessage(sectionNames.attributes)}>
         <Button onClick={onAdd} color="primary" variant="contained">
           <FormattedMessage
-            defaultMessage="Create option"
+            defaultMessage="Create modifier"
             description="button"
           />
         </Button>
@@ -67,7 +67,7 @@ const AttributeListPage: React.FC<AttributeListPageProps> = ({
       <Card>
         <FilterBar
           allTabLabel={intl.formatMessage({
-            defaultMessage: "All Option",
+            defaultMessage: "All Modifiers",
             description: "tab name"
           })}
           currentTab={currentTab}
