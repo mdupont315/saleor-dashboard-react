@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import { Hr } from "@saleor/components/Hr";
-import Money, { subtractMoney } from "@saleor/components/Money";
+import Money, { IMoney, subtractMoney } from "@saleor/components/Money";
 import Skeleton from "@saleor/components/Skeleton";
 import StatusLabel from "@saleor/components/StatusLabel";
 import { makeStyles } from "@saleor/theme";
@@ -51,7 +51,8 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
     OrderAction.CAPTURE
   );
   const canVoid = maybe(() => order.actions, []).includes(OrderAction.VOID);
-  const canRefund = maybe(() => order.actions, []).includes(OrderAction.REFUND);
+  // const canRefund = maybe(() => order.actions, []).includes(OrderAction.REFUND);
+  const canRefund = false;
   const canMarkAsPaid = maybe(() => order.actions, []).includes(
     OrderAction.MARK_AS_PAID
   );
@@ -59,10 +60,18 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
     maybe(() => order.paymentStatus),
     intl
   );
-  const refundedAmount =
-    order?.totalCaptured &&
-    order?.total?.gross &&
-    subtractMoney(order.totalCaptured, order.total.gross);
+  // const refundedAmount =
+  //   order?.totalCaptured &&
+  //   order?.total?.gross &&
+  //   subtractMoney(order.totalCaptured, order.total.gross);
+  const deliveryFee: IMoney = {
+    amount: order?.deliveryFee,
+    currency: order?.total.gross.currency
+  };
+  const transactionCost: IMoney = {
+    amount: order?.transactionCost,
+    currency: order?.total.gross.currency
+  };
   return (
     <Card>
       <CardTitle
@@ -107,7 +116,7 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                 )}
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>
                 <FormattedMessage defaultMessage="Taxes" />
               </td>
@@ -134,36 +143,35 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                   <Money money={order.total.tax} />
                 )}
               </td>
-            </tr>
-            <tr>
-              <td>
-                <FormattedMessage
-                  defaultMessage="Shipping"
-                  description="order shipping method name"
-                />
-              </td>
-              <td>
-                {maybe(() => order.shippingMethodName) === undefined &&
-                maybe(() => order.shippingPrice) === undefined ? (
-                  <Skeleton />
-                ) : order.shippingMethodName === null ? (
-                  intl.formatMessage({
-                    defaultMessage: "does not apply",
-                    description: "order does not require shipping",
-                    id: "orderPaymentShippingDoesNotApply"
-                  })
-                ) : (
-                  order.shippingMethodName
-                )}
-              </td>
-              <td className={classes.textRight}>
-                {maybe(() => order.shippingPrice.gross) === undefined ? (
-                  <Skeleton />
-                ) : (
-                  <Money money={order.shippingPrice.gross} />
-                )}
-              </td>
-            </tr>
+            </tr> */}
+            {order?.deliveryFee && order?.deliveryFee !== 0 ? (
+              <tr>
+                <td>
+                  <FormattedMessage
+                    defaultMessage="Delivery Fee"
+                    description="order shipping method name"
+                  />
+                </td>
+                <td colSpan={2} className={classes.textRight}>
+                  <Money money={deliveryFee} />
+                </td>
+              </tr>
+            ) : null}
+
+            {order?.transactionCost && order?.transactionCost !== 0 ? (
+              <tr>
+                <td>
+                  <FormattedMessage
+                    defaultMessage="Transaction Cost"
+                    description="order shipping method name"
+                  />
+                </td>
+                <td colSpan={2} className={classes.textRight}>
+                  <Money money={transactionCost} />
+                </td>
+              </tr>
+            ) : null}
+
             {order?.discounts?.map(discount => (
               <tr>
                 <td>
@@ -243,7 +251,7 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                 )}
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>
                 <FormattedMessage
                   defaultMessage="Refunded amount"
@@ -257,7 +265,7 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                   <Money money={refundedAmount} />
                 )}
               </td>
-            </tr>
+            </tr> */}
             <tr className={classes.totalRow}>
               <td>
                 <FormattedMessage

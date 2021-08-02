@@ -501,6 +501,9 @@ export interface OrderDetails_order {
   invoices: (OrderDetails_order_invoices | null)[] | null;
   channel: OrderDetails_order_channel;
   isPaid: boolean;
+  orderType?: string;
+  transactionCost?: number;
+  deliveryFee?: number;
 }
 
 export interface OrderDetails_shop_countries {

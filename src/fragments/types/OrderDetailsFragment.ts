@@ -501,4 +501,7 @@ export interface OrderDetailsFragment {
   invoices: (OrderDetailsFragment_invoices | null)[] | null;
   channel: OrderDetailsFragment_channel;
   isPaid: boolean;
+  orderType: string;
+  transactionCost: number;
+  deliveryFee: number;
 }

@@ -486,8 +486,10 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     }
   };
 
-  const onAttributeUnassign = (id: string) =>
+  const onAttributeUnassign = (id: string) => {
     setValues(values.filter(value => value.id !== id));
+    setAssignAttribute(assignAttribute.filter(value => value.id !== id));
+  };
 
   const onAttributeUnassignAll = () => {
     checkedOption.reverse().forEach(index => {

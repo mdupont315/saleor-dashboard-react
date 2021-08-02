@@ -272,6 +272,9 @@ export const fragmentOrderDetails = gql`
       slug
     }
     isPaid
+    orderType
+    transactionCost
+    deliveryFee
   }
 `;
 
