@@ -27,7 +27,6 @@ const CustomerListView: React.FC<RouteComponentProps<{}>> = ({ location }) => {
     qs,
     CustomerListUrlSortField
   );
-
   return <CustomerListViewComponent params={params} />;
 };
 

@@ -6,7 +6,7 @@ import {
   Sort,
   TabActionDialog
 } from "@saleor/types";
-import { stringifyQs } from "@saleor/utils/urls";
+import { stringify as stringifyQs } from "qs";
 import urlJoin from "url-join";
 
 export const qrSection = "/qrcode/";
@@ -27,7 +27,7 @@ export type QRListUrlQueryParams = ActiveTab &
   Dialog<QRListUrlDialog> &
   Pagination;
 export type QRUrlQueryParams = Dialog<QRUrlDialog>;
-export const qrListUrl = (params?: any) =>
+export const qrListUrl = (params?: QRListUrlQueryParams) =>
   qrListPath + "?" + stringifyQs(params);
 export const tableUrl = (id: string, params?: QRUrlQueryParams) =>
   qrPath(encodeURIComponent(id)) + "?" + stringifyQs(params);

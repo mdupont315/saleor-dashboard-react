@@ -1,14 +1,20 @@
-import { IconButton } from "@material-ui/core";
+import { DialogContentText, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ActionDialog from "@saleor/components/ActionDialog";
 import useBulkActions from "@saleor/hooks/useBulkActions";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useNavigator from "@saleor/hooks/useNavigator";
+import useNotifier from "@saleor/hooks/useNotifier";
 import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
+import { commonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import TableListPage from "@saleor/qrcode/components/TableListPage";
-import { useTableListQuery } from "@saleor/qrcode/queries";
+import {
+  TypedBulkRemoveTables,
+  useTableListQuery
+} from "@saleor/qrcode/queries";
 import {
   qrAddPath,
   qrListUrl,
@@ -22,12 +28,18 @@ import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandl
 import createSortHandler from "@saleor/utils/handlers/sortHandler";
 import { getSortParams } from "@saleor/utils/sort";
 import React from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 // import { useIntl } from "react-intl";
-
-function TableListViewComponent({ params }) {
+interface IProps {
+  params?: QRListUrlQueryParams;
+}
+function TableListViewComponent({ params }: IProps) {
   const navigate = useNavigator();
   const paginate = usePaginator();
-  const { isSelected, listElements, toggle, toggleAll } = useBulkActions(
+  const notify = useNotifier();
+
+  const intl = useIntl();
+  const { isSelected, listElements, reset, toggle, toggleAll } = useBulkActions(
     params.ids
   );
   // const intl = useIntl();
@@ -42,10 +54,10 @@ function TableListViewComponent({ params }) {
       // filter: getFilterVariables(params),
       // sort: getSortQueryVariables(params)
     }),
-    [params]
+    [params, settings.rowNumber]
   );
 
-  const { data, loading } = useTableListQuery({
+  const { data, loading, refetch } = useTableListQuery({
     displayLoader: true,
     variables: queryVariables
   });
@@ -56,7 +68,7 @@ function TableListViewComponent({ params }) {
     params
   );
 
-  const [openModal] = createDialogActionHandlers<
+  const [openModal, closeModal] = createDialogActionHandlers<
     QRListUrlDialog,
     QRListUrlQueryParams
   >(navigate, qrListUrl, params);
@@ -69,41 +81,103 @@ function TableListViewComponent({ params }) {
   //     : parseInt(params.activeTab, 0);
 
   // console.log(mapEdgesToTableItem(data?.tableServices));
+  const handleBulkDelete = data => {
+    // if (data.customerBulkDelete.errors.length === 0) {
+    //   notify({
+    //     status: "success",
+    //     text: intl.formatMessage(commonMessages.savedChanges)
+    //   });
+    //   reset();
+    //   refetch();
+    //   closeModal();
+    // }
+
+    if (data.tableServiceBulkDelete.errors.length === 0) {
+      notify({
+        status: "success",
+        text: intl.formatMessage(commonMessages.savedChanges)
+      });
+      reset();
+      refetch();
+      closeModal();
+    }
+  };
+  // console.log(params.ids);
 
   return (
     <>
-      <TableListPage
-        // currentTab={null}
-        onAdd={() => navigate(qrAddPath)}
-        tables={mapEdgesToTableItem(data?.tableServices)}
-        onNextPage={loadNextPage}
-        onPreviousPage={loadPreviousPage}
-        onRowClick={id => () => navigate(tableUrl(id))}
-        toggle={toggle}
-        toggleAll={toggleAll}
-        isChecked={isSelected}
-        disabled={loading}
-        sort={getSortParams(params)}
-        onSort={handleSort}
-        selected={listElements.length}
-        onUpdateListSettings={updateListSettings}
-        settings={settings}
-        // onTabChange={handleTabChange}
-        // onTabDelete={() => openModal("delete-search")}
-        // onTabSave={() => openModal("save-search")}
-        toolbar={
-          <IconButton
-            color="primary"
-            onClick={() =>
-              openModal("remove", {
-                ids: listElements
-              })
-            }
-          >
-            <DeleteIcon />
-          </IconButton>
-        }
-      />
+      <TypedBulkRemoveTables onCompleted={handleBulkDelete}>
+        {(bulkDeteleTables, bulkDeleteTableOpts) => (
+          // console.log(bulkDeleteTableOpts, "----------bulkDeleteTableOpts");
+
+          <>
+            <TableListPage
+              // currentTab={null}
+              onAdd={() => navigate(qrAddPath)}
+              tables={mapEdgesToTableItem(data?.tableServices)}
+              onNextPage={loadNextPage}
+              onPreviousPage={loadPreviousPage}
+              onRowClick={id => () => navigate(tableUrl(id))}
+              toggle={toggle}
+              toggleAll={toggleAll}
+              isChecked={isSelected}
+              disabled={loading}
+              sort={getSortParams(params)}
+              onSort={handleSort}
+              selected={listElements.length}
+              onUpdateListSettings={updateListSettings}
+              settings={settings}
+              // onTabChange={handleTabChange}
+              // onTabDelete={() => openModal("delete-search")}
+              // onTabSave={() => openModal("save-search")}
+              toolbar={
+                <IconButton
+                  color="primary"
+                  onClick={() =>
+                    openModal("remove", {
+                      ids: listElements
+                    })
+                  }
+                >
+                  <DeleteIcon />
+                </IconButton>
+              }
+            />
+
+            <ActionDialog
+              open={
+                params.action === "remove" && maybe(() => params.ids.length > 0)
+              }
+              onClose={closeModal}
+              confirmButtonState={bulkDeleteTableOpts.status}
+              onConfirm={() => {
+                bulkDeteleTables({
+                  variables: {
+                    ids: params.ids
+                  }
+                });
+              }}
+              variant="delete"
+              title={intl.formatMessage({
+                defaultMessage: "Delete Table",
+                description: "dialog header"
+              })}
+            >
+              <DialogContentText>
+                <FormattedMessage
+                  defaultMessage="{counter,plural,one{Are you sure you want to delete this customer?} other{Are you sure you want to delete {displayQuantity} customers?}}"
+                  values={{
+                    counter: maybe(() => params.ids.length),
+                    displayQuantity: (
+                      <strong>{maybe(() => params.ids.length)}</strong>
+                    )
+                  }}
+                />
+              </DialogContentText>
+            </ActionDialog>
+          </>
+        )}
+      </TypedBulkRemoveTables>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import makeQuery from "@saleor/hooks/makeQuery";
+import { TypedMutation } from "@saleor/mutations";
 import gql from "graphql-tag";
 
 export const getListTable = gql`
@@ -66,3 +67,19 @@ export const updateTableMutation = gql`
     }
   }
 `;
+
+export const deleteBulkTableMutation = gql`
+  mutation DeleteBulkTable($ids: [ID]!) {
+    tableServiceBulkDelete(ids: $ids) {
+      count
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const TypedBulkRemoveTables = TypedMutation<any, {}>(
+  deleteBulkTableMutation
+);
