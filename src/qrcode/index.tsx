@@ -4,11 +4,12 @@ import { asSortParams } from "@saleor/utils/sort";
 import { parse as parseQs } from "qs";
 import React from "react";
 import { useIntl } from "react-intl";
-import { Route, RouteComponentProps, Switch } from "react-router";
+import { Route, RouteComponentProps, Switch } from "react-router-dom";
 
 import {
   qrAddPath,
   qrListPath,
+  QRListUrlQueryParams,
   qrPath,
   QRUrlQueryParams,
   TableListUrlSortField
@@ -18,7 +19,7 @@ import TableListViewComponent from "./views/TableList";
 
 const TableListView: React.FC<RouteComponentProps<{}>> = ({ location }) => {
   const qs = parseQs(location.search.substr(1));
-  const params = asSortParams(qs, TableListUrlSortField);
+  const params: QRListUrlQueryParams = asSortParams(qs, TableListUrlSortField);
   return <TableListViewComponent params={params} />;
 };
 

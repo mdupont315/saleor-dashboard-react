@@ -12,6 +12,7 @@ import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { renderCollection } from "@saleor/misc";
 import { TableListUrlSortField } from "@saleor/qrcode/urls";
+import { ListActions, ListProps, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";
 import { FormattedMessage } from "react-intl";
@@ -40,7 +41,12 @@ const useStyles = makeStyles(
   }),
   { name: "tableList" }
 );
-
+export interface TableListProps
+  extends ListProps,
+    ListActions,
+    SortPage<TableListUrlSortField> {
+  tables: any[];
+}
 function TableList(props: any) {
   const {
     tables,
