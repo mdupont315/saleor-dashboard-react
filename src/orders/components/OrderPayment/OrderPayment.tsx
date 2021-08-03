@@ -11,7 +11,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { maybe, transformPaymentStatus } from "../../../misc";
 import {
   OrderAction,
-  OrderDiscountType,
+  // OrderDiscountType,
   OrderStatus
 } from "../../../types/globalTypes";
 import { OrderDetails_order } from "../../types/OrderDetails";
@@ -180,7 +180,7 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                     description="order discount"
                   />
                 </td>
-                <td>
+                {/* <td>
                   {discount.type === OrderDiscountType.MANUAL ? (
                     <FormattedMessage
                       defaultMessage="Staff added"
@@ -192,8 +192,8 @@ const OrderPayment: React.FC<OrderPaymentProps> = props => {
                       description="voucher type order discount"
                     />
                   )}
-                </td>
-                <td className={classes.textRight}>
+                </td> */}
+                <td colSpan={2} className={classes.textRight}>
                   -<Money money={discount.amount} />
                 </td>
               </tr>

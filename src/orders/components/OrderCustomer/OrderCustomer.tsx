@@ -80,8 +80,8 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
     onCustomerEdit,
     onBillingAddressEdit,
     onFetchMore: onFetchMoreUsers,
-    onProfileView,
-    onShippingAddressEdit
+    onProfileView
+    // onShippingAddressEdit
   } = props;
   const classes = useStyles(props);
 
@@ -251,7 +251,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
         </>
       )}
       <Hr />
-      <CardContent>
+      {/* <CardContent>
         <div className={classes.sectionHeader}>
           <Typography className={classes.sectionHeaderTitle}>
             <FormattedMessage defaultMessage="Shipping Address" />
@@ -308,71 +308,73 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
           </>
         )}
       </CardContent>
-      <Hr />
-      <CardContent>
-        <div className={classes.sectionHeader}>
-          <Typography className={classes.sectionHeaderTitle}>
-            <FormattedMessage defaultMessage="Billing Address" />
-          </Typography>
-          {canEditAddresses && (
-            <div className={classes.sectionHeaderToolbar}>
-              <Button
-                data-test-id="edit-billing-address"
-                color="primary"
-                variant="text"
-                onClick={onBillingAddressEdit}
-                disabled={!onBillingAddressEdit && user === undefined}
-              >
-                <FormattedMessage {...buttonMessages.edit} />
-              </Button>
-            </div>
-          )}
-        </div>
-        {billingAddress === undefined ? (
-          <Skeleton />
-        ) : billingAddress === null ? (
-          <Typography>
-            <FormattedMessage
-              defaultMessage="Not set"
-              description="no address is set in draft order"
-              id="orderCustomerBillingAddressNotSet"
-            />
-          </Typography>
-        ) : maybe(() => shippingAddress.id) === billingAddress.id ? (
-          <Typography>
-            <FormattedMessage
-              defaultMessage="Same as shipping address"
-              description="billing address"
-            />
-          </Typography>
-        ) : (
-          <>
-            {billingAddress.companyName && (
-              <Typography>{billingAddress.companyName}</Typography>
+      <Hr /> */}
+      {!order?.tableName && (
+        <CardContent>
+          <div className={classes.sectionHeader}>
+            <Typography className={classes.sectionHeaderTitle}>
+              <FormattedMessage defaultMessage="Address" />
+            </Typography>
+            {canEditAddresses && (
+              <div className={classes.sectionHeaderToolbar}>
+                <Button
+                  data-test-id="edit-billing-address"
+                  color="primary"
+                  variant="text"
+                  onClick={onBillingAddressEdit}
+                  disabled={!onBillingAddressEdit && user === undefined}
+                >
+                  <FormattedMessage {...buttonMessages.edit} />
+                </Button>
+              </div>
             )}
+          </div>
+          {billingAddress === undefined ? (
+            <Skeleton />
+          ) : billingAddress === null ? (
             <Typography>
-              {billingAddress.firstName} {billingAddress.lastName}
+              <FormattedMessage
+                defaultMessage="Not set"
+                description="no address is set in draft order"
+                id="orderCustomerBillingAddressNotSet"
+              />
             </Typography>
+          ) : maybe(() => shippingAddress.id) === billingAddress.id ? (
             <Typography>
-              {billingAddress.streetAddress1}
-              <br />
-              {billingAddress.streetAddress2}
+              <FormattedMessage
+                defaultMessage="Same as shipping address"
+                description="billing address"
+              />
             </Typography>
-            <Typography>
-              {billingAddress.postalCode} {billingAddress.city}
-              {billingAddress.cityArea ? ", " + billingAddress.cityArea : ""}
-            </Typography>
-            <Typography>
-              {billingAddress.countryArea
-                ? billingAddress.countryArea +
-                  ", " +
-                  billingAddress.country.country
-                : billingAddress.country.country}
-            </Typography>
-            <Typography>{billingAddress.phone}</Typography>
-          </>
-        )}
-      </CardContent>
+          ) : (
+            <>
+              {billingAddress.companyName && (
+                <Typography>{billingAddress.companyName}</Typography>
+              )}
+              <Typography>
+                {billingAddress.firstName} {billingAddress.lastName}
+              </Typography>
+              <Typography>
+                {billingAddress.streetAddress1}
+                <br />
+                {billingAddress.streetAddress2}
+              </Typography>
+              <Typography>
+                {billingAddress.postalCode} {billingAddress.city}
+                {billingAddress.cityArea ? ", " + billingAddress.cityArea : ""}
+              </Typography>
+              <Typography>
+                {billingAddress.countryArea
+                  ? billingAddress.countryArea +
+                    ", " +
+                    billingAddress.country.country
+                  : billingAddress.country.country}
+              </Typography>
+              <Typography>{billingAddress.phone}</Typography>
+            </>
+          )}
+        </CardContent>
+      )}
     </Card>
   );
 };

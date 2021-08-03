@@ -504,6 +504,7 @@ export interface OrderDetails_order {
   orderType?: string;
   transactionCost?: number;
   deliveryFee?: number;
+  tableName?: string;
 }
 
 export interface OrderDetails_shop_countries {
