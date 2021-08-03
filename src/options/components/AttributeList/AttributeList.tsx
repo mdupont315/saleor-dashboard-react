@@ -45,7 +45,7 @@ const useStyles = makeStyles(
       textAlign: "center"
     },
     colName: {
-      width: "33%"
+      // width: "33%"
     },
     colSearchable: {
       textAlign: "center"
@@ -63,7 +63,7 @@ const useStyles = makeStyles(
   { name: "AttributeList" }
 );
 
-const numberOfColumns = 6;
+const numberOfColumns = 3;
 
 const AttributeList: React.FC<AttributeListProps> = ({
   attributes,
