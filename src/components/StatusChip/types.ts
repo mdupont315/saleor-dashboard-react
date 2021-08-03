@@ -4,3 +4,8 @@ export enum StatusType {
   ALERT = "alert",
   SUCCESS = "success"
 }
+
+export enum OrderType {
+  PICKUP = "pickup",
+  DELIVERY = "delivery"
+}

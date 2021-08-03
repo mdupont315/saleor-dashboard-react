@@ -1,15 +1,15 @@
-import { Button, Card, CardActions, TableBody } from "@material-ui/core";
+import { Card, CardActions, TableBody } from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { renderCollection } from "@saleor/misc";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
-import { FormattedMessage } from "react-intl";
 
+// import { FormattedMessage } from "react-intl";
 import { OrderDetails_order_lines } from "../../types/OrderDetails";
 import TableHeader from "../OrderProductsCardElements/OrderProductsCardHeader";
 import TableLine from "../OrderProductsCardElements/OrderProductsTableRow";
-import CardTitle from "../OrderReturnPage/OrderReturnRefundItemsCard/CardTitle";
+// import CardTitle from "../OrderReturnPage/OrderReturnRefundItemsCard/CardTitle";
 
 const useStyles = makeStyles(
   () => ({
@@ -27,7 +27,7 @@ interface OrderUnfulfilledProductsCardProps {
 }
 
 const OrderUnfulfilledProductsCard: React.FC<OrderUnfulfilledProductsCardProps> = props => {
-  const { canFulfill, lines, onFulfill } = props;
+  const { canFulfill, lines } = props;
   const classes = useStyles({});
 
   if (!lines.length) {
@@ -37,7 +37,7 @@ const OrderUnfulfilledProductsCard: React.FC<OrderUnfulfilledProductsCardProps> 
   return (
     <>
       <Card>
-        <CardTitle withStatus status="unfulfilled" />
+        {/* <CardTitle withStatus status="unfulfilled" /> */}
         <ResponsiveTable className={classes.table}>
           <TableHeader />
           <TableBody>
@@ -48,9 +48,9 @@ const OrderUnfulfilledProductsCard: React.FC<OrderUnfulfilledProductsCardProps> 
         </ResponsiveTable>
         {canFulfill && (
           <CardActions>
-            <Button variant="text" color="primary" onClick={onFulfill}>
+            {/* <Button variant="text" color="primary" onClick={onFulfill}>
               <FormattedMessage defaultMessage="Fulfill" description="button" />
-            </Button>
+            </Button> */}
           </CardActions>
         )}
       </Card>

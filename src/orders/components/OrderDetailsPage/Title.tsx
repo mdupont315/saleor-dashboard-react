@@ -1,5 +1,6 @@
 import StatusChip from "@saleor/components/StatusChip";
-import { transformOrderStatus } from "@saleor/misc";
+// import { transformOrderStatus } from "@saleor/misc";
+import { transformOrderType } from "@saleor/misc";
 import { OrderDetails_order } from "@saleor/orders/types/OrderDetails";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
@@ -31,8 +32,8 @@ const Title: React.FC<TitleProps> = props => {
     return null;
   }
 
-  const { localized, status } = transformOrderStatus(order.status, intl);
-
+  // const { localized, status } = transformOrderStatus(order.status, intl);
+  const { localized, status } = transformOrderType(order.orderType, intl);
   return (
     <div className={classes.container}>
       {`#${order.number}`}

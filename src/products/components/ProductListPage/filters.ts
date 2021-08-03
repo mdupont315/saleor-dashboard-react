@@ -8,7 +8,7 @@ import {
 import {
   createAutocompleteField,
   createBooleanField,
-  createOptionsField,
+  // createOptionsField,
   createPriceField
 } from "@saleor/utils/filters/fields";
 import { defineMessages, IntlShape } from "react-intl";
@@ -81,25 +81,25 @@ export function createFilterStructure(
   );
 
   return [
-    {
-      ...createOptionsField(
-        ProductFilterKeys.stock,
-        intl.formatMessage(messages.quantity),
-        [opts.stockStatus.value],
-        false,
-        [
-          {
-            label: intl.formatMessage(messages.available),
-            value: StockAvailability.IN_STOCK
-          },
-          {
-            label: intl.formatMessage(messages.outOfStock),
-            value: StockAvailability.OUT_OF_STOCK
-          }
-        ]
-      ),
-      active: opts.stockStatus.active
-    },
+    // {
+    //   ...createOptionsField(
+    //     ProductFilterKeys.stock,
+    //     intl.formatMessage(messages.quantity),
+    //     [opts.stockStatus.value],
+    //     false,
+    //     [
+    //       {
+    //         label: intl.formatMessage(messages.available),
+    //         value: StockAvailability.IN_STOCK
+    //       },
+    //       {
+    //         label: intl.formatMessage(messages.outOfStock),
+    //         value: StockAvailability.OUT_OF_STOCK
+    //       }
+    //     ]
+    //   ),
+    //   active: opts.stockStatus.active
+    // },
     {
       ...createPriceField(
         ProductFilterKeys.price,

@@ -10,7 +10,7 @@ import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import { Tab, TabContainer } from "@saleor/components/Tab";
+// import { Tab, TabContainer } from "@saleor/components/Tab";
 import {
   createChannelsChangeHandler,
   createDiscountTypeChangeHandler
@@ -30,10 +30,10 @@ import {
   VoucherTypeEnum
 } from "../../../types/globalTypes";
 import { VoucherDetails_voucher } from "../../types/VoucherDetails";
-import DiscountCategories from "../DiscountCategories";
-import DiscountCollections from "../DiscountCollections";
-// import DiscountDates from "../DiscountDates";
-import DiscountProducts from "../DiscountProducts";
+// import DiscountCategories from "../DiscountCategories";
+// import DiscountCollections from "../DiscountCollections";
+// // import DiscountDates from "../DiscountDates";
+// import DiscountProducts from "../DiscountProducts";
 import VoucherInfo from "../VoucherInfo";
 // import VoucherLimits from "../VoucherLimits";
 import VoucherRequirements from "../VoucherRequirements";
@@ -107,47 +107,47 @@ export interface VoucherDetailsPageProps
   openChannelsModal: () => void;
 }
 
-const CategoriesTab = Tab(VoucherDetailsPageTab.categories);
-const CollectionsTab = Tab(VoucherDetailsPageTab.collections);
-const ProductsTab = Tab(VoucherDetailsPageTab.products);
+// const CategoriesTab = Tab(VoucherDetailsPageTab.categories);
+// const CollectionsTab = Tab(VoucherDetailsPageTab.collections);
+// const ProductsTab = Tab(VoucherDetailsPageTab.products);
 
 const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
-  activeTab,
-  allChannelsCount,
+  // activeTab,
+  // allChannelsCount,
   channelListings = [],
   disabled,
   errors,
-  pageInfo,
+  // pageInfo,
   saveButtonBarState,
   voucher,
   onBack,
-  onCategoryAssign,
-  onCategoryClick,
-  onCategoryUnassign,
+  // onCategoryAssign,
+  // onCategoryClick,
+  // onCategoryUnassign,
   onChannelsChange,
   onCountryAssign,
   onCountryUnassign,
-  onCollectionAssign,
-  onCollectionClick,
-  onCollectionUnassign,
-  onNextPage,
-  onPreviousPage,
-  onProductAssign,
-  onProductClick,
-  onProductUnassign,
-  onTabClick,
+  // onCollectionAssign,
+  // onCollectionClick,
+  // onCollectionUnassign,
+  // onNextPage,
+  // onPreviousPage,
+  // onProductAssign,
+  // onProductClick,
+  // onProductUnassign,
+  // onTabClick,
   hasChannelChanged,
   // openChannelsModal,
   onRemove,
   onSubmit,
-  toggle,
-  toggleAll,
-  selected,
-  selectedChannelId,
-  isChecked,
-  categoryListToolbar,
-  collectionListToolbar,
-  productListToolbar
+  // toggle,
+  // toggleAll,
+  // selected,
+  selectedChannelId
+  // isChecked,
+  // categoryListToolbar,
+  // collectionListToolbar,
+  // productListToolbar
 }) => {
   const intl = useIntl();
   const channel = voucher?.channelListings?.find(
@@ -246,7 +246,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   />
                 ) : null}
                 <CardSpacer />
-                {data.type === VoucherTypeEnum.SPECIFIC_PRODUCT &&
+                {/* {data.type === VoucherTypeEnum.SPECIFIC_PRODUCT &&
                 data.discountType.toString() !== "SHIPPING" ? (
                   <>
                     <TabContainer>
@@ -359,7 +359,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                       />
                     )}
                   </>
-                ) : null}
+                ) : null} */}
                 <CardSpacer />
                 {data.discountType.toString() === "SHIPPING" ? (
                   <CountryList
