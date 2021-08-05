@@ -275,6 +275,7 @@ export const fragmentOrderDetails = gql`
     orderType
     transactionCost
     deliveryFee
+    tableName
   }
 `;
 
