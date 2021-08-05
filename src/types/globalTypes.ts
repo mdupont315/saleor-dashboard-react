@@ -2008,6 +2008,7 @@ export interface VoucherInput {
   applyOncePerCustomer?: boolean | null;
   onlyForStaff?: boolean | null;
   usageLimit?: number | null;
+  active?: boolean | null;
 }
 
 export interface VoucherSortingInput {

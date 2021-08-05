@@ -171,6 +171,10 @@ export const orderTypeMessages = defineMessages({
   delivery: {
     defaultMessage: "Delivery",
     description: "order delivery"
+  },
+  dinein: {
+    defaultMessage: "Dine-in",
+    description: "order dine-in"
   }
 });
 
@@ -187,6 +191,11 @@ export const transformOrderType = (
     case OrderType.DELIVERY:
       return {
         localized: intl.formatMessage(orderTypeMessages.delivery),
+        status: StatusType.SUCCESS
+      };
+    case OrderType.DINEIN:
+      return {
+        localized: intl.formatMessage(orderTypeMessages.dinein),
         status: StatusType.SUCCESS
       };
   }

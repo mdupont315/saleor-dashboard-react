@@ -56,6 +56,7 @@ export interface VoucherUpdate_voucherUpdate_voucher {
   countries: (VoucherUpdate_voucherUpdate_voucher_countries | null)[] | null;
   minCheckoutItemsQuantity: number | null;
   channelListings: VoucherUpdate_voucherUpdate_voucher_channelListings[] | null;
+  active: boolean;
 }
 
 export interface VoucherUpdate_voucherUpdate {

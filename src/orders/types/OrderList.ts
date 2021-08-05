@@ -52,6 +52,10 @@ export interface OrderList_orders_edges_node {
   status: OrderStatus;
   total: OrderList_orders_edges_node_total;
   userEmail: string | null;
+  expectedDate?: string | null;
+  expectedTime?: string | null;
+  tableName?: string | null;
+  orderType?: string | null;
 }
 
 export interface OrderList_orders_edges {

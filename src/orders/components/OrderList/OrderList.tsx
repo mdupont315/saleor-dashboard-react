@@ -27,6 +27,7 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { OrderList_orders_edges_node } from "../../types/OrderList";
+import { OrderType, orderTypeItems } from "../../types/OrderType";
 
 const useStyles = makeStyles(
   theme => {
@@ -114,6 +115,12 @@ export const OrderList: React.FC<OrderListProps> = props => {
           >
             <FormattedMessage defaultMessage="No. of Order" />
           </TableCellHeader>
+          <TableCellHeader className={classes.colDate}>
+            <FormattedMessage
+              defaultMessage="Order type"
+              description="Order type"
+            />
+          </TableCellHeader>
           <TableCellHeader
             direction={
               sort.sort === OrderListUrlSortField.date
@@ -124,8 +131,14 @@ export const OrderList: React.FC<OrderListProps> = props => {
             className={classes.colDate}
           >
             <FormattedMessage
-              defaultMessage="Date"
+              defaultMessage="Order placed at"
               description="date when order was placed"
+            />
+          </TableCellHeader>
+          <TableCellHeader className={classes.colDate}>
+            <FormattedMessage
+              defaultMessage="Preferred time"
+              description="dPrefered date"
             />
           </TableCellHeader>
           <TableCellHeader
@@ -204,6 +217,13 @@ export const OrderList: React.FC<OrderListProps> = props => {
               <TableCell className={classes.colNumber}>
                 {maybe(() => order.number) ? "#" + order.number : <Skeleton />}
               </TableCell>
+              <TableCell>
+                {maybe(() => order.orderType) ? (
+                  orderTypeItems[order.orderType]
+                ) : (
+                  <Skeleton />
+                )}
+              </TableCell>
               <TableCell className={classes.colDate}>
                 {maybe(() => order.created) ? (
                   <DateTime date={order.created} />
@@ -211,17 +231,28 @@ export const OrderList: React.FC<OrderListProps> = props => {
                   <Skeleton />
                 )}
               </TableCell>
+              <TableCell>
+                {order.expectedDate &&
+                  order.expectedTime &&
+                  order.expectedDate + " " + order.expectedTime}
+              </TableCell>
               <TableCell className={classes.colCustomer}>
-                {maybe(() => order.billingAddress) ? (
-                  <>
-                    {order.billingAddress.firstName}
-                    &nbsp;
-                    {order.billingAddress.lastName}
-                  </>
-                ) : maybe(() => order.userEmail) !== undefined ? (
-                  order.userEmail
+                {order.tableName && order.orderType === OrderType.dinein ? (
+                  <>{order.tableName}</>
                 ) : (
-                  <Skeleton />
+                  <>
+                    {maybe(() => order.billingAddress) ? (
+                      <>
+                        {order.billingAddress.firstName}
+                        &nbsp;
+                        {order.billingAddress.lastName}
+                      </>
+                    ) : maybe(() => order.userEmail) !== undefined ? (
+                      order.userEmail
+                    ) : (
+                      <Skeleton />
+                    )}
+                  </>
                 )}
               </TableCell>
               <TableCell className={classes.colPayment}>

@@ -68,6 +68,10 @@ export const orderListQuery = gql`
             }
           }
           userEmail
+          expectedDate
+          expectedTime
+          tableName
+          orderType
         }
       }
       pageInfo {

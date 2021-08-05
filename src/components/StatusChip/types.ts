@@ -6,6 +6,7 @@ export enum StatusType {
 }
 
 export enum OrderType {
-  PICKUP = "pickup",
-  DELIVERY = "delivery"
+  PICKUP = "PICKUP",
+  DELIVERY = "DELIVERY",
+  DINEIN = "DINEIN"
 }
