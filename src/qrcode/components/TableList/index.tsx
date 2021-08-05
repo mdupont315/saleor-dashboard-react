@@ -17,7 +17,7 @@ import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
-const numberOfColumns = 3;
+// const numberOfColumns =2;
 
 const useStyles = makeStyles(
   theme => ({
@@ -65,6 +65,9 @@ function TableList(props: any) {
     isChecked,
     onRowClick
   } = props;
+  // console.log(settings);
+
+  const numberOfColumns = 3;
 
   const classes = useStyles(props);
 

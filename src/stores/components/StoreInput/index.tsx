@@ -26,7 +26,8 @@ function StoreInput({
   const { errors, touched, handleBlur, setFieldValue }: any = formikProps;
   const [imagesToUpload, setImagesToUpload] = React.useState<any>({
     logo: [],
-    coverPhoto: []
+    coverPhoto: [],
+    favicon: []
   });
 
   // React.useEffect(() => {
@@ -42,7 +43,8 @@ function StoreInput({
 
   const [tempImgDelete, setTempImgDelete] = React.useState({
     logo: [],
-    coverPhoto: []
+    coverPhoto: [],
+    favicon: []
   });
 
   const handleImageDelete = (id?: string, title?: string) => () => {
@@ -54,12 +56,20 @@ function StoreInput({
         imagesToUpload.logo.splice(index, 1);
         setImagesToUpload({ ...imagesToUpload });
       }
-    } else {
+    } else if (title === "Cover Photo") {
       tempImgDelete.coverPhoto.push(id);
       setTempImgDelete({ ...tempImgDelete });
       const index = imagesToUpload.coverPhoto.findIndex(e => e.id === id);
       if (index !== -1) {
         imagesToUpload.coverPhoto.splice(index, 1);
+        setImagesToUpload({ ...imagesToUpload });
+      }
+    } else {
+      tempImgDelete.favicon.push(id);
+      setTempImgDelete({ ...tempImgDelete });
+      const index = imagesToUpload.favicon.findIndex(e => e.id === id);
+      if (index !== -1) {
+        imagesToUpload.favicon.splice(index, 1);
         setImagesToUpload({ ...imagesToUpload });
       }
     }
@@ -72,6 +82,9 @@ function StoreInput({
       }
       if (imagesToUpload.coverPhoto.length > 0) {
         setFieldValue("coverPhoto", imagesToUpload?.coverPhoto);
+      }
+      if (imagesToUpload.favicon.length > 0) {
+        setFieldValue("favicon", imagesToUpload?.favicon);
       }
     }
   }, [imagesToUpload]);
@@ -149,6 +162,14 @@ function StoreInput({
                 imagesToUpload={values.coverPhoto}
                 setImagesToUpload={setImagesToUpload}
                 carousel={values.coverPhoto}
+                onImageDelete={handleImageDelete}
+              />
+              <StoreMedia
+                title="Favicon Photo"
+                placeholderImage={placeholderImage}
+                imagesToUpload={values.favicon}
+                setImagesToUpload={setImagesToUpload}
+                carousel={values.favicon}
                 onImageDelete={handleImageDelete}
               />
             </>
