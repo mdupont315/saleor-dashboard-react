@@ -109,6 +109,10 @@ export const storeForUser = gql`
         url
         alt
       }
+      favicon {
+        url
+        alt
+      }
       address
       phone
     }

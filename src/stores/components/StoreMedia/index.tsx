@@ -182,10 +182,23 @@ const StoreMedia: React.FC<PageCarouselProps> = props => {
               }
             ]
           }));
-        } else {
+        } else if (title === "Cover Photo") {
           setImagesToUpload(prevImagesToUpload => ({
             ...prevImagesToUpload,
             coverPhoto: [
+              {
+                alt: "",
+                id: "",
+                sortOrder: fileIndex,
+                url: event.target.result as string,
+                image: file
+              }
+            ]
+          }));
+        } else {
+          setImagesToUpload(prevImagesToUpload => ({
+            ...prevImagesToUpload,
+            favicon: [
               {
                 alt: "",
                 id: "",

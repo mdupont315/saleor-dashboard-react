@@ -102,6 +102,7 @@ const StoreDetailPage: React.FC<IProps> = ({
           password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],
           coverPhoto: [initialValues.store.coverPhoto || ""],
+          favicon: [initialValues.store.favicon || ""],
           address: initialValues.store.address,
           phone: initialValues.store.phone
         }
@@ -122,7 +123,8 @@ const StoreDetailPage: React.FC<IProps> = ({
     const cloneObject = { ...values };
     const value = Object.assign(cloneObject, {
       logo: initialValues?.store?.logo || "",
-      coverPhoto: initialValues?.store?.coverPhoto || ""
+      coverPhoto: initialValues?.store?.coverPhoto || "",
+      favicon: initialValues?.store?.favicon || ""
     });
 
     return JSON.stringify(value) === JSON.stringify(initialValues?.store);
