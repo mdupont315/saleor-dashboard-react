@@ -140,7 +140,7 @@ function TableList(props: any) {
                   {table && (
                     <img
                       style={{ width: "50px", height: "50px" }}
-                      src={table?.tableQrCode}
+                      src={encodeURI(table?.tableQrCode)}
                       alt=""
                     />
                   )}

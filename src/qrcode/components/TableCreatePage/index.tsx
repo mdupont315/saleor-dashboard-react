@@ -38,16 +38,17 @@ function TableCreatePage({ onBack, id, data, onSubmit }: IProps) {
   t.splice(-1, 1);
 
   const handleSubmit = values => {
+    const table = values.tableName.replace(" ", "");
     setUrl(
       `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
         ":"
-      )}/?qr=${values.tableName}`
+      )}/?qr=${table}`
     );
     onSubmit({
-      ...values,
+      tableName: table,
       tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
         ":"
-      )}/?qr=${values.tableName}`
+      )}/?qr=${table}`
     });
   };
 
@@ -57,13 +58,16 @@ function TableCreatePage({ onBack, id, data, onSubmit }: IProps) {
 
   React.useEffect(() => {
     if (data) {
+      const table = data.tableName.replace(" ", "");
+
       setUrl(
         `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
           ":"
-        )}/?qr=${data.tableName}`
+        )}/?qr=${table}`
       );
     }
   }, []);
+
   //   https://chart.googleapis.com/chart?cht=qr&&chs=400x400chl=
   return (
     <Container>
