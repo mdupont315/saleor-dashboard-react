@@ -14,6 +14,7 @@ import Grid from "@saleor/components/Grid";
 import { FormChange } from "@saleor/hooks/useForm";
 import React from "react";
 import { useIntl } from "react-intl";
+
 import StoreMedia from "../StoreMedia";
 
 const useStyles = makeStyles(theme => ({

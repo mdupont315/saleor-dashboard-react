@@ -17,6 +17,7 @@ export const getListTable = gql`
           id
           tableName
           tableQrCode
+          active
         }
       }
     }
@@ -48,6 +49,7 @@ export const createTableMutation = gql`
         id
         tableName
         tableQrCode
+        active
       }
     }
   }

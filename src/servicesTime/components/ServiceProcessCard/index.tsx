@@ -4,6 +4,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
   InputLabel,
   MenuItem,
   Radio,
@@ -11,6 +12,7 @@ import {
   Select
 } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -86,162 +88,128 @@ function ServiceProcessCard({
     <Card>
       <CardTitle title={intl.formatMessage(titleHead)} />
       <CardContent>
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">
-            Delivery time
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={process.deliveryTime}
-            name="deliveryTime"
-            onChange={handleChange}
-            label="From"
+        <div>
+          <p
+            style={{
+              borderBottom: "1px solid #EAEAEA",
+              margin: "0 0 24px 0",
+              padding: "0 0 12px 0"
+            }}
           >
-            {renDeliveryTime().map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item} minutes
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            Standard {type} orders
+          </p>
+        </div>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Delivery time
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={process.deliveryTime}
+                name="deliveryTime"
+                onChange={handleChange}
+                label="From"
+              >
+                {renDeliveryTime().map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item} minutes
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Timepicker gap
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                name="timePickerGap"
+                value={process.timePickerGap}
+                onChange={handleChange}
+                label="From"
+              >
+                {renDeliveryTime().map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item} minutes
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
 
         <FormSpacer />
 
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">
-            Timepicker gap
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            name="timePickerGap"
-            value={process.timePickerGap}
-            onChange={handleChange}
-            label="From"
+        <ControlledSwitch
+          name="asSoonAs"
+          label={`Enable “as soon as possible” option`}
+          checked={process.asSoonAs}
+          onChange={handleChange}
+        />
+
+        <FormSpacer />
+        <div>
+          <p
+            style={{
+              borderBottom: "1px solid #EAEAEA",
+              margin: "0 0 24px 0",
+              padding: "0 0 12px 0"
+            }}
           >
-            {renDeliveryTime().map((item, index) => (
-              <MenuItem key={index} value={item}>
-                {item} minutes
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+            Scheduled {type} preorders
+          </p>
+        </div>
+
+        <ControlledSwitch
+          name="preOrder"
+          label={`Enable scheduled preorders`}
+          checked={process.preOrder}
+          onChange={handleChange}
+        />
 
         <FormSpacer />
 
-        <FormControl component="fieldset" fullWidth>
-          <FormLabel component="legend">As soon as possible option</FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            name="asSoonAs"
-            value={process.asSoonAs}
-            onChange={handleChange}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridColumnGap: "10px",
-                gridTemplateColumns: "auto auto"
-              }}
-            >
-              <FormControlLabel
-                value={true}
-                control={<Radio />}
-                label="Enable"
-              />
-              <FormControlLabel
-                value={false}
-                control={<Radio />}
-                label="Disable"
-              />
-            </div>
-          </RadioGroup>
-        </FormControl>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Preorder day
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={process.preOrderDay}
+                name="preOrderDay"
+                onChange={handleChange}
+                label="From"
+              >
+                {renPreOrderDay().map((item, index) => (
+                  <MenuItem value={item} key={index}>
+                    {item} day
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <ControlledSwitch
+              name="sameDayOrder"
+              label={`Enable same-day orders`}
+              checked={process.sameDayOrder}
+              onChange={handleChange}
+            />
+          </Grid>
+        </Grid>
 
         <FormSpacer />
-
-        <FormControl component="fieldset" fullWidth>
-          <FormLabel component="legend">Allow preorders</FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            name="preOrder"
-            value={process.preOrder}
-            onChange={handleChange}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridColumnGap: "10px",
-                gridTemplateColumns: "auto auto"
-              }}
-            >
-              <FormControlLabel
-                value={true}
-                control={<Radio />}
-                label="Enable"
-              />
-              <FormControlLabel
-                value={false}
-                control={<Radio />}
-                label="Disable"
-              />
-            </div>
-          </RadioGroup>
-        </FormControl>
-
-        <FormSpacer />
-
-        <FormControl variant="outlined" fullWidth>
-          <InputLabel id="demo-simple-select-outlined-label">
-            Preorder day
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={process.preOrderDay}
-            name="preOrderDay"
-            onChange={handleChange}
-            label="From"
-          >
-            {renPreOrderDay().map((item, index) => (
-              <MenuItem value={item} key={index}>
-                {item} day
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <FormSpacer />
-
-        <FormControl component="fieldset" fullWidth>
-          <FormLabel component="legend">Same-day orders</FormLabel>
-          <RadioGroup
-            aria-label="gender"
-            name="sameDayOrder"
-            value={process.sameDayOrder}
-            onChange={handleChange}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridColumnGap: "10px",
-                gridTemplateColumns: "auto auto"
-              }}
-            >
-              <FormControlLabel
-                value={true}
-                control={<Radio />}
-                label="Enable"
-              />
-              <FormControlLabel
-                value={false}
-                control={<Radio />}
-                label="Disable"
-              />
-            </div>
-          </RadioGroup>
-        </FormControl>
       </CardContent>
     </Card>
   );

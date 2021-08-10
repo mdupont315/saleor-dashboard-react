@@ -7,6 +7,7 @@ import ordersIcon from "@assets/images/menu-orders-icon.svg";
 import { voucherListPath } from "@saleor/discounts/urls";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import { IntlShape } from "react-intl";
+
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
 import { customerListUrl } from "../../customers/urls";
