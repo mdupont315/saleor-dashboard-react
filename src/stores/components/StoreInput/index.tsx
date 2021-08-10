@@ -1,12 +1,36 @@
+/* eslint-disable local-rules/named-styles */
 import placeholderImage from "@assets/images/placeholder255x255.png";
-import { Card, CardContent, TextField } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  makeStyles,
+  TextField,
+  Typography
+} from "@material-ui/core";
+import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
+import Grid from "@saleor/components/Grid";
 import { FormChange } from "@saleor/hooks/useForm";
 import React from "react";
 import { useIntl } from "react-intl";
-
 import StoreMedia from "../StoreMedia";
+
+const useStyles = makeStyles(theme => ({
+  configurationCategory: {
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "1fr"
+    },
+    borderTop: `solid 1px ${theme.palette.divider}`,
+    display: "grid",
+    gridColumnGap: theme.spacing(4) + "px",
+    gridTemplateColumns: "1fr 3fr",
+    paddingTop: theme.spacing(3)
+  },
+  configurationLabel: {
+    paddingBottom: 20
+  }
+}));
 
 interface IProps {
   header: string;
@@ -23,6 +47,7 @@ function StoreInput({
   ...formikProps
 }: IProps) {
   const intl = useIntl();
+  const classes = useStyles();
   const { errors, touched, handleBlur, setFieldValue }: any = formikProps;
   const [imagesToUpload, setImagesToUpload] = React.useState<any>({
     logo: [],
@@ -90,64 +115,184 @@ function StoreInput({
   }, [imagesToUpload]);
 
   return (
-    <Card>
-      <CardTitle title={header} />
-      <CardContent>
-        <>
-          <TextField
-            label={intl.formatMessage({
-              defaultMessage: "Store Name*"
-            })}
-            fullWidth
-            name="name"
-            value={values.name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.name && touched.name}
-            helperText={errors.name && touched.name && errors.name}
-          />
-          <FormSpacer />
-          <TextField
-            label={intl.formatMessage({
-              defaultMessage: "Domain*"
-            })}
-            fullWidth
-            name="domain"
-            value={values.domain}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.domain && touched.domain}
-            helperText={errors.domain && touched.domain && errors.domain}
-          />
-          <FormSpacer />
-          {storeId ? (
+    <>
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              Site Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              These are general settings for your store. They define how your
+              customers can access it.
+            </p>
+          </Typography>
+        </div>
+        <div>
+          <Card>
+            <CardTitle title="Site Settings" />
+            <CardContent>
+              <p
+                style={{
+                  fontSize: "14px",
+                  margin: "0 0 3px 0"
+                }}
+              >
+                Your store URL
+              </p>
+              <a
+                href={`http://${values.domain}`}
+                style={{
+                  color: "#06847B",
+                  fontSize: "15px",
+                  textDecoration: "none"
+                }}
+              >{`http://${values.domain}`}</a>
+              <FormSpacer />
+              <TextField
+                label={intl.formatMessage({
+                  defaultMessage: "Custom domain name"
+                })}
+                fullWidth
+                name="domain"
+                value={values.domain}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.domain && touched.domain}
+                helperText={errors.domain && touched.domain && errors.domain}
+              />
+            </CardContent>
+          </Card>
+          <CardSpacer />
+          <Card>
+            <CardTitle title={header} />
+            <CardContent>
+              <>
+                <TextField
+                  label={intl.formatMessage({
+                    defaultMessage: "Store Name*"
+                  })}
+                  fullWidth
+                  name="name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={errors.name && touched.name}
+                  helperText={errors.name && touched.name && errors.name}
+                />
+                <FormSpacer />
+
+                <FormSpacer />
+                {storeId ? (
+                  <>
+                    <TextField
+                      label={intl.formatMessage({
+                        defaultMessage: "Address"
+                      })}
+                      fullWidth
+                      name="address"
+                      value={values.address}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.address && touched.address}
+                      helperText={
+                        errors.address && touched.address && errors.address
+                      }
+                    />
+                    <FormSpacer />
+                    <Grid>
+                      <div>
+                        <TextField
+                          label={intl.formatMessage({
+                            defaultMessage: "City"
+                          })}
+                          fullWidth
+                          name="city"
+                          value={values.city}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={errors.city && touched.city}
+                          helperText={
+                            errors.city && touched.city && errors.city
+                          }
+                        />
+                      </div>
+                      <div>
+                        <TextField
+                          label={intl.formatMessage({
+                            defaultMessage: "Postalcode"
+                          })}
+                          fullWidth
+                          name="postalcode"
+                          value={values.postalcode}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={errors.postalcode && touched.postalcode}
+                          helperText={
+                            errors.postalcode &&
+                            touched.postalcode &&
+                            errors.postalcode
+                          }
+                        />
+                      </div>
+                    </Grid>
+                    <FormSpacer />
+                    <TextField
+                      label={intl.formatMessage({
+                        defaultMessage: "Phone"
+                      })}
+                      fullWidth
+                      name="phone"
+                      value={values.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.phone && touched.phone}
+                      helperText={errors.phone && touched.phone && errors.phone}
+                    />
+                    <FormSpacer />
+                  </>
+                ) : (
+                  <>
+                    <TextField
+                      label={intl.formatMessage({
+                        defaultMessage: "Email*"
+                      })}
+                      fullWidth
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.email && touched.email}
+                      helperText={errors.email && touched.email && errors.email}
+                    />
+                    <FormSpacer />
+
+                    <TextField
+                      label={intl.formatMessage({
+                        defaultMessage: "password*"
+                      })}
+                      fullWidth
+                      name="password"
+                      type="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.password && touched.password}
+                      helperText={
+                        errors.password && touched.password && errors.password
+                      }
+                    />
+                  </>
+                )}
+
+                <FormSpacer />
+                <FormSpacer />
+              </>
+            </CardContent>
+          </Card>
+
+          {storeId && (
             <>
-              <TextField
-                label={intl.formatMessage({
-                  defaultMessage: "Address"
-                })}
-                fullWidth
-                name="address"
-                value={values.address}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.address && touched.address}
-                helperText={errors.address && touched.address && errors.address}
-              />
-              <FormSpacer />
-              <TextField
-                label={intl.formatMessage({
-                  defaultMessage: "Phone"
-                })}
-                fullWidth
-                name="phone"
-                value={values.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.phone && touched.phone}
-                helperText={errors.phone && touched.phone && errors.phone}
-              />
-              <FormSpacer />
               <StoreMedia
                 title="Logo"
                 placeholderImage={placeholderImage}
@@ -173,45 +318,10 @@ function StoreInput({
                 onImageDelete={handleImageDelete}
               />
             </>
-          ) : (
-            <>
-              <TextField
-                label={intl.formatMessage({
-                  defaultMessage: "Email*"
-                })}
-                fullWidth
-                name="email"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.email && touched.email}
-                helperText={errors.email && touched.email && errors.email}
-              />
-              <FormSpacer />
-
-              <TextField
-                label={intl.formatMessage({
-                  defaultMessage: "password*"
-                })}
-                fullWidth
-                name="password"
-                type="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.password && touched.password}
-                helperText={
-                  errors.password && touched.password && errors.password
-                }
-              />
-            </>
           )}
-
-          <FormSpacer />
-          <FormSpacer />
-        </>
-      </CardContent>
-    </Card>
+        </div>
+      </div>
+    </>
   );
 }
 

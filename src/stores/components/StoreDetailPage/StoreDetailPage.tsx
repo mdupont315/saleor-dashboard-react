@@ -104,7 +104,9 @@ const StoreDetailPage: React.FC<IProps> = ({
           coverPhoto: [initialValues.store.coverPhoto || ""],
           favicon: [initialValues.store.favicon || ""],
           address: initialValues.store.address,
-          phone: initialValues.store.phone
+          phone: initialValues.store.phone,
+          postalcode: initialValues.store.postalCode,
+          city: initialValues.store.city
         }
       : {
           name: "",

@@ -5,8 +5,9 @@ export const commonMessages = defineMessages({
     defaultMessage: "Availability"
   },
   vouchers: {
-    defaultMessage: "Vouchers"
+    defaultMessage: "Discounts"
   },
+
   delivery: {
     defaultMessage: "Delivery"
   },

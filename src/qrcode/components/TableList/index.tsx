@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import Checkbox from "@saleor/components/Checkbox";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
+import StatusLabel from "@saleor/components/StatusLabel";
 import TableCellHeader from "@saleor/components/TableCellHeader";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
@@ -91,10 +92,10 @@ function TableList(props: any) {
           onClick={() => onSort(TableListUrlSortField.name)}
           className={classes.colName}
         >
-          <FormattedMessage defaultMessage="Name" />
+          <FormattedMessage defaultMessage="QR Location" />
         </TableCellHeader>
         <TableCellHeader>
-          <FormattedMessage defaultMessage="QRcode" />
+          <FormattedMessage defaultMessage="Status" />
         </TableCellHeader>
       </TableHead>
       <TableFooter>
@@ -137,13 +138,7 @@ function TableList(props: any) {
                   {table && table?.tableName}
                 </TableCell>
                 <TableCell className={classes.colName}>
-                  {table && (
-                    <img
-                      style={{ width: "50px", height: "50px" }}
-                      src={encodeURI(table?.tableQrCode)}
-                      alt=""
-                    />
-                  )}
+                  {table && <StatusLabel status="success" label={"isActive"} />}
                 </TableCell>
               </TableRow>
             );

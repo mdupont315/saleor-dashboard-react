@@ -102,8 +102,13 @@ function TableListViewComponent({ params }: IProps) {
       closeModal();
     }
   };
-  // console.log(params.ids);
 
+  React.useEffect(() => {
+    console.log("hemm");
+    refetch();
+  }, []);
+  // console.log(params.ids);
+  // refetch();
   return (
     <>
       <TypedBulkRemoveTables onCompleted={handleBulkDelete}>

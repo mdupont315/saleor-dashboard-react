@@ -29,6 +29,7 @@ const getMyStore = gql`
       phone
       deliveryStatus
       pickupStatus
+      tableServiceStatus
       logo {
         url
         alt
