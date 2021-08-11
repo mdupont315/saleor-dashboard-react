@@ -28,6 +28,7 @@ import { PermissionEnum } from "@saleor/types/globalTypes";
 // import { warehouseSection } from "@saleor/warehouses/urls";
 import React from "react";
 import { IntlShape, useIntl } from "react-intl";
+
 import ConfigurationPage, { MenuSection } from "./ConfigurationPage";
 
 export function createConfigurationMenu(

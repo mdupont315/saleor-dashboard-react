@@ -5,7 +5,8 @@ import {
   CardContent,
   Container,
   Grid,
-  makeStyles
+  makeStyles,
+  Typography
 } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
@@ -23,7 +24,7 @@ import DeliveryAreaCard from "./DeliveryAreaCard";
 import DeliveryFeeCard from "./DeliveryFeeCard";
 
 const useStyles = makeStyles(
-  () => ({
+  theme => ({
     root: {
       display: "flex",
       alignItems: "center",
@@ -32,6 +33,19 @@ const useStyles = makeStyles(
     grid: {
       marginLeft: 25,
       marginBottom: 15
+    },
+    configurationCategory: {
+      [theme.breakpoints.down("md")]: {
+        gridTemplateColumns: "1fr"
+      },
+      borderTop: `solid 1px ${theme.palette.divider}`,
+      display: "grid",
+      gridColumnGap: theme.spacing(4) + "px",
+      gridTemplateColumns: "1fr 3fr",
+      paddingTop: theme.spacing(3)
+    },
+    configurationLabel: {
+      paddingBottom: 20
     }
   }),
   { name: "DeliveryViewPage" }
@@ -62,6 +76,7 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
 
   return (
     <Container>
+      <FormSpacer />
       <div>
         {data !== undefined ? (
           <Formik
@@ -79,58 +94,116 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
             }) => (
               <Form>
                 <PageHeader title={intl.formatMessage(sectionNames.delivery)} />
+
                 <FieldArray
                   name="deliveryArea"
                   render={arrayHelpers => (
                     <>
-                      <Card>
-                        <CardTitle
-                          title={intl.formatMessage(
-                            commonMessages.deliveryArea
-                          )}
-                        />
-                        <CardContent>
-                          {values.deliveryArea.map((value, index) => (
-                            <DeliveryAreaCard
-                              key={index}
-                              value={value}
-                              arrayHelpers={arrayHelpers}
-                              index={index}
-                              errors={errors}
-                              touched={touched}
-                              handleChange={handleChange}
-                              handleBlur={handleBlur}
+                      <div className={S.configurationCategory}>
+                        <div className={S.configurationLabel}>
+                          <Typography>
+                            <h2
+                              style={{
+                                fontSize: "16px",
+                                fontWeight: 400,
+                                color: "#3d3d3d"
+                              }}
+                            >
+                              Delivery order Settings
+                            </h2>
+                            <p
+                              style={{
+                                fontSize: "14px",
+                                fontWeight: 400,
+                                color: "#3d3d3d"
+                              }}
+                            >
+                              Determine when and how your customers can place
+                              delivery orders.
+                            </p>
+                          </Typography>
+                        </div>
+                        <div>
+                          <Card>
+                            <CardTitle
+                              title={intl.formatMessage(
+                                commonMessages.deliveryArea
+                              )}
                             />
-                          ))}
-                        </CardContent>
-                        <Grid className={S.grid}>
-                          <Button
-                            href={""}
-                            color="primary"
-                            variant="contained"
-                            target="_blank"
-                            onClick={() =>
-                              arrayHelpers.push({ to: "", from: "" })
-                            }
-                          >
-                            <FormattedMessage
-                              defaultMessage="Add a postcode range"
-                              description="button"
-                            />
-                          </Button>
-                        </Grid>
-                      </Card>
+                            <CardContent>
+                              {values.deliveryArea.map((value, index) => (
+                                <DeliveryAreaCard
+                                  key={index}
+                                  value={value}
+                                  arrayHelpers={arrayHelpers}
+                                  index={index}
+                                  errors={errors}
+                                  touched={touched}
+                                  handleChange={handleChange}
+                                  handleBlur={handleBlur}
+                                />
+                              ))}
+                            </CardContent>
+                            <Grid className={S.grid}>
+                              <Button
+                                href={""}
+                                color="primary"
+                                variant="contained"
+                                target="_blank"
+                                onClick={() =>
+                                  arrayHelpers.push({ to: "", from: "" })
+                                }
+                              >
+                                <FormattedMessage
+                                  defaultMessage="Add a postcode range"
+                                  description="button"
+                                />
+                              </Button>
+                            </Grid>
+                          </Card>
+                        </div>
+                      </div>
+
                       <FormSpacer />
                     </>
                   )}
                 />
-                <DeliveryFeeCard
-                  handleChange={handleChange}
-                  values={values}
-                  handleBlur={handleBlur}
-                  errors={errors}
-                  touched={touched}
-                />
+
+                <div className={S.configurationCategory}>
+                  <div className={S.configurationLabel}>
+                    <Typography>
+                      <h2
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 400,
+                          color: "#3d3d3d"
+                        }}
+                      >
+                        Delivery order Settings
+                      </h2>
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 400,
+                          color: "#3d3d3d"
+                        }}
+                      >
+                        Determine when and how your customers can place delivery
+                        orders.
+                      </p>
+                    </Typography>
+                  </div>
+                  <div>
+                    <DeliveryFeeCard
+                      handleChange={handleChange}
+                      values={values}
+                      handleBlur={handleBlur}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                </div>
+
                 <SaveButtonBar
                   disabled={compareWithData(values)}
                   state={updateEmergencyOpts.loading}

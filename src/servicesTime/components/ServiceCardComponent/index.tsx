@@ -101,7 +101,7 @@ function ServiceCardComponent({
         )
       };
       setServiceTime({ ...serviceTime, deliveryService: editValue });
-    } else {
+    } else if (type === "pickup") {
       const editValue = [...serviceTime.pickupService];
       editValue[indexItem] = {
         ...editValue[indexItem],
@@ -110,6 +110,15 @@ function ServiceCardComponent({
         )
       };
       setServiceTime({ ...serviceTime, pickupService: editValue });
+    } else {
+      const editValue = [...serviceTime.tableService];
+      editValue[indexItem] = {
+        ...editValue[indexItem],
+        days: editValue[indexItem].days.map((item, i) =>
+          i === index ? !item : item
+        )
+      };
+      setServiceTime({ ...serviceTime, tableService: editValue });
     }
   };
   const arr = renHours();
@@ -122,10 +131,16 @@ function ServiceCardComponent({
         deliveryService: [...serviceTime.deliveryService, { ...newTest }]
       };
       setServiceTime(clone);
-    } else {
+    } else if (type === "pickup") {
       const clone = {
         ...serviceTime,
         pickupService: [...serviceTime.pickupService, { ...newTest }]
+      };
+      setServiceTime(clone);
+    } else {
+      const clone = {
+        ...serviceTime,
+        tableService: [...serviceTime.tableService, { ...newTest }]
       };
       setServiceTime(clone);
     }
@@ -136,9 +151,13 @@ function ServiceCardComponent({
       const clone = { ...serviceTime };
       clone.deliveryService.splice(index, 1);
       setServiceTime(clone);
-    } else {
+    } else if (type === "pickup") {
       const clone = { ...serviceTime };
       clone.pickupService.splice(index, 1);
+      setServiceTime(clone);
+    } else {
+      const clone = { ...serviceTime };
+      clone.tableService.splice(index, 1);
       setServiceTime(clone);
     }
   };
@@ -153,12 +172,20 @@ function ServiceCardComponent({
       }
 
       setServiceTime(clone);
-    } else {
+    } else if (type === "pickup") {
       const clone = { ...serviceTime };
       if (isFrom) {
         clone.pickupService[indexItem].open = e.target.value;
       } else {
         clone.pickupService[indexItem].close = e.target.value;
+      }
+      setServiceTime(clone);
+    } else {
+      const clone = { ...serviceTime };
+      if (isFrom) {
+        clone.tableService[indexItem].open = e.target.value;
+      } else {
+        clone.tableService[indexItem].close = e.target.value;
       }
       setServiceTime(clone);
     }
@@ -167,7 +194,9 @@ function ServiceCardComponent({
   const listArr =
     type === "delivery"
       ? serviceTime.deliveryService
-      : serviceTime.pickupService;
+      : type === "pickup"
+      ? serviceTime.pickupService
+      : serviceTime.tableService;
   return (
     <Card>
       <CardTitle title={intl.formatMessage(titleHead)} />

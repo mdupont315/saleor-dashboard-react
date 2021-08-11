@@ -48,6 +48,9 @@ export const commonMessages = defineMessages({
   pickupService: {
     defaultMessage: "Pick-up service hours"
   },
+  qrService: {
+    defaultMessage: "QR Order Hours"
+  },
   demo: {
     defaultMessage:
       "Just to let you know... You're in demo mode. You can play around with the dashboard but can't save changes.",

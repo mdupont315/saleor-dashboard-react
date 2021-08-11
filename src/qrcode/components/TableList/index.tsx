@@ -138,7 +138,12 @@ function TableList(props: any) {
                   {table && table?.tableName}
                 </TableCell>
                 <TableCell className={classes.colName}>
-                  {table && <StatusLabel status="success" label={"isActive"} />}
+                  {table && (
+                    <StatusLabel
+                      status={table.active ? "success" : "error"}
+                      label={table.active ? "Active" : "Inactive"}
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             );
