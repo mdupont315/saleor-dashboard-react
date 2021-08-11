@@ -1,5 +1,6 @@
 // import { channelsListUrl } from "@saleor/channels/urls";
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { deliverySection } from "@saleor/delivery/urls";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import Attributes from "@saleor/icons/Attributes";
@@ -20,6 +21,7 @@ import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
 import { pluginListUrl } from "@saleor/plugins/urls";
 import { productTypeListUrl } from "@saleor/productTypes/urls";
 import { qrListUrl } from "@saleor/qrcode/urls";
+import { secvicesSection } from "@saleor/servicesTime/urls";
 // import { shippingZonesListUrl } from "@saleor/shipping/urls";
 import { staffListUrl } from "@saleor/staff/urls";
 import { PermissionEnum } from "@saleor/types/globalTypes";
@@ -95,19 +97,53 @@ export function createConfigurationMenu(
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "Notification Settings"
+        defaultMessage: "Store Settings"
       }),
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage and update your notification",
-            id: "configurationNotification"
+            defaultMessage: "View and update your site settings",
+            id: "configurationMenuQRcode"
           }),
-          icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SHIPPING,
-          title: intl.formatMessage(sectionNames.Notification),
-          url: notificationUrl(),
-          testId: "configurationMenuShipping"
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SETTINGS,
+          title: "Site Settings",
+          url: "/stores",
+          testId: "configurationMenuQRcode"
+        },
+        {
+          description: intl.formatMessage({
+            defaultMessage:
+              "Manage your service hours, delivery time, preordering settings",
+            id: "configurationMenuQRcode"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SETTINGS,
+          title: "Ordering",
+          url: secvicesSection,
+          testId: "configurationMenuQRcode"
+        },
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Manage your delivery area and fees",
+            id: "configurationMenuQRcode"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SETTINGS,
+          title: "Delivery Settings",
+          url: deliverySection,
+          testId: "configurationMenuQRcode"
+        },
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Define and manage your table QRcode",
+            id: "configurationMenuQRcode"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SETTINGS,
+          title: intl.formatMessage(sectionNames.QRcode),
+          url: qrListUrl(),
+          testId: "configurationMenuQRcode"
         },
         {
           description: intl.formatMessage({
@@ -124,22 +160,23 @@ export function createConfigurationMenu(
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "QRcode"
+        defaultMessage: "Notification Settings"
       }),
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Define and manage your table QRcode",
-            id: "configurationMenuQRcode"
+            defaultMessage: "Manage and update your notification",
+            id: "configurationNotification"
           }),
-          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
-          title: intl.formatMessage(sectionNames.QRcode),
-          url: qrListUrl(),
-          testId: "configurationMenuQRcode"
+          icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SHIPPING,
+          title: intl.formatMessage(sectionNames.Notification),
+          url: notificationUrl(),
+          testId: "configurationMenuShipping"
         }
       ]
     }
+
     // {
     //   label: intl.formatMessage({
     //     defaultMessage: "Multichannel"

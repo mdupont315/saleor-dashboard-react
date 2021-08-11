@@ -17,6 +17,7 @@ export const getListTable = gql`
           id
           tableName
           tableQrCode
+          active
         }
       }
     }
@@ -30,6 +31,7 @@ export const getTableDetail = gql`
       id
       tableName
       tableQrCode
+      active
     }
   }
 `;
@@ -47,13 +49,14 @@ export const createTableMutation = gql`
         id
         tableName
         tableQrCode
+        active
       }
     }
   }
 `;
 
 export const updateTableMutation = gql`
-  mutation UpdateTable($id: ID!, $input: TableServiceInput!) {
+  mutation UpdateTable($id: ID!, $input: TableServiceUpdateInput!) {
     tableServiceUpdate(id: $id, input: $input) {
       errors {
         field

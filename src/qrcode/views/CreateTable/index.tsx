@@ -23,6 +23,8 @@ function TableCreateViewComponent({ id }: IProps) {
   const intl = useIntl();
   const navigate = useNavigator();
   const notify = useNotifier();
+  const t = window.location.origin.split(":");
+  t.splice(-1, 1);
   const [createTable] = useMutation(createTableMutation, {
     onCompleted: data => {
       if (data?.tableServiceCreate?.errors.length > 0) {
@@ -31,11 +33,25 @@ function TableCreateViewComponent({ id }: IProps) {
           text: data?.tableServiceCreate?.errors[0]?.message
         });
       } else {
-        notify({
-          status: "success",
-          text: intl.formatMessage(commonMessages.savedChanges)
+        const { id, tableName } = data?.tableServiceCreate?.tableService;
+
+        updateTable({
+          variables: {
+            id,
+            input: {
+              tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
+                ":"
+              )}/?qr=${id}`,
+              tableName
+            }
+          }
         });
-        navigate(qrListUrl());
+
+        // notify({
+        //   status: "success",
+        //   text: intl.formatMessage(commonMessages.savedChanges)
+        // });
+        // navigate(qrListUrl());
       }
     }
   });
@@ -57,12 +73,15 @@ function TableCreateViewComponent({ id }: IProps) {
     }
   });
   const handleSubmit = values => {
+    // console.log(values);
+
     if (!id) {
       createTable({
         variables: {
           input: {
             tableName: values.tableName,
-            tableQrCode: values.tableQrCode
+            tableQrCode: values.tableQrCode,
+            active: values.active
           }
         }
       });
@@ -72,19 +91,23 @@ function TableCreateViewComponent({ id }: IProps) {
           id,
           input: {
             tableName: values.tableName,
-            tableQrCode: values.tableQrCode
+            // tableQrCode: values.tableQrCode,
+            active: values.active
           }
         }
       });
     }
   };
   if (id) {
-    const { data } = useGetTableDetail({
+    const { data, loading, refetch } = useGetTableDetail({
       displayLoader: true,
       variables: {
         id
       }
     });
+    if (loading) {
+      refetch();
+    }
     return (
       <>
         <WindowTitle
@@ -99,6 +122,7 @@ function TableCreateViewComponent({ id }: IProps) {
             id={id}
             data={maybe(() => data?.tableService)}
             onSubmit={handleSubmit}
+            saveButtonBarState="default"
           />
         )}
       </>
@@ -113,6 +137,7 @@ function TableCreateViewComponent({ id }: IProps) {
           })}
         />
         <TableCreatePage
+          saveButtonBarState="default"
           onBack={() => navigate(qrListUrl())}
           onSubmit={handleSubmit}
         />

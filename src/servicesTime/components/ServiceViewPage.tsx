@@ -1,13 +1,14 @@
-import { Container } from "@material-ui/core";
+/* eslint-disable local-rules/named-styles */
+import { Container, makeStyles, Typography } from "@material-ui/core";
+import CardSpacer from "@saleor/components/CardSpacer";
 import FormSpacer from "@saleor/components/FormSpacer";
-import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
+import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
-
 import {
   useCreateServiceTime,
   useListServiceTime,
@@ -25,6 +26,13 @@ const data = {
     }
   ],
   pickupService: [
+    {
+      days: [false, false, false, false, false, false, false],
+      open: "0:0",
+      close: "23:55"
+    }
+  ],
+  tableService: [
     {
       days: [false, false, false, false, false, false, false],
       open: "0:0",
@@ -52,11 +60,28 @@ const initProcess = {
   }
 };
 
+const useStyles = makeStyles(theme => ({
+  configurationCategory: {
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "1fr"
+    },
+    borderTop: `solid 1px ${theme.palette.divider}`,
+    display: "grid",
+    gridColumnGap: theme.spacing(4) + "px",
+    gridTemplateColumns: "1fr 3fr",
+    paddingTop: theme.spacing(3)
+  },
+  configurationLabel: {
+    paddingBottom: 20
+  }
+}));
+
 function ServiceViewPage() {
   const intl = useIntl();
+  const navigate = useNavigator();
   const notify = useNotifier();
   const [serviceTime, setServiceTime] = React.useState(data);
-
+  const classes = useStyles();
   const [serviceProcess, setServiceProcess] = React.useState(initProcess);
 
   // console.log(serviceTime);
@@ -117,6 +142,9 @@ function ServiceViewPage() {
         const pu = JSON.parse(
           listService?.serviceTimes?.edges[0].node.puServiceTime
         )?.pu;
+        const tb = JSON.parse(
+          listService?.serviceTimes?.edges[0].node.tableServiceTime
+        )?.tb;
 
         const process = {
           deliveryProcess: {
@@ -145,7 +173,8 @@ function ServiceViewPage() {
         setServiceTime({
           ...serviceTime,
           deliveryService: dl,
-          pickupService: pu
+          pickupService: pu,
+          tableService: tb
         });
 
         setServiceProcess(process);
@@ -167,7 +196,8 @@ function ServiceViewPage() {
     puAllowPreorder: serviceProcess.pickupProcess.preOrder,
     puPreorderDay: serviceProcess.pickupProcess.preOrderDay,
     puSameDayOrder: serviceProcess.pickupProcess.sameDayOrder,
-    puServiceTime: JSON.stringify({ pu: serviceTime.pickupService })
+    puServiceTime: JSON.stringify({ pu: serviceTime.pickupService }),
+    tableServiceTime: JSON.stringify({ tb: serviceTime.tableService })
   };
 
   const handleClick = () => {
@@ -236,6 +266,10 @@ function ServiceViewPage() {
         puServiceTime: ids?.serviceTimes?.edges[0].node.puServiceTime.replace(
           /\s/g,
           ""
+        ),
+        talbleServiceTime: ids?.serviceTimes?.edges[0].node.tableServiceTime.replace(
+          /\s/g,
+          ""
         )
       });
 
@@ -245,7 +279,18 @@ function ServiceViewPage() {
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.serviceTime)} />
-      <Grid>
+
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              Delivery order Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine when and how your customers can place delivery orders.
+            </p>
+          </Typography>
+        </div>
         <div>
           <ServiceCardComponent
             titleHead={commonMessages.deliveryService}
@@ -253,23 +298,36 @@ function ServiceViewPage() {
             type="delivery"
             setServiceTime={setServiceTime}
           />
-          <FormSpacer />
-          <ServiceCardComponent
-            titleHead={commonMessages.pickupService}
-            serviceTime={serviceTime}
-            setServiceTime={setServiceTime}
-            type="pickup"
-          />
-        </div>
-
-        <div>
+          <CardSpacer />
           <ServiceProcessCard
             titleHead={commonMessages.deliveryProcess}
             serviceProcess={serviceProcess}
             setServiceProcess={setServiceProcess}
             type="delivery"
           />
-          <FormSpacer />
+        </div>
+      </div>
+      <FormSpacer />
+
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              Pickup Order Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine when and how your customers can place pickup orders.
+            </p>
+          </Typography>
+        </div>
+        <div>
+          <ServiceCardComponent
+            titleHead={commonMessages.pickupService}
+            serviceTime={serviceTime}
+            setServiceTime={setServiceTime}
+            type="pickup"
+          />
+          <CardSpacer />
           <ServiceProcessCard
             titleHead={commonMessages.pickupService}
             serviceProcess={serviceProcess}
@@ -277,12 +335,37 @@ function ServiceViewPage() {
             type="pickup"
           />
         </div>
-      </Grid>
+      </div>
+      <FormSpacer />
+
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              QR Order Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine when and how your customers can place QR orders.
+            </p>
+          </Typography>
+        </div>
+        <div>
+          <ServiceCardComponent
+            titleHead={commonMessages.qrService}
+            serviceTime={serviceTime}
+            setServiceTime={setServiceTime}
+            type="table"
+          />
+        </div>
+      </div>
+      <FormSpacer />
+
       {Object.keys(serviceProcess).length > 0 && (
         <SaveButtonBar
           disabled={compareStatus(input)}
           state={updateServiceTimeOpts.status}
           onSave={handleClick}
+          onCancel={() => navigate("/configuration")}
         />
       )}
     </Container>

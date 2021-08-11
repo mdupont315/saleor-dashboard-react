@@ -101,6 +101,8 @@ export const storeForUser = gql`
       domain
       phone
       address
+      city
+      postalCode
       logo {
         url
         alt

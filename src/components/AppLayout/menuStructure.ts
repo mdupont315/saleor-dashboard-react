@@ -4,23 +4,15 @@ import customerIcon from "@assets/images/menu-customers-icon.svg";
 import discountsIcon from "@assets/images/menu-discounts-icon.svg";
 import homeIcon from "@assets/images/menu-home-icon.svg";
 import ordersIcon from "@assets/images/menu-orders-icon.svg";
-import translationIcon from "@assets/images/menu-translation-icon.svg";
-import { deliveryUrl } from "@saleor/delivery/urls";
-import { emergencyUrl } from "@saleor/emergency/urls";
+import { voucherListPath } from "@saleor/discounts/urls";
 import { commonMessages, sectionNames } from "@saleor/intl";
-import { servicesUrl } from "@saleor/servicesTime/urls";
-import { storesManagementListUrl } from "@saleor/stores/urls";
 import { IntlShape } from "react-intl";
 
-// import { appsListPath } from "../../apps/urls";
-import { useAuth } from "../../auth/AuthProvider";
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
 import { customerListUrl } from "../../customers/urls";
-import { voucherListPath /* voucherListUrl*/ } from "../../discounts/urls";
 import { orderDraftListUrl, orderListUrl } from "../../orders/urls";
 import { productListUrl } from "../../products/urls";
-import { languageListUrl } from "../../translations/urls";
 import { PermissionEnum } from "../../types/globalTypes";
 
 export interface IMenuItem {
@@ -34,65 +26,6 @@ export interface IMenuItem {
 }
 
 function createMenuStructure(intl: IntlShape): IMenuItem[] {
-  const { user } = useAuth();
-
-  const checkPermissionsHeader =
-    user.isSuperuser === false
-      ? [
-          {
-            ariaLabel: "services time",
-            icon: homeIcon,
-            label: intl.formatMessage(sectionNames.serviceTime),
-            testingContextId: "serviceTime",
-            url: servicesUrl()
-          },
-          {
-            ariaLabel: "emergency",
-            icon: homeIcon,
-            label: intl.formatMessage(sectionNames.emergency),
-            testingContextId: "emergency",
-            url: emergencyUrl()
-          },
-          {
-            ariaLabel: "delivery",
-            icon: homeIcon,
-            label: intl.formatMessage(sectionNames.delivery),
-            testingContextId: "delivery",
-            url: deliveryUrl()
-          }
-        ]
-      : [];
-
-  const checkPermissionsFooter =
-    user.isSuperuser === false
-      ? [
-          {
-            ariaLabel: "vouchers",
-            icon: discountsIcon,
-            label: intl.formatMessage(commonMessages.vouchers),
-            permission: PermissionEnum.MANAGE_DISCOUNTS,
-            testingContextId: "vouchers",
-            url: voucherListPath
-          },
-          // {
-          //   ariaLabel: "apps",
-          //   icon: appsIcon,
-          //   label: intl.formatMessage(sectionNames.apps),
-          //   permission: PermissionEnum.MANAGE_APPS,
-          //   testingContextId: "apps",
-          //   url: appsListPath
-          // },
-          {
-            ariaLabel: "translations",
-            icon: translationIcon,
-            label: intl.formatMessage(sectionNames.translations),
-            permission: PermissionEnum.MANAGE_TRANSLATIONS,
-            testingContextId: "translations",
-            url: languageListUrl
-          }
-        ]
-      : [];
-
   return [
     {
       ariaLabel: "home",
@@ -101,14 +34,6 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       testingContextId: "home",
       url: "/"
     },
-    {
-      ariaLabel: "stores",
-      icon: homeIcon,
-      label: intl.formatMessage(sectionNames.stores),
-      testingContextId: "stores",
-      url: storesManagementListUrl()
-    },
-    ...checkPermissionsHeader,
     {
       ariaLabel: "catalogue",
       children: [
@@ -159,6 +84,15 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       permission: PermissionEnum.MANAGE_ORDERS,
       testingContextId: "orders"
     },
+
+    {
+      ariaLabel: "vouchers",
+      icon: discountsIcon,
+      label: intl.formatMessage(commonMessages.vouchers),
+      permission: PermissionEnum.MANAGE_DISCOUNTS,
+      testingContextId: "vouchers",
+      url: voucherListPath
+    },
     {
       ariaLabel: "customers",
       icon: customerIcon,
@@ -166,8 +100,7 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       permission: PermissionEnum.MANAGE_USERS,
       testingContextId: "customers",
       url: customerListUrl()
-    },
-    ...checkPermissionsFooter
+    }
   ];
 }
 

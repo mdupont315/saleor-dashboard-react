@@ -49,7 +49,7 @@ function DeliveryAreaCard({
         }}
       > */}
       <Grid container item xs={12} spacing={3}>
-        <Grid item xs={3}>
+        <Grid item xs={5}>
           <TextField
             name={`deliveryArea.${index}.from`}
             fullWidth
@@ -75,12 +75,8 @@ function DeliveryAreaCard({
             onBlur={handleBlur}
           />
         </Grid>
-        <Grid item xs={3}>
-          <Typography className={classes.textCenter}>
-            up to and including
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
+
+        <Grid item xs={5}>
           <TextField
             name={`deliveryArea.${index}.to`}
             fullWidth
@@ -107,7 +103,7 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           {" "}
           <div>
             <Tooltip title="Delete">

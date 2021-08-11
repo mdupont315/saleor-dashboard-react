@@ -53,6 +53,7 @@ const getServiceTime = gql`
           puPreorderDay
           puSameDayOrder
           puServiceTime
+          tableServiceTime
         }
       }
     }

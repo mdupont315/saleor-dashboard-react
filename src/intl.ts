@@ -5,8 +5,9 @@ export const commonMessages = defineMessages({
     defaultMessage: "Availability"
   },
   vouchers: {
-    defaultMessage: "Vouchers"
+    defaultMessage: "Discounts"
   },
+
   delivery: {
     defaultMessage: "Delivery"
   },
@@ -46,6 +47,9 @@ export const commonMessages = defineMessages({
   },
   pickupService: {
     defaultMessage: "Pick-up service hours"
+  },
+  qrService: {
+    defaultMessage: "QR Order Hours"
   },
   demo: {
     defaultMessage:
