@@ -364,6 +364,10 @@ export const sectionNames = defineMessages({
   webhooks: {
     defaultMessage: "Webhooks",
     description: "webhooks section name"
+  },
+  stripe: {
+    defaultMessage: "Stripe Settings",
+    description: "Stripe Settings"
   }
 });
 

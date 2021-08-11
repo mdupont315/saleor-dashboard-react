@@ -14,7 +14,7 @@ import {
 export const pluginSection = "/plugins/";
 
 export const pluginListPath = pluginSection;
-
+const STRIPE_PLUGIN_ID = "mirumee.payments.stripe";
 export enum PluginListUrlFiltersEnum {
   query = "query",
   active = "active",
@@ -45,3 +45,5 @@ export type PluginUrlDialog = "clear" | "edit";
 export type PluginUrlQueryParams = Dialog<PluginUrlDialog> & SingleAction;
 export const pluginUrl = (id: string, params?: PluginUrlQueryParams) =>
   pluginPath(encodeURIComponent(id)) + "/?" + stringifyQs(params);
+export const stripePluginUrl = (params?: PluginUrlQueryParams) =>
+  pluginPath(encodeURIComponent(STRIPE_PLUGIN_ID)) + "/?" + stringifyQs(params);
