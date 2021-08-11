@@ -104,7 +104,6 @@ function TableListViewComponent({ params }: IProps) {
   };
 
   React.useEffect(() => {
-    console.log("hemm");
     refetch();
   }, []);
   // console.log(params.ids);

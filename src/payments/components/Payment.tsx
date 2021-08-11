@@ -1,5 +1,5 @@
-import { Container } from "@material-ui/core";
-import Grid from "@saleor/components/Grid";
+/* eslint-disable local-rules/named-styles */
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { sectionNames } from "@saleor/intl";
@@ -18,6 +18,22 @@ export interface StroreNotification {
   state: any;
 }
 
+const useStyles = makeStyles(theme => ({
+  configurationCategory: {
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "1fr"
+    },
+    borderTop: `solid 1px ${theme.palette.divider}`,
+    display: "grid",
+    gridColumnGap: theme.spacing(4) + "px",
+    gridTemplateColumns: "1fr 3fr",
+    paddingTop: theme.spacing(3)
+  },
+  configurationLabel: {
+    paddingBottom: 20
+  }
+}));
+
 const PaymentViewPage: React.FC<StroreNotification> = ({
   data,
   onSubmit,
@@ -25,20 +41,22 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
   state
 }) => {
   const intl = useIntl();
-
+  const classes = useStyles();
   const initialForm =
     data && Object.keys(data).length > 0
       ? {
           contantCost: JSON.stringify(data?.contantCost ?? 0),
-          contantEnable: data?.contantEnable ?? false,
+          contantEnable: data?.contantEnable || false,
           stripeCost: JSON.stringify(data?.stripeCost ?? 0),
-          stripeEnable: data?.stripeEnable ?? false
+          stripeEnable: data?.stripeEnable || false,
+          enableTransactionFee: data?.enableTransactionFee || false
         }
       : {
           contantCost: 0,
           contantEnable: false,
           stripeCost: 0,
-          stripeEnable: false
+          stripeEnable: false,
+          enableTransactionFee: false
         };
 
   const compareWithData = values =>
@@ -47,7 +65,18 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.Payment)} />
-      <Grid>
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              Payment Methods
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine what payment methods your customers can pay with and,
+              optionally, set transaction fees.
+            </p>
+          </Typography>
+        </div>
         <div>
           {data !== undefined ? (
             <Formik
@@ -75,7 +104,7 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
             <></>
           )}
         </div>
-      </Grid>
+      </div>
     </Container>
   );
 };

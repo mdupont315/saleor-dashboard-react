@@ -62,13 +62,15 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
           deliveryFee: data.deliveryFee,
           minOrder: data.minOrder,
           fromDelivery: data.fromDelivery,
-          deliveryArea: JSON.parse(data.deliveryArea).areas
+          deliveryArea: JSON.parse(data.deliveryArea).areas,
+          enableForBigOrder: data.enableForBigOrder
         }
       : {
           deliveryFee: 0,
           minOrder: 0,
           fromDelivery: 0,
-          deliveryArea: [{ to: "", from: "" }]
+          deliveryArea: [{ to: "", from: "" }],
+          enableForBigOrder: false
         };
 
   const compareWithData = values =>

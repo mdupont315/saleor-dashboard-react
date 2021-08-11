@@ -1,30 +1,9 @@
-import {
-  Grid,
-  IconButton,
-  TextField,
-  Tooltip,
-  Typography
-} from "@material-ui/core";
+import { Grid, IconButton, TextField, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FormSpacer from "@saleor/components/FormSpacer";
 // import { useIntl } from "react-intl";
-import { makeStyles } from "@saleor/theme";
 // import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
-
-const useStyles = makeStyles(
-  {
-    // style rule
-    textCenter: {
-      paddingTop: "15px",
-      textAlign: "center"
-    }
-  },
-  {
-    name:
-      "D:Projects\new-orderichsaleor-dashboardsrcdeliverycomponentsDeliveryAreaCardindex"
-  }
-);
 
 function DeliveryAreaCard({
   value,
@@ -36,7 +15,6 @@ function DeliveryAreaCard({
   errors
 }: any) {
   // const intl = useIntl();
-  const classes = useStyles();
 
   return (
     <>

@@ -55,7 +55,6 @@ function TableCreatePage({
 }: IProps) {
   const intl = useIntl();
   const [url, setUrl] = React.useState("");
-  const [hasChanged, setHasChanged] = React.useState(false);
   const classes = useStyles();
   const componentRef = React.useRef();
   const validateSchema = Yup.object().shape({
@@ -159,11 +158,6 @@ function TableCreatePage({
                       name="tableName"
                       onChange={e => {
                         handleChange(e);
-                        if (e.target.value !== initialValues.tableName) {
-                          setHasChanged(true);
-                        } else {
-                          setHasChanged(false);
-                        }
                       }}
                       onBlur={handleBlur}
                       error={!!errors?.tableName}

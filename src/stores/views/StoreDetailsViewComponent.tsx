@@ -5,6 +5,7 @@ import { commonMessages } from "@saleor/intl";
 // import { maybe } from "@saleor/misc";
 import React from "react";
 import { useIntl } from "react-intl";
+
 import StoreDetailPage from "../components/StoreDetailPage/StoreDetailPage";
 import {
   useCreateStoreMutation,

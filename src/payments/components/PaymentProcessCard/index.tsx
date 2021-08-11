@@ -1,7 +1,17 @@
-import { Card, Checkbox, Grid, TextField } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField
+} from "@material-ui/core";
 import createSvgIcon from "@material-ui/icons/utils/createSvgIcon";
-import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { /* FormattedMessage ,*/ useIntl } from "react-intl";
@@ -37,7 +47,8 @@ const Draggable = createSvgIcon(
 const useStyles = makeStyles(
   {
     colAction: {
-      width: "50%"
+      // width: "50%",
+      alignItems: "right"
     },
     colGrab: {
       width: 60
@@ -63,6 +74,9 @@ const useStyles = makeStyles(
     checkbox: {
       marginTop: 13,
       width: "10%"
+    },
+    table: {
+      minWidth: 650
     }
   },
   { name: "ProductTypeAttributes" }
@@ -103,36 +117,60 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
           description: "section header"
         })}
       />
-      <CardSpacer />
-      {Text.map((value, index) => (
-        <>
-          <Grid key={index} container direction="row">
-            <Grid className={classes.draggable}>
-              <Draggable />
-            </Grid>
-            <Grid className={classes.checkbox}>
-              <Checkbox
-                value={values?.[value.enable]}
-                checked={values?.[value.enable] === true}
-                name={value.enable}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid className={classes.colName}>{value.label}</Grid>
-            <Grid className={classes.colAction}>
-              <TextField
-                type="number"
-                error={!!errors?.[value.cost]}
-                value={values?.[value.cost]}
-                name={value.cost}
-                onChange={handleChange}
-                helperText={errors?.[value.cost]}
-              />
-            </Grid>
-          </Grid>
-          <CardSpacer />
-        </>
-      ))}
+      <CardContent>
+        <ControlledSwitch
+          name="enableTransactionFee"
+          label={`Enable transaction fees`}
+          checked={values.enableTransactionFee}
+          onChange={handleChange}
+        />
+      </CardContent>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="right" style={{ textAlign: "right" }}>
+              Payment method
+            </TableCell>
+            <TableCell align="right">Transaction fee</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {Text.map((value, index) => (
+            <TableRow>
+              <TableCell align="right" key={index}>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Draggable />
+                  <Checkbox
+                    value={values?.[value.enable]}
+                    checked={values?.[value.enable] === true}
+                    name={value.enable}
+                    onChange={handleChange}
+                    disabled={!values.enableTransactionFee}
+                  />
+                  <p>{value.label}</p>
+                </div>
+                {/* <Grid container direction="row">
+                  <Grid className={classes.draggable}></Grid>
+                  <Grid className={classes.checkbox}></Grid>
+                  <Grid className={classes.colName}></Grid>
+                </Grid> */}
+              </TableCell>
+              <TableCell align="right">
+                {values.enableTransactionFee && (
+                  <TextField
+                    type="number"
+                    error={!!errors?.[value.cost]}
+                    value={values?.[value.cost]}
+                    name={value.cost}
+                    onChange={handleChange}
+                    helperText={errors?.[value.cost]}
+                  />
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </Card>
   );
 };

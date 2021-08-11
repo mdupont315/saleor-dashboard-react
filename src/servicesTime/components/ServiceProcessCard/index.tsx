@@ -2,13 +2,9 @@ import {
   Card,
   CardContent,
   FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
   InputLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select
 } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
