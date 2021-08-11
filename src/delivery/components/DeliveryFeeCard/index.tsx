@@ -1,5 +1,6 @@
-import { Card, CardContent, TextField } from "@material-ui/core";
+import { Card, CardContent, Grid, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 // import FormSpacer from "@saleor/components/FormSpacer";
 import { commonMessages } from "@saleor/intl";
@@ -20,68 +21,91 @@ function DeliveryFeeCard({
       <CardTitle title={intl.formatMessage(commonMessages.deliveryFees)} />
       <CardContent>
         <>
-          <TextField
-            label={intl.formatMessage({
-              defaultMessage: "Delivery fee*"
-            })}
-            fullWidth
-            type="number"
-            InputProps={{
-              inputProps: {
-                min: 0
-              }
-            }}
-            name="deliveryFee"
-            value={values.deliveryFee}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={errors.deliveryFee && touched.deliveryFee}
-            helperText={
-              errors.deliveryFee && touched.deliveryFee && errors.deliveryFee
-            }
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                label={intl.formatMessage({
+                  defaultMessage: "Delivery fee*"
+                })}
+                fullWidth
+                type="number"
+                InputProps={{
+                  inputProps: {
+                    min: 0
+                  }
+                }}
+                name="deliveryFee"
+                value={values.deliveryFee}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.deliveryFee && touched.deliveryFee}
+                helperText={
+                  errors.deliveryFee &&
+                  touched.deliveryFee &&
+                  errors.deliveryFee
+                }
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label={intl.formatMessage({
+                  defaultMessage: "Min. order value for delivery orders*"
+                })}
+                fullWidth
+                type="number"
+                name="minOrder"
+                value={values.minOrder}
+                onChange={handleChange}
+                InputProps={{
+                  inputProps: {
+                    min: 0
+                  }
+                }}
+                onBlur={handleBlur}
+                error={errors.minOrder && touched.minOrder}
+                helperText={
+                  errors.minOrder && touched.minOrder && errors.minOrder
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ControlledSwitch
+                name="enableForBigOrder"
+                label={`Enable free delivery for big orders`}
+                checked={values.enableForBigOrder}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label={intl.formatMessage({
+                  defaultMessage: "Free delivery from"
+                })}
+                fullWidth
+                type="number"
+                name="fromDelivery"
+                value={values.fromDelivery}
+                onChange={handleChange}
+                InputProps={{
+                  inputProps: {
+                    min: 0
+                  }
+                }}
+                onBlur={handleBlur}
+                error={errors.fromDelivery && touched.fromDelivery}
+                helperText={
+                  errors.fromDelivery &&
+                  touched.fromDelivery &&
+                  errors.fromDelivery
+                }
+                disabled={!values.enableForBigOrder}
+              />
+            </Grid>
+          </Grid>
 
           <FormSpacer />
 
-          <TextField
-            label={intl.formatMessage({
-              defaultMessage: "Min. order value for delivery orders*"
-            })}
-            fullWidth
-            type="number"
-            name="minOrder"
-            value={values.minOrder}
-            onChange={handleChange}
-            InputProps={{
-              inputProps: {
-                min: 0
-              }
-            }}
-            onBlur={handleBlur}
-            error={errors.minOrder && touched.minOrder}
-            helperText={errors.minOrder && touched.minOrder && errors.minOrder}
-          />
           <FormSpacer />
-          <TextField
-            label={intl.formatMessage({
-              defaultMessage: "Free delivery from"
-            })}
-            fullWidth
-            type="number"
-            name="fromDelivery"
-            value={values.fromDelivery}
-            onChange={handleChange}
-            InputProps={{
-              inputProps: {
-                min: 0
-              }
-            }}
-            onBlur={handleBlur}
-            error={errors.fromDelivery && touched.fromDelivery}
-            helperText={
-              errors.fromDelivery && touched.fromDelivery && errors.fromDelivery
-            }
-          />
         </>
       </CardContent>
     </Card>

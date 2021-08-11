@@ -8,6 +8,7 @@ const getMyStore = gql`
       contantCost
       stripeEnable
       stripeCost
+      enableTransactionFee
     }
   }
 `;

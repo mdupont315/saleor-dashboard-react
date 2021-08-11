@@ -37,7 +37,8 @@ function DeliveryView() {
       deliveryFee: input.deliveryFee,
       minOrder: input.minOrder,
       fromDelivery: input.fromDelivery,
-      deliveryArea: JSON.stringify({ areas: input.deliveryArea })
+      deliveryArea: JSON.stringify({ areas: input.deliveryArea }),
+      enableForBigOrder: input.enableForBigOrder
     };
     const result = await updateEmergency({
       variables: {

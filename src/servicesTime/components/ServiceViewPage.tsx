@@ -1,4 +1,3 @@
-/* eslint-disable local-rules/named-styles */
 import { Container, makeStyles, Typography } from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import FormSpacer from "@saleor/components/FormSpacer";
@@ -9,6 +8,7 @@ import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
+
 import {
   useCreateServiceTime,
   useListServiceTime,
@@ -60,21 +60,27 @@ const initProcess = {
   }
 };
 
-const useStyles = makeStyles(theme => ({
-  configurationCategory: {
-    [theme.breakpoints.down("md")]: {
-      gridTemplateColumns: "1fr"
+const useStyles = makeStyles(
+  theme => ({
+    configurationCategory: {
+      [theme.breakpoints.down("md")]: {
+        gridTemplateColumns: "1fr"
+      },
+      borderTop: `solid 1px ${theme.palette.divider}`,
+      display: "grid",
+      gridColumnGap: theme.spacing(4) + "px",
+      gridTemplateColumns: "1fr 3fr",
+      paddingTop: theme.spacing(3)
     },
-    borderTop: `solid 1px ${theme.palette.divider}`,
-    display: "grid",
-    gridColumnGap: theme.spacing(4) + "px",
-    gridTemplateColumns: "1fr 3fr",
-    paddingTop: theme.spacing(3)
-  },
-  configurationLabel: {
-    paddingBottom: 20
+    configurationLabel: {
+      paddingBottom: 20
+    }
+  }),
+  {
+    name:
+      "D:HocTapProject_NCCorderichdashboardsrcservicesTimecomponentsServiceViewPage"
   }
-}));
+);
 
 function ServiceViewPage() {
   const intl = useIntl();
