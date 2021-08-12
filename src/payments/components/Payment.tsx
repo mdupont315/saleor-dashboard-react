@@ -61,7 +61,9 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
 
   const compareWithData = values =>
     JSON.stringify(initialForm) === JSON.stringify(values);
-
+  if (data === undefined) {
+    return <h2>loadding</h2>;
+  }
   return (
     <Container>
       <PageHeader title={intl.formatMessage(sectionNames.Payment)} />
@@ -78,31 +80,27 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
           </Typography>
         </div>
         <div>
-          {data !== undefined ? (
-            <Formik
-              initialValues={initialForm}
-              onSubmit={onSubmit}
-              validationSchema={validateSchema}
-            >
-              {({ handleChange, handleSubmit, values, errors }) => (
-                <Form>
-                  <PayemntProcessCard
-                    values={values}
-                    handleChange={handleChange}
-                    errors={errors}
-                  />
-                  <SaveButtonBar
-                    disabled={compareWithData(values)}
-                    state={state}
-                    onCancel={onBack}
-                    onSave={handleSubmit}
-                  />
-                </Form>
-              )}
-            </Formik>
-          ) : (
-            <></>
-          )}
+          <Formik
+            initialValues={initialForm}
+            onSubmit={onSubmit}
+            validationSchema={validateSchema}
+          >
+            {({ handleChange, handleSubmit, values, errors }) => (
+              <Form>
+                <PayemntProcessCard
+                  values={values}
+                  handleChange={handleChange}
+                  errors={errors}
+                />
+                <SaveButtonBar
+                  disabled={compareWithData(values)}
+                  state={state}
+                  onCancel={onBack}
+                  onSave={handleSubmit}
+                />
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </Container>

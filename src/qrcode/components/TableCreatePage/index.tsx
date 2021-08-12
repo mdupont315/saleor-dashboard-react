@@ -177,20 +177,9 @@ function TableCreatePage({
                       // onCancel={onBack}
                       onSave={handleSubmit}
                     />
-                    {/* <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  style={{ marginRight: "10px" }}
-                  disabled={!hasChanged}
-                >
-                  Submit
-                </Button> */}
                   </form>
                 )}
               </Formik>
-
-              <FormSpacer />
             </CardContent>
           </Card>
           <CardSpacer />

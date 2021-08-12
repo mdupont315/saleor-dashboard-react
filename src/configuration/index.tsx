@@ -188,7 +188,7 @@ export function createConfigurationMenu(
             defaultMessage: "Manage and update your Stripe API",
             id: "configurationNotification"
           }),
-          icon: <Warehouses fontSize="inherit" viewBox="0 0 44 44" />,
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_SHIPPING,
           title: intl.formatMessage(sectionNames.stripe),
           url: stripePluginUrl()
