@@ -1,11 +1,9 @@
-import logoDark from "@assets/images/logo-sidebar-dark.svg";
-import logoLight from "@assets/images/logo-sidebar-light.svg";
 import configurationIcon from "@assets/images/menu-configure-icon.svg";
+import orderichLogo from "@assets/images/orderich-logo.svg";
 import { configurationMenuUrl } from "@saleor/configuration";
 import { User } from "@saleor/fragments/types/User";
 import useLocalStorage from "@saleor/hooks/useLocalStorage";
 import { UseNavigatorResult } from "@saleor/hooks/useNavigator";
-import useTheme from "@saleor/hooks/useTheme";
 import { sectionNames } from "@saleor/intl";
 import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
@@ -76,7 +74,7 @@ const SideBar: React.FC<SideBarProps> = ({
   const [isShrunk, setShrink] = useLocalStorage("isMenuSmall", false);
   const intl = useIntl();
   const configureMenuItem = getConfigureMenuItem(intl);
-  const { isDark } = useTheme();
+  // const { isDark } = useTheme();
 
   return (
     <div
@@ -86,7 +84,7 @@ const SideBar: React.FC<SideBarProps> = ({
     >
       <div className={classes.float}>
         <div className={classes.logo}>
-          <SVG src={isDark ? logoDark : logoLight} />
+          <SVG src={orderichLogo} />
         </div>
         {menuItems.map(menuItem => {
           const isActive = isMenuActive(location, menuItem);

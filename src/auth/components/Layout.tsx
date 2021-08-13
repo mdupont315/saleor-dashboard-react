@@ -1,7 +1,5 @@
-import backgroundArt from "@assets/images/login-background.svg";
-import saleorDarkLogo from "@assets/images/logo-dark.svg";
-import saleorLightLogo from "@assets/images/logo-light.svg";
-import useTheme from "@saleor/hooks/useTheme";
+import orderichLogo from "@assets/images/orderich-logo.svg";
+import bgArt from "@assets/images/sidebanner.png";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
 import SVG from "react-inlinesvg";
@@ -59,8 +57,14 @@ const useStyles = makeStyles(
     },
     sidebarArt: {
       "& svg": {
-        width: "100%"
+        width: "100%",
+        right: 0
       }
+    },
+    image: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover"
     }
   }),
   {
@@ -72,19 +76,17 @@ const Layout: React.FC = props => {
   const { children } = props;
 
   const classes = useStyles(props);
-  const { isDark } = useTheme();
+  // const { isDark } = useTheme();
 
   return (
     <div className={classes.root}>
       <div className={classes.sidebar}>
-        <SVG className={classes.sidebarArt} src={backgroundArt} />
+        {/* <SVG className={classes.sidebarArt} src={bgArt} /> */}
+        <img className={classes.image} src={bgArt} alt="" />
       </div>
       <div className={classes.mainPanel}>
         <div className={classes.mainPanelContent}>
-          <SVG
-            className={classes.logo}
-            src={isDark ? saleorDarkLogo : saleorLightLogo}
-          />
+          <SVG className={classes.logo} src={orderichLogo} />
           {children}
         </div>
       </div>

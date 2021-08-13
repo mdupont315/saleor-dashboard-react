@@ -191,7 +191,7 @@ const Routes: React.FC = () => {
               <SectionRoute path="/stores">
                 <StoreSection isAdmin={user.isSuperuser} />
               </SectionRoute>
-              <SectionRoute path="/secvices-time" component={ServiceSection} />
+              <SectionRoute path="/services-time" component={ServiceSection} />
               <SectionRoute path="/emergency" component={EmergencySection} />
               <SectionRoute path="/delivery" component={DeliverySection} />
               <SectionRoute path="/qrcode" component={QRcodeSection} />

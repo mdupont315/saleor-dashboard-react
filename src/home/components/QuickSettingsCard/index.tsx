@@ -5,10 +5,12 @@ import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { useGetMyStore } from "@saleor/emergency/queries";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
+import { secvicesSection } from "@saleor/servicesTime/urls";
 import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import { Form, Formik } from "formik";
 import React from "react";
 import { useIntl } from "react-intl";
+import { Link } from "react-router-dom";
 
 function QuickSettingsCard() {
   const intl = useIntl();
@@ -145,7 +147,13 @@ function QuickSettingsCard() {
                       //   margin: 0
                     }}
                   >
-                    When disabled, these will override your Ordering Settings.
+                    When disabled, these will override your{" "}
+                    <Link
+                      style={{ color: "#06847B", textDecoration: "none" }}
+                      to={secvicesSection}
+                    >
+                      Ordering Settings.
+                    </Link>
                   </h2>
                 </CardContent>
               </Card>
