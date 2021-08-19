@@ -2,12 +2,12 @@ import { WindowTitle } from "@saleor/components/WindowTitle";
 import { sectionNames } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
-import { Route, RouteComponentProps, Switch } from "react-router";
+import { Route, Switch } from "react-router";
 
 import { paymentSection } from "./urls";
 import Payment from "./views/PaymentView";
 
-const PaymentView: React.FC<RouteComponentProps<{}>> = ({}) => <Payment />;
+const PaymentView = () => <Payment />;
 
 function NotificationSection() {
   const intl = useIntl();

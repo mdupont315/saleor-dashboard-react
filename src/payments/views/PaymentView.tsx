@@ -1,19 +1,17 @@
+import { useGetMyStore } from "@saleor/emergency/queries";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
-import { maybe } from "@saleor/misc";
 import React from "react";
 import { useIntl } from "react-intl";
 
 import PaymentCard from "../components/Payment";
 import { useUpdateStoreMutation } from "../mutation";
-import { useGetMyStore } from "../queries";
 
 function NotificationView() {
   const intl = useIntl();
   const navigate = useNavigator();
   const notify = useNotifier();
-
   const { data, refetch } = useGetMyStore({ variables: {} });
 
   const [updateEmergency, updateEmergencyOpts] = useUpdateStoreMutation({
@@ -50,13 +48,15 @@ function NotificationView() {
 
   return (
     <>
-      <PaymentCard
-        onSubmit={onSubmit}
-        onBack={onBack}
-        data={maybe(() => data.myStore)}
-        state={updateEmergencyOpts.status}
-        disable={updateEmergencyOpts.loading}
-      />
+      {data && (
+        <PaymentCard
+          onSubmit={onSubmit}
+          onBack={onBack}
+          data={data?.myStore}
+          state={updateEmergencyOpts.status}
+          disable={updateEmergencyOpts.loading}
+        />
+      )}
     </>
   );
 }
