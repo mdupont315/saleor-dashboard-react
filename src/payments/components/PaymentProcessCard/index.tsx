@@ -128,16 +128,20 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="right" style={{ textAlign: "right" }}>
+            <TableCell align="right"></TableCell>
+
+            <TableCell align="left" style={{ textAlign: "left" }}>
               Payment method
             </TableCell>
-            <TableCell align="right">Transaction fee</TableCell>
+            <TableCell align="right">
+              {values.enableTransactionFee && "Transaction fee"}
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {Text.map((value, index) => (
-            <TableRow>
-              <TableCell align="right" key={index}>
+            <TableRow key={index}>
+              <TableCell align="left" style={{ width: "80px" }}>
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <Draggable />
                   <Checkbox
@@ -147,13 +151,10 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
                     onChange={handleChange}
                     disabled={!values.enableTransactionFee}
                   />
-                  <p>{value.label}</p>
                 </div>
-                {/* <Grid container direction="row">
-                  <Grid className={classes.draggable}></Grid>
-                  <Grid className={classes.checkbox}></Grid>
-                  <Grid className={classes.colName}></Grid>
-                </Grid> */}
+              </TableCell>
+              <TableCell align="left">
+                <p>{value.label}</p>
               </TableCell>
               <TableCell align="right">
                 {values.enableTransactionFee && (

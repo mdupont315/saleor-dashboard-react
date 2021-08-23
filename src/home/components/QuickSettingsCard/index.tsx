@@ -98,9 +98,7 @@ function QuickSettingsCard() {
                 <CardContent>
                   <ControlledSwitch
                     name="e_delivery"
-                    label={`Enable delivery orders ${
-                      compareToday(values.e_delivery) ? "close" : "open"
-                    }`}
+                    label={`Enable delivery orders`}
                     checked={compareToday(values.e_delivery)}
                     onChange={e =>
                       setFieldValue(
@@ -112,9 +110,7 @@ function QuickSettingsCard() {
 
                   <ControlledSwitch
                     name="e_pickup"
-                    label={`Enable pickup orders ${
-                      compareToday(values.e_pickup) ? "close" : "open"
-                    }`}
+                    label={`Enable pickup orders`}
                     checked={compareToday(values.e_pickup)}
                     onChange={e =>
                       setFieldValue(
@@ -126,9 +122,7 @@ function QuickSettingsCard() {
 
                   <ControlledSwitch
                     name="e_table"
-                    label={`Enable QR orders ${
-                      compareToday(values.e_table) ? "close" : "open"
-                    }`}
+                    label={`Enable QR orders`}
                     checked={compareToday(values.e_table)}
                     onChange={e =>
                       setFieldValue(
