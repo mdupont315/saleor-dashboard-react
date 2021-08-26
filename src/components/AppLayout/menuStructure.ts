@@ -104,4 +104,23 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
   ];
 }
 
+export function createMenuSuperUserStructure(intl: IntlShape): IMenuItem[] {
+  return [
+    {
+      ariaLabel: "Stores",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.home),
+      testingContextId: "Stores",
+      url: "/stores"
+    },
+    {
+      ariaLabel: "Plugin",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.plugins),
+      testingContextId: "Plugins",
+      url: "/plugins"
+    }
+  ];
+}
+
 export default createMenuStructure;

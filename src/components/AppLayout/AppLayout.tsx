@@ -23,7 +23,9 @@ import useAppChannel from "./AppChannelContext";
 import AppChannelSelect from "./AppChannelSelect";
 import AppHeaderContext from "./AppHeaderContext";
 import { appLoaderHeight } from "./consts";
-import createMenuStructure from "./menuStructure";
+import createMenuStructure, {
+  createMenuSuperUserStructure
+} from "./menuStructure";
 
 const useStyles = makeStyles(
   theme => ({
@@ -137,7 +139,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
     setChannel
   } = useAppChannel(false);
 
-  const menuStructure = createMenuStructure(intl);
+  const menuStructure = user.isSuperuser
+    ? createMenuSuperUserStructure(intl)
+    : createMenuStructure(intl);
   const configurationMenu = createConfigurationMenu(intl, user.isSuperuser);
   const userPermissions = user?.userPermissions || [];
 

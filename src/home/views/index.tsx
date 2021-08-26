@@ -4,6 +4,7 @@ import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import { mapEdgesToItems } from "@saleor/utils/maps";
 import React from "react";
+import { Redirect } from "react-router";
 
 import { getDatePeriod, getUserName } from "../../misc";
 import { orderListUrl } from "../../orders/urls";
@@ -16,7 +17,9 @@ const HomeSection = () => {
   const navigate = useNavigator();
   const { user } = useUser();
   const { channel } = useAppChannel();
-
+  if (user.isSuperuser) {
+    return <Redirect to="/stores" />;
+  }
   const noChannel = !channel && typeof channel !== "undefined";
 
   const { data } = useHomePage({

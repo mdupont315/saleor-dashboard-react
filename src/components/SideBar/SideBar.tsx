@@ -108,7 +108,7 @@ const SideBar: React.FC<SideBarProps> = ({
             />
           );
         })}
-        {renderConfigure && (
+        {!user.isSuperuser && renderConfigure && (
           <MenuItem
             active={
               !menuItems.reduce(
@@ -121,6 +121,7 @@ const SideBar: React.FC<SideBarProps> = ({
             onClick={onMenuItemClick}
           />
         )}
+
         <ExpandButton
           className={classes.expandButton}
           isShrunk={isShrunk}
