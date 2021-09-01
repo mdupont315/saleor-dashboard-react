@@ -120,7 +120,7 @@ export function createConfigurationMenu(
             id: "configurationMenuQRcode"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
+          permission: PermissionEnum.MANAGE_SERVICE_TIME,
           title: "Ordering",
           url: secvicesSection,
           testId: "configurationMenuQRcode"
@@ -142,7 +142,7 @@ export function createConfigurationMenu(
             id: "configurationMenuQRcode"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
+          permission: PermissionEnum.MANAGE_TABLE_SERVICE,
           title: intl.formatMessage(sectionNames.QRcode),
           url: qrListUrl(),
           testId: "configurationMenuQRcode"

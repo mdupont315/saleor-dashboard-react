@@ -1,9 +1,10 @@
+import useUser from "@saleor/hooks/useUser";
 import { sectionNames } from "@saleor/intl";
 import { asSortParams } from "@saleor/utils/sort";
 import { parse as parseQs } from "qs";
 import React from "react";
 import { useIntl } from "react-intl";
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
 
 import { WindowTitle } from "../components/WindowTitle";
 import {
@@ -39,6 +40,11 @@ const PageDetails: React.FC<RouteComponentProps<any>> = ({ match }) => {
 
 const Component = () => {
   const intl = useIntl();
+  const { user } = useUser();
+  if (!user.isSuperuser) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <>
       <WindowTitle title={intl.formatMessage(sectionNames.plugins)} />
