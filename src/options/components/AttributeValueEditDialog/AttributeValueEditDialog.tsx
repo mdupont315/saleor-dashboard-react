@@ -15,7 +15,6 @@ import {
 import { ChannelsAction } from "@saleor/channels/urls";
 import { ChannelSaleData, createSortedSaleData } from "@saleor/channels/utils";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
-import CardTitle from "@saleor/components/CardTitle";
 import ConfirmButton, {
   ConfirmButtonTransitionState
 } from "@saleor/components/ConfirmButton";
@@ -119,17 +118,17 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
       <DialogTitle>
         {attributeValue === null ? (
           <FormattedMessage
-            defaultMessage="Add Value"
+            defaultMessage="Add option"
             description="add attribute value"
           />
         ) : (
           <FormattedMessage
-            defaultMessage="Edit Value"
+            defaultMessage="Edit option"
             description="edit attribute value"
           />
         )}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <Formik
           initialValues={initialForm}
           validationSchema={validationShema}
@@ -149,7 +148,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                 helperText={errors.name}
                 name={"name"}
                 label={intl.formatMessage({
-                  defaultMessage: "Name",
+                  defaultMessage: "Option Name",
                   description: "attribute name"
                 })}
                 value={values.name}
@@ -159,13 +158,12 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                 name="channelListing"
                 render={() => (
                   <>
-                    <Card>
-                      <CardTitle
-                        title={intl.formatMessage({
-                          defaultMessage: "Value",
-                          description: "option value, header"
-                        })}
-                      />
+                    <Card className={classes.wrapperCard}>
+                      <p className={classes.textContent}>
+                        Below you add a price for the modifier option. This
+                        price will be added to the product price. Leave it empty
+                        if this option is free of charge.
+                      </p>
                       <CardContent className={classes.card}>
                         {/* <Typography variant="caption" className={classes.info}>
                           <FormattedMessage
@@ -266,7 +264,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                   </>
                 )}
               />
-              <DialogActions>
+              <DialogActions className={classes.dialogAction}>
                 <Button onClick={onClose}>
                   <FormattedMessage {...buttonMessages.back} />
                 </Button>

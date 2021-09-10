@@ -79,7 +79,6 @@ const HomePage: React.FC<HomePageProps> = props => {
   return (
     <Container>
       <HomeHeader userName={userName} />
-      <CardSpacer />
       <Grid>
         <div>
           <RequirePermissions

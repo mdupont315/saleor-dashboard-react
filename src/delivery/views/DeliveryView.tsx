@@ -1,3 +1,4 @@
+import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
@@ -9,6 +10,7 @@ import { useMutationEmergency } from "../mutation";
 import { useGetMyCurrentDelivery } from "../queries";
 
 function DeliveryView() {
+  const navigate = useNavigator();
   const intl = useIntl();
   const notify = useNotifier();
   const { data, refetch } = useGetMyCurrentDelivery({});
@@ -49,12 +51,17 @@ function DeliveryView() {
     return result;
   };
 
+  const onBack = () => {
+    navigate("/configuration");
+  };
+
   return (
     <>
       <DeliveryViewPage
         data={maybe(() => data.currentDelivery)}
         onSubmit={onSubmit}
         updateEmergencyOpts={updateEmergencyOpts}
+        onBack={onBack}
       />
     </>
   );

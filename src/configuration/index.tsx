@@ -12,7 +12,6 @@ import ProductTypes from "@saleor/icons/ProductTypes";
 import ShippingMethods from "@saleor/icons/ShippingMethods";
 import SiteSettings from "@saleor/icons/SiteSettings";
 import StaffMembers from "@saleor/icons/StaffMembers";
-import Warehouses from "@saleor/icons/Warehouses";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import { notificationUrl } from "@saleor/notifications/urls";
@@ -152,7 +151,7 @@ export function createConfigurationMenu(
             defaultMessage: "Manage and update your payment",
             id: "configurationPayment"
           }),
-          icon: <Warehouses fontSize="inherit" viewBox="0 0 44 44" />,
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_PRODUCTS,
           title: intl.formatMessage(sectionNames.Payment),
           url: paymentUrl(),

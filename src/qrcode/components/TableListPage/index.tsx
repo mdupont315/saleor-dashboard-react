@@ -1,4 +1,5 @@
 import { Button, Card, Container } from "@material-ui/core";
+import AppHeader from "@saleor/components/AppHeader";
 // import FilterBar from "@saleor/components/FilterBar";
 import PageHeader from "@saleor/components/PageHeader";
 import { sectionNames } from "@saleor/intl";
@@ -27,12 +28,16 @@ interface IProps  // PageListProps,
   disabled?: boolean;
   onUpdateListSettings?: any;
   settings?: any;
+  onBack: () => void;
 }
-function TableListPage({ onAdd, ...tableProps }: IProps) {
+function TableListPage({ onAdd, onBack, ...tableProps }: IProps) {
   const intl = useIntl();
 
   return (
     <Container>
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
       <PageHeader title={intl.formatMessage(sectionNames.QRcode)}>
         <Button color="primary" variant="contained" onClick={onAdd}>
           <FormattedMessage

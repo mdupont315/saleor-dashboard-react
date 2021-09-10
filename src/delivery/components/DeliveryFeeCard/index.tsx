@@ -25,7 +25,7 @@ function DeliveryFeeCard({
             <Grid item xs={6}>
               <TextField
                 label={intl.formatMessage({
-                  defaultMessage: "Delivery fee*"
+                  defaultMessage: "Delivery fee"
                 })}
                 fullWidth
                 type="number"
@@ -49,7 +49,7 @@ function DeliveryFeeCard({
             <Grid item xs={6}>
               <TextField
                 label={intl.formatMessage({
-                  defaultMessage: "Min. order value for delivery orders*"
+                  defaultMessage: "Minimum delivery order value"
                 })}
                 fullWidth
                 type="number"
@@ -76,31 +76,33 @@ function DeliveryFeeCard({
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label={intl.formatMessage({
-                  defaultMessage: "Free delivery from"
-                })}
-                fullWidth
-                type="number"
-                name="fromDelivery"
-                value={values.fromDelivery}
-                onChange={handleChange}
-                InputProps={{
-                  inputProps: {
-                    min: 0
+            {values.enableForBigOrder ? (
+              <Grid item xs={6}>
+                <TextField
+                  label={intl.formatMessage({
+                    defaultMessage: "Free delivery order value"
+                  })}
+                  fullWidth
+                  type="number"
+                  name="fromDelivery"
+                  value={values.fromDelivery}
+                  onChange={handleChange}
+                  InputProps={{
+                    inputProps: {
+                      min: 0
+                    }
+                  }}
+                  onBlur={handleBlur}
+                  error={errors.fromDelivery && touched.fromDelivery}
+                  helperText={
+                    errors.fromDelivery &&
+                    touched.fromDelivery &&
+                    errors.fromDelivery
                   }
-                }}
-                onBlur={handleBlur}
-                error={errors.fromDelivery && touched.fromDelivery}
-                helperText={
-                  errors.fromDelivery &&
-                  touched.fromDelivery &&
-                  errors.fromDelivery
-                }
-                disabled={!values.enableForBigOrder}
-              />
-            </Grid>
+                  disabled={!values.enableForBigOrder}
+                />
+              </Grid>
+            ) : null}
           </Grid>
 
           <FormSpacer />

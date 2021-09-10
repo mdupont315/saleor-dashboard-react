@@ -12,10 +12,10 @@ export const commonMessages = defineMessages({
     defaultMessage: "Delivery"
   },
   deliveryArea: {
-    defaultMessage: "Delivery area"
+    defaultMessage: "Delivery Area By Postcodes"
   },
   deliveryFees: {
-    defaultMessage: "Delivery fees"
+    defaultMessage: "Delivery Fee Settings"
   },
   catalog: {
     defaultMessage: "Catalog"
@@ -37,16 +37,16 @@ export const commonMessages = defineMessages({
     defaultMessage: "Emergency"
   },
   deliveryService: {
-    defaultMessage: "Delivery service hours"
+    defaultMessage: "Delivery Hours"
   },
   deliveryProcess: {
-    defaultMessage: "Delivery processing time"
+    defaultMessage: "Delivery Order Processing Time"
   },
   pickupProcess: {
-    defaultMessage: "Pickup processing time"
+    defaultMessage: "Pickup Order Processing Time"
   },
   pickupService: {
-    defaultMessage: "Pick-up service hours"
+    defaultMessage: "Pickup Hours"
   },
   qrService: {
     defaultMessage: "QR Order Hours"
@@ -81,7 +81,7 @@ export const commonMessages = defineMessages({
     defaultMessage: "First Name"
   },
   generalInformations: {
-    defaultMessage: "General Information"
+    defaultMessage: "Modifier Information"
   },
   insufficientPermissions: {
     defaultMessage: "Insufficient permissions"
@@ -234,7 +234,7 @@ export const sectionNames = defineMessages({
     description: "Notifications section name"
   },
   QRcode: {
-    defaultMessage: "QRcode",
+    defaultMessage: "QR Ordering",
     description: "QRcode section name"
   },
   Payment: {
@@ -250,16 +250,16 @@ export const sectionNames = defineMessages({
     description: "categories section name"
   },
   stores: {
-    defaultMessage: "Stores",
-    description: "stores section name"
+    defaultMessage: "Site settings",
+    description: "Site settings section name"
   },
   delivery: {
-    defaultMessage: "Delivery",
+    defaultMessage: "Delivery Settings",
     description: "delivery section name"
   },
   serviceTime: {
-    defaultMessage: "Service time",
-    description: "service section name"
+    defaultMessage: "Ordering",
+    description: "ordering section name"
   },
   emergency: {
     defaultMessage: "Emergency",

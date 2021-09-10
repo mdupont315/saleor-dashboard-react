@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardContent,
   Checkbox,
@@ -7,10 +6,13 @@ import {
   FormControlLabel,
   FormGroup,
   FormHelperText,
+  IconButton,
   InputLabel,
   MenuItem,
-  Select
+  Select,
+  Tooltip
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
@@ -200,7 +202,7 @@ function ServiceCardComponent({
   return (
     <Card>
       <CardTitle title={intl.formatMessage(titleHead)} />
-      <CardContent>
+      <CardContent style={{ padding: "0 24px 24px" }}>
         {listArr.map((item: any, indexItem: number) => {
           const error = item.open > item.close;
           // if (error) {
@@ -208,7 +210,7 @@ function ServiceCardComponent({
           // }
           return (
             <>
-              <FormControl aria-label="Day">
+              <FormControl style={{ marginTop: "24px" }} aria-label="Day">
                 <FormGroup>
                   <div style={{ display: "flex" }}>
                     {item?.days.map((item, index) => (
@@ -235,7 +237,8 @@ function ServiceCardComponent({
                 style={{
                   display: "grid",
                   gridColumnGap: "10px",
-                  gridTemplateColumns: "auto auto"
+                  gridTemplateColumns: "7fr 7fr 0fr",
+                  paddingBottom: "6px"
                 }}
               >
                 <FormControl variant="outlined" fullWidth error={error}>
@@ -280,31 +283,49 @@ function ServiceCardComponent({
                     <FormHelperText>From have small than until</FormHelperText>
                   )}
                 </FormControl>
+                {indexItem !== 0 && (
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Tooltip title="Delete">
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => onDeleteSlot(indexItem)}
+                        style={{ color: "#06847B" }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                )}
               </div>
               <FormSpacer />
-              {indexItem !== 0 && (
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => onDeleteSlot(indexItem)}
-                  >
-                    Delete timeslot
-                  </Button>
-                </div>
-              )}
-
               <FormSpacer />
-              <hr />
-              <FormSpacer />
+              <hr style={{ border: "1px solid #EAEAEA", margin: 0 }} />
             </>
           );
         })}
-
-        <Button variant="contained" color="primary" onClick={onAddNewTimeSlot}>
-          Add a timeslot
-        </Button>
       </CardContent>
+      <hr style={{ border: "1px solid #EAEAEA", margin: "-26px 0 0 0" }} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "14px 24px"
+        }}
+      >
+        <p
+          style={{
+            cursor: "pointer",
+            margin: 0,
+            fontSize: "16px",
+            lineHeight: "24px",
+            color: "#06847B",
+            textTransform: "uppercase"
+          }}
+          onClick={onAddNewTimeSlot}
+        >
+          Add timeslot
+        </p>
+      </div>
     </Card>
   );
 }

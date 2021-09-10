@@ -26,10 +26,11 @@ function DeliveryAreaCard({
           gridTemplateColumns: "auto auto auto"
         }}
       > */}
-      <Grid container item xs={12} spacing={3}>
-        <Grid item xs={5}>
+      <Grid container item xs={12} spacing={2}>
+        <Grid item style={{ width: "47%" }}>
           <TextField
             name={`deliveryArea.${index}.from`}
+            label="From"
             fullWidth
             type="number"
             value={value.from}
@@ -54,9 +55,10 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item xs={5}>
+        <Grid item style={{ width: "47%" }}>
           <TextField
             name={`deliveryArea.${index}.to`}
+            label="Until"
             fullWidth
             type="number"
             helperText={
@@ -81,7 +83,7 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item style={{ width: "1%" }}>
           {" "}
           <div>
             <Tooltip title="Delete">
@@ -90,6 +92,7 @@ function DeliveryAreaCard({
                 onClick={() => {
                   arrayHelpers.remove(index);
                 }}
+                style={{ color: "#06847B" }}
               >
                 <DeleteIcon />
               </IconButton>
@@ -98,6 +101,12 @@ function DeliveryAreaCard({
         </Grid>
       </Grid>
 
+      <hr
+        style={{
+          border: "1px solid #EAEAEA",
+          marginTop: "24px"
+        }}
+      ></hr>
       {/* </div> */}
     </>
   );

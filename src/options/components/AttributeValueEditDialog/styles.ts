@@ -2,7 +2,24 @@ import { makeStyles } from "@saleor/theme";
 
 export const useStyles = makeStyles(
   theme => ({
+    dialogContent: {
+      border: 0,
+      paddingBottom: 0
+    },
+    wrapperCard: {
+      border: 0
+    },
+    textContent: {
+      margin: 0,
+      padding: 0,
+      marginTop: "6px",
+      fontSize: "14px",
+      lineHeight: "20px",
+      color: "#3D3D3D"
+    },
     card: {
+      padding: 0,
+
       "&:last-child": {
         paddingBottom: 0
       }
@@ -40,6 +57,9 @@ export const useStyles = makeStyles(
     },
     inputLabelRoot: {
       overflow: "hidden"
+    },
+    dialogAction: {
+      padding: "16px 0"
     }
   }),
   {

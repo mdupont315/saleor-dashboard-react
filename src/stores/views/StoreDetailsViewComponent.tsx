@@ -29,6 +29,10 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
   const notify = useNotifier();
   const intl = useIntl();
 
+  const onBack = () => {
+    navigate("/configuration");
+  };
+
   if (id !== "undefined") {
     const { data, refetch } = useStoreById({
       displayLoader: true,
@@ -83,14 +87,14 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
       <>
         {data && (
           <>
-            <WindowTitle title="Store detail" />
+            <WindowTitle title="Site setting" />
             <StoreDetailPage
               disabled={updateStoreOpts.loading}
               storeId={id}
               initialValues={data}
               userData={userData}
               saveButtonBarState={updateStoreOpts.status}
-              onBack={() => navigate(storePath(id))}
+              onBack={onBack}
               handleRefetch={refetch}
               onSubmit={handleSubmit}
             />
@@ -135,9 +139,9 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
 
     return (
       <>
-        <WindowTitle title="Store detail" />
+        <WindowTitle title="Site setting" />
         <StoreDetailPage
-          onBack={() => navigate(storesManagementSection)}
+          onBack={onBack}
           onSubmit={handleSubmit}
           saveButtonBarState={createStoreOpts.status}
           disabled={createStoreOpts.loading}

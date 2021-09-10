@@ -7,7 +7,6 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
-import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
@@ -18,18 +17,32 @@ import { useIntl } from "react-intl";
 import StoreMedia from "../StoreMedia";
 
 const useStyles = makeStyles(theme => ({
-  configurationCategory: {
+  configurationCategorySite: {
     [theme.breakpoints.down("md")]: {
-      gridTemplateColumns: "1fr"
+      gridTemplateColumns: "1fr",
+      paddingBottom: theme.spacing(2)
+    },
+    display: "grid",
+    gridColumnGap: theme.spacing(4) + "px",
+    gridTemplateColumns: "1fr 3fr",
+    paddingBottom: theme.spacing(4)
+  },
+  configurationCategoryInformation: {
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "1fr",
+      paddingTop: theme.spacing(0)
     },
     borderTop: `solid 1px ${theme.palette.divider}`,
     display: "grid",
     gridColumnGap: theme.spacing(4) + "px",
     gridTemplateColumns: "1fr 3fr",
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacing(4)
   },
   configurationLabel: {
     paddingBottom: 20
+  },
+  reverse: {
+    gridTemplateColumns: "4fr 9fr"
   }
 }));
 
@@ -117,209 +130,237 @@ function StoreInput({
 
   return (
     <>
-      <div className={classes.configurationCategory}>
-        <div className={classes.configurationLabel}>
-          <Typography>
-            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
-              Site Settings
-            </h2>
-            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
-              These are general settings for your store. They define how your
-              customers can access it.
-            </p>
-          </Typography>
-        </div>
-        <div>
-          <Card>
-            <CardTitle title="Site Settings" />
-            <CardContent>
-              <p
-                style={{
-                  fontSize: "14px",
-                  margin: "0 0 3px 0"
-                }}
+      <div>
+        <div className={classes.configurationCategorySite}>
+          <div className={classes.configurationLabel}>
+            <Typography>
+              <h2
+                style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}
               >
-                Your store URL
+                Site Settings
+              </h2>
+              <p
+                style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}
+              >
+                These are general settings for your store. They define how your
+                customers can access it.
               </p>
-              <a
-                href={`http://${values.domain}`}
-                style={{
-                  color: "#06847B",
-                  fontSize: "15px",
-                  textDecoration: "none"
-                }}
-              >{`http://${values.domain}`}</a>
-              <FormSpacer />
-              <TextField
-                label={intl.formatMessage({
-                  defaultMessage: "Custom domain name"
-                })}
-                fullWidth
-                name="domain"
-                value={values.domain}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.domain && touched.domain}
-                helperText={errors.domain && touched.domain && errors.domain}
-              />
-            </CardContent>
-          </Card>
-          <CardSpacer />
-          <Card>
-            <CardTitle title={header} />
-            <CardContent>
-              <>
+            </Typography>
+          </div>
+          <div>
+            <Card>
+              <CardTitle title="Site Settings" />
+              <CardContent>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    margin: "0 0 3px 0"
+                  }}
+                >
+                  Your store URL
+                </p>
+                <a
+                  href={`http://${values.domain}`}
+                  style={{
+                    color: "#06847B",
+                    fontSize: "15px",
+                    textDecoration: "none"
+                  }}
+                >{`http://${values.domain}`}</a>
+                <FormSpacer />
                 <TextField
                   label={intl.formatMessage({
-                    defaultMessage: "Store Name*"
+                    defaultMessage: "Custom domain name"
                   })}
                   fullWidth
-                  name="name"
-                  value={values.name}
+                  name="domain"
+                  value={values.domain}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={errors.name && touched.name}
-                  helperText={errors.name && touched.name && errors.name}
+                  error={errors.domain && touched.domain}
+                  helperText={errors.domain && touched.domain && errors.domain}
                 />
-                <FormSpacer />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        <div className={classes.configurationCategoryInformation}>
+          <div className={classes.configurationLabel}>
+            <Typography>
+              <h2
+                style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}
+              >
+                Store Information
+              </h2>
+              <p
+                style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}
+              >
+                These define what your customers see when they access your
+                store.
+              </p>
+            </Typography>
+          </div>
+          <div>
+            <Card>
+              <CardTitle title={header} />
+              <CardContent>
+                <>
+                  <TextField
+                    label={intl.formatMessage({
+                      defaultMessage: "Store Name"
+                    })}
+                    fullWidth
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.name && touched.name}
+                    helperText={errors.name && touched.name && errors.name}
+                  />
+                  <FormSpacer />
 
-                <FormSpacer />
-                {storeId ? (
-                  <>
-                    <TextField
-                      label={intl.formatMessage({
-                        defaultMessage: "Address"
-                      })}
-                      fullWidth
-                      name="address"
-                      value={values.address}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={errors.address && touched.address}
-                      helperText={
-                        errors.address && touched.address && errors.address
-                      }
-                    />
-                    <FormSpacer />
-                    <Grid>
-                      <div>
-                        <TextField
-                          label={intl.formatMessage({
-                            defaultMessage: "City"
-                          })}
-                          fullWidth
-                          name="city"
-                          value={values.city}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={errors.city && touched.city}
-                          helperText={
-                            errors.city && touched.city && errors.city
-                          }
-                        />
-                      </div>
-                      <div>
-                        <TextField
-                          label={intl.formatMessage({
-                            defaultMessage: "Postalcode"
-                          })}
-                          fullWidth
-                          name="postalcode"
-                          value={values.postalcode}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          error={errors.postalcode && touched.postalcode}
-                          helperText={
-                            errors.postalcode &&
-                            touched.postalcode &&
-                            errors.postalcode
-                          }
-                        />
-                      </div>
-                    </Grid>
-                    <FormSpacer />
-                    <TextField
-                      label={intl.formatMessage({
-                        defaultMessage: "Phone"
-                      })}
-                      fullWidth
-                      name="phone"
-                      value={values.phone}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={errors.phone && touched.phone}
-                      helperText={errors.phone && touched.phone && errors.phone}
-                    />
-                    <FormSpacer />
-                  </>
-                ) : (
-                  <>
-                    <TextField
-                      label={intl.formatMessage({
-                        defaultMessage: "Email*"
-                      })}
-                      fullWidth
-                      name="email"
-                      value={values.email}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={errors.email && touched.email}
-                      helperText={errors.email && touched.email && errors.email}
-                    />
-                    <FormSpacer />
+                  <FormSpacer />
+                  {storeId ? (
+                    <>
+                      <TextField
+                        label={intl.formatMessage({
+                          defaultMessage: "Address"
+                        })}
+                        fullWidth
+                        name="address"
+                        value={values.address}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.address && touched.address}
+                        helperText={
+                          errors.address && touched.address && errors.address
+                        }
+                      />
+                      <FormSpacer />
+                      <Grid className={classes.reverse}>
+                        <div>
+                          <TextField
+                            label={intl.formatMessage({
+                              defaultMessage: "Postcode"
+                            })}
+                            fullWidth
+                            name="postalcode"
+                            value={values.postalcode}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={errors.postalcode && touched.postalcode}
+                            helperText={
+                              errors.postalcode &&
+                              touched.postalcode &&
+                              errors.postalcode
+                            }
+                          />
+                        </div>
+                        <div>
+                          <TextField
+                            label={intl.formatMessage({
+                              defaultMessage: "City"
+                            })}
+                            fullWidth
+                            name="city"
+                            value={values.city}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={errors.city && touched.city}
+                            helperText={
+                              errors.city && touched.city && errors.city
+                            }
+                          />
+                        </div>
+                      </Grid>
+                      <FormSpacer />
+                      <TextField
+                        label={intl.formatMessage({
+                          defaultMessage: "Phone number"
+                        })}
+                        fullWidth
+                        name="phone"
+                        value={values.phone}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.phone && touched.phone}
+                        helperText={
+                          errors.phone && touched.phone && errors.phone
+                        }
+                      />
+                      <FormSpacer />
+                    </>
+                  ) : (
+                    <>
+                      <TextField
+                        label={intl.formatMessage({
+                          defaultMessage: "Email*"
+                        })}
+                        fullWidth
+                        name="email"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.email && touched.email}
+                        helperText={
+                          errors.email && touched.email && errors.email
+                        }
+                      />
+                      <FormSpacer />
 
-                    <TextField
-                      label={intl.formatMessage({
-                        defaultMessage: "password*"
-                      })}
-                      fullWidth
-                      name="password"
-                      type="password"
-                      value={values.password}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={errors.password && touched.password}
-                      helperText={
-                        errors.password && touched.password && errors.password
-                      }
-                    />
-                  </>
-                )}
+                      <TextField
+                        label={intl.formatMessage({
+                          defaultMessage: "password*"
+                        })}
+                        fullWidth
+                        name="password"
+                        type="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.password && touched.password}
+                        helperText={
+                          errors.password && touched.password && errors.password
+                        }
+                      />
+                    </>
+                  )}
 
-                <FormSpacer />
-                <FormSpacer />
+                  <FormSpacer />
+                  <FormSpacer />
+                </>
+              </CardContent>
+            </Card>
+
+            {storeId && (
+              <>
+                <StoreMedia
+                  title="Logo"
+                  placeholderImage={placeholderImage}
+                  imagesToUpload={values.logo}
+                  setImagesToUpload={setImagesToUpload}
+                  carousel={values.logo}
+                  onImageDelete={handleImageDelete}
+                />
+                <StoreMedia
+                  title="Cover Photo"
+                  placeholderImage={placeholderImage}
+                  imagesToUpload={values.coverPhoto}
+                  setImagesToUpload={setImagesToUpload}
+                  carousel={values.coverPhoto}
+                  onImageDelete={handleImageDelete}
+                />
+                <StoreMedia
+                  title="Favicon"
+                  placeholderImage={placeholderImage}
+                  imagesToUpload={values.favicon}
+                  setImagesToUpload={setImagesToUpload}
+                  carousel={values.favicon}
+                  onImageDelete={handleImageDelete}
+                />
               </>
-            </CardContent>
-          </Card>
-
-          {storeId && (
-            <>
-              <StoreMedia
-                title="Logo"
-                placeholderImage={placeholderImage}
-                imagesToUpload={values.logo}
-                setImagesToUpload={setImagesToUpload}
-                carousel={values.logo}
-                onImageDelete={handleImageDelete}
-              />
-              <StoreMedia
-                title="Cover Photo"
-                placeholderImage={placeholderImage}
-                imagesToUpload={values.coverPhoto}
-                setImagesToUpload={setImagesToUpload}
-                carousel={values.coverPhoto}
-                onImageDelete={handleImageDelete}
-              />
-              <StoreMedia
-                title="Favicon Photo"
-                placeholderImage={placeholderImage}
-                imagesToUpload={values.favicon}
-                setImagesToUpload={setImagesToUpload}
-                carousel={values.favicon}
-                onImageDelete={handleImageDelete}
-              />
-            </>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </>

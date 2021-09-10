@@ -103,6 +103,10 @@ function TableListViewComponent({ params }: IProps) {
     }
   };
 
+  const onBack = () => {
+    navigate("/configuration");
+  };
+
   React.useEffect(() => {
     refetch();
   }, []);
@@ -134,6 +138,7 @@ function TableListViewComponent({ params }: IProps) {
               // onTabChange={handleTabChange}
               // onTabDelete={() => openModal("delete-search")}
               // onTabSave={() => openModal("save-search")}
+              onBack={onBack}
               toolbar={
                 <IconButton
                   color="primary"

@@ -1,4 +1,5 @@
 import { Container, makeStyles, Typography } from "@material-ui/core";
+import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
 import FormSpacer from "@saleor/components/FormSpacer";
 import PageHeader from "@saleor/components/PageHeader";
@@ -282,8 +283,15 @@ function ServiceViewPage() {
     return JSON.stringify(data) === JSON.stringify(input);
   };
 
+  const onBack = () => {
+    navigate("/configuration");
+  };
+
   return (
     <Container>
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
       <PageHeader title={intl.formatMessage(sectionNames.serviceTime)} />
 
       <div className={classes.configurationCategory}>
@@ -335,7 +343,7 @@ function ServiceViewPage() {
           />
           <CardSpacer />
           <ServiceProcessCard
-            titleHead={commonMessages.pickupService}
+            titleHead={commonMessages.pickupProcess}
             serviceProcess={serviceProcess}
             setServiceProcess={setServiceProcess}
             type="pickup"

@@ -1,3 +1,4 @@
+import AppHeader from "@saleor/components/AppHeader";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import PageHeader from "@saleor/components/PageHeader";
@@ -62,6 +63,26 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
   name: string;
 }
 
+const postCodeCheck = (value: any) => {
+  let result = false;
+  if (value.length > 0) {
+    if (isNaN(Number(value)) === false && value.length < 5) {
+      result = true;
+    }
+    if (
+      isNaN(Number(value.slice(0, 4))) === false &&
+      value?.length > 4 &&
+      !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value.slice(4))
+    ) {
+      result = true;
+    }
+    if (value?.length > 7) {
+      result = false;
+    }
+  }
+  return result;
+};
+
 const validateSchema = yup.object().shape({
   name: yup.string().required("Required!"),
   domain: yup.string().required("Required!"),
@@ -74,22 +95,34 @@ const validateSchema = yup.object().shape({
   password: yup
     .string()
     .required("Required!")
-    .min(8, "Too Short!")
+    .min(8, "Too Short!"),
+  postalcode: yup
+    .string()
+    .required("Required")
+    .test(
+      "postalCode",
+      "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
+      value => postCodeCheck(value)
+    )
 });
 
 const validateSchemaUpdate = yup.object().shape({
   name: yup.string().required("Required!"),
   domain: yup.string().required("Required!"),
   phone: yup.string().required("Required!"),
-  address: yup.string().required("Required!")
+  address: yup.string().required("Required!"),
+  postalcode: yup
+    .string()
+    .required("Required")
+    .test("postalCode", "invalid", value => postCodeCheck(value))
 });
 
 const StoreDetailPage: React.FC<IProps> = ({
   initialValues,
-  onBack,
   saveButtonBarState,
   storeId,
-  onSubmit
+  onSubmit,
+  onBack
 }) => {
   const intl = useIntl();
 
@@ -134,6 +167,9 @@ const StoreDetailPage: React.FC<IProps> = ({
 
   return (
     <Container>
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
       <PageHeader title={intl.formatMessage(sectionNames.stores)} />
       <Formik
         initialValues={initialForm}

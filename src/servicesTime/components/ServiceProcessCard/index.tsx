@@ -80,6 +80,45 @@ function ServiceProcessCard({
       });
     }
   };
+
+  const CheckDisableAction = () => (
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel id="demo-simple-select-outlined-label">
+              Max preorder days
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-outlined-label"
+              id="demo-simple-select-outlined"
+              value={process.preOrderDay}
+              name="preOrderDay"
+              onChange={handleChange}
+              label="From"
+            >
+              {renPreOrderDay().map((item, index) => (
+                <MenuItem value={item} key={index}>
+                  {item} days
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+
+        <Grid item xs={6}>
+          <ControlledSwitch
+            name="sameDayOrder"
+            label={`Enable same-day orders`}
+            checked={process.sameDayOrder}
+            onChange={handleChange}
+          />
+        </Grid>
+      </Grid>
+
+      <FormSpacer />
+    </>
+  );
   return (
     <Card>
       <CardTitle title={intl.formatMessage(titleHead)} />
@@ -89,7 +128,9 @@ function ServiceProcessCard({
             style={{
               borderBottom: "1px solid #EAEAEA",
               margin: "0 0 24px 0",
-              padding: "0 0 12px 0"
+              padding: "0 0 12px 0",
+              fontSize: "15px",
+              lineHeight: "28px"
             }}
           >
             Standard {type} orders
@@ -121,7 +162,7 @@ function ServiceProcessCard({
           <Grid item xs={6}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel id="demo-simple-select-outlined-label">
-                Timepicker gap
+                Timepicker interval
               </InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
@@ -156,7 +197,9 @@ function ServiceProcessCard({
             style={{
               borderBottom: "1px solid #EAEAEA",
               margin: "0 0 24px 0",
-              padding: "0 0 12px 0"
+              padding: "0 0 12px 0",
+              fontSize: "15px",
+              lineHeight: "28px"
             }}
           >
             Scheduled {type} preorders
@@ -171,41 +214,13 @@ function ServiceProcessCard({
         />
 
         <FormSpacer />
-
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <FormControl variant="outlined" fullWidth>
-              <InputLabel id="demo-simple-select-outlined-label">
-                Preorder day
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                value={process.preOrderDay}
-                name="preOrderDay"
-                onChange={handleChange}
-                label="From"
-              >
-                {renPreOrderDay().map((item, index) => (
-                  <MenuItem value={item} key={index}>
-                    {item} day
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6}>
-            <ControlledSwitch
-              name="sameDayOrder"
-              label={`Enable same-day orders`}
-              checked={process.sameDayOrder}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-
-        <FormSpacer />
+        {type === "delivery" ? (
+          serviceProcess.deliveryProcess.preOrder ? (
+            <>{CheckDisableAction()}</>
+          ) : null
+        ) : serviceProcess.pickupProcess.preOrder ? (
+          <>{CheckDisableAction()}</>
+        ) : null}
       </CardContent>
     </Card>
   );

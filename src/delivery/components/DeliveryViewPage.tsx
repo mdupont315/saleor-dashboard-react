@@ -1,6 +1,5 @@
 /* eslint-disable object-shorthand */
 import {
-  Button,
   Card,
   CardContent,
   Container,
@@ -8,6 +7,7 @@ import {
   makeStyles,
   Typography
 } from "@material-ui/core";
+import AppHeader from "@saleor/components/AppHeader";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import PageHeader from "@saleor/components/PageHeader";
@@ -16,7 +16,7 @@ import { commonMessages, sectionNames } from "@saleor/intl";
 // import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import { FieldArray, Form, Formik } from "formik";
 import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import * as Yup from "yup";
 
 // import { useGetMyStore } from "../queries";
@@ -31,8 +31,9 @@ const useStyles = makeStyles(
       justifyContent: "center"
     },
     grid: {
-      marginLeft: 25,
-      marginBottom: 15
+      padding: "14px 24px",
+      display: "flex",
+      justifyContent: "flex-end"
     },
     configurationCategory: {
       [theme.breakpoints.down("md")]: {
@@ -46,12 +47,37 @@ const useStyles = makeStyles(
     },
     configurationLabel: {
       paddingBottom: 20
+    },
+    divider: {
+      border: "1px solid #EAEAEA",
+      marginTop: "-33px",
+      borderRadius: "0px"
+    },
+    textAction: {
+      fontSize: "14px",
+      lineHeight: "24px",
+      textTransform: "uppercase",
+      color: "#06847B",
+      margin: 0,
+      cursor: "pointer"
     }
   }),
   { name: "DeliveryViewPage" }
 );
 
-function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
+interface IProps {
+  data?: any;
+  onSubmit?: (input: any) => void;
+  onBack?: () => void;
+  updateEmergencyOpts?: any;
+}
+
+function DeliveryViewPage({
+  data,
+  onSubmit,
+  onBack,
+  updateEmergencyOpts
+}: IProps) {
   const intl = useIntl();
   const S = useStyles();
 
@@ -78,6 +104,9 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
 
   return (
     <Container>
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
       <FormSpacer />
       <div>
         {data !== undefined ? (
@@ -111,7 +140,7 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
                                 color: "#3d3d3d"
                               }}
                             >
-                              Delivery order Settings
+                              Delivery Area By Postcodes
                             </h2>
                             <p
                               style={{
@@ -120,8 +149,7 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
                                 color: "#3d3d3d"
                               }}
                             >
-                              Determine when and how your customers can place
-                              delivery orders.
+                              Determine the postcode ranges that you deliver to.
                             </p>
                           </Typography>
                         </div>
@@ -146,21 +174,16 @@ function DeliveryViewPage({ data, onSubmit, updateEmergencyOpts }) {
                                 />
                               ))}
                             </CardContent>
+                            <hr className={S.divider} />
                             <Grid className={S.grid}>
-                              <Button
-                                href={""}
-                                color="primary"
-                                variant="contained"
-                                target="_blank"
+                              <p
+                                className={S.textAction}
                                 onClick={() =>
                                   arrayHelpers.push({ to: "", from: "" })
                                 }
                               >
-                                <FormattedMessage
-                                  defaultMessage="Add a postcode range"
-                                  description="button"
-                                />
-                              </Button>
+                                ADD POSTCODE RANGE
+                              </p>
                             </Grid>
                           </Card>
                         </div>

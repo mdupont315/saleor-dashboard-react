@@ -14,9 +14,9 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 const useStyles = makeStyles(
   theme => ({
     card: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(3),
       [theme.breakpoints.down("sm")]: {
-        marginTop: 0
+        marginTop: theme.spacing(1)
       }
     },
     fileField: {

@@ -37,7 +37,7 @@ export interface AttributeValuesProps
 const useStyles = makeStyles(
   theme => ({
     columnAdmin: {
-      width: 300
+      width: "100%"
     },
     columnDrag: {
       width: 48 + theme.spacing(1.5)
@@ -83,13 +83,13 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
     <Card>
       <CardTitle
         title={intl.formatMessage({
-          defaultMessage: "Modifiers Values",
+          defaultMessage: "Modifier Options",
           description: "section header"
         })}
         toolbar={
           <Button color="primary" variant="text" onClick={onValueAdd}>
             <FormattedMessage
-              defaultMessage="Assign value"
+              defaultMessage="Add option"
               description="assign attribute value button"
             />
           </Button>
@@ -101,16 +101,16 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
             <TableCell className={classes.columnDrag} />
             <TableCell className={classes.columnAdmin}>
               <FormattedMessage
-                defaultMessage="Value"
+                defaultMessage="Option name"
                 description="attribute values list: slug column header"
               />
             </TableCell>
-            <TableCell className={classes.columnStore}>
+            {/* <TableCell className={classes.columnStore}>
               <FormattedMessage
                 defaultMessage="Store View"
                 description="attribute values list: name column header"
               />
-            </TableCell>
+            </TableCell> */}
             <TableCell className={classes.iconCell} />
           </TableRow>
         </TableHead>
@@ -140,9 +140,9 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
                 key={maybe(() => value.id)}
                 index={valueIndex || 0}
               >
-                <TableCell className={classes.columnAdmin}>
+                {/* <TableCell className={classes.columnAdmin}>
                   {maybe(() => value.slug) ? value.slug : <Skeleton />}
-                </TableCell>
+                </TableCell> */}
                 <TableCell className={classes.columnStore}>
                   {maybe(() => value.name) ? value.name : <Skeleton />}
                 </TableCell>

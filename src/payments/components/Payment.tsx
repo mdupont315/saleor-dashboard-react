@@ -1,5 +1,6 @@
 /* eslint-disable local-rules/named-styles */
 import { Container, makeStyles, Typography } from "@material-ui/core";
+import AppHeader from "@saleor/components/AppHeader";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { sectionNames } from "@saleor/intl";
@@ -66,7 +67,10 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
   }
   return (
     <Container>
-      <PageHeader title={intl.formatMessage(sectionNames.Payment)} />
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
+      <PageHeader title={intl.formatMessage(sectionNames.configuration)} />
       <div className={classes.configurationCategory}>
         <div className={classes.configurationLabel}>
           <Typography>
