@@ -30,6 +30,11 @@ const getMyStore = gql`
       deliveryStatus
       pickupStatus
       tableServiceStatus
+      enableTransactionFee
+      stripeEnable
+      stripeCost
+      contantEnable
+      contantCost
       logo {
         url
         alt

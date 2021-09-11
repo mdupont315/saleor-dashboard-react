@@ -19,7 +19,7 @@ interface IProps {
   params?: QRUrlQueryParams;
 }
 
-function TableCreateViewComponent({ id }: IProps) {
+function TableCreateViewComponent({ id, params }: IProps) {
   const intl = useIntl();
   const navigate = useNavigator();
   const notify = useNotifier();
@@ -120,6 +120,7 @@ function TableCreateViewComponent({ id }: IProps) {
           <TableCreatePage
             onBack={() => navigate(qrListUrl())}
             id={id}
+            params={params}
             data={maybe(() => data?.tableService)}
             onSubmit={handleSubmit}
             saveButtonBarState="default"
@@ -132,7 +133,7 @@ function TableCreateViewComponent({ id }: IProps) {
       <>
         <WindowTitle
           title={intl.formatMessage({
-            defaultMessage: "Create QRcode",
+            defaultMessage: "Create QR code",
             description: "window title"
           })}
         />
