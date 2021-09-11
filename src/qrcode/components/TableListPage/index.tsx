@@ -4,12 +4,7 @@ import AppHeader from "@saleor/components/AppHeader";
 import PageHeader from "@saleor/components/PageHeader";
 import { sectionNames } from "@saleor/intl";
 import { TableListUrlSortField } from "@saleor/qrcode/urls";
-import {
-  ListActions,
-  // PageListProps,
-  SortPage,
-  TabPageProps
-} from "@saleor/types";
+import { ListActions, SortPage, TabPageProps } from "@saleor/types";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -41,7 +36,7 @@ function TableListPage({ onAdd, onBack, ...tableProps }: IProps) {
       <PageHeader title={intl.formatMessage(sectionNames.QRcode)}>
         <Button color="primary" variant="contained" onClick={onAdd}>
           <FormattedMessage
-            defaultMessage="Create QRcode"
+            defaultMessage="Create QR code"
             description="button"
           />
         </Button>

@@ -112,12 +112,8 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
 };
 
 const validateSchema = Yup.object().shape({
-  contantCost: Yup.string()
-    .required("PLease enter contant cost")
-    .matches(/^[0-9]+$/, "Must be only digits"),
-  stripeCost: Yup.string()
-    .required("PLease enter stripe cost")
-    .matches(/^[0-9]+$/, "Must be only digits")
+  contantCost: Yup.number().required("PLease enter contant cost"),
+  stripeCost: Yup.number().required("PLease enter stripe cost")
 });
 
 export default PaymentViewPage;
