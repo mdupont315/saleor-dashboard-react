@@ -132,7 +132,10 @@ module.exports = speedMeasureWrapper((env, argv) => {
             resolve("assets/favicons")
           ],
           loader: fileLoaderPath,
-          test: /\.(eot|otf|png|svg|jpg|ttf|woff|woff2)(\?v=[0-9.]+)?$/
+          test: /\.(eot|otf|png|svg|jpg|ttf|woff|woff2)(\?v=[0-9.]+)?$/,
+          options: {
+            outputPath: "dashboard"
+          }
         }
       ]
     },
