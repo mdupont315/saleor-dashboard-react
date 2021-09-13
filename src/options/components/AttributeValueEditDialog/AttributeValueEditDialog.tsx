@@ -110,7 +110,10 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
         }
       : {
           name: "",
-          channelListing: currentChannels
+          channelListing: currentChannels.map(element => ({
+            ...element,
+            discountValue: "0"
+          }))
         };
 
   return (
@@ -226,7 +229,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                                             defaultMessage: "Price",
                                             description: ""
                                           })}
-                                          value={listing?.discountValue || "0"}
+                                          value={listing?.discountValue}
                                           onChange={handleChange}
                                           type="number"
                                           fullWidth
