@@ -189,7 +189,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                               <TableCell className={classes.colType}>
                                 <span>
                                   <FormattedMessage
-                                    defaultMessage="Value"
+                                    defaultMessage="Price"
                                     description=""
                                   />
                                 </span>
@@ -223,10 +223,10 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                                                    */
                                           name={`channelListing.${index}.discountValue`}
                                           label={intl.formatMessage({
-                                            defaultMessage: "Value",
+                                            defaultMessage: "Price",
                                             description: ""
                                           })}
-                                          value={listing.discountValue || ""}
+                                          value={listing?.discountValue || "0"}
                                           onChange={handleChange}
                                           type="number"
                                           fullWidth
