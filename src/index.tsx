@@ -4,13 +4,14 @@ import { ApolloClient } from "apollo-client";
 import { ApolloLink } from "apollo-link";
 import { BatchHttpLink } from "apollo-link-batch-http";
 import { createUploadLink } from "apollo-upload-client";
-import React from "react";
+import React, { useEffect } from "react";
 import { ApolloProvider } from "react-apollo";
 import { render } from "react-dom";
 import ErrorBoundary from "react-error-boundary";
 import TagManager from "react-gtm-module";
 import { useIntl } from "react-intl";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { io } from "socket.io-client";
 
 import AppsSection from "./apps";
 import { appsSection } from "./apps/urls";
@@ -117,6 +118,13 @@ const apolloClient = new ApolloClient({
 
 const App: React.FC = () => {
   const isDark = localStorage.getItem("theme") === "true";
+
+  useEffect(() => {
+    const socket = io("http://localhost:8080");
+    socket.on("messgae", (data) => {
+      console.log("data", data)
+    })
+  })
 
   return (
     <ApolloProvider client={apolloClient}>
