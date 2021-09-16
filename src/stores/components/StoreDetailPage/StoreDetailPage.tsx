@@ -66,9 +66,6 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
 const postCodeCheck = (value: any) => {
   let result = false;
   if (value.length > 0) {
-    if (isNaN(Number(value)) === false && value.length < 5) {
-      result = true;
-    }
     if (
       isNaN(Number(value.slice(0, 4))) === false &&
       value?.length > 4 &&
@@ -95,15 +92,7 @@ const validateSchema = yup.object().shape({
   password: yup
     .string()
     .required("Required!")
-    .min(8, "Too Short!"),
-  postalcode: yup
-    .string()
-    .required("Required")
-    .test(
-      "postalCode",
-      "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
-      value => postCodeCheck(value)
-    )
+    .min(8, "Too Short!")
 });
 
 const validateSchemaUpdate = yup.object().shape({
@@ -114,7 +103,11 @@ const validateSchemaUpdate = yup.object().shape({
   postalcode: yup
     .string()
     .required("Required")
-    .test("postalCode", "invalid", value => postCodeCheck(value))
+    .test(
+      "postalCode",
+      "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
+      value => postCodeCheck(value)
+    )
 });
 
 const StoreDetailPage: React.FC<IProps> = ({
@@ -174,9 +167,7 @@ const StoreDetailPage: React.FC<IProps> = ({
       <Formik
         initialValues={initialForm}
         validationSchema={storeId ? validateSchemaUpdate : validateSchema}
-        onSubmit={values => {
-          onSubmit(values);
-        }}
+        onSubmit={values => onSubmit(values)}
       >
         {({ values, handleChange, handleSubmit, ...formikProps }) => (
           <>

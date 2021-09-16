@@ -212,9 +212,16 @@ function ServiceCardComponent({
             <>
               <FormControl style={{ marginTop: "24px" }} aria-label="Day">
                 <FormGroup>
-                  <div style={{ display: "flex" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-between"
+                    }}
+                  >
                     {item?.days.map((item, index) => (
                       <FormControlLabel
+                        style={{ width: "74px" }}
                         key={index}
                         control={
                           <Checkbox

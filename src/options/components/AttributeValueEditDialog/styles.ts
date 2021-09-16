@@ -38,6 +38,8 @@ export const useStyles = makeStyles(
       fontSize: 14
     },
     row: {
+      borderBottom: "1px solid #EAEAEA",
+
       "&:last-child": {
         "& td": {
           borderBottom: "none"
@@ -59,7 +61,8 @@ export const useStyles = makeStyles(
       overflow: "hidden"
     },
     dialogAction: {
-      padding: "16px 0"
+      padding: "16px 0",
+      borderTop: 0
     }
   }),
   {

@@ -126,7 +126,7 @@ const HomePage: React.FC<HomePageProps> = props => {
               </HomeAnalyticsCard>
             </div>
           </RequirePermissions>
-          <CardSpacer />
+          {/* <CardSpacer /> */}
           {/* quick settings */}
           <QuickSettingsCard />
           {/*  */}

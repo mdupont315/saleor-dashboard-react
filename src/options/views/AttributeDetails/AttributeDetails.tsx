@@ -168,6 +168,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
           name: data.name,
           channelListing: data.channelListing.map(channel => ({
             channelId: channel.id,
+            currency: channel.currency,
             price: channel.discountValue
           }))
         }
@@ -182,16 +183,19 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
     return result;
   };
 
-  const handleValueUpdate = async (input: AttributeValueEditDialogFormData) => {
+  const handleValueUpdate = async (input: any) => {
     const findElement = cacheValues.option.optionValues.filter(
       value => params.id === value.id
     )[0];
+
     const channelListingUpdate = input.channelListing?.map(value => ({
       channelId: value.id,
-      price: value.discountValue,
+      price: Number(value.discountValue.toFixed(1)),
+      currency: value.currency,
       id: findElement.channelListing.find(find => find.channel.id === value.id)
         .id
     }));
+
     const result = await attributeValueUpdate({
       variables: {
         id: params.id,
