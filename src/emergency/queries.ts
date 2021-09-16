@@ -35,6 +35,8 @@ const getMyStore = gql`
       stripeCost
       contantEnable
       contantCost
+      indexCash
+      indexStripe
       logo {
         url
         alt

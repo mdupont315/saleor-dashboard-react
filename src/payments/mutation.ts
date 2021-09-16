@@ -8,6 +8,8 @@ const storeUpdateMutation = gql`
         id
         name
         domain
+        indexCash
+        indexStripe
       }
       errors {
         message

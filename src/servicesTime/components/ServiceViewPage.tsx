@@ -208,6 +208,27 @@ function ServiceViewPage() {
   };
 
   const handleClick = () => {
+    Object.keys(input).forEach(key => {
+      if (
+        key === "dlServiceTime" ||
+        key === "puServiceTime" ||
+        key === "tableServiceTime"
+      ) {
+        input[key] =
+          input[key].length === 9
+            ? JSON.stringify({
+                [input[key].slice(2, 4)]: [
+                  {
+                    days: Array.from({ length: 7 }, () => false),
+                    open: "00:05",
+                    close: "23:55"
+                  }
+                ]
+              })
+            : input[key];
+      }
+    });
+
     let checkErr = false;
 
     if (listService && listService?.serviceTimes?.edges.length > 0) {

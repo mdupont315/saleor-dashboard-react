@@ -199,6 +199,7 @@ function ServiceCardComponent({
       : type === "pickup"
       ? serviceTime.pickupService
       : serviceTime.tableService;
+
   return (
     <Card>
       <CardTitle title={intl.formatMessage(titleHead)} />
@@ -290,19 +291,17 @@ function ServiceCardComponent({
                     <FormHelperText>From have small than until</FormHelperText>
                   )}
                 </FormControl>
-                {indexItem !== 0 && (
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Tooltip title="Delete">
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => onDeleteSlot(indexItem)}
-                        style={{ color: "#06847B" }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                )}
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Tooltip title="Delete">
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => onDeleteSlot(indexItem)}
+                      style={{ color: "#06847B" }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </div>
               <FormSpacer />
               <FormSpacer />

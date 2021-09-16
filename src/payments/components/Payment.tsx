@@ -50,14 +50,18 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
           contantEnable: data?.contantEnable || false,
           stripeCost: JSON.stringify(data?.stripeCost ?? 0),
           stripeEnable: data?.stripeEnable || false,
-          enableTransactionFee: data?.enableTransactionFee || false
+          enableTransactionFee: data?.enableTransactionFee || false,
+          indexCash: data?.indexCash || 0,
+          indexStripe: data?.indexStripe || 0
         }
       : {
           contantCost: 0,
           contantEnable: false,
           stripeCost: 0,
           stripeEnable: false,
-          enableTransactionFee: false
+          enableTransactionFee: false,
+          indexCash: 0,
+          indexStripe: 1
         };
 
   const compareWithData = values =>
@@ -89,11 +93,18 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
             onSubmit={onSubmit}
             validationSchema={validateSchema}
           >
-            {({ handleChange, handleSubmit, values, errors }) => (
+            {({
+              handleChange,
+              handleSubmit,
+              values,
+              setFieldValue,
+              errors
+            }) => (
               <Form>
                 <PayemntProcessCard
                   values={values}
                   handleChange={handleChange}
+                  setFieldValue={setFieldValue}
                   errors={errors}
                 />
                 <SaveButtonBar

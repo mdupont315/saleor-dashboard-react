@@ -9,6 +9,8 @@ export const getMyStore = gql`
       stripeEnable
       stripeCost
       enableTransactionFee
+      indexCash
+      indexStripe
     }
   }
 `;
