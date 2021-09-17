@@ -301,7 +301,8 @@ function ServiceViewPage() {
               Delivery order Settings
             </h2>
             <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
-              Determine when and how your customers can place delivery orders.
+              Determine your delivery fee, minimum delivery order value and free
+              delivery threshold.
             </p>
           </Typography>
         </div>

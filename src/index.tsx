@@ -5,12 +5,14 @@ import { ApolloLink } from "apollo-link";
 import { BatchHttpLink } from "apollo-link-batch-http";
 import { createUploadLink } from "apollo-upload-client";
 import React, { useEffect } from "react";
-import { ApolloProvider } from "react-apollo";
+import { ApolloProvider, useQuery } from "react-apollo";
+// import { useLazyQuery } from '@apollo/client';
 import { render } from "react-dom";
 import ErrorBoundary from "react-error-boundary";
 import TagManager from "react-gtm-module";
 import { useIntl } from "react-intl";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import ReactToPrint from "react-to-print";
 import { io } from "socket.io-client";
 
 import AppsSection from "./apps";
@@ -55,7 +57,9 @@ import NotificationSection from "./notifications";
 import { notificationSection } from "./notifications/urls";
 import OptionSection from "./options";
 import { optionSection } from "./options/urls";
+import OrderDetail from "./OrderDetail";
 import OrdersSection from "./orders";
+import { orderFull } from "./orders/queries";
 import PageSection from "./pages";
 import PageTypesSection from "./pageTypes";
 import PaymentSection from "./payments";
@@ -118,14 +122,21 @@ const apolloClient = new ApolloClient({
 
 const App: React.FC = () => {
   const isDark = localStorage.getItem("theme") === "true";
+  const [orderId, setOrderId] = React.useState("");
 
   useEffect(() => {
-    const socket = io("http://localhost:8080");
-    socket.on("messgae", (data) => {
-      console.log("data", data)
-    })
-  })
-
+    const socket = io("http://127.0.0.1:8000");
+    socket.on("connect", function() {
+      socket.emit("my_event", { data: "thang I'm connected!" });
+    });
+    socket.on("is_order_complete", function(msg) {
+      if (msg) {
+        // console.log(msg);
+        setOrderId(msg.data);
+        // ord_id = ;
+      }
+    });
+  });
   return (
     <ApolloProvider client={apolloClient}>
       <BrowserRouter basename={APP_MOUNT_URI}>
@@ -139,7 +150,7 @@ const App: React.FC = () => {
                     <ShopProvider>
                       <AuthProvider>
                         <AppChannelProvider>
-                          <Routes />
+                          <Routes orderId={orderId} />
                         </AppChannelProvider>
                       </AuthProvider>
                     </ShopProvider>
@@ -154,7 +165,7 @@ const App: React.FC = () => {
   );
 };
 
-const Routes: React.FC = () => {
+const Routes = ({ orderId }: any) => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
   const {
@@ -174,10 +185,49 @@ const Routes: React.FC = () => {
     !tokenAuthLoading &&
     !tokenVerifyLoading;
 
+  // if (orderId) {
+  // }
+
+  // const { data } = useOrderFull({
+  //   variables: { orderId }
+  // });
+  const [orderDetail, setOrderDetail] = React.useState(null);
+  const componentRef = React.useRef();
+  const buttonRef = React.useRef();
+  const {} = useQuery(orderFull, {
+    variables: { orderId },
+    fetchPolicy: "cache-and-network",
+    onCompleted: data => {
+      // peint here
+
+      setOrderDetail(data.order);
+      // console.log(buttonRef);
+      if (buttonRef) {
+        buttonRef.current.click();
+      }
+    }
+  });
+
   const homePageLoading =
     (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
   return (
     <>
+      <ReactToPrint
+        trigger={() => (
+          <div style={{ display: "none" }}>
+            <button color="primary" ref={buttonRef}>
+              Print
+            </button>
+          </div>
+        )}
+        content={() => componentRef.current}
+      />
+      {/* */}
+      <div style={{ display: "none" }}>
+        <div ref={componentRef}>
+          <OrderDetail orderDetail={orderDetail} />
+        </div>
+      </div>
       <WindowTitle title={intl.formatMessage(commonMessages.dashboard)} />
       {homePageLoaded ? (
         <AppLayout>
