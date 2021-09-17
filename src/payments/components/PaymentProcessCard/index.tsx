@@ -123,7 +123,10 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
 
   const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
     // destructuring assignment
-    const cacheArray = [text[newIndex], text[oldIndex]];
+    const cacheArray =
+      newIndex > oldIndex
+        ? [text[newIndex], text[oldIndex]]
+        : [text[oldIndex], text[newIndex]];
     cacheArray.forEach((element, index) => {
       setFieldValue(element.text, index);
     });
