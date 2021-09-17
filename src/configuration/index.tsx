@@ -188,7 +188,7 @@ export function createConfigurationMenu(
             id: "configurationNotification"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SHIPPING,
+          permission: PermissionEnum.MANAGE_STORES,
           title: intl.formatMessage(sectionNames.stripe),
           url: stripePluginUrl()
         }

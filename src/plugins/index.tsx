@@ -42,7 +42,9 @@ const Component = () => {
   const intl = useIntl();
   const { user } = useUser();
   if (!user.isSuperuser) {
-    return <Redirect to="/" />;
+    if (!user.isSupplier) {
+      return <Redirect to="/" />;
+    }
   }
 
   return (

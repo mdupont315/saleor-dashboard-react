@@ -220,7 +220,7 @@ export const useOrderVariantSearch = makeTopLevelSearch<
   SearchOrderVariantVariables
 >(searchOrderVariant);
 
-const orderFulfillData = gql`
+export const orderFulfillData = gql`
   query OrderFulfillData($orderId: ID!) {
     order(id: $orderId) {
       id
@@ -268,6 +268,77 @@ export const useOrderFulfillData = makeQuery<
   OrderFulfillData,
   OrderFulfillDataVariables
 >(orderFulfillData);
+
+export const orderFull = gql`
+  query OrderFull($orderId: ID!) {
+    order(id: $orderId) {
+      id
+      billingAddress {
+        firstName
+        lastName
+        companyName
+        streetAddress1
+        city
+        postalCode
+        phone
+        email
+        apartment
+      }
+      orderType
+
+      lines {
+        id
+        productName
+        variantName
+        optionItems
+        quantity
+        unitPrice {
+          gross {
+            amount
+            currency
+          }
+          net {
+            currency
+            amount
+          }
+        }
+
+        unitDiscountValue
+        unitDiscount {
+          amount
+        }
+        totalPrice {
+          gross {
+            currency
+            amount
+          }
+          net {
+            currency
+            amount
+          }
+        }
+      }
+
+      discounts {
+        amount {
+          currency
+          amount
+        }
+      }
+
+      subtotal {
+        currency
+        gross {
+          currency
+          amount
+        }
+      }
+      deliveryFee
+      transactionCost
+    }
+  }
+`;
+export const useOrderFull = makeQuery<any, any>(orderFull);
 
 export const orderSettingsQuery = gql`
   ${fragmentOrderSettings}

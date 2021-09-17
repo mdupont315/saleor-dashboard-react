@@ -304,7 +304,7 @@ function TableCreatePage({
                   <CardTitle
                     title={intl.formatMessage({
                       defaultMessage: "QR Code",
-                      description: "page header"
+                      description: "page l"
                     })}
                     toolbar={
                       <ReactToPrint
