@@ -192,8 +192,8 @@ const Routes = ({ orderId }: any) => {
   //   variables: { orderId }
   // });
   const [orderDetail, setOrderDetail] = React.useState(null);
-  const componentRef = React.useRef();
-  const buttonRef = React.useRef();
+  const componentRef = React.useRef<any>();
+  const buttonRef = React.useRef<any>();
   const {} = useQuery(orderFull, {
     variables: { orderId },
     fetchPolicy: "cache-and-network",
