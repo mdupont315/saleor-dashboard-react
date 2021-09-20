@@ -134,7 +134,7 @@ module.exports = speedMeasureWrapper((env, argv) => {
           loader: fileLoaderPath,
           test: /\.(eot|otf|png|svg|jpg|ttf|woff|woff2)(\?v=[0-9.]+)?$/,
           options: {
-            outputPath: "dashboard"
+            outputPath: "dashboard/images"
           }
         }
       ]
