@@ -6,6 +6,7 @@ import { commonMessages } from "@saleor/intl";
 import React from "react";
 import { useIntl } from "react-intl";
 
+import { useAuth } from "../../auth/AuthProvider";
 import StoreDetailPage from "../components/StoreDetailPage/StoreDetailPage";
 import {
   useCreateStoreMutation,
@@ -28,9 +29,10 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
   const navigate = useNavigator();
   const notify = useNotifier();
   const intl = useIntl();
+  const { user } = useAuth();
 
   const onBack = () => {
-    navigate("/configuration");
+    navigate(user.isSuperuser === true ? "/" : "/configuration");
   };
 
   if (id !== "undefined") {
