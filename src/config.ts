@@ -5,6 +5,10 @@ import { ListSettings, ListViews, Pagination } from "./types";
 export const APP_MOUNT_URI = process.env.APP_MOUNT_URI;
 export const APP_DEFAULT_URI = "/";
 export const API_URI = process.env.API_URI;
+// export const STATIC_URL = process.env.STATIC_URL;
+
+export const SOCKET_URI = process.env.SOCKET_URI;
+
 export const API_QR = process.env.QRCODE_BASE;
 
 export const SW_INTERVAL = parseInt(process.env.SW_INTERVAL, 0);
