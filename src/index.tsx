@@ -225,8 +225,8 @@ const Routes = ({ orderId }: any) => {
         )}
         content={() => componentRef.current}
       />
-      {/* style={{ display: "none" }} */}
-      <div>
+      {/*  */}
+      <div style={{ display: "none" }}>
         <div ref={componentRef}>
           <OrderDetail orderDetail={orderDetail} />
         </div>
