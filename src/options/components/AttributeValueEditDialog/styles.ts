@@ -63,6 +63,9 @@ export const useStyles = makeStyles(
     dialogAction: {
       padding: "16px 0",
       borderTop: 0
+    },
+    tableCellCustom: {
+      paddingBottom: "16px"
     }
   }),
   {

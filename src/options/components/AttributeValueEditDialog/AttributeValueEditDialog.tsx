@@ -206,12 +206,16 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                                     key={listing?.id || `skeleton-${index}`}
                                     className={classes.row}
                                   >
-                                    <TableCell>
+                                    <TableCell
+                                      className={classes.tableCellCustom}
+                                    >
                                       <Typography>
                                         {listing?.name || <Skeleton />}
                                       </Typography>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell
+                                      className={classes.tableCellCustom}
+                                    >
                                       {listing ? (
                                         <TextField
                                           disabled={disabled}

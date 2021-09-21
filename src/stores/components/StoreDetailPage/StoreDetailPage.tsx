@@ -64,19 +64,14 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
 }
 
 const postCodeCheck = (value: any) => {
-  let result = false;
-  if (value.length > 0) {
-    if (
-      isNaN(Number(value.slice(0, 4))) === false &&
-      value?.length > 4 &&
-      !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value.slice(4))
-    ) {
-      result = true;
-    }
-    if (value?.length > 7) {
-      result = false;
-    }
-  }
+  const result =
+    value.length > 0 && value.length < 8
+      ? isNaN(Number(value.slice(0, 4))) === false &&
+        value.slice(4, 5) === " " &&
+        !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value.slice(5, 7))
+        ? true
+        : false
+      : false;
   return result;
 };
 
