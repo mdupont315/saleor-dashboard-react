@@ -4,7 +4,7 @@ import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
-import Metadata, { MetadataFormData } from "@saleor/components/Metadata";
+import { MetadataFormData } from "@saleor/components/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 // import { ChangeEvent, FormChange } from "@saleor/hooks/useForm";
@@ -13,7 +13,7 @@ import { sectionNames } from "@saleor/intl";
 import { ProductTypeDetails_taxTypes } from "@saleor/productTypes/types/ProductTypeDetails";
 import { UserError } from "@saleor/types";
 import { WeightUnitsEnum } from "@saleor/types/globalTypes";
-import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
+// import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -72,31 +72,30 @@ const ProductTypeCreatePage: React.FC<ProductTypeCreatePageProps> = ({
 }: ProductTypeCreatePageProps) => {
   const intl = useIntl();
   // const [taxTypeDisplayName, setTaxTypeDisplayName] = useStateFromProps("");
-  const {
-    makeChangeHandler: makeMetadataChangeHandler
-  } = useMetadataChangeTrigger();
+  // const {
+  //   makeChangeHandler: makeMetadataChangeHandler
+  // } = useMetadataChangeTrigger();
 
   return (
     <Form initial={formInitialData} onSubmit={onSubmit} confirmLeave>
-      {({ change, data, hasChanged, submit }) => {
-        const changeMetadata = makeMetadataChangeHandler(change);
+      {({ change, data, hasChanged, submit }) => (
+        // const changeMetadata = makeMetadataChangeHandler(change);
 
-        return (
-          <Container>
-            <AppHeader onBack={onBack}>
-              {intl.formatMessage(sectionNames.productTypes)}
-            </AppHeader>
-            <PageHeader title={pageTitle} />
-            <Grid>
-              <div>
-                <ProductTypeDetails
-                  data={data}
-                  disabled={disabled}
-                  errors={errors}
-                  onChange={change}
-                />
-                <CardSpacer />
-                {/* <ProductTypeTaxes
+        <Container>
+          <AppHeader onBack={onBack}>
+            {intl.formatMessage(sectionNames.productTypes)}
+          </AppHeader>
+          <PageHeader title={pageTitle} />
+          <Grid>
+            <div>
+              <ProductTypeDetails
+                data={data}
+                disabled={disabled}
+                errors={errors}
+                onChange={change}
+              />
+              <CardSpacer />
+              {/* <ProductTypeTaxes
                   disabled={disabled}
                   data={data}
                   taxTypes={taxTypes}
@@ -110,10 +109,10 @@ const ProductTypeCreatePage: React.FC<ProductTypeCreatePageProps> = ({
                     )
                   }
                 /> */}
-                <CardSpacer />
-                <Metadata data={data} onChange={changeMetadata} />
-              </div>
-              {/* <div>
+              <CardSpacer />
+              {/* <Metadata data={data} onChange={changeMetadata} /> */}
+            </div>
+            {/* <div>
                 <ProductTypeShipping
                   disabled={disabled}
                   data={data}
@@ -121,16 +120,15 @@ const ProductTypeCreatePage: React.FC<ProductTypeCreatePageProps> = ({
                   onChange={change}
                 />
               </div> */}
-            </Grid>
-            <SaveButtonBar
-              onCancel={onBack}
-              onSave={submit}
-              disabled={disabled || !hasChanged}
-              state={saveButtonBarState}
-            />
-          </Container>
-        );
-      }}
+          </Grid>
+          <SaveButtonBar
+            onCancel={onBack}
+            onSave={submit}
+            disabled={disabled || !hasChanged}
+            state={saveButtonBarState}
+          />
+        </Container>
+      )}
     </Form>
   );
 };
