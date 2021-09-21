@@ -66,7 +66,7 @@ function OrderDetail({ orderDetail }: any) {
             <tbody>
               {(orderDetail?.lines || []).map((item: any) => {
                 const optionItems = JSON.parse(JSON.parse(item?.optionItems));
-                if (optionItems.length > 0) {
+                if (optionItems && optionItems.length > 0) {
                   return (
                     <>
                       <tr>

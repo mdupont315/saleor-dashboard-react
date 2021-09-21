@@ -39,7 +39,7 @@ import MessageManagerProvider from "./components/messages";
 import { ShopProvider } from "./components/Shop";
 import ThemeProvider from "./components/Theme";
 import { WindowTitle } from "./components/WindowTitle";
-import { API_URI, APP_MOUNT_URI, GTM_ID } from "./config";
+import { API_URI, APP_MOUNT_URI, GTM_ID, SOCKET_URI } from "./config";
 import ConfigurationSection, { createConfigurationMenu } from "./configuration";
 import AppStateProvider from "./containers/AppState";
 import BackgroundTasksProvider from "./containers/BackgroundTasks";
@@ -123,20 +123,23 @@ const apolloClient = new ApolloClient({
 const App: React.FC = () => {
   const isDark = localStorage.getItem("theme") === "true";
   const [orderId, setOrderId] = React.useState("");
-
   useEffect(() => {
-    const socket = io("http://127.0.0.1:8000");
+    const socket = io(SOCKET_URI);
     socket.on("connect", function() {
       socket.emit("my_event", { data: "thang I'm connected!" });
     });
     socket.on("is_order_complete", function(msg) {
       if (msg) {
-        // console.log(msg);
         setOrderId(msg.data);
         // ord_id = ;
       }
     });
+    return () => {
+      socket.off("connect");
+      socket.off("is_order_complete");
+    };
   });
+
   return (
     <ApolloProvider client={apolloClient}>
       <BrowserRouter basename={APP_MOUNT_URI}>
@@ -199,7 +202,6 @@ const Routes = ({ orderId }: any) => {
     fetchPolicy: "cache-and-network",
     onCompleted: data => {
       // peint here
-
       setOrderDetail(data.order);
       // console.log(buttonRef);
       if (buttonRef) {
@@ -212,6 +214,7 @@ const Routes = ({ orderId }: any) => {
     (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
   return (
     <>
+      {/* ------------------------print element */}
       <ReactToPrint
         trigger={() => (
           <div style={{ display: "none" }}>
@@ -222,12 +225,14 @@ const Routes = ({ orderId }: any) => {
         )}
         content={() => componentRef.current}
       />
-      {/* */}
-      <div style={{ display: "none" }}>
+      {/* style={{ display: "none" }} */}
+      <div>
         <div ref={componentRef}>
           <OrderDetail orderDetail={orderDetail} />
         </div>
       </div>
+      {/* ------------------------------------------------ */}
+
       <WindowTitle title={intl.formatMessage(commonMessages.dashboard)} />
       {homePageLoaded ? (
         <AppLayout>
