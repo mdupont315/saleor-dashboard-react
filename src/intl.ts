@@ -250,7 +250,7 @@ export const sectionNames = defineMessages({
     description: "categories section name"
   },
   stores: {
-    defaultMessage: "Site settings",
+    defaultMessage: "Site Settings",
     description: "Site settings section name"
   },
   delivery: {

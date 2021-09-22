@@ -148,7 +148,7 @@ export function createConfigurationMenu(
         },
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage and update your payment",
+            defaultMessage: "Manage your payment methods and transaction fees",
             id: "configurationPayment"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   Checkbox,
@@ -16,7 +17,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const initTime = {
   days: [false, false, false, false, false, false, false],
@@ -291,7 +292,13 @@ function ServiceCardComponent({
                     <FormHelperText>From have small than until</FormHelperText>
                   )}
                 </FormControl>
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    height: "95%"
+                  }}
+                >
                   <Tooltip title="Delete">
                     <IconButton
                       aria-label="delete"
@@ -318,19 +325,12 @@ function ServiceCardComponent({
           padding: "14px 24px"
         }}
       >
-        <p
-          style={{
-            cursor: "pointer",
-            margin: 0,
-            fontSize: "16px",
-            lineHeight: "24px",
-            color: "#06847B",
-            textTransform: "uppercase"
-          }}
-          onClick={onAddNewTimeSlot}
-        >
-          Add timeslot
-        </p>
+        <Button color="primary" variant="text" onClick={onAddNewTimeSlot}>
+          <FormattedMessage
+            defaultMessage="Add timeslot"
+            description="Add timeslot button"
+          />
+        </Button>
       </div>
     </Card>
   );

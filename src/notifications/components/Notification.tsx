@@ -1,4 +1,5 @@
 import { Container } from "@material-ui/core";
+import AppHeader from "@saleor/components/AppHeader";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -48,6 +49,9 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
 
   return (
     <Container>
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
       <PageHeader title={intl.formatMessage(sectionNames.Notification)} />
       <Grid>
         <div>

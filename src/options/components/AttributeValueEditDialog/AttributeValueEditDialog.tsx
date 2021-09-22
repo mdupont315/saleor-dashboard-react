@@ -163,7 +163,7 @@ const AttributeValueEditDialog: React.FC<AttributeValueEditDialogProps> = ({
                   <>
                     <Card className={classes.wrapperCard}>
                       <p className={classes.textContent}>
-                        Below you add a price for the modifier option. This
+                        Below you can add a price for the modifier option. This
                         price will be added to the product price. Leave it empty
                         if this option is free of charge.
                       </p>

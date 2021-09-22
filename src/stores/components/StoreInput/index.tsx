@@ -207,7 +207,7 @@ function StoreInput({
                 <>
                   <TextField
                     label={intl.formatMessage({
-                      defaultMessage: "Store Name"
+                      defaultMessage: "Store name"
                     })}
                     fullWidth
                     name="name"

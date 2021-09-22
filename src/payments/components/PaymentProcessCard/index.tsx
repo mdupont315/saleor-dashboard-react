@@ -179,7 +179,7 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
                       checked={values?.[value.enable] === true}
                       name={value.enable}
                       onChange={handleChange}
-                      disabled={!values.enableTransactionFee}
+                      // disabled={values.enableTransactionFee}
                     />
                   </div>
                 </TableCell>

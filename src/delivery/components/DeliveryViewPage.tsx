@@ -1,5 +1,6 @@
 /* eslint-disable object-shorthand */
 import {
+  Button,
   Card,
   CardContent,
   Container,
@@ -16,7 +17,7 @@ import { commonMessages, sectionNames } from "@saleor/intl";
 // import { useUpdateStoreMutation } from "@saleor/stores/queries";
 import { FieldArray, Form, Formik } from "formik";
 import React from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import * as Yup from "yup";
 
 // import { useGetMyStore } from "../queries";
@@ -176,14 +177,18 @@ function DeliveryViewPage({
                             </CardContent>
                             <hr className={S.divider} />
                             <Grid className={S.grid}>
-                              <p
-                                className={S.textAction}
+                              <Button
+                                color="primary"
+                                variant="text"
                                 onClick={() =>
                                   arrayHelpers.push({ to: "", from: "" })
                                 }
                               >
-                                ADD POSTCODE RANGE
-                              </p>
+                                <FormattedMessage
+                                  defaultMessage=" ADD POSTCODE RANGE"
+                                  description=" ADD POSTCODE RANGE button"
+                                />
+                              </Button>
                             </Grid>
                           </Card>
                         </div>
@@ -213,8 +218,8 @@ function DeliveryViewPage({
                           color: "#3d3d3d"
                         }}
                       >
-                        Determine when and how your customers can place delivery
-                        orders.
+                        Determine your delivery fee, minimum delivery order
+                        value and free delivery threshold.
                       </p>
                     </Typography>
                   </div>

@@ -116,6 +116,7 @@ interface IProps {
   params?: any;
   onSubmit?: any;
   saveButtonBarState?: any;
+  onCloseModal?: any;
 }
 
 function TableCreatePage({
@@ -371,7 +372,7 @@ function TableCreatePage({
 
             <ActionDialog
               open={openDialog}
-              onClose={() => null}
+              onClose={() => setOpenDialog(false)}
               confirmButtonState={bulkDeleteTableOpts.status}
               onConfirm={() => {
                 bulkDeteleTables({
@@ -382,7 +383,7 @@ function TableCreatePage({
               }}
               variant="delete"
               title={intl.formatMessage({
-                defaultMessage: "Delete Table",
+                defaultMessage: "Delete QR location",
                 description: "dialog header"
               })}
             >

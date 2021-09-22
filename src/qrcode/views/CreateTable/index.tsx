@@ -25,6 +25,7 @@ function TableCreateViewComponent({ id, params }: IProps) {
   const notify = useNotifier();
   const t = window.location.origin.split(":");
   t.splice(-1, 1);
+
   const [createTable] = useMutation(createTableMutation, {
     onCompleted: data => {
       if (data?.tableServiceCreate?.errors.length > 0) {

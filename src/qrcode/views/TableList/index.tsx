@@ -168,13 +168,13 @@ function TableListViewComponent({ params }: IProps) {
               }}
               variant="delete"
               title={intl.formatMessage({
-                defaultMessage: "Delete Table",
+                defaultMessage: "Delete QR location ",
                 description: "dialog header"
               })}
             >
               <DialogContentText>
                 <FormattedMessage
-                  defaultMessage="{counter,plural,one{Are you sure you want to delete this customer?} other{Are you sure you want to delete {displayQuantity} customers?}}"
+                  defaultMessage="{counter,plural,one{Are you sure you want to delete this Delete QR location?} other{Are you sure you want to delete {displayQuantity} Delete QR location?}}"
                   values={{
                     counter: maybe(() => params.ids.length),
                     displayQuantity: (

@@ -74,7 +74,7 @@ const PaymentViewPage: React.FC<StroreNotification> = ({
       <AppHeader onBack={onBack}>
         {intl.formatMessage(sectionNames.configuration)}
       </AppHeader>
-      <PageHeader title={intl.formatMessage(sectionNames.configuration)} />
+      <PageHeader title={intl.formatMessage(sectionNames.Payment)} />
       <div className={classes.configurationCategory}>
         <div className={classes.configurationLabel}>
           <Typography>
