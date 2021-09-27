@@ -47,8 +47,9 @@ const useStyles = makeStyles(theme => ({
 
   printWrap: {
     background: "#ffd668 ",
-    padding: "24px 48px",
-    width: "297px",
+    // padding: "24px 48px",
+    width: "100vw",
+    height: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -335,7 +336,7 @@ function TableCreatePage({
                       />
                     </div>
 
-                    {/* print wwrapp */}
+                    {/* print wwrapp   */}
 
                     <div style={{ display: "none" }}>
                       <div className={classes.printWrap} ref={componentRef}>

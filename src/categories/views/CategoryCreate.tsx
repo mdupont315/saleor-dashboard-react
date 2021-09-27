@@ -1,6 +1,8 @@
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { useGetMyStore } from "@saleor/emergency/queries";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { genarateSlug } from "@saleor/products/utils/handlers";
 import createMetadataCreateHandler from "@saleor/utils/handlers/metadataCreateHandler";
 import {
   useMetadataUpdate,
@@ -28,6 +30,7 @@ export const CategoryCreateView: React.FC<CategoryCreateViewProps> = ({
   const intl = useIntl();
   const [updateMetadata] = useMetadataUpdate({});
   const [updatePrivateMetadata] = usePrivateMetadataUpdate({});
+  const { data: myStore } = useGetMyStore({ variables: {} });
 
   const handleSuccess = (data: CategoryCreate) => {
     if (data.categoryCreate.errors.length === 0) {
@@ -55,7 +58,7 @@ export const CategoryCreateView: React.FC<CategoryCreateViewProps> = ({
             description: formData.seoDescription,
             title: formData.seoTitle
           },
-          slug: formData.slug
+          slug: genarateSlug(myStore?.myStore?.name, formData.name)
         },
         parent: parentId || null
       }

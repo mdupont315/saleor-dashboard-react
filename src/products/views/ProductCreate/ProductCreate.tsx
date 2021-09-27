@@ -8,6 +8,7 @@ import {
   DEFAULT_INITIAL_SEARCH_DATA,
   VALUES_PAGINATE_BY
 } from "@saleor/config";
+import { useGetMyStore } from "@saleor/emergency/queries";
 import { useFileUploadMutation } from "@saleor/files/mutations";
 import useChannels from "@saleor/hooks/useChannels";
 import useNavigator from "@saleor/hooks/useNavigator";
@@ -33,6 +34,7 @@ import {
   productListUrl,
   productUrl
 } from "@saleor/products/urls";
+import { genarateSlug } from "@saleor/products/utils/handlers";
 import useCategorySearch from "@saleor/searches/useCategorySearch";
 import useCollectionSearch from "@saleor/searches/useCollectionSearch";
 import usePageSearch from "@saleor/searches/usePageSearch";
@@ -83,7 +85,7 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
     ProductCreateUrlDialog,
     ProductCreateUrlQueryParams
   >(navigate, params => productAddUrl(params), params);
-
+  const { data: myStore } = useGetMyStore({ variables: {} });
   const {
     loadMore: loadMoreCategories,
     search: searchCategory,
@@ -212,6 +214,8 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
   });
 
   const handleSubmit = async data => {
+    // data.slug = myStore?.myStore?.name || "";
+    data.slug = genarateSlug(myStore?.myStore?.name, data.name);
     const result = await createMetadataCreateHandler(
       createHandler(
         selectedProductType.productType,
@@ -224,7 +228,7 @@ export const ProductCreateView: React.FC<ProductCreateProps> = ({ params }) => {
       ),
       updateMetadata,
       updatePrivateMetadata
-    )(data);
+    )({ ...data });
 
     if (result) {
       setProductCreateComplete(true);

@@ -1,6 +1,8 @@
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { useGetMyStore } from "@saleor/emergency/queries";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
+import { genarateSlug } from "@saleor/products/utils/handlers";
 import createMetadataCreateHandler from "@saleor/utils/handlers/metadataCreateHandler";
 import {
   useMetadataUpdate,
@@ -24,6 +26,7 @@ export const ProductTypeCreate: React.FC = () => {
   const intl = useIntl();
   const [updateMetadata] = useMetadataUpdate({});
   const [updatePrivateMetadata] = usePrivateMetadataUpdate({});
+  const { data: myStore } = useGetMyStore({ variables: {} });
 
   const handleCreateSuccess = (updateData: ProductTypeCreateMutation) => {
     if (updateData.productTypeCreate.errors.length === 0) {
@@ -47,7 +50,8 @@ export const ProductTypeCreate: React.FC = () => {
                 isShippingRequired: formData.isShippingRequired,
                 name: formData.name,
                 taxCode: formData.taxType,
-                weight: formData.weight
+                weight: formData.weight,
+                slug: genarateSlug(myStore?.myStore?.name, formData.name)
               }
             }
           });

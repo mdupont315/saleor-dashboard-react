@@ -133,3 +133,12 @@ export const getAvailabilityVariables = (channels: ChannelData[]) =>
       visibleInListings: channel.visibleInListings
     };
   });
+
+export const genarateSlug = (storeName: any, productName) => {
+  const tempSlug = (storeName + " " + productName).split(" ").join("-");
+  // const tempProductName = productName.split(" ").join("-");
+  if (!tempSlug) {
+    return "";
+  }
+  return tempSlug;
+};
