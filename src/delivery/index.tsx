@@ -16,7 +16,7 @@ function DeliverySection() {
 
   return (
     <>
-      <WindowTitle title={intl.formatMessage(sectionNames.serviceTime)} />
+      <WindowTitle title={intl.formatMessage(sectionNames.delivery)} />
       <Switch>
         <Route exact path={deliverySection} component={DeliveryViewComponent} />
       </Switch>

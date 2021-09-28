@@ -14,7 +14,7 @@ function NotificationSection() {
 
   return (
     <>
-      <WindowTitle title={intl.formatMessage(sectionNames.serviceTime)} />
+      <WindowTitle title={intl.formatMessage(sectionNames.Payment)} />
       <Switch>
         <Route exact path={paymentSection} component={PaymentView} />
       </Switch>
