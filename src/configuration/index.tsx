@@ -170,7 +170,7 @@ export function createConfigurationMenu(
             id: "configurationNotification"
           }),
           icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SHIPPING,
+          permission: PermissionEnum.MANAGE_NOTIFICATION,
           title: intl.formatMessage(sectionNames.Notification),
           url: notificationUrl(),
           testId: "configurationMenuShipping"

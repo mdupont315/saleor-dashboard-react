@@ -254,27 +254,48 @@ const Routes = ({ orderId }: any) => {
               <SectionRoute path="/stores">
                 <StoreSection isAdmin={user.isSuperuser} />
               </SectionRoute>
-              <SectionRoute path="/services-time" component={ServiceSection} />
-              <SectionRoute path="/emergency" component={EmergencySection} />
-              <SectionRoute path="/delivery" component={DeliverySection} />
-              <SectionRoute path="/qrcode" component={QRcodeSection} />
 
               <SectionRoute
+                path="/services-time"
+                roles={["isSupplier"]}
+                component={ServiceSection}
+              />
+              <SectionRoute
+                path="/emergency"
+                roles={["isSupplier"]}
+                component={EmergencySection}
+              />
+              <SectionRoute
+                path="/delivery"
+                roles={["isSupplier"]}
+                component={DeliverySection}
+              />
+              <SectionRoute
+                path="/qrcode"
+                roles={["isSupplier"]}
+                component={QRcodeSection}
+              />
+
+              <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/categories"
                 component={CategorySection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/collections"
                 component={CollectionSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_USERS]}
                 path="/customers"
                 component={CustomerSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                 path="/discounts"
                 component={DiscountSection}
@@ -290,21 +311,25 @@ const Routes = ({ orderId }: any) => {
                 component={PageTypesSection}
               />
               <SectionRoute
+                // roles={["isSuperuser"]}
                 permissions={[PermissionEnum.MANAGE_PLUGINS]}
                 path="/plugins"
                 component={PluginsSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_ORDERS]}
                 path="/orders"
                 component={OrdersSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/products"
                 component={ProductSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[
                   PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
                 ]}
@@ -312,26 +337,31 @@ const Routes = ({ orderId }: any) => {
                 component={ProductTypesSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_STAFF]}
                 path="/staff"
                 component={StaffSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_STAFF]}
                 path="/permission-groups"
                 component={PermissionGroupSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_SETTINGS]}
                 path="/site-settings"
                 component={SiteSettingsSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_SETTINGS]}
                 path="/taxes"
                 component={TaxesSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[PermissionEnum.MANAGE_SHIPPING]}
                 path="/shipping"
                 component={ShippingSection}
@@ -347,6 +377,7 @@ const Routes = ({ orderId }: any) => {
                 component={NavigationSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[
                   PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
                 ]}
@@ -369,6 +400,7 @@ const Routes = ({ orderId }: any) => {
                 component={ChannelsSection}
               />
               <SectionRoute
+                roles={["isSupplier"]}
                 permissions={[
                   PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
                 ]}
@@ -379,11 +411,16 @@ const Routes = ({ orderId }: any) => {
                 path={notificationSection}
                 component={NotificationSection}
               />
-              <SectionRoute path={paymentSection} component={PaymentSection} />
+              <SectionRoute
+                roles={["isSupplier"]}
+                path={paymentSection}
+                component={PaymentSection}
+              />
               {createConfigurationMenu(intl).filter(menu =>
                 menu.menuItems.map(item => hasPermission(item.permission, user))
               ).length > 0 && (
                 <SectionRoute
+                  roles={["isSupplier"]}
                   exact
                   path="/configuration"
                   component={ConfigurationSection}

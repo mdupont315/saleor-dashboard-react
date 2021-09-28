@@ -14,7 +14,7 @@ import {
 export const pluginSection = "/plugins/";
 
 export const pluginListPath = pluginSection;
-const STRIPE_PLUGIN_ID = "mirumee.payments.stripe";
+export const STRIPE_PLUGIN_ID = "mirumee.payments.stripe";
 export enum PluginListUrlFiltersEnum {
   query = "query",
   active = "active",
