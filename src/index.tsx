@@ -14,6 +14,7 @@ import { useIntl } from "react-intl";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ReactToPrint from "react-to-print";
 import { io } from "socket.io-client";
+import { useGetMyStore } from "src/emergency/queries";
 
 import AppsSection from "./apps";
 import { appsSection } from "./apps/urls";
@@ -80,7 +81,6 @@ import TranslationsSection from "./translations";
 import { PermissionEnum } from "./types/globalTypes";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
-
 if (process.env.GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
@@ -122,7 +122,11 @@ const apolloClient = new ApolloClient({
 
 const App: React.FC = () => {
   const isDark = localStorage.getItem("theme") === "true";
-  const [orderId, setOrderId] = React.useState("");
+  const [dataSocket, setDataSocket] = React.useState({
+    orderId: "",
+    storeId: ""
+  });
+
   useEffect(() => {
     const socket = io(SOCKET_URI);
     socket.on("connect", function() {
@@ -130,7 +134,7 @@ const App: React.FC = () => {
     });
     socket.on("is_order_complete", function(msg) {
       if (msg) {
-        setOrderId(msg.data);
+        setDataSocket(msg);
         // ord_id = ;
       }
     });
@@ -153,7 +157,7 @@ const App: React.FC = () => {
                     <ShopProvider>
                       <AuthProvider>
                         <AppChannelProvider>
-                          <Routes orderId={orderId} />
+                          <Routes dataSocket={dataSocket} />
                         </AppChannelProvider>
                       </AuthProvider>
                     </ShopProvider>
@@ -168,7 +172,7 @@ const App: React.FC = () => {
   );
 };
 
-const Routes = ({ orderId }: any) => {
+const Routes = ({ dataSocket }: any) => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
   const {
@@ -179,26 +183,26 @@ const Routes = ({ orderId }: any) => {
     user
   } = useAuth();
   const { channel } = useAppChannel(false);
-
+  const { orderId, storeId } = dataSocket;
   const channelLoaded = typeof channel !== "undefined";
-
+  const { data: myStore } = useGetMyStore({ variables: {} });
+  const [id, setId] = React.useState("");
   const homePageLoaded =
     channelLoaded &&
     isAuthenticated &&
     !tokenAuthLoading &&
     !tokenVerifyLoading;
+  useEffect(() => {
+    if (myStore?.myStore.id === storeId) {
+      setId(orderId);
+    }
+  }, [dataSocket]);
 
-  // if (orderId) {
-  // }
-
-  // const { data } = useOrderFull({
-  //   variables: { orderId }
-  // });
   const [orderDetail, setOrderDetail] = React.useState(null);
   const componentRef = React.useRef<any>();
   const buttonRef = React.useRef<any>();
   const {} = useQuery(orderFull, {
-    variables: { orderId },
+    variables: { orderId: id },
     fetchPolicy: "cache-and-network",
     onCompleted: data => {
       // peint here
