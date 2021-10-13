@@ -285,7 +285,9 @@ export const orderFull = gql`
         apartment
       }
       orderType
-
+      tableName
+      expectedDate
+      expectedTime
       lines {
         id
         productName
@@ -335,6 +337,10 @@ export const orderFull = gql`
       }
       deliveryFee
       transactionCost
+      payments {
+        id
+        gateway
+      }
     }
   }
 `;

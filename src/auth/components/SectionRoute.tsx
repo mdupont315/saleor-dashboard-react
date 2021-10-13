@@ -18,7 +18,7 @@ export const SectionRoute: React.FC<SectionRouteProps> = ({
   ...props
 }) => {
   const { user } = useUser();
-  const { isSupplier, isSuperuser } = user;
+  const { isSupplier, isSuperuser, isStaff } = user;
   // if (roles && roles.findIndex(item => item === "isSuperuser") && isSuperuser) {
   // } else {
   //   return <Redirect to="/stores" />;
@@ -35,8 +35,8 @@ export const SectionRoute: React.FC<SectionRouteProps> = ({
       }
     }
 
-    if (roles.findIndex(item => item === "isSupplier") >= 0) {
-      if (!isSupplier) {
+    if (roles.findIndex(item => item === "isSupplier") >= 0 || roles.findIndex(item => item === "isStaff") >= 0) {
+      if (!isSupplier && !isStaff) {
         return <Redirect to="/" />;
       }
     }

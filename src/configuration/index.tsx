@@ -107,7 +107,7 @@ export function createConfigurationMenu(
             id: "configurationMenuQRcode"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
+          permission: PermissionEnum.MANAGE_STORES,
           title: "Site Settings",
           url: "/stores",
           testId: "configurationMenuQRcode"
@@ -130,7 +130,7 @@ export function createConfigurationMenu(
             id: "configurationMenuQRcode"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
+          permission: PermissionEnum.MANAGE_STORES,
           title: "Delivery Settings",
           url: deliverySection,
           testId: "configurationMenuQRcode"
@@ -166,11 +166,11 @@ export function createConfigurationMenu(
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage and update your notification",
+            defaultMessage: "Manage how you prefer to receive notifications",
             id: "configurationNotification"
           }),
           icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_NOTIFICATION,
+          permission: PermissionEnum.MANAGE_STORES,
           title: intl.formatMessage(sectionNames.Notification),
           url: notificationUrl(),
           testId: "configurationMenuShipping"
@@ -188,7 +188,7 @@ export function createConfigurationMenu(
             id: "configurationNotification"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_STORES,
+          permission: PermissionEnum.MANAGE_PLUGINS,
           title: intl.formatMessage(sectionNames.stripe),
           url: stripePluginUrl()
         }

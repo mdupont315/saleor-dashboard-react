@@ -37,6 +37,8 @@ const getMyStore = gql`
       contantCost
       indexCash
       indexStripe
+      postalCode
+      city
       logo {
         url
         alt
@@ -47,6 +49,10 @@ const getMyStore = gql`
       }
       emailNotifications
       emailAddress
+      # payments{
+      #   id
+      #   gateway
+      # }
     }
   }
 `;

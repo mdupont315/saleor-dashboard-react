@@ -107,7 +107,8 @@ const useStyles = makeStyles(theme => ({
   textFooter: {
     fontSize: "10px",
     fontWeight: 400,
-    lineHeight: "12px"
+    lineHeight: "12px",
+    marginRight: "4px"
   }
 }));
 interface IProps {
@@ -340,28 +341,37 @@ function TableCreatePage({
 
                     <div style={{ display: "none" }}>
                       <div className={classes.printWrap} ref={componentRef}>
-                        <div className={classes.logoBox}>
-                          <img
-                            src={
-                              curStore?.myStore?.logo?.url || placeholderImage
-                            }
-                            className={classes.logoStore}
-                            alt=""
-                          />
-                        </div>
-                        <p className={classes.bigText}>MENUKAART</p>
-                        <p className={classes.subText}>
-                          Scan deze QR-code om contactloos te bestellen
-                        </p>
-                        <div className={classes.qrImg}>
-                          <img src={url} alt="" className={classes.qr} />
-                        </div>
-                        <div className={classes.orderichFooter}>
-                          <p className={classes.textFooter}>powered by </p>
-                          <SVG
-                            className={classes.logoFooter}
-                            src={orderichLogo}
-                          />
+                        <div
+                          style={{
+                            width: "200px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center"
+                          }}
+                        >
+                          <div className={classes.logoBox}>
+                            <img
+                              src={
+                                curStore?.myStore?.logo?.url || placeholderImage
+                              }
+                              className={classes.logoStore}
+                              alt=""
+                            />
+                          </div>
+                          <p className={classes.bigText}>MENUKAART</p>
+                          <p className={classes.subText}>
+                            Scan deze QR-code om contactloos te bestellen
+                          </p>
+                          <div className={classes.qrImg}>
+                            <img src={url} alt="" className={classes.qr} />
+                          </div>
+                          <div className={classes.orderichFooter}>
+                            <p className={classes.textFooter}>powered by </p>{" "}
+                            <SVG
+                              className={classes.logoFooter}
+                              src={orderichLogo}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -229,10 +229,10 @@ const Routes = ({ dataSocket }: any) => {
         )}
         content={() => componentRef.current}
       />
-      {/*  */}
-      <div style={{ display: "none" }}>
+      {/* style={{ display: "none" }} */}
+      <div>
         <div ref={componentRef}>
-          <OrderDetail orderDetail={orderDetail} />
+          <OrderDetail orderDetail={orderDetail} myStore={myStore} />
         </div>
       </div>
       {/* ------------------------------------------------ */}
@@ -261,45 +261,45 @@ const Routes = ({ dataSocket }: any) => {
 
               <SectionRoute
                 path="/services-time"
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 component={ServiceSection}
               />
               <SectionRoute
                 path="/emergency"
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 component={EmergencySection}
               />
               <SectionRoute
                 path="/delivery"
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 component={DeliverySection}
               />
               <SectionRoute
                 path="/qrcode"
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 component={QRcodeSection}
               />
 
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/categories"
                 component={CategorySection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/collections"
                 component={CollectionSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_USERS]}
                 path="/customers"
                 component={CustomerSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                 path="/discounts"
                 component={DiscountSection}
@@ -321,19 +321,19 @@ const Routes = ({ dataSocket }: any) => {
                 component={PluginsSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_ORDERS]}
                 path="/orders"
                 component={OrdersSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path="/products"
                 component={ProductSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[
                   PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
                 ]}
@@ -341,31 +341,31 @@ const Routes = ({ dataSocket }: any) => {
                 component={ProductTypesSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_STAFF]}
                 path="/staff"
                 component={StaffSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_STAFF]}
                 path="/permission-groups"
                 component={PermissionGroupSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_SETTINGS]}
                 path="/site-settings"
                 component={SiteSettingsSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_SETTINGS]}
                 path="/taxes"
                 component={TaxesSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_SHIPPING]}
                 path="/shipping"
                 component={ShippingSection}
@@ -381,7 +381,7 @@ const Routes = ({ dataSocket }: any) => {
                 component={NavigationSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[
                   PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
                 ]}
@@ -404,7 +404,7 @@ const Routes = ({ dataSocket }: any) => {
                 component={ChannelsSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 permissions={[
                   PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES
                 ]}
@@ -416,7 +416,7 @@ const Routes = ({ dataSocket }: any) => {
                 component={NotificationSection}
               />
               <SectionRoute
-                roles={["isSupplier"]}
+                roles={["isSupplier", "isStaff"]}
                 path={paymentSection}
                 component={PaymentSection}
               />
@@ -424,7 +424,7 @@ const Routes = ({ dataSocket }: any) => {
                 menu.menuItems.map(item => hasPermission(item.permission, user))
               ).length > 0 && (
                 <SectionRoute
-                  roles={["isSupplier"]}
+                  roles={["isSupplier", "isStaff"]}
                   exact
                   path="/configuration"
                   component={ConfigurationSection}
