@@ -74,7 +74,7 @@ const useStyles = makeStyles({
     overflow: "hidden"
   },
   normalText: {
-    fontFamily: "Monaco",
+    fontFamily: "monospace",
     fontSize: "8px",
     lineHeight: "12px",
     textAlign: "center",
@@ -105,8 +105,6 @@ const useStyles = makeStyles({
 
 function OrderDetail({ orderDetail, myStore }: any) {
   const classes = useStyles();
-  console.log(myStore, "-----");
-  console.log(orderDetail, "-----");
   const {
     billingAddress,
     orderType,
@@ -148,25 +146,38 @@ function OrderDetail({ orderDetail, myStore }: any) {
     return 0;
   };
   return (
-    <div className="parrent-container">
+    <div
+      className="parrent-container"
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
       <div
         className="container"
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center"
+          alignItems: "center",
+          width: "184px"
         }}
       >
         <div className={classes.orderWrap}>
           {/* store info */}
           <div className={classes.storeWrap}>
-            <div className={classes.imgBox}>
-              <img
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={placeholderImage}
-                alt=""
-              />
-            </div>
+            {myStore && myStore?.myStore?.logo?.url && (
+              <div className={classes.imgBox}>
+                <img
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  src={myStore?.myStore?.logo?.url || placeholderImage}
+                  alt=""
+                />
+              </div>
+            )}
+
             <p className={classes.normalText} style={{ margin: 0 }}>
               {myStore?.myStore?.name || ""}
             </p>
@@ -313,7 +324,11 @@ function OrderDetail({ orderDetail, myStore }: any) {
                             <div>
                               <p
                                 className={classes.normalText}
-                                style={{ padding: 0, margin: 0 }}
+                                style={{
+                                  padding: 0,
+                                  margin: 0,
+                                  textAlign: "left"
+                                }}
                               >
                                 {item?.productName}
                               </p>
@@ -344,6 +359,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                                   <li
                                     key={index}
                                     className={classes.normalText}
+                                    style={{ textAlign: "left" }}
                                   >
                                     + {opt.name}
                                   </li>
@@ -451,7 +467,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
               </div>
             </div>
           </div>
-          {tableName && (
+          {!tableName && (
             <div>
               <p className={classes.normalText} style={{ margin: 0 }}>
                 {`Order placed at ${expectedDate} ${expectedTime}`}
