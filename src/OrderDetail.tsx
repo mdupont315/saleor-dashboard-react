@@ -171,7 +171,11 @@ function OrderDetail({ orderDetail, myStore }: any) {
             {myStore && myStore?.myStore?.logo?.url && (
               <div className={classes.imgBox}>
                 <img
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain"
+                  }}
                   src={myStore?.myStore?.logo?.url || placeholderImage}
                   alt=""
                 />

@@ -19,7 +19,7 @@ const emergency = gql`
 
 export const useMutationEmergency = makeMutation<any, any>(emergency);
 
-const getMyStore = gql`
+export const getMyStore = gql`
   query {
     myStore {
       id
@@ -49,6 +49,7 @@ const getMyStore = gql`
       }
       emailNotifications
       emailAddress
+      posEnable
       # payments{
       #   id
       #   gateway

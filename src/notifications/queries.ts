@@ -1,13 +1,4 @@
+import { getMyStore } from "@saleor/emergency/queries";
 import makeQuery from "@saleor/hooks/makeQuery";
-import gql from "graphql-tag";
 
-const getMyStore = gql`
-  query GetMyStore {
-    myStore {
-      emailNotifications
-      emailAddress
-    }
-  }
-`;
-
-export const useGetMyStore = makeQuery<any, any>(getMyStore);
+export const useGetMyStore = makeQuery<any, {}>(getMyStore);

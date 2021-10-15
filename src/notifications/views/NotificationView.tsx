@@ -50,7 +50,7 @@ function NotificationView() {
 
   return (
     <>
-      {data && data.myStore !== undefined ? (
+      {data && data?.myStore ? (
         <NotifactionViewPage
           onSubmit={onSubmit}
           onBack={onBack}

@@ -193,7 +193,7 @@ const Routes = ({ dataSocket }: any) => {
     !tokenAuthLoading &&
     !tokenVerifyLoading;
   useEffect(() => {
-    if (myStore?.myStore.id === storeId) {
+    if (myStore?.myStore.id === storeId && myStore?.myStore.posEnable) {
       setId(orderId);
     }
   }, [dataSocket]);
@@ -208,11 +208,16 @@ const Routes = ({ dataSocket }: any) => {
       // peint here
       setOrderDetail(data.order);
       // console.log(buttonRef);
+    }
+  });
+
+  useEffect(() => {
+    if (orderDetail) {
       if (buttonRef) {
         buttonRef.current.click();
       }
     }
-  });
+  }, [orderDetail]);
 
   const homePageLoading =
     (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
@@ -229,7 +234,7 @@ const Routes = ({ dataSocket }: any) => {
         )}
         content={() => componentRef.current}
       />
-      {/* style={{ display: "none" }} */}
+      {/*  */}
       <div style={{ display: "none" }}>
         <div ref={componentRef}>
           <OrderDetail orderDetail={orderDetail} myStore={myStore} />

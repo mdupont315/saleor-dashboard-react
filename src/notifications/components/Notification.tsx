@@ -14,7 +14,8 @@ import NotificationProcessCard from "./NotificationProcessCard";
 export interface InitialFormNotification {
   emailNotifications: boolean | null;
   emailAddress: string | null;
-  __typename: "Store";
+  posEnable: boolean | null;
+  // __typename: "Store";
 }
 
 export interface StroreNotification {
@@ -30,18 +31,20 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
   onSubmit,
   onBack,
   state
-}) => {
+}: any) => {
   const intl = useIntl();
 
   const initialForm =
     data && Object.keys(data).length > 0
       ? {
           emailNotifications: data?.emailNotifications ?? false,
-          emailAddress: data?.emailAddress ?? ""
+          emailAddress: data?.emailAddress ?? "",
+          posEnable: data?.posEnable ?? false
         }
       : {
           emailNotifications: true,
-          emailAddress: ""
+          emailAddress: "",
+          posEnable: true
         };
 
   const compareWithData = values =>
@@ -96,9 +99,7 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
 };
 
 const validationSchema = Yup.object().shape({
-  emailAddress: Yup.string()
-    .email("Invalid email")
-    .required("Please enter email")
+  emailAddress: Yup.string().email("Invalid email")
 });
 
 NotificationViewPage.displayName = "NotificationViewPage";
