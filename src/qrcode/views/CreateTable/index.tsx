@@ -23,8 +23,8 @@ function TableCreateViewComponent({ id, params }: IProps) {
   const intl = useIntl();
   const navigate = useNavigator();
   const notify = useNotifier();
-  const t = window.location.origin.split(":");
-  t.splice(-1, 1);
+  // const t = window.location.origin;
+  // t.splice(-1, 1);
 
   const [createTable] = useMutation(createTableMutation, {
     onCompleted: data => {
@@ -40,9 +40,7 @@ function TableCreateViewComponent({ id, params }: IProps) {
           variables: {
             id,
             input: {
-              tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
-                ":"
-              )}/?qr=${id}`,
+              tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${window.location.origin}/?qr=${id}`,
               tableName
             }
           }

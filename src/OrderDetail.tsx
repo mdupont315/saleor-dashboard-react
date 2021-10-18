@@ -8,7 +8,7 @@ import React from "react";
 const useStyles = makeStyles({
   orderWrap: {
     // height: "500px",
-    width: "208px",
+    width: "100%",
     // border: "1px solid #808080",
     // borderRadius: "8px",
     // padding: "24px",
@@ -68,15 +68,15 @@ const useStyles = makeStyles({
     borderWidth: "3px"
   },
   imgBox: {
-    width: "40px",
-    height: "40px",
+    width: "80px",
+    height: "80px",
     borderRadius: "8px",
     overflow: "hidden"
   },
   normalText: {
     fontFamily: "monospace",
-    fontSize: "8px",
-    lineHeight: "12px",
+    fontSize: "10px",
+    lineHeight: "16px",
     textAlign: "center",
     margin: 0
   },
@@ -111,7 +111,9 @@ function OrderDetail({ orderDetail, myStore }: any) {
     tableName,
     expectedDate,
     expectedTime,
-    payments
+    payments,
+    customerNote,
+    number
   } = orderDetail || {};
   const {
     firstName,
@@ -145,15 +147,33 @@ function OrderDetail({ orderDetail, myStore }: any) {
     }
     return 0;
   };
+
+  const padLeadingZeros = (num, size) => {
+    let s = `${num}`;
+    while (s.length < size) {
+      s = `0${s}`;
+    }
+    return s;
+  };
+
+  const getDateTime = () => {
+    const today = new Date();
+    const date = today.toDateString();
+    const hours = padLeadingZeros(today.getHours(), 2);
+    const minute = padLeadingZeros(today.getMinutes(), 2);
+    const result = `${date} ${hours}:${minute}`;
+    return result;
+  };
+
   return (
     <div
       className="parrent-container"
       style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
+        width: "80%",
+        height: "100%"
+        // display: "flex",
+        // alignItems: "center",
+        // justifyContent: "center"
       }}
     >
       <div
@@ -162,7 +182,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: "184px"
+          width: "100%"
+          // width: "184px"
         }}
       >
         <div className={classes.orderWrap}>
@@ -222,7 +243,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                   textTransform: "uppercase"
                 }}
               >
-                {orderType}
+                {`${orderType} ${number}`}
               </p>
               <div className={classes.mb16}>
                 <p
@@ -275,27 +296,28 @@ function OrderDetail({ orderDetail, myStore }: any) {
                   </p>
                 ))}
               </div>
-
-              <div>
-                <p
-                  className={classes.normalText}
-                  style={{
-                    margin: "0 0 8px 0",
-                    textTransform: "uppercase",
-                    textDecoration: "underline"
-                  }}
-                >
-                  ORDER NOTE
-                </p>
-                <p
-                  className={classes.normalText}
-                  style={{
-                    margin: "0"
-                  }}
-                >
-                  Please include an extra pair of chopsticks, thank you
-                </p>
-              </div>
+              {customerNote && (
+                <div>
+                  <p
+                    className={classes.normalText}
+                    style={{
+                      margin: "0 0 8px 0",
+                      textTransform: "uppercase",
+                      textDecoration: "underline"
+                    }}
+                  >
+                    ORDER NOTE
+                  </p>
+                  <p
+                    className={classes.normalText}
+                    style={{
+                      margin: "0"
+                    }}
+                  >
+                    {customerNote}
+                  </p>
+                </div>
+              )}
             </div>
           )}
           {/* ----order info */}
@@ -308,7 +330,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                 textDecoration: "underline"
               }}
             >
-              Order details
+              ORDER DETAILS
             </p>
             <table className={classes.listLine}>
               <tbody>
@@ -379,14 +401,21 @@ function OrderDetail({ orderDetail, myStore }: any) {
                   return (
                     <>
                       <tr>
-                        <td className={classes.normalText}>
+                        <td
+                          className={classes.normalText}
+                          style={{ textAlign: "left" }}
+                        >
                           {item?.quantity} x
                         </td>
-                        <td>
+                        <td style={{ textAlign: "left" }}>
                           <div>
                             <p
                               className={classes.normalText}
-                              style={{ padding: 0, margin: 0 }}
+                              style={{
+                                padding: 0,
+                                margin: 0,
+                                textAlign: "left"
+                              }}
                             >
                               {item?.productName}
                             </p>
@@ -412,7 +441,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
               {orderDetail?.discounts &&
                 orderDetail?.discounts[0]?.amount.amount > 0 && (
                   <div className={classes.discountItem}>
-                    <p className={classes.normalText}>Discount</p>
+                    <p className={classes.normalText}>DISCOUNT</p>
                     <p className={classes.normalText}>
                       - €{" "}
                       {orderDetail?.discounts &&
@@ -426,7 +455,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
 
               {orderDetail?.deliveryFee > 0 && (
                 <div className={classes.discountItem}>
-                  <p className={classes.normalText}>Delivery cost</p>
+                  <p className={classes.normalText}>DELIVERY COST</p>
                   <p className={classes.normalText}>
                     €{" "}
                     {orderDetail?.deliveryFee &&
@@ -437,7 +466,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
 
               {orderDetail?.transactionCost > 0 && (
                 <div className={classes.discountItem}>
-                  <p className={classes.normalText}>Transaction cost (iDeal)</p>
+                  <p className={classes.normalText}>TRANSACTION COST (IDEAL)</p>
                   <p className={classes.normalText}>
                     €{" "}
                     {orderDetail?.transactionCost &&
@@ -447,7 +476,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
               )}
 
               <div className={classes.discountItem}>
-                <p className={classes.normalText}>Total</p>
+                <p className={classes.normalText}>TOTAL</p>
                 <p className={classes.normalText}>
                   €{" "}
                   {orderDetail?.subtotal &&
@@ -456,31 +485,35 @@ function OrderDetail({ orderDetail, myStore }: any) {
                       .replace(".", ",")}
                 </p>
               </div>
-
-              <div>
-                <p
-                  className={classes.normalText}
-                  style={{ margin: 0, textAlign: "left" }}
-                >
-                  (Paid with{" "}
-                  {payments && payments[0].gateway === "mirumee.payments.dummy"
-                    ? "Cash"
-                    : "iDeal"}
-                  )
-                </p>
-              </div>
+              {!tableName && (
+                <div>
+                  <p
+                    className={classes.normalText}
+                    style={{ margin: 0, textAlign: "left" }}
+                  >
+                    {payments &&
+                    payments[0].gateway === "mirumee.payments.dummy"
+                      ? "(UNPAID CASH ON DELIVERY)"
+                      : "(PAID WITH IDEAL)"}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          {!tableName && (
-            <div>
-              <p className={classes.normalText} style={{ margin: 0 }}>
-                {`Order placed at ${expectedDate} ${expectedTime}`}
-              </p>
-            </div>
-          )}
-
           <div>
             <p className={classes.normalText} style={{ margin: 0 }}>
+              {`Order placed on`}
+            </p>
+            <p className={classes.normalText} style={{ margin: 0 }}>
+              {getDateTime()}
+            </p>
+          </div>
+          {/* {!tableName && (
+           
+          )} */}
+
+          <div>
+            <p className={classes.normalText} style={{ margin: "8px 0 0 0" }}>
               {myStore?.myStore?.name}
             </p>
             <p className={classes.normalText} style={{ margin: 0 }}>

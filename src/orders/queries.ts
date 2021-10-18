@@ -327,7 +327,8 @@ export const orderFull = gql`
           amount
         }
       }
-
+      customerNote
+      number
       subtotal {
         currency
         gross {

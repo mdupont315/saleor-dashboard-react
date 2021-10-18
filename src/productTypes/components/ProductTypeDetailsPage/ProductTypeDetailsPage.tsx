@@ -188,7 +188,7 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                   }
                 /> */}
               <CardSpacer />
-              <ProductTypeAttributes
+              {/* <ProductTypeAttributes
                 attributes={maybe(() => productType.productAttributes)}
                 disabled={disabled}
                 type={ProductAttributeType.PRODUCT}
@@ -200,8 +200,8 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                 onAttributeUnassign={onAttributeUnassign}
                 {...productAttributeList}
               />
-              <CardSpacer />
-              <ControlledSwitch
+              <CardSpacer /> */}
+              {/* <ControlledSwitch
                 checked={data.hasVariants}
                 disabled={disabled}
                 label={intl.formatMessage({
@@ -227,7 +227,7 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
                     {...variantAttributeList}
                   />
                 </>
-              )}
+              )} */}
               <CardSpacer />
               {/* <Metadata data={data} onChange={changeMetadata} /> */}
             </div>

@@ -137,8 +137,6 @@ function TableCreatePage({
   });
   const notify = useNotifier();
 
-  const t = window.location.origin.split(":");
-  t.splice(-1, 1);
   const { data: curStore } = useGetMyStore({ variables: {} });
 
   const handleSubmit = values => {
@@ -150,9 +148,7 @@ function TableCreatePage({
     // );
     onSubmit({
       tableName: values.tableName,
-      tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
-        ":"
-      )}/?qr=${table}`,
+      tableQrCode: `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${window.location.origin}/?qr=${table}`,
       active: values.active
     });
   };
@@ -164,9 +160,7 @@ function TableCreatePage({
   React.useEffect(() => {
     if (data) {
       setUrl(
-        `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${t.join(
-          ":"
-        )}/?qr=${id}`
+        `https://chart.googleapis.com/chart?cht=qr&&chs=400x400&&chl=${window.location.origin}/?qr=${id}`
       );
     }
   }, []);

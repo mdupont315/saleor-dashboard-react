@@ -234,7 +234,7 @@ const Routes = ({ dataSocket }: any) => {
         )}
         content={() => componentRef.current}
       />
-      {/*  */}
+      {/*  style={{ display: "none" }}*/}
       <div style={{ display: "none" }}>
         <div ref={componentRef}>
           <OrderDetail orderDetail={orderDetail} myStore={myStore} />
