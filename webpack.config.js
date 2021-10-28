@@ -39,6 +39,7 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 const environmentPlugin = new webpack.EnvironmentPlugin({
   API_URI: "",
   SOCKET_URI: "",
+  APP_WITH_CURRENT_DOMAIN: "",
   APP_MOUNT_URI: "/",
   DEMO_MODE: false,
   ENVIRONMENT: "",

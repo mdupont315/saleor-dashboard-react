@@ -58,7 +58,7 @@ export interface CategoryDetailsProps {
 export function getActiveTab(tabName: string): CategoryPageTab {
   return tabName === CategoryPageTab.products
     ? CategoryPageTab.products
-    : CategoryPageTab.categories;
+    : CategoryPageTab.products;
 }
 
 export const CategoryDetails: React.FC<CategoryDetailsProps> = ({

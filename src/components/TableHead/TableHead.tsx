@@ -69,7 +69,7 @@ function getColSpan(colSpan: number, dragRows: boolean): number {
     return colSpan - 2;
   }
 
-  return colSpan - 1;
+  return colSpan;
 }
 
 const TableHead: React.FC<TableHeadProps> = props => {

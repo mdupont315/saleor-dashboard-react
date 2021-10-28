@@ -3,13 +3,17 @@ import { CategoryListUrlSortField } from "@saleor/categories/urls";
 import Checkbox from "@saleor/components/Checkbox";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
+import {
+  SortableTableBody,
+  SortableTableRow
+} from "@saleor/components/SortableTable";
 import TableCellHeader from "@saleor/components/TableCellHeader";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
 import { CategoryFragment } from "@saleor/fragments/types/CategoryFragment";
 import { maybe, renderCollection } from "@saleor/misc";
 import { makeStyles } from "@saleor/theme";
-import { ListActions, ListProps, SortPage } from "@saleor/types";
+import { ListActions, ListProps, ReorderAction, SortPage } from "@saleor/types";
 import { getArrowDirection } from "@saleor/utils/sort";
 import React from "react";
 import { FormattedMessage } from "react-intl";
@@ -18,17 +22,31 @@ const useStyles = makeStyles(
   theme => ({
     [theme.breakpoints.up("lg")]: {
       colName: {
-        width: 840
+        width: "auto"
+      },
+      colCategoryName: {
+        width: 600
       },
       colProducts: {
-        width: 160
+        // width: 160
       },
       colSubcategories: {
-        width: 160
+        // width: 160
       }
     },
     colName: {
-      paddingLeft: 0
+      paddingLeft: 0,
+      // width: "50px",
+      "&$colNameFixed": {
+        width: 50
+      }
+    },
+    colType: {
+      width: "50px"
+    },
+    noOfProduct: {
+      width: "100%",
+      textAlign: "right"
     },
     colProducts: {
       textAlign: "center"
@@ -48,11 +66,12 @@ interface CategoryListProps
     ListActions,
     SortPage<CategoryListUrlSortField> {
   categories?: CategoryFragment[];
+  onValueReorder: ReorderAction;
   isRoot: boolean;
   onAdd?();
 }
 
-const numberOfColumns = 4;
+const numberOfColumns = 5;
 
 const CategoryList: React.FC<CategoryListProps> = props => {
   const {
@@ -71,21 +90,42 @@ const CategoryList: React.FC<CategoryListProps> = props => {
     onPreviousPage,
     onUpdateListSettings,
     onRowClick,
-    onSort
+    onSort,
+    onValueReorder
   } = props;
 
   const classes = useStyles(props);
 
   return (
     <ResponsiveTable>
+      <colgroup>
+        {/* <col />
+          <col /> */}
+        <col className={classes.colName} />
+        <col className={classes.colType} />
+        <col className={classes.colCategoryName} />
+        <col className={classes.colName} />
+        <col className={classes.noOfProduct} />
+      </colgroup>
       <TableHead
         colSpan={numberOfColumns}
         selected={selected}
         disabled={disabled}
-        items={categories}
+        items={selected ? categories : []}
         toggleAll={toggleAll}
         toolbar={toolbar}
       >
+        <TableCellHeader style={{ width: "50px" }} />
+        <TableCellHeader align="left" style={{ padding: 0, width: "100px" }}>
+          <Checkbox
+            indeterminate={
+              categories && categories.length > selected && selected > 0
+            }
+            checked={selected === 0 ? false : true}
+            disabled={disabled}
+            onChange={() => toggleAll(categories, selected)}
+          />
+        </TableCellHeader>
         <TableCellHeader
           direction={
             isRoot && sort.sort === CategoryListUrlSortField.name
@@ -117,12 +157,13 @@ const CategoryList: React.FC<CategoryListProps> = props => {
           />
         </TableCellHeader>
         <TableCellHeader
+          textAlign="right"
           direction={
             isRoot && sort.sort === CategoryListUrlSortField.productCount
               ? getArrowDirection(sort.asc)
               : undefined
           }
-          className={classes.colProducts}
+          className={classes.noOfProduct}
           disableClick={!isRoot}
           onClick={() =>
             isRoot && onSort(CategoryListUrlSortField.productCount)
@@ -149,14 +190,15 @@ const CategoryList: React.FC<CategoryListProps> = props => {
           />
         </TableRow>
       </TableFooter>
-      <TableBody>
+      <SortableTableBody onSortEnd={onValueReorder}>
         {renderCollection(
           categories,
-          category => {
+          (category, valueIndex) => {
             const isSelected = category ? isChecked(category.id) : false;
 
             return (
-              <TableRow
+              <SortableTableRow
+                index={valueIndex || 0}
                 className={classes.tableRow}
                 hover={!!category}
                 onClick={category ? onRowClick(category.id) : undefined}
@@ -185,7 +227,7 @@ const CategoryList: React.FC<CategoryListProps> = props => {
                     <Skeleton />
                   )}
                 </TableCell>
-                <TableCell className={classes.colProducts}>
+                <TableCell className={classes.noOfProduct}>
                   {category &&
                   category.products &&
                   category.products.totalCount !== undefined ? (
@@ -194,7 +236,7 @@ const CategoryList: React.FC<CategoryListProps> = props => {
                     <Skeleton />
                   )}
                 </TableCell>
-              </TableRow>
+              </SortableTableRow>
             );
           },
           () => (
@@ -209,7 +251,7 @@ const CategoryList: React.FC<CategoryListProps> = props => {
             </TableRow>
           )
         )}
-      </TableBody>
+      </SortableTableBody>
     </ResponsiveTable>
   );
 };

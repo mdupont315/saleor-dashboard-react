@@ -20,7 +20,7 @@ const useStyles = makeStyles(
   theme => ({
     [theme.breakpoints.up("lg")]: {
       colName: {
-        width: "auto"
+        width: 100
       },
       colPrice: {
         width: 300

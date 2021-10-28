@@ -173,7 +173,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
     }
   });
 
-  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) =>
+  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
     attributeValueReorder({
       optimisticResponse: {
         attributeReorderValues: {
@@ -208,6 +208,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
         beforeValues: valuesPaginationState.before
       }
     });
+  };
 
   const handleUpdate = async (data: AttributePageFormData) => {
     const input = {

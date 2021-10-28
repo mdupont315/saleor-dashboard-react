@@ -3,7 +3,7 @@ import orderichLogo from "@assets/images/orderich-logo.svg";
 import { configurationMenuUrl } from "@saleor/configuration";
 import { User } from "@saleor/fragments/types/User";
 import useLocalStorage from "@saleor/hooks/useLocalStorage";
-import { UseNavigatorResult } from "@saleor/hooks/useNavigator";
+import useNavigator, { UseNavigatorResult } from "@saleor/hooks/useNavigator";
 import { sectionNames } from "@saleor/intl";
 import { makeStyles } from "@saleor/theme";
 import classNames from "classnames";
@@ -25,7 +25,8 @@ const useStyles = makeStyles(
       position: "fixed"
     },
     logo: {
-      margin: `36px 0 ${theme.spacing(3)}px ${theme.spacing(3)}px`
+      margin: `36px 0 ${theme.spacing(3)}px ${theme.spacing(3)}px`,
+      cursor: "pointer"
     },
     root: {
       transition: "width 0.5s ease",
@@ -74,6 +75,7 @@ const SideBar: React.FC<SideBarProps> = ({
   const [isShrunk, setShrink] = useLocalStorage("isMenuSmall", false);
   const intl = useIntl();
   const configureMenuItem = getConfigureMenuItem(intl);
+  const navigate = useNavigator();
   // const { isDark } = useTheme();
 
   return (
@@ -83,7 +85,7 @@ const SideBar: React.FC<SideBarProps> = ({
       })}
     >
       <div className={classes.float}>
-        <div className={classes.logo}>
+        <div className={classes.logo} onClick={() => navigate("/")}>
           <SVG src={orderichLogo} />
         </div>
         {menuItems.map(menuItem => {

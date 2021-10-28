@@ -2,7 +2,7 @@ import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
-import ControlledSwitch from "@saleor/components/ControlledSwitch";
+// import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
 // import Metadata from "@saleor/components/Metadata/Metadata";
@@ -29,7 +29,7 @@ import {
   ProductTypeDetails_productType,
   ProductTypeDetails_taxTypes
 } from "../../types/ProductTypeDetails";
-import ProductTypeAttributes from "../ProductTypeAttributes/ProductTypeAttributes";
+// import ProductTypeAttributes from "../ProductTypeAttributes/ProductTypeAttributes";
 import ProductTypeDetails from "../ProductTypeDetails/ProductTypeDetails";
 // import ProductTypeShipping from "../ProductTypeShipping/ProductTypeShipping";
 // import ProductTypeTaxes from "../ProductTypeTaxes/ProductTypeTaxes";
@@ -87,17 +87,17 @@ const ProductTypeDetailsPage: React.FC<ProductTypeDetailsPageProps> = ({
   errors,
   pageTitle,
   productType,
-  productAttributeList,
+  // productAttributeList,
   saveButtonBarState,
   // taxTypes,
-  variantAttributeList,
-  onAttributeAdd,
-  onAttributeUnassign,
-  onAttributeReorder,
-  onAttributeClick,
+  // variantAttributeList,
+  // onAttributeAdd,
+  // onAttributeUnassign,
+  // onAttributeReorder,
+  // onAttributeClick,
   onBack,
   onDelete,
-  onHasVariantsToggle,
+  // onHasVariantsToggle,
   onSubmit
 }) => {
   const intl = useIntl();

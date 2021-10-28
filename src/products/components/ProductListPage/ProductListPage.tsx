@@ -22,6 +22,7 @@ import {
   FilterPageProps,
   ListActions,
   PageListProps,
+  ReorderAction,
   SortPage
 } from "@saleor/types";
 import { hasLimits, isLimitReached } from "@saleor/utils/limits";
@@ -51,6 +52,7 @@ export interface ProductListPageProps
   limits: RefreshLimits_shop_limits;
   totalGridAttributes: number;
   products: ProductList_products_edges_node[];
+  onValueReorder: ReorderAction;
   onExport: () => void;
 }
 
@@ -99,6 +101,7 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
     onTabSave,
     onUpdateListSettings,
     selectedChannelId,
+    onValueReorder,
     ...listProps
   } = props;
   const intl = useIntl();
@@ -225,6 +228,7 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
           channelsCount={channelsCount}
           selectedChannelId={selectedChannelId}
           onUpdateListSettings={onUpdateListSettings}
+          onValueReorder={onValueReorder}
         />
       </Card>
     </Container>

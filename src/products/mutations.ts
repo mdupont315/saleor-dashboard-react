@@ -685,3 +685,18 @@ export const useProductVariantChannelListingUpdate = makeMutation<
   ProductVariantChannelListingUpdate,
   ProductVariantChannelListingUpdateVariables
 >(ProductVariantChannelListingUpdateMutation);
+
+export const ProductsReorderMutation = gql`
+  mutation ReorderProduct($moves: [MoveProductInput]!) {
+    reorderProducts(moves: $moves) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const useReorderProducts = makeMutation<any, any>(
+  ProductsReorderMutation
+);

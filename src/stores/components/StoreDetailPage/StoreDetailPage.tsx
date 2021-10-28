@@ -63,17 +63,17 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
   name: string;
 }
 
-const postCodeCheck = (value: any) => {
-  const result =
-    value.length > 0 && value.length < 8
-      ? isNaN(Number(value.slice(0, 4))) === false &&
-        value.slice(4, 5) === " " &&
-        !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value.slice(5, 7))
-        ? true
-        : false
-      : false;
-  return result;
-};
+// const postCodeCheck = (value: any) => {
+//   const result =
+//     value.length > 0 && value.length < 8
+//       ? isNaN(Number(value.slice(0, 4))) === false &&
+//         value.slice(4, 5) === " " &&
+//         !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value.slice(5, 7))
+//         ? true
+//         : false
+//       : false;
+//   return result;
+// };
 
 const validateSchema = yup.object().shape({
   name: yup.string().required("Required!"),
@@ -95,14 +95,12 @@ const validateSchemaUpdate = yup.object().shape({
   domain: yup.string().required("Required!"),
   phone: yup.string().required("Required!"),
   address: yup.string().required("Required!"),
-  postalcode: yup
-    .string()
-    .required("Required")
-    .test(
-      "postalCode",
-      "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
-      value => postCodeCheck(value)
-    )
+  postalcode: yup.string().required("Required")
+  // .test(
+  //   "postalCode",
+  //   "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
+  //   value => postCodeCheck(value)
+  // )
 });
 
 const StoreDetailPage: React.FC<IProps> = ({

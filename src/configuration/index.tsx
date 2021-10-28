@@ -8,7 +8,6 @@ import Attributes from "@saleor/icons/Attributes";
 // import Channels from "@saleor/icons/Channels";
 import PermissionGroups from "@saleor/icons/PermissionGroups";
 import Plugins from "@saleor/icons/Plugins";
-import ProductTypes from "@saleor/icons/ProductTypes";
 import ShippingMethods from "@saleor/icons/ShippingMethods";
 import SiteSettings from "@saleor/icons/SiteSettings";
 import StaffMembers from "@saleor/icons/StaffMembers";
@@ -19,7 +18,6 @@ import { optionListUrl } from "@saleor/options/urls";
 import { paymentUrl } from "@saleor/payments/urls";
 import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
 import { pluginListUrl } from "@saleor/plugins/urls";
-import { productTypeListUrl } from "@saleor/productTypes/urls";
 import { qrListUrl } from "@saleor/qrcode/urls";
 import { stripePluginUrl } from "@saleor/plugins/urls";
 import { secvicesSection } from "@saleor/servicesTime/urls";
@@ -52,18 +50,18 @@ export function createConfigurationMenu(
           title: intl.formatMessage(sectionNames.attributes),
           url: optionListUrl(),
           testId: "configurationMenuAttributes"
-        },
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define types of products you sell",
-            id: "configurationMenuProductTypes"
-          }),
-          icon: <ProductTypes fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
-          title: intl.formatMessage(sectionNames.productTypes),
-          url: productTypeListUrl(),
-          testId: "configurationMenuProductTypes"
         }
+        // {
+        //   description: intl.formatMessage({
+        //     defaultMessage: "Define types of products you sell",
+        //     id: "configurationMenuProductTypes"
+        //   }),
+        //   icon: <ProductTypes fontSize="inherit" viewBox="0 0 44 44" />,
+        //   permission: PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
+        //   title: intl.formatMessage(sectionNames.productTypes),
+        //   url: productTypeListUrl(),
+        //   testId: "configurationMenuProductTypes"
+        // }
       ]
     },
     {
@@ -137,7 +135,7 @@ export function createConfigurationMenu(
         },
         {
           description: intl.formatMessage({
-            defaultMessage: "Define and manage your table QRcode",
+            defaultMessage: "Define and manage your table QR codes",
             id: "configurationMenuQRcode"
           }),
           icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,

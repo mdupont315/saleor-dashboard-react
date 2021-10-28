@@ -166,6 +166,30 @@ const AttributeValues: React.FC<AttributeValuesProps> = ({
               </TableRow>
             )
           )}
+          {/* <SortableTableRow
+            hover={true}
+            onClick={null}
+            key={0}
+            index={0}
+          >
+            <TableCell>0</TableCell>
+          </SortableTableRow>
+          <SortableTableRow
+            hover={true}
+            onClick={null}
+            key={1}
+            index={1}
+          >
+            <TableCell>1</TableCell>
+          </SortableTableRow>
+          <SortableTableRow
+            hover={true}
+            onClick={null}
+            key={2}
+            index={2}
+          >
+            <TableCell>2</TableCell>
+          </SortableTableRow> */}
         </SortableTableBody>
       </ResponsiveTable>
     </Card>

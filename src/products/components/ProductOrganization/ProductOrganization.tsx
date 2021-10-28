@@ -1,5 +1,5 @@
-import { Card, CardContent, Typography } from "@material-ui/core";
-import CardSpacer from "@saleor/components/CardSpacer";
+import { Card, CardContent } from "@material-ui/core";
+// import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import { FormSpacer } from "@saleor/components/FormSpacer";
 import Hr from "@saleor/components/Hr";
@@ -11,12 +11,12 @@ import SingleAutocompleteSelectField, {
 } from "@saleor/components/SingleAutocompleteSelectField";
 import { ProductErrorFragment } from "@saleor/fragments/types/ProductErrorFragment";
 import { ChangeEvent } from "@saleor/hooks/useForm";
-import { maybe } from "@saleor/misc";
+// import { maybe } from "@saleor/misc";
 import { makeStyles } from "@saleor/theme";
 import { FetchMoreProps } from "@saleor/types";
 import { getFormErrors, getProductErrorMessage } from "@saleor/utils/errors";
 import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 
 interface ProductType {
   hasVariants: boolean;
@@ -69,7 +69,7 @@ interface ProductOrganizationProps {
 
 const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
   const {
-    canChangeType,
+    // canChangeType,
     categories,
     categoryInputDisplayValue,
     collections,
@@ -81,10 +81,10 @@ const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
     fetchCollections,
     fetchMoreCategories,
     fetchMoreCollections,
-    fetchMoreProductTypes,
+    // fetchMoreProductTypes,
     fetchProductTypes,
-    productType,
-    productTypeInputDisplayValue,
+    // productType,
+    // productTypeInputDisplayValue,
     productTypes,
     onCategoryChange,
     onCollectionChange,
@@ -99,6 +99,20 @@ const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
     errors
   );
 
+  const autoChoiceProductType = {
+    target: {
+      name: "productType",
+      value: productTypes && (productTypes[0]?.value || "")
+    }
+  };
+
+  React.useEffect(() => {
+    if (productTypes && productTypes.length > 0) {
+      onProductTypeChange(autoChoiceProductType);
+      fetchProductTypes(productTypes[0]?.label);
+    }
+  }, [productTypes]);
+
   return (
     <Card className={classes.card}>
       <CardTitle
@@ -108,7 +122,7 @@ const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
         })}
       />
       <CardContent>
-        {canChangeType ? (
+        {/* {canChangeType ? (
           <SingleAutocompleteSelectField
             displayValue={productTypeInputDisplayValue}
             error={!!formErrors.productType}
@@ -140,13 +154,13 @@ const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
                 () =>
                   productType.hasVariants
                     ? intl.formatMessage({
-                        defaultMessage: "Configurable",
-                        description: "product is configurable"
-                      })
+                      defaultMessage: "Configurable",
+                      description: "product is configurable"
+                    })
                     : intl.formatMessage({
-                        defaultMessage: "Simple",
-                        description: "product is not configurable"
-                      }),
+                      defaultMessage: "Simple",
+                      description: "product is not configurable"
+                    }),
                 "..."
               )}
             </Typography>
@@ -154,7 +168,7 @@ const ProductOrganization: React.FC<ProductOrganizationProps> = props => {
         )}
         <FormSpacer />
         <Hr />
-        <FormSpacer />
+        <FormSpacer /> */}
         <SingleAutocompleteSelectField
           displayValue={categoryInputDisplayValue}
           error={!!formErrors.category}

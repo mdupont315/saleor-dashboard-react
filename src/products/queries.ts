@@ -153,6 +153,13 @@ const productListQuery = gql`
       edges {
         node {
           ...ProductFragment
+          category {
+            id
+            name
+          }
+          variants {
+            sku
+          }
           attributes {
             attribute {
               id

@@ -12,7 +12,8 @@ const useStyles = makeStyles({
     // border: "1px solid #808080",
     // borderRadius: "8px",
     // padding: "24px",
-    color: "#222222"
+    color: "#222222",
+    marginTop: "8px"
   },
   listLine: {
     width: "100%",
@@ -75,8 +76,8 @@ const useStyles = makeStyles({
   },
   normalText: {
     fontFamily: "monospace",
-    fontSize: "10px",
-    lineHeight: "16px",
+    fontSize: "12px",
+    lineHeight: "20px",
     textAlign: "center",
     margin: 0
   },

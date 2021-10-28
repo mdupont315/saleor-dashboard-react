@@ -2,12 +2,38 @@ import packageInfo from "../package.json";
 import { SearchVariables } from "./hooks/makeSearch";
 import { ListSettings, ListViews, Pagination } from "./types";
 
+export const getApiUrl = () => {
+  const isCheckCurDomain = process.env.APP_WITH_CURRENT_DOMAIN === "true";
+
+  if (isCheckCurDomain) {
+    if (typeof window !== "undefined") {
+      const { protocol, hostname } = window.location;
+      return `${protocol}//${hostname}/graphql`;
+    }
+    return process.env.API_URI!;
+  }
+  return process.env.API_URI!;
+};
+
+export const getSocketUrl = () => {
+  const isCheckCurDomain = process.env.APP_WITH_CURRENT_DOMAIN === "true";
+
+  if (isCheckCurDomain) {
+    if (typeof window !== "undefined") {
+      const { protocol, hostname } = window.location;
+      return `${protocol}//${hostname}`;
+    }
+    return process.env.SOCKET_URI!;
+  }
+  return process.env.SOCKET_URI!;
+};
+
 export const APP_MOUNT_URI = process.env.APP_MOUNT_URI;
 export const APP_DEFAULT_URI = "/";
-export const API_URI = process.env.API_URI;
+export const API_URI = getApiUrl();
 // export const STATIC_URL = process.env.STATIC_URL;
 
-export const SOCKET_URI = process.env.SOCKET_URI;
+export const SOCKET_URI = getSocketUrl();
 
 export const API_QR = process.env.QRCODE_BASE;
 

@@ -8,6 +8,7 @@ import { sectionNames } from "@saleor/intl";
 import {
   ListActions,
   PageListProps,
+  ReorderAction,
   SearchPageProps,
   SortPage,
   TabPageProps
@@ -24,6 +25,7 @@ export interface CategoryTableProps
     SortPage<CategoryListUrlSortField>,
     TabPageProps {
   categories: CategoryFragment[];
+  onValueReorder: ReorderAction;
 }
 
 export const CategoryListPage: React.FC<CategoryTableProps> = ({
@@ -49,6 +51,7 @@ export const CategoryListPage: React.FC<CategoryTableProps> = ({
   onTabDelete,
   onTabSave,
   onUpdateListSettings,
+  onValueReorder,
   ...listProps
 }) => {
   const intl = useIntl();
@@ -97,6 +100,7 @@ export const CategoryListPage: React.FC<CategoryTableProps> = ({
           onPreviousPage={onPreviousPage}
           onRowClick={onRowClick}
           onUpdateListSettings={onUpdateListSettings}
+          onValueReorder={onValueReorder}
           {...listProps}
         />
       </Card>

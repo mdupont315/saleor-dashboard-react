@@ -10,11 +10,9 @@ import CardSpacer from "@saleor/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata";
 import { MultiAutocompleteChoiceType } from "@saleor/components/MultiAutocompleteSelectField";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import SeoForm from "@saleor/components/SeoForm";
 import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
 import { TaxTypeFragment } from "@saleor/fragments/types/TaxTypeFragment";
@@ -151,6 +149,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   const categories = getChoices(categoryChoiceList);
   const collections = getChoices(collectionChoiceList);
   const productTypes = getChoices(productTypeChoiceList);
+
   const taxTypeChoices =
     taxTypes?.map(taxType => ({
       label: taxType.description,
@@ -208,76 +207,76 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
         handlers,
         hasChanged,
         submit
-      }) => {
+      }) => (
         // Comparing explicitly to false because `hasVariants` can be undefined
-        const isSimpleProduct = data.productType?.hasVariants === false;
+        // const isSimpleProduct = data.productType?.hasVariants === true;
 
-        return (
-          <Container>
-            <AppHeader onBack={onBack}>
-              {intl.formatMessage(sectionNames.products)}
-            </AppHeader>
-            <PageHeader title={header} />
-            <Grid>
-              <div>
-                <ProductDetailsForm
-                  data={data}
+        <Container>
+          <AppHeader onBack={onBack}>
+            {intl.formatMessage(sectionNames.products)}
+          </AppHeader>
+          <PageHeader title={header} />
+          <Grid>
+            <div>
+              <ProductDetailsForm
+                data={data}
+                disabled={loading}
+                errors={errors}
+                onChange={change}
+                onDescriptionChange={handlers.changeDescription}
+                onChangeStock={handlers.changeStock}
+              />
+              <CardSpacer />
+              <ProductTypeAttributes
+                attributes={maybe(() => values)}
+                isChecked={isChecked}
+                toggle={toggle}
+                toggleAll={toggleAll}
+                onAttributeAssign={() => {
+                  onAttributeAdd();
+                  handlers.handlerAttribute();
+                }}
+                onAttributeUnassign={(id: string) => {
+                  onAttributeUnassign(id);
+                  handlers.handlerAttribute();
+                }}
+                onAttributeUnassignAll={() => {
+                  onAttributeUnassignAll();
+                  handlers.handlerAttribute();
+                }}
+              />
+              <CardSpacer />
+              {data.attributes.length > 0 && (
+                <Attributes
+                  attributes={data.attributes}
+                  attributeValues={attributeValues}
+                  loading={loading}
                   disabled={loading}
                   errors={errors}
-                  onChange={change}
-                  onDescriptionChange={handlers.changeDescription}
-                  onChangeStock={handlers.changeStock}
+                  onChange={handlers.selectAttribute}
+                  onMultiChange={handlers.selectAttributeMultiple}
+                  onFileChange={handlers.selectAttributeFile}
+                  onReferencesRemove={handlers.selectAttributeReference}
+                  onReferencesAddClick={onAssignReferencesClick}
+                  onReferencesReorder={handlers.reorderAttributeValue}
+                  fetchAttributeValues={fetchAttributeValues}
+                  fetchMoreAttributeValues={fetchMoreAttributeValues}
+                />
+              )}
+              <CardSpacer />
+              <>
+                <ProductVariantPrice
+                  ProductVariantChannelListings={data.channelListings}
+                  errors={channelsErrors}
+                  loading={loading}
+                  onChange={handlers.changeChannelPrice}
                 />
                 <CardSpacer />
-                <ProductTypeAttributes
-                  attributes={maybe(() => values)}
-                  isChecked={isChecked}
-                  toggle={toggle}
-                  toggleAll={toggleAll}
-                  onAttributeAssign={() => {
-                    onAttributeAdd();
-                    handlers.handlerAttribute();
-                  }}
-                  onAttributeUnassign={(id: string) => {
-                    onAttributeUnassign(id);
-                    handlers.handlerAttribute();
-                  }}
-                  onAttributeUnassignAll={() => {
-                    onAttributeUnassignAll();
-                    handlers.handlerAttribute();
-                  }}
-                />
-                <CardSpacer />
-                {data.attributes.length > 0 && (
-                  <Attributes
-                    attributes={data.attributes}
-                    attributeValues={attributeValues}
-                    loading={loading}
-                    disabled={loading}
-                    errors={errors}
-                    onChange={handlers.selectAttribute}
-                    onMultiChange={handlers.selectAttributeMultiple}
-                    onFileChange={handlers.selectAttributeFile}
-                    onReferencesRemove={handlers.selectAttributeReference}
-                    onReferencesAddClick={onAssignReferencesClick}
-                    onReferencesReorder={handlers.reorderAttributeValue}
-                    fetchAttributeValues={fetchAttributeValues}
-                    fetchMoreAttributeValues={fetchMoreAttributeValues}
-                  />
-                )}
-                <CardSpacer />
-                {isSimpleProduct && (
-                  <>
-                    <ProductVariantPrice
-                      ProductVariantChannelListings={data.channelListings}
-                      errors={channelsErrors}
-                      loading={loading}
-                      onChange={handlers.changeChannelPrice}
-                    />
-                    <CardSpacer />
-                  </>
-                )}
-                <SeoForm
+              </>
+              {/* {isSimpleProduct && (
+                  
+                )} */}
+              {/* <SeoForm
                   allowEmptySlug={true}
                   helperText={intl.formatMessage({
                     defaultMessage:
@@ -291,74 +290,69 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                   descriptionPlaceholder={data.seoTitle}
                   loading={loading}
                   onChange={change}
-                />
-                <CardSpacer />
-                <Metadata data={data} onChange={handlers.changeMetadata} />
-              </div>
-              <div>
-                <ProductOrganization
-                  canChangeType={true}
-                  categories={categories}
-                  categoryInputDisplayValue={selectedCategory}
-                  collections={collections}
-                  data={data}
-                  disabled={loading}
-                  errors={errors}
-                  fetchCategories={fetchCategories}
-                  fetchCollections={fetchCollections}
-                  fetchMoreCategories={fetchMoreCategories}
-                  fetchMoreCollections={fetchMoreCollections}
-                  fetchMoreProductTypes={fetchMoreProductTypes}
-                  fetchProductTypes={fetchProductTypes}
-                  productType={data.productType}
-                  productTypeInputDisplayValue={data.productType?.name || ""}
-                  productTypes={productTypes}
-                  onCategoryChange={handlers.selectCategory}
-                  onCollectionChange={handlers.selectCollection}
-                  onProductTypeChange={handlers.selectProductType}
-                  collectionsInputDisplayValue={selectedCollections}
-                />
-                <CardSpacer />
-              </div>
-            </Grid>
-            <SaveButtonBar
-              onCancel={onBack}
-              onSave={submit}
-              state={saveButtonBarState}
-              disabled={
-                loading ||
-                !onSubmit ||
-                formDisabled ||
-                !hasChanged ||
-                !selectedCategory
+                /> */}
+              {/* <CardSpacer />
+                <Metadata data={data} onChange={handlers.changeMetadata} /> */}
+            </div>
+            <div>
+              <ProductOrganization
+                canChangeType={true}
+                categories={categories}
+                categoryInputDisplayValue={selectedCategory}
+                collections={collections}
+                data={data}
+                disabled={loading}
+                errors={errors}
+                fetchCategories={fetchCategories}
+                fetchCollections={fetchCollections}
+                fetchMoreCategories={fetchMoreCategories}
+                fetchMoreCollections={fetchMoreCollections}
+                fetchMoreProductTypes={fetchMoreProductTypes}
+                fetchProductTypes={fetchProductTypes}
+                productType={data.productType}
+                productTypeInputDisplayValue={data.productType?.name || ""}
+                productTypes={productTypes}
+                onCategoryChange={handlers.selectCategory}
+                onCollectionChange={handlers.selectCollection}
+                onProductTypeChange={handlers.selectProductType}
+                collectionsInputDisplayValue={selectedCollections}
+              />
+              <CardSpacer />
+            </div>
+          </Grid>
+          <SaveButtonBar
+            onCancel={onBack}
+            onSave={submit}
+            state={saveButtonBarState}
+            disabled={
+              loading ||
+              !onSubmit ||
+              formDisabled ||
+              !hasChanged ||
+              !selectedCategory
+            }
+          />
+          {canOpenAssignReferencesAttributeDialog && (
+            <AssignAttributeValueDialog
+              attributeValues={getAttributeValuesFromReferences(
+                assignReferencesAttributeId,
+                data.attributes,
+                referencePages,
+                referenceProducts
+              )}
+              hasMore={handlers.fetchMoreReferences?.hasMore}
+              open={canOpenAssignReferencesAttributeDialog}
+              onFetch={handlers.fetchReferences}
+              onFetchMore={handlers.fetchMoreReferences?.onFetchMore}
+              loading={handlers.fetchMoreReferences?.loading}
+              onClose={onCloseDialog}
+              onSubmit={attributeValues =>
+                handleAssignReferenceAttribute(attributeValues, data, handlers)
               }
             />
-            {canOpenAssignReferencesAttributeDialog && (
-              <AssignAttributeValueDialog
-                attributeValues={getAttributeValuesFromReferences(
-                  assignReferencesAttributeId,
-                  data.attributes,
-                  referencePages,
-                  referenceProducts
-                )}
-                hasMore={handlers.fetchMoreReferences?.hasMore}
-                open={canOpenAssignReferencesAttributeDialog}
-                onFetch={handlers.fetchReferences}
-                onFetchMore={handlers.fetchMoreReferences?.onFetchMore}
-                loading={handlers.fetchMoreReferences?.loading}
-                onClose={onCloseDialog}
-                onSubmit={attributeValues =>
-                  handleAssignReferenceAttribute(
-                    attributeValues,
-                    data,
-                    handlers
-                  )
-                }
-              />
-            )}
-          </Container>
-        );
-      }}
+          )}
+        </Container>
+      )}
     </ProductCreateForm>
   );
 };

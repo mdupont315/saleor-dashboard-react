@@ -11,10 +11,10 @@ import CardSpacer from "@saleor/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import SeoForm from "@saleor/components/SeoForm";
+// import SeoForm from "@saleor/components/SeoForm";
 import { RefreshLimits_shop_limits } from "@saleor/components/Shop/types/RefreshLimits";
 import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
@@ -169,7 +169,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   onImageReorder,
   onImageUpload,
   onMediaUrlUpload,
-  onSeoClick,
+  // onSeoClick,
   onSubmit,
   onVariantAdd,
   channelsData,
@@ -376,7 +376,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   <></>
                 )}
                 <CardSpacer />
-                <SeoForm
+                {/* <SeoForm
                   errors={errors}
                   title={data.seoTitle}
                   titlePlaceholder={data.name}
@@ -391,9 +391,9 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     defaultMessage:
                       "Add search engine title and description to make this product easier to find"
                   })}
-                />
-                <CardSpacer />
-                <Metadata data={data} onChange={handlers.changeMetadata} />
+                /> */}
+                {/* <CardSpacer />
+                <Metadata data={data} onChange={handlers.changeMetadata} /> */}
               </div>
               <div>
                 <ProductOrganization
