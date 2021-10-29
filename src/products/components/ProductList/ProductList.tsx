@@ -48,7 +48,7 @@ const useStyles = makeStyles(
   theme => ({
     [theme.breakpoints.up("lg")]: {
       colName: {
-        width: "auto"
+        width: 300
       },
       colPrice: {
         width: 300
@@ -68,12 +68,18 @@ const useStyles = makeStyles(
       width: "100%"
     },
     colName: {
-      width: "50px",
+      width: 300,
       "&$colNameFixed": {
         width: 250
       }
     },
-    colNameFixed: {},
+    colCheckbox: {
+      width: 50,
+      padding: 0
+    },
+    colNameFixed: {
+      width: 250
+    },
     colNameHeader: {
       marginLeft: AVATAR_MARGIN
     },
@@ -152,7 +158,7 @@ export const ProductList: React.FC<ProductListProps> = props => {
   const gridAttributesFromSettings = settings.columns.filter(
     isAttributeColumnValue
   );
-  const numberOfColumns = 4;
+  const numberOfColumns = 5;
 
   return (
     <div className={classes.tableContainer}>
@@ -160,10 +166,13 @@ export const ProductList: React.FC<ProductListProps> = props => {
         <colgroup>
           {/* <col />
           <col /> */}
-          <col className={classes.colName} />
+          <col className={classes.colCheckbox} />
           <col className={classes.colType} />
           {/* <col className={classes.colName} /> */}
           {/* <col className={classes.colName} /> */}
+          <col className={classes.colName} />
+          <col className={classes.colName} />
+
           <DisplayColumn
             column="availability"
             displayColumns={settings.columns}
@@ -185,9 +194,9 @@ export const ProductList: React.FC<ProductListProps> = props => {
           toggleAll={toggleAll}
           toolbar={toolbar}
         >
-          <TableCellHeader style={{ width: "100px" }} />
+          <TableCellHeader style={{ width: "50px", padding: 0 }} />
 
-          <TableCellHeader align="left" style={{ padding: 0, width: "100px" }}>
+          <TableCellHeader className={classes.colCheckbox} align="left">
             <Checkbox
               indeterminate={
                 products && products.length > selected && selected > 0
@@ -405,6 +414,11 @@ export const ProductList: React.FC<ProductListProps> = props => {
                       }, <Skeleton />)}
                     </TableCell>
                   ))}
+                  <TableCell />
+                  <TableCell>
+                    {product?.category.name || <Skeleton />}
+                  </TableCell>
+
                   <DisplayColumn
                     column="price"
                     displayColumns={settings.columns}

@@ -63,7 +63,7 @@ export interface ProductCreateFormData extends MetadataFormData {
   rating: number;
   seoDescription: string;
   seoTitle: string;
-  sku: string;
+  sku?: string;
   slug: string;
   stockQuantity: number;
   taxCode: string;

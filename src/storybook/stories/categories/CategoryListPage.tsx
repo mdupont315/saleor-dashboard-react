@@ -27,7 +27,8 @@ const categoryTableProps: CategoryTableProps = {
   sort: {
     ...sortPageProps.sort,
     sort: CategoryListUrlSortField.name
-  }
+  },
+  onValueReorder: () => null
 };
 
 storiesOf("Views / Categories / Category list", module)

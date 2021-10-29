@@ -18,7 +18,7 @@ interface ProductDetailsFormProps {
     description: OutputData;
     name: string;
     rating: number;
-    sku: any;
+    sku?: any;
   };
   disabled?: boolean;
   errors: ProductErrorFragment[];
@@ -85,7 +85,9 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
             name="sku"
             required
             value={data.sku || ""}
-            onChange={onChange}
+            onChange={e => {
+              onChange(e);
+            }}
           />
         </Grid>
       </CardContent>

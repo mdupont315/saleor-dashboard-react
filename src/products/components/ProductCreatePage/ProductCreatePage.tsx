@@ -203,7 +203,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
       {({
         change,
         data,
-        disabled: formDisabled,
+        // disabled: formDisabled,
         handlers,
         hasChanged,
         submit
@@ -327,7 +327,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
             disabled={
               loading ||
               !onSubmit ||
-              formDisabled ||
+              // formDisabled ||
               !hasChanged ||
               !selectedCategory
             }

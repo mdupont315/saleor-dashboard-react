@@ -1,4 +1,4 @@
-import { TableBody, TableCell, TableFooter, TableRow } from "@material-ui/core";
+import { TableCell, TableFooter, TableRow } from "@material-ui/core";
 import { CategoryListUrlSortField } from "@saleor/categories/urls";
 import Checkbox from "@saleor/components/Checkbox";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
@@ -66,7 +66,7 @@ interface CategoryListProps
     ListActions,
     SortPage<CategoryListUrlSortField> {
   categories?: CategoryFragment[];
-  onValueReorder: ReorderAction;
+  onValueReorder?: ReorderAction;
   isRoot: boolean;
   onAdd?();
 }

@@ -185,6 +185,7 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
                 onPreviousPage={onPreviousPage}
                 onRowClick={onCategoryClick}
                 onSort={() => undefined}
+                onValueReorder={() => undefined}
               />
             </Card>
           )}
