@@ -17,6 +17,7 @@ export const getApiUrl = () => {
 
 export const getSocketUrl = () => {
   const isCheckCurDomain = process.env.APP_WITH_CURRENT_DOMAIN === "true";
+  // const reg =/[a-zA-Z]/gm;
 
   if (isCheckCurDomain) {
     if (typeof window !== "undefined") {

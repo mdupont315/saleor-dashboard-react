@@ -5,7 +5,7 @@ import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCar
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import { Container } from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import SeoForm from "@saleor/components/SeoForm";
@@ -97,7 +97,7 @@ const CollectionDetailsPage: React.FC<CollectionDetailsPageProps> = ({
                 onChange={change}
               />
               <CardSpacer />
-              <Metadata data={data} onChange={handlers.changeMetadata} />
+              {/* <Metadata data={data} onChange={handlers.changeMetadata} /> */}
               <CardSpacer />
               <CollectionProducts
                 disabled={disabled}

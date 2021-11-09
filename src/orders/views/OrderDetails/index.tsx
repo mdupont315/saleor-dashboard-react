@@ -39,7 +39,6 @@ interface OrderDetailsProps {
 
 export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
   const navigate = useNavigator();
-
   const { queue } = useBackgroundTask();
   const intl = useIntl();
   const [updateMetadata, updateMetadataOpts] = useMetadataUpdate({});

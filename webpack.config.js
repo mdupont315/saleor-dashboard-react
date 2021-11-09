@@ -40,6 +40,7 @@ const environmentPlugin = new webpack.EnvironmentPlugin({
   API_URI: "",
   SOCKET_URI: "",
   APP_WITH_CURRENT_DOMAIN: "",
+  PORT_SOCKET: "",
   APP_MOUNT_URI: "/",
   DEMO_MODE: false,
   ENVIRONMENT: "",

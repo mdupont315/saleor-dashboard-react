@@ -83,7 +83,7 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
               description: "product rating"
             })}
             name="sku"
-            required
+            // required
             value={data.sku || ""}
             onChange={e => {
               onChange(e);

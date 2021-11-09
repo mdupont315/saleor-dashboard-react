@@ -158,7 +158,7 @@ const ProductStocks: React.FC<ProductStocksProps> = ({
               defaultMessage: "SKU (Stock Keeping Unit)"
             })}
             name="sku"
-            required
+            // required
             onChange={onFormDataChange}
             value={data.sku}
           />

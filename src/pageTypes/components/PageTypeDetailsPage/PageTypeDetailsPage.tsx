@@ -5,7 +5,7 @@ import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
 import Hr from "@saleor/components/Hr";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import { MetadataFormData } from "@saleor/components/Metadata/types";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -77,8 +77,8 @@ const PageTypeDetailsPage: React.FC<PageTypeDetailsPageProps> = props => {
   const intl = useIntl();
   const {
     isMetadataModified,
-    isPrivateMetadataModified,
-    makeChangeHandler: makeMetadataChangeHandler
+    isPrivateMetadataModified
+    // makeChangeHandler: makeMetadataChangeHandler
   } = useMetadataChangeTrigger();
 
   const formInitialData: PageTypeForm = {
@@ -107,75 +107,71 @@ const PageTypeDetailsPage: React.FC<PageTypeDetailsPageProps> = props => {
 
   return (
     <Form initial={formInitialData} onSubmit={handleSubmit} confirmLeave>
-      {({ change, data, hasChanged, submit }) => {
-        const changeMetadata = makeMetadataChangeHandler(change);
-
-        return (
-          <Container>
-            <AppHeader onBack={onBack}>
-              {intl.formatMessage(sectionNames.pageTypes)}
-            </AppHeader>
-            <PageHeader title={pageTitle} />
-            <Grid variant="inverted">
-              <div>
-                <Typography>
-                  {intl.formatMessage(commonMessages.generalInformations)}
-                </Typography>
-                <Typography variant="body2">
-                  <FormattedMessage defaultMessage="These are general information about this Content Type." />
-                </Typography>
-              </div>
-              <PageTypeDetails
-                data={data}
-                disabled={disabled}
-                errors={errors}
-                onChange={change}
-              />
-              <Hr className={classes.hr} />
-              <div>
-                <Typography>
-                  <FormattedMessage
-                    defaultMessage="Content Attributes"
-                    description="section header"
-                  />
-                </Typography>
-                <Typography variant="body2">
-                  <FormattedMessage defaultMessage="This list shows all attributes that will be assigned to pages that have this page type assigned." />
-                </Typography>
-              </div>
-              <PageTypeAttributes
-                attributes={pageType?.attributes}
-                disabled={disabled}
-                type={AttributeTypeEnum.PAGE_TYPE}
-                onAttributeAssign={onAttributeAdd}
-                onAttributeClick={onAttributeClick}
-                onAttributeReorder={(event: ReorderEvent) =>
-                  onAttributeReorder(event, AttributeTypeEnum.PAGE_TYPE)
-                }
-                onAttributeUnassign={onAttributeUnassign}
-                {...attributeList}
-              />
-              <Hr className={classes.hr} />
-              <div>
-                <Typography>
-                  <FormattedMessage
-                    defaultMessage="Metadata"
-                    description="section header"
-                  />
-                </Typography>
-              </div>
-              <Metadata data={data} onChange={changeMetadata} />
-            </Grid>
-            <SaveButtonBar
-              onCancel={onBack}
-              onDelete={onDelete}
-              onSave={submit}
-              disabled={disabled || !hasChanged}
-              state={saveButtonBarState}
+      {({ change, data, hasChanged, submit }) => (
+        <Container>
+          <AppHeader onBack={onBack}>
+            {intl.formatMessage(sectionNames.pageTypes)}
+          </AppHeader>
+          <PageHeader title={pageTitle} />
+          <Grid variant="inverted">
+            <div>
+              <Typography>
+                {intl.formatMessage(commonMessages.generalInformations)}
+              </Typography>
+              <Typography variant="body2">
+                <FormattedMessage defaultMessage="These are general information about this Content Type." />
+              </Typography>
+            </div>
+            <PageTypeDetails
+              data={data}
+              disabled={disabled}
+              errors={errors}
+              onChange={change}
             />
-          </Container>
-        );
-      }}
+            <Hr className={classes.hr} />
+            <div>
+              <Typography>
+                <FormattedMessage
+                  defaultMessage="Content Attributes"
+                  description="section header"
+                />
+              </Typography>
+              <Typography variant="body2">
+                <FormattedMessage defaultMessage="This list shows all attributes that will be assigned to pages that have this page type assigned." />
+              </Typography>
+            </div>
+            <PageTypeAttributes
+              attributes={pageType?.attributes}
+              disabled={disabled}
+              type={AttributeTypeEnum.PAGE_TYPE}
+              onAttributeAssign={onAttributeAdd}
+              onAttributeClick={onAttributeClick}
+              onAttributeReorder={(event: ReorderEvent) =>
+                onAttributeReorder(event, AttributeTypeEnum.PAGE_TYPE)
+              }
+              onAttributeUnassign={onAttributeUnassign}
+              {...attributeList}
+            />
+            <Hr className={classes.hr} />
+            <div>
+              <Typography>
+                <FormattedMessage
+                  defaultMessage="Metadata"
+                  description="section header"
+                />
+              </Typography>
+            </div>
+            {/* <Metadata data={data} onChange={changeMetadata} /> */}
+          </Grid>
+          <SaveButtonBar
+            onCancel={onBack}
+            onDelete={onDelete}
+            onSave={submit}
+            disabled={disabled || !hasChanged}
+            state={saveButtonBarState}
+          />
+        </Container>
+      )}
     </Form>
   );
 };

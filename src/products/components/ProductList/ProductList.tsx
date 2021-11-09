@@ -414,7 +414,11 @@ export const ProductList: React.FC<ProductListProps> = props => {
                       }, <Skeleton />)}
                     </TableCell>
                   ))}
-                  <TableCell />
+                  <TableCell>
+                    {product.variants &&
+                      product.variants.length > 0 &&
+                      product.variants[0].sku}
+                  </TableCell>
                   <TableCell>
                     {product?.category.name || <Skeleton />}
                   </TableCell>

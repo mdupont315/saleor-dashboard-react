@@ -14,7 +14,7 @@ import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
 import { MetadataFormData } from "@saleor/components/Metadata";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
@@ -312,7 +312,7 @@ const ProductVariantPage: React.FC<ProductVariantPageProps> = ({
                     onWarehouseConfigure={onWarehouseConfigure}
                   />
                   <CardSpacer />
-                  <Metadata data={data} onChange={handlers.changeMetadata} />
+                  {/* <Metadata data={data} onChange={handlers.changeMetadata} /> */}
                 </div>
               </Grid>
               <SaveButtonBar
