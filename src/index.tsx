@@ -5,7 +5,7 @@ import { ApolloLink } from "apollo-link";
 import { BatchHttpLink } from "apollo-link-batch-http";
 import { createUploadLink } from "apollo-upload-client";
 import React, { useEffect } from "react";
-import { ApolloProvider, useQuery } from "react-apollo";
+import { ApolloProvider, useLazyQuery } from "react-apollo";
 // import { useLazyQuery } from '@apollo/client';
 import { render } from "react-dom";
 import ErrorBoundary from "react-error-boundary";
@@ -187,21 +187,17 @@ const Routes = ({ dataSocket }: any) => {
   const channelLoaded = typeof channel !== "undefined";
   const { data: myStore } = useGetMyStore({ variables: {} });
   const [id, setId] = React.useState("");
+  const [orderDetail, setOrderDetail] = React.useState(null);
+  const componentRef = React.useRef<any>();
+  const buttonRef = React.useRef<any>();
+
   const homePageLoaded =
     channelLoaded &&
     isAuthenticated &&
     !tokenAuthLoading &&
     !tokenVerifyLoading;
-  useEffect(() => {
-    if (myStore?.myStore.id === storeId && myStore?.myStore.posEnable) {
-      setId(orderId);
-    }
-  }, [dataSocket]);
 
-  const [orderDetail, setOrderDetail] = React.useState(null);
-  const componentRef = React.useRef<any>();
-  const buttonRef = React.useRef<any>();
-  const {} = useQuery(orderFull, {
+  const [getOrderFull] = useLazyQuery(orderFull, {
     variables: { orderId: id },
     fetchPolicy: "cache-and-network",
     onCompleted: data => {
@@ -210,6 +206,18 @@ const Routes = ({ dataSocket }: any) => {
       // console.log(buttonRef);
     }
   });
+
+  useEffect(() => {
+    if (myStore?.myStore.id === storeId && myStore?.myStore.posEnable) {
+      setId(orderId);
+    }
+  }, [dataSocket]);
+
+  useEffect(() => {
+    if (user && id) {
+      getOrderFull();
+    }
+  }, [user, id]);
 
   useEffect(() => {
     if (orderDetail) {
@@ -248,7 +256,6 @@ const Routes = ({ dataSocket }: any) => {
           <ErrorBoundary
             onError={e => {
               const errorId = errorTracker.captureException(e);
-
               dispatchAppState({
                 payload: {
                   error: "unhandled",

@@ -49,7 +49,7 @@ const CustomerInfo: React.FC<CustomerInfoProps> = props => {
       <CardTitle
         title={
           <FormattedMessage
-            defaultMessage="Personal Informations"
+            defaultMessage="Personal Information"
             description="customer informations, header"
           />
         }

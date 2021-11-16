@@ -139,16 +139,19 @@ const StoreDetailPage: React.FC<IProps> = ({
         };
 
   const compareStatus = values => {
-    delete initialValues?.store.id;
-    delete initialValues?.store.__typename;
-    const cloneObject = { ...values };
-    const value = Object.assign(cloneObject, {
-      logo: initialValues?.store?.logo || "",
-      coverPhoto: initialValues?.store?.coverPhoto || "",
-      favicon: initialValues?.store?.favicon || ""
-    });
+    if (initialValues && initialValues?.store) {
+      delete initialValues?.store.id;
+      delete initialValues?.store.__typename;
+      const cloneObject = { ...values };
+      const value = Object.assign(cloneObject, {
+        logo: initialValues?.store?.logo || "",
+        coverPhoto: initialValues?.store?.coverPhoto || "",
+        favicon: initialValues?.store?.favicon || ""
+      });
 
-    return JSON.stringify(value) === JSON.stringify(initialValues?.store);
+      return JSON.stringify(value) === JSON.stringify(initialValues?.store);
+    }
+    return false;
   };
 
   return (

@@ -61,9 +61,9 @@ const HomeSection = () => {
           })
         )
       }
-      ordersToCapture={data?.ordersToCapture?.totalCount}
-      ordersToFulfill={data?.ordersToFulfill?.totalCount}
-      productsOutOfStock={data?.productsOutOfStock.totalCount}
+      ordersToCapture={data?.ordersToCapture?.totalCount || null}
+      ordersToFulfill={data?.ordersToFulfill?.totalCount || null}
+      productsOutOfStock={data?.productsOutOfStock?.totalCount || null}
       userName={getUserName(user, true)}
       userPermissions={user?.userPermissions}
       noChannel={noChannel}

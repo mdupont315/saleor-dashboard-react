@@ -15,7 +15,7 @@ import {
   SortableTableRow
 } from "@saleor/components/SortableTable";
 import TableCellAvatar from "@saleor/components/TableCellAvatar";
-import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
+// import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
 import TableCellHeader from "@saleor/components/TableCellHeader";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
@@ -81,7 +81,7 @@ const useStyles = makeStyles(
       width: 250
     },
     colNameHeader: {
-      marginLeft: AVATAR_MARGIN
+      // marginLeft: 0
     },
     colNameWrapper: {
       display: "block"
@@ -220,7 +220,10 @@ export const ProductList: React.FC<ProductListProps> = props => {
             }
             onClick={() => onSort(ProductListUrlSortField.name)}
           >
-            <span className={classes.colNameHeader}>
+            <span
+              className={classes.colNameHeader}
+              style={{ marginLeft: "32px" }}
+            >
               <FormattedMessage defaultMessage="Name" description="product" />
             </span>
           </TableCellHeader>
@@ -431,7 +434,7 @@ export const ProductList: React.FC<ProductListProps> = props => {
                       {product?.channelListings ? (
                         <MoneyRange
                           from={channel?.pricing?.priceRange?.start?.net}
-                          to={channel?.pricing?.priceRange?.stop?.net}
+                          // to={channel?.pricing?.priceRange?.stop?.net}
                         />
                       ) : (
                         <Skeleton />
