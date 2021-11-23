@@ -2,6 +2,7 @@ import { WindowTitle } from "@saleor/components/WindowTitle";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import OrderCannotCancelOrderDialog from "@saleor/orders/components/OrderCannotCancelOrderDialog";
+import OrderDeleteDialog from "@saleor/orders/components/OrderDeleteDialog";
 import OrderInvoiceEmailSendDialog from "@saleor/orders/components/OrderInvoiceEmailSendDialog";
 import { mapEdgesToItems } from "@saleor/utils/maps";
 import { useWarehouseList } from "@saleor/warehouses/queries";
@@ -36,6 +37,7 @@ interface OrderNormalDetailsProps {
   orderInvoiceRequest: any;
   handleSubmit: any;
   orderCancel: any;
+  orderDelete: any;
   orderPaymentMarkAsPaid: any;
   orderVoid: any;
   orderPaymentCapture: any;
@@ -46,6 +48,7 @@ interface OrderNormalDetailsProps {
   updatePrivateMetadataOpts: any;
   openModal: any;
   closeModal: any;
+  orderFullFill?: any;
 }
 
 export const OrderNormalDetails: React.FC<OrderNormalDetailsProps> = ({
@@ -53,6 +56,7 @@ export const OrderNormalDetails: React.FC<OrderNormalDetailsProps> = ({
   params,
   data,
   orderAddNote,
+  orderDelete,
   orderInvoiceRequest,
   handleSubmit,
   orderCancel,
@@ -65,7 +69,8 @@ export const OrderNormalDetails: React.FC<OrderNormalDetailsProps> = ({
   updateMetadataOpts,
   updatePrivateMetadataOpts,
   openModal,
-  closeModal
+  closeModal,
+  orderFullFill
 }) => {
   const order = data?.order;
   const navigate = useNavigator();
@@ -123,6 +128,7 @@ export const OrderNormalDetails: React.FC<OrderNormalDetailsProps> = ({
         shippingMethods={data?.order?.availableShippingMethods || []}
         userPermissions={user?.userPermissions || []}
         onOrderCancel={() => openModal("cancel")}
+        onOrderDelete={() => openModal("delete")}
         onOrderFulfill={() => navigate(orderFulfillUrl(id))}
         onFulfillmentCancel={fulfillmentId =>
           navigate(
@@ -161,6 +167,7 @@ export const OrderNormalDetails: React.FC<OrderNormalDetailsProps> = ({
         }
         onInvoiceSend={id => openModal("invoice-send", { id })}
         onSubmit={handleSubmit}
+        orderFullFill={orderFullFill}
       />
       <OrderCannotCancelOrderDialog
         onClose={closeModal}
@@ -177,11 +184,26 @@ export const OrderNormalDetails: React.FC<OrderNormalDetailsProps> = ({
         number={order?.number}
         open={params.action === "cancel"}
         onClose={closeModal}
-        onSubmit={() =>
+        onSubmit={() => {
           orderCancel.mutate({
             id
-          })
-        }
+          });
+          navigate(orderListUrl());
+        }}
+      />
+
+      <OrderDeleteDialog
+        confirmButtonState={orderDelete.opts.status}
+        errors={orderDelete.opts.data?.orderDelete.errors || []}
+        number={order?.number}
+        open={params.action === "delete"}
+        onClose={closeModal}
+        onSubmit={() => {
+          orderDelete.mutate({
+            id
+          });
+          navigate(orderListUrl());
+        }}
       />
       <OrderMarkAsPaidDialog
         confirmButtonState={orderPaymentMarkAsPaid.opts.status}

@@ -13,7 +13,7 @@ import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import Skeleton from "@saleor/components/Skeleton";
 import { SubmitPromise } from "@saleor/hooks/useForm";
 import { sectionNames } from "@saleor/intl";
-import OrderChannelSectionCard from "@saleor/orders/components/OrderChannelSectionCard";
+// import OrderChannelSectionCard from "@saleor/orders/components/OrderChannelSectionCard";
 import { makeStyles } from "@saleor/theme";
 import { UserPermissionProps } from "@saleor/types";
 import { mapMetadataItemToInput } from "@saleor/utils/maps";
@@ -60,6 +60,8 @@ export interface OrderDetailsPageProps extends UserPermissionProps {
   }>;
   disabled: boolean;
   saveButtonBarState: ConfirmButtonTransitionState;
+  orderFullFill?: any;
+  onOrderDelete?: () => void;
   onOrderLineAdd?: () => void;
   onOrderLineChange?: (
     id: string,
@@ -100,6 +102,10 @@ const messages = defineMessages({
   returnOrder: {
     defaultMessage: "Return / Replace order",
     description: "return button"
+  },
+  deleteOrder: {
+    defaultMessage: "Delete order",
+    description: "delete button"
   }
 });
 
@@ -115,6 +121,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
     onFulfillmentTrackingNumberUpdate,
     onNoteAdd,
     onOrderCancel,
+    onOrderDelete,
     onOrderFulfill,
     onPaymentCapture,
     onPaymentPaid,
@@ -130,7 +137,8 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
     onOrderLineChange,
     onOrderLineRemove,
     onShippingMethodEdit,
-    onSubmit
+    onSubmit,
+    orderFullFill
   } = props;
   const classes = useStyles(props);
 
@@ -194,6 +202,13 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
       item: {
         label: intl.formatMessage(messages.returnOrder),
         onSelect: onOrderReturn
+      },
+      shouldExist: hasAnyItemsReplaceable(order)
+    },
+    {
+      item: {
+        label: intl.formatMessage(messages.deleteOrder),
+        onSelect: onOrderDelete
       },
       shouldExist: hasAnyItemsReplaceable(order)
     }
@@ -289,9 +304,11 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
                 onProfileView={onProfileView}
               />
               <CardSpacer />
+              <OrderCustomerNote note={maybe(() => order.customerNote)} />
+              {/* <CardSpacer />
               <OrderChannelSectionCard
                 selectedChannelName={order?.channel?.name}
-              />
+              /> */}
               <CardSpacer />
               {!isOrderUnconfirmed && (
                 <>
@@ -300,11 +317,11 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
                     onInvoiceClick={onInvoiceClick}
                     onInvoiceGenerate={onInvoiceGenerate}
                     onInvoiceSend={onInvoiceSend}
+                    orderFullFill={orderFullFill}
                   />
                   <CardSpacer />
                 </>
               )}
-              <OrderCustomerNote note={maybe(() => order.customerNote)} />
             </div>
           </Grid>
           <SaveButtonBar

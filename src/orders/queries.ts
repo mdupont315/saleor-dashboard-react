@@ -187,6 +187,22 @@ export const searchOrderVariant = gql`
           thumbnail {
             url
           }
+          options {
+            id
+            name
+            type
+            required
+            description
+            optionValues {
+              id
+              name
+              channelListing {
+                price {
+                  amount
+                }
+              }
+            }
+          }
           variants {
             id
             name

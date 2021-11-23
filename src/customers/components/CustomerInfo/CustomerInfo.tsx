@@ -56,7 +56,10 @@ const CustomerInfo: React.FC<CustomerInfoProps> = props => {
       />
       <CardContent className={classes.content}>
         <Typography className={classes.sectionHeader}>
-          <FormattedMessage {...commonMessages.generalInformations} />
+          <FormattedMessage
+            defaultMessage="General Information"
+            description="customer informations, header"
+          />
         </Typography>
         <Grid variant="uniform">
           <TextField
@@ -85,7 +88,7 @@ const CustomerInfo: React.FC<CustomerInfoProps> = props => {
         <Hr className={classes.hr} />
         <Typography className={classes.sectionHeader}>
           <FormattedMessage
-            defaultMessage="Contact Informations"
+            defaultMessage="Contact Information"
             description="customer contact section, header"
           />
         </Typography>

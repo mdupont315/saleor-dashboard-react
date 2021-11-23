@@ -14,7 +14,6 @@ import { useIntl } from "react-intl";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ReactToPrint from "react-to-print";
 import { io } from "socket.io-client";
-import { useGetMyStore } from "src/emergency/queries";
 
 import AppsSection from "./apps";
 import { appsSection } from "./apps/urls";
@@ -172,7 +171,7 @@ const App: React.FC = () => {
   );
 };
 
-const Routes = ({ dataSocket }: any) => {
+const Routes = ({ dataSocket, myStore }: any) => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
   const {
@@ -185,7 +184,7 @@ const Routes = ({ dataSocket }: any) => {
   const { channel } = useAppChannel(false);
   const { orderId, storeId } = dataSocket;
   const channelLoaded = typeof channel !== "undefined";
-  const { data: myStore } = useGetMyStore({ variables: {} });
+  // const { data: myStore } = useGetMyStore({ variables: {} });
   const [id, setId] = React.useState("");
   const [orderDetail, setOrderDetail] = React.useState(null);
   const componentRef = React.useRef<any>();
@@ -317,11 +316,13 @@ const Routes = ({ dataSocket }: any) => {
                 component={DiscountSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_PAGES]}
                 path="/pages"
                 component={PageSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_PAGES]}
                 path="/page-types"
                 component={PageTypesSection}
@@ -383,11 +384,13 @@ const Routes = ({ dataSocket }: any) => {
                 component={ShippingSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_TRANSLATIONS]}
                 path="/translations"
                 component={TranslationsSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_MENUS]}
                 path={navigationSection}
                 component={NavigationSection}
@@ -401,16 +404,19 @@ const Routes = ({ dataSocket }: any) => {
                 component={AttributeSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_APPS]}
                 path={appsSection}
                 component={AppsSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_PRODUCTS]}
                 path={warehouseSection}
                 component={WarehouseSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 permissions={[PermissionEnum.MANAGE_CHANNELS]}
                 path={channelsSection}
                 component={ChannelsSection}
@@ -424,6 +430,7 @@ const Routes = ({ dataSocket }: any) => {
                 component={OptionSection}
               />
               <SectionRoute
+                roles={["isSupplier", "isStaff"]}
                 path={notificationSection}
                 component={NotificationSection}
               />

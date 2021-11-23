@@ -16,7 +16,6 @@ const MessageManagerProvider = ({ children }) => {
   const root = useRef(null);
   const timersArr = useRef<ITimer[]>([]);
   const [notifications, setNotifications] = useState<INotification[]>([]);
-
   useEffect(() => {
     root.current = document.createElement("div");
     root.current.id = "__message-manager__";

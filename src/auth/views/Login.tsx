@@ -44,6 +44,7 @@ const LoginView: React.FC<LoginViewProps> = ({ params }) => {
 
     setIsExternalError(false);
     setIsError(!result || errors?.length > 0);
+
     return errors;
   };
 

@@ -46,12 +46,11 @@ const OrderRefundPage: React.FC<OrderReturnPageProps> = props => {
   return (
     <OrderRefundForm order={order} onSubmit={onSubmit}>
       {({ data, handlers, change, submit }) => {
-        const { fulfilledItemsQuantities, unfulfilledItemsQuantities } = data;
+        const { unfulfilledItemsQuantities } = data;
 
-        const hasAnyItemsSelected =
-          fulfilledItemsQuantities.some(({ value }) => !!value) ||
-          unfulfilledItemsQuantities.some(({ value }) => !!value);
-
+        const hasAnyItemsSelected = unfulfilledItemsQuantities.some(
+          ({ value }) => !!value
+        );
         return (
           <Container>
             <AppHeader onBack={onBack}>

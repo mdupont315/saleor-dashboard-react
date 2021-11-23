@@ -35,12 +35,16 @@ export const SectionRoute: React.FC<SectionRouteProps> = ({
       }
     }
 
-    if (roles.findIndex(item => item === "isSupplier") >= 0 || roles.findIndex(item => item === "isStaff") >= 0) {
-      if (!isSupplier && !isStaff) {
+    if (
+      roles.findIndex(item => item === "isSupplier") >= 0 ||
+      roles.findIndex(item => item === "isStaff") >= 0
+    ) {
+      if ((!isSupplier && !isStaff) || isSuperuser) {
         return <Redirect to="/" />;
       }
     }
   }
+
   const hasPermissions =
     !permissions ||
     permissions

@@ -32,6 +32,7 @@ interface OrderDetailsMessages {
     handleDraftUpdate: (data: OrderDraftUpdate) => void;
     handleNoteAdd: (data: OrderAddNote) => void;
     handleOrderCancel: (data: OrderCancel) => void;
+    handleOrderDelete: (data: any) => void;
     handleOrderFulfillmentCancel: (data: OrderFulfillmentCancel) => void;
     handleOrderFulfillmentUpdate: (
       data: OrderFulfillmentUpdateTracking
@@ -91,8 +92,8 @@ export const OrderDetailsMessages: React.FC<OrderDetailsMessages> = ({
       closeModal();
     }
   };
-  const handleOrderCancel = (data: OrderCancel) => {
-    const errs = data.orderCancel?.errors;
+  const handleOrderCancel = (data: any) => {
+    const errs = data?.orderCancel?.errors;
     if (errs.length === 0) {
       pushMessage({
         status: "success",
@@ -100,7 +101,20 @@ export const OrderDetailsMessages: React.FC<OrderDetailsMessages> = ({
           defaultMessage: "Order successfully cancelled"
         })
       });
-      closeModal();
+      // closeModal();
+    }
+  };
+
+  const handleOrderDelete = (data: any) => {
+    const errs = data?.orderDelete?.errors;
+    if (errs.length === 0) {
+      pushMessage({
+        status: "success",
+        text: intl.formatMessage({
+          defaultMessage: "Order successfully deleted"
+        })
+      });
+      // closeModal();
     }
   };
   const handleDraftCancel = (data: OrderDraftCancel) => {
@@ -299,6 +313,7 @@ export const OrderDetailsMessages: React.FC<OrderDetailsMessages> = ({
     handleInvoiceSend,
     handleNoteAdd,
     handleOrderCancel,
+    handleOrderDelete,
     handleOrderFulfillmentCancel,
     handleOrderFulfillmentUpdate,
     handleOrderLineDelete,

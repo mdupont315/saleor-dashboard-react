@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/react-hooks";
 import { MetadataFormData } from "@saleor/components/Metadata";
 import NotFoundPage from "@saleor/components/NotFoundPage";
 import { Task } from "@saleor/containers/BackgroundTasks/types";
@@ -19,7 +20,7 @@ import { useIntl } from "react-intl";
 
 import { JobStatusEnum, OrderStatus } from "../../../types/globalTypes";
 import OrderOperations from "../../containers/OrderOperations";
-import { TypedOrderDetailsQuery } from "../../queries";
+import { orderFull, TypedOrderDetailsQuery } from "../../queries";
 import {
   orderListUrl,
   orderUrl,
@@ -66,6 +67,11 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
           : "Confirmed Order"
       });
     }
+  });
+
+  const { data: orderFullFill } = useQuery(orderFull, {
+    variables: { orderId: id },
+    fetchPolicy: "cache-and-network"
   });
 
   return (
@@ -145,10 +151,12 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                   }
                 }}
                 onInvoiceSend={orderMessages.handleInvoiceSend}
+                onOrderDelete={orderMessages.handleOrderDelete}
               >
                 {({
                   orderAddNote,
                   orderCancel,
+                  orderDelete,
                   orderDraftUpdate,
                   orderLinesAdd,
                   orderLineDelete,
@@ -172,6 +180,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                         params={params}
                         data={data}
                         orderAddNote={orderAddNote}
+                        orderDelete={orderDelete}
                         orderInvoiceRequest={orderInvoiceRequest}
                         handleSubmit={handleSubmit}
                         orderCancel={orderCancel}
@@ -183,6 +192,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                           orderFulfillmentUpdateTracking
                         }
                         orderInvoiceSend={orderInvoiceSend}
+                        orderFullFill={orderFullFill}
                         updateMetadataOpts={updateMetadataOpts}
                         updatePrivateMetadataOpts={updatePrivateMetadataOpts}
                         openModal={openModal}

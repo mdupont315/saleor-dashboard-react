@@ -493,7 +493,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                     style={{ margin: 0, textAlign: "left" }}
                   >
                     {payments &&
-                    payments[0].gateway === "mirumee.payments.dummy"
+                    payments[0]?.gateway === "mirumee.payments.dummy"
                       ? "(UNPAID CASH ON DELIVERY)"
                       : "(PAID WITH IDEAL)"}
                   </p>
