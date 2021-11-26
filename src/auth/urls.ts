@@ -4,6 +4,8 @@ export const passwordResetPath = "/reset-password/";
 export const passwordResetUrl = passwordResetPath;
 
 export const passwordResetSuccessPath = "/reset-password/success/";
+export const signUpSite = "/signup/";
+
 export const passwordResetSuccessUrl = passwordResetSuccessPath;
 
 export const newPasswordPath = "/new-password/";

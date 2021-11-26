@@ -210,7 +210,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
         label: intl.formatMessage(messages.deleteOrder),
         onSelect: onOrderDelete
       },
-      shouldExist: hasAnyItemsReplaceable(order)
+      shouldExist: true
     }
   ]);
 

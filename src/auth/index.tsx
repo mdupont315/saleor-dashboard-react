@@ -14,12 +14,14 @@ import {
   LoginUrlQueryParams,
   newPasswordPath,
   passwordResetPath,
-  passwordResetSuccessPath
+  passwordResetSuccessPath,
+  signUpSite
 } from "./urls";
 import LoginViewComponent from "./views/Login";
 import NewPassword from "./views/NewPassword";
 import ResetPassword from "./views/ResetPassword";
 import ResetPasswordSuccess from "./views/ResetPasswordSuccess";
+import SignUpSite from "./views/SignUpSite";
 
 const LoginView: React.FC<RouteComponentProps<any>> = () => {
   const qs = parseQs(location.search.substr(1));
@@ -60,6 +62,7 @@ export const UserContext = React.createContext<UserContext>({
 const AuthRouter: React.FC = () => (
   <Layout>
     <Switch>
+      <Route path={signUpSite} component={SignUpSite} />
       <Route path={passwordResetSuccessPath} component={ResetPasswordSuccess} />
       <Route path={passwordResetPath} component={ResetPassword} />
       <Route path={newPasswordPath} component={NewPassword} />

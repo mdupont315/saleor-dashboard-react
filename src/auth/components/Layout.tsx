@@ -9,6 +9,7 @@ const useStyles = makeStyles(
     logo: {
       display: "block",
       height: 40,
+      margin: "auto",
       marginBottom: theme.spacing(4)
     },
     mainPanel: {
@@ -17,11 +18,15 @@ const useStyles = makeStyles(
       },
       background: theme.palette.background.paper,
       display: "flex",
-      flexDirection: "column",
-      height: "100vh",
-      justifyContent: "center",
+      // flexDirection: "column",
+      height: "100%",
+      // justifyContent: "center",
       padding: theme.spacing(6),
-      width: "100%"
+      width: "100%",
+      overflow: "scroll",
+      "&:-webkit-scrollbar": {
+        display: "none"
+      }
     },
     mainPanelContent: {
       [theme.breakpoints.up("xs")]: {
@@ -46,7 +51,10 @@ const useStyles = makeStyles(
       display: "grid",
       gridTemplateColumns: "1fr",
       height: "100vh",
-      overflow: "hidden",
+      overflow: "scroll",
+      "&:-webkit-scrollbar": {
+        display: "none"
+      },
       width: "100vw"
     },
     sidebar: {
