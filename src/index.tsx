@@ -1,19 +1,21 @@
 import useAppState from "@saleor/hooks/useAppState";
 import { defaultDataIdFromObject, InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
-import { ApolloLink } from "apollo-link";
+import { ApolloLink, split } from "apollo-link";
 import { BatchHttpLink } from "apollo-link-batch-http";
+// import { HttpLink } from "apollo-link-http";
+import { WebSocketLink } from "apollo-link-ws";
 import { createUploadLink } from "apollo-upload-client";
+import { getMainDefinition } from "apollo-utilities";
 import React, { useEffect } from "react";
 import { ApolloProvider, useLazyQuery } from "react-apollo";
-// import { useLazyQuery } from '@apollo/client';
+import { useSubscription } from "react-apollo";
 import { render } from "react-dom";
 import ErrorBoundary from "react-error-boundary";
 import TagManager from "react-gtm-module";
 import { useIntl } from "react-intl";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ReactToPrint from "react-to-print";
-import { io } from "socket.io-client";
 
 import AppsSection from "./apps";
 import { appsSection } from "./apps/urls";
@@ -50,6 +52,7 @@ import DiscountSection from "./discounts";
 import EmergencySection from "./emergency";
 import HomePage from "./home";
 import { commonMessages } from "./intl";
+import { SUBSCRIPTION_MESSAGE } from "./mutations";
 import NavigationSection from "./navigation";
 import { navigationSection } from "./navigation/urls";
 import { NotFound } from "./NotFound";
@@ -99,10 +102,27 @@ const batchLink = new BatchHttpLink({
   ...linkOptions
 });
 
-const link = ApolloLink.split(
-  operation => operation.getContext().useBatching,
-  batchLink,
-  uploadLink
+const wsLink = new WebSocketLink({
+  uri: SOCKET_URI,
+  options: {
+    reconnect: true
+  }
+});
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  ApolloLink.split(
+    operation => operation.getContext().useBatching,
+    batchLink,
+    uploadLink
+  )
 );
 
 const apolloClient = new ApolloClient({
@@ -116,32 +136,11 @@ const apolloClient = new ApolloClient({
       return defaultDataIdFromObject(obj);
     }
   }),
-  link: authLink.concat(link)
+  link: authLink.concat(splitLink)
 });
 
 const App: React.FC = () => {
   const isDark = localStorage.getItem("theme") === "true";
-  const [dataSocket, setDataSocket] = React.useState({
-    orderId: "",
-    storeId: ""
-  });
-
-  useEffect(() => {
-    const socket = io(SOCKET_URI);
-    socket.on("connect", function() {
-      socket.emit("my_event", { data: "thang I'm connected!" });
-    });
-    socket.on("is_order_complete", function(msg) {
-      if (msg) {
-        setDataSocket(msg);
-        // ord_id = ;
-      }
-    });
-    return () => {
-      socket.off("connect");
-      socket.off("is_order_complete");
-    };
-  });
 
   return (
     <ApolloProvider client={apolloClient}>
@@ -156,7 +155,7 @@ const App: React.FC = () => {
                     <ShopProvider>
                       <AuthProvider>
                         <AppChannelProvider>
-                          <Routes dataSocket={dataSocket} />
+                          <Routes />
                         </AppChannelProvider>
                       </AuthProvider>
                     </ShopProvider>
@@ -171,7 +170,7 @@ const App: React.FC = () => {
   );
 };
 
-const Routes = ({ dataSocket, myStore }: any) => {
+const Routes = ({ myStore }: any) => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
   const {
@@ -182,13 +181,16 @@ const Routes = ({ dataSocket, myStore }: any) => {
     user
   } = useAuth();
   const { channel } = useAppChannel(false);
-  const { orderId, storeId } = dataSocket;
   const channelLoaded = typeof channel !== "undefined";
   // const { data: myStore } = useGetMyStore({ variables: {} });
-  const [id, setId] = React.useState("");
   const [orderDetail, setOrderDetail] = React.useState(null);
   const componentRef = React.useRef<any>();
   const buttonRef = React.useRef<any>();
+  const { data } = useSubscription(SUBSCRIPTION_MESSAGE, {
+    variables: { id: myStore?.myStore.id }
+  });
+
+  const { messageTitle } = data?.appLiveNotification || {};
 
   const homePageLoaded =
     channelLoaded &&
@@ -197,7 +199,7 @@ const Routes = ({ dataSocket, myStore }: any) => {
     !tokenVerifyLoading;
 
   const [getOrderFull] = useLazyQuery(orderFull, {
-    variables: { orderId: id },
+    variables: { orderId: messageTitle || "" },
     fetchPolicy: "cache-and-network",
     onCompleted: data => {
       // peint here
@@ -207,16 +209,11 @@ const Routes = ({ dataSocket, myStore }: any) => {
   });
 
   useEffect(() => {
-    if (myStore?.myStore.id === storeId && myStore?.myStore.posEnable) {
-      setId(orderId);
-    }
-  }, [dataSocket]);
-
-  useEffect(() => {
-    if (user && id) {
+    if (user && messageTitle) {
       getOrderFull();
+      // console.log(messageTitle, "====titile");
     }
-  }, [user, id]);
+  }, [messageTitle]);
 
   useEffect(() => {
     if (orderDetail) {

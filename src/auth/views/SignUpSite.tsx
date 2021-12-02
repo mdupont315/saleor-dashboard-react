@@ -48,7 +48,7 @@ function SignUpSite({}: IProps) {
         <SignUpSiteForm
           initialForm={initialForm}
           validateSchema={validateSchema}
-          onSubmit={value => setIsSuccess(true)}
+          onSubmit={() => setIsSuccess(true)}
         />
       )}
     </>
