@@ -22,7 +22,11 @@ export const getSocketUrl = () => {
   if (isCheckCurDomain) {
     if (typeof window !== "undefined") {
       const { protocol, hostname } = window.location;
-      return `${protocol}//${hostname}`;
+      if (protocol === "https:") {
+        return `wss://${hostname}/graphql`;
+      } else {
+        return `ws://${hostname}/graphql`;
+      }
     }
     return process.env.SOCKET_URI!;
   }

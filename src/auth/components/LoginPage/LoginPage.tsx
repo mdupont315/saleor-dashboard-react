@@ -75,7 +75,7 @@ const LoginCard: React.FC<LoginCardProps> = props => {
     externalAuthentications = [],
     onExternalAuthentication,
     onPasswordRecovery,
-    // onCreateNewSite,
+    onCreateNewSite,
     onSubmit
   } = props;
 
@@ -180,7 +180,7 @@ const LoginCard: React.FC<LoginCardProps> = props => {
             />
           </Typography>
 
-          {/* <Typography>
+          <Typography>
             <FormattedMessage
               defaultMessage="New to Orderich? {createNewSiteLink}"
               description="description"
@@ -195,7 +195,7 @@ const LoginCard: React.FC<LoginCardProps> = props => {
                 )
               }}
             />
-          </Typography> */}
+          </Typography>
           {externalAuthentications.length > 0 && (
             <>
               <FormSpacer />
