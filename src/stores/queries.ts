@@ -1,5 +1,6 @@
 import makeMutation from "@saleor/hooks/makeMutation";
 import makeQuery from "@saleor/hooks/makeQuery";
+import { TypedMutation } from "@saleor/mutations";
 import gql from "graphql-tag";
 
 export const storesList = gql`
@@ -72,7 +73,7 @@ export const updateUser = gql`
 
 export const useUpdateUser = makeMutation<any, any>(updateUser);
 
-const storeRegisterMutation = gql`
+export const storeRegisterMutation = gql`
   mutation createstore($input: StoreInput!) {
     storeCreate(input: $input) {
       store {
@@ -87,11 +88,13 @@ const storeRegisterMutation = gql`
   }
 `;
 
-export const useCreateStoreMutation = makeMutation<any, {}>(
+export const useCreateStoreMutation = makeMutation<any, any>(
   storeRegisterMutation
 );
 
-export const useStoreListQuery = makeQuery<any, {}>(storesList);
+export const AddStoreMutation = TypedMutation<any, any>(storeRegisterMutation);
+
+export const useStoreListQuery = makeQuery<any, any>(storesList);
 
 export const storeForUser = gql`
   query stores($id: ID!) {

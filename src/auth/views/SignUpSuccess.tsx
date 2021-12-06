@@ -1,6 +1,5 @@
 import { Button, Typography } from "@material-ui/core";
 import FormSpacer from "@saleor/components/FormSpacer";
-import useNavigator from "@saleor/hooks/useNavigator";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
 import ReactSVG from "react-inlinesvg";
@@ -44,9 +43,8 @@ const useStyles = makeStyles(
   { name: "LoginCard" }
 );
 
-function SignUpSuccess() {
+function SignUpSuccess({ redirectUrl }: any) {
   const classes = useStyles();
-  const navigate = useNavigator();
   return (
     <>
       <Typography className={classes.headerTitle}>
@@ -80,12 +78,15 @@ function SignUpSuccess() {
         />
       </Typography>
       <FormSpacer />
-      <div className={classes.buttonContainer}>
+      <a
+        className={classes.buttonContainer}
+        href={`https://${redirectUrl}/dashboard`}
+      >
         <Button
           color="primary"
           fullWidth
           variant="contained"
-          onClick={() => navigate("/")}
+          // onClick={() => history.push(redirectUrl)}
           type="submit"
           data-test="submit"
         >
@@ -94,7 +95,7 @@ function SignUpSuccess() {
             description="button"
           />
         </Button>
-      </div>
+      </a>
     </>
   );
 }

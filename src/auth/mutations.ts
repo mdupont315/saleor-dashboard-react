@@ -1,5 +1,6 @@
 import { fragmentUser } from "@saleor/fragments/auth";
 import { accountErrorFragment } from "@saleor/fragments/errors";
+import makeMutation from "@saleor/hooks/makeMutation";
 import gql from "graphql-tag";
 
 import { TypedMutation } from "../mutations";
@@ -131,3 +132,24 @@ export const externalTokenVerifyMutation = gql`
     }
   }
 `;
+
+export const storeRegisterMutation = gql`
+  mutation createstore($input: StoreInput!) {
+    storeCreate(input: $input) {
+      store {
+        id
+        name
+        domain
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
+export const useCreateStoreMutation = makeMutation<any, any>(
+  storeRegisterMutation
+);
+
+export const AddStoreMutation = TypedMutation<any, any>(storeRegisterMutation);
