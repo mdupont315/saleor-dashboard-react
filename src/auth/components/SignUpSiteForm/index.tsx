@@ -135,15 +135,15 @@ function SignUpSiteForm(props: IProps) {
                       defaultMessage: "Postcode"
                     })}
                     fullWidth
-                    name="postalcode"
-                    value={values.postalcode}
+                    name="postalCode"
+                    value={values.postalCode}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={errors.postalcode && !!touched.postalcode}
+                    error={errors.postalCode && !!touched.postalCode}
                     helperText={
-                      errors.postalcode &&
-                      touched.postalcode &&
-                      errors.postalcode
+                      errors.postalCode &&
+                      touched.postalCode &&
+                      errors.postalCode
                     }
                   />
                 </div>

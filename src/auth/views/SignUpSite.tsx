@@ -1,3 +1,4 @@
+import { END_POINT } from "@saleor/config";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
 import React from "react";
@@ -20,7 +21,7 @@ const initialForm = {
   password: "",
   address: "",
   phone: "",
-  postalcode: "",
+  postalCode: "",
   city: ""
 };
 
@@ -29,7 +30,7 @@ const validateSchema = yup.object().shape({
   domain: yup.string().required("Required!"),
   phone: yup.string().required("Required!"),
   address: yup.string().required("Required!"),
-  postalcode: yup.string().required("Required"),
+  postalCode: yup.string().required("Required"),
   email: yup
     .string()
     .required("Required!")
@@ -47,12 +48,15 @@ const validateSchema = yup.object().shape({
 function SignUpSite({}: IProps) {
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [redirectUrl, setRedirectUrl] = React.useState("");
+  const [storeName, setStoreName] = React.useState("");
+
   const notify = useNotifier();
   const intl = useIntl();
 
   const [createStore, { loading }] = useMutation(storeRegisterMutation, {
     onCompleted: data => {
       if (data.storeCreate.errors.length === 0) {
+        setStoreName(data?.storeCreate?.store?.name);
         notify({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
@@ -75,15 +79,14 @@ function SignUpSite({}: IProps) {
   });
 
   const handleSubmit = (data: Partial<any>) => {
+    delete data.resetPassword;
     const variables: any = {
       input: {
-        name: data.name,
-        domain: `${data.domain}.orderich.app`,
-        email: data.email,
-        password: data.password
+        ...data
       }
     };
-    setRedirectUrl(`${data.domain}.orderich.app`);
+    setRedirectUrl(`${data.domain}.${END_POINT}`);
+
     createStore({
       variables
     });
@@ -92,7 +95,7 @@ function SignUpSite({}: IProps) {
   return (
     <>
       {isSuccess ? (
-        <SignUpSuccess redirectUrl={redirectUrl} />
+        <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />
       ) : loading ? (
         <LoginLoading />
       ) : (

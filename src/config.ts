@@ -39,6 +39,7 @@ export const API_URI = getApiUrl();
 // export const STATIC_URL = process.env.STATIC_URL;
 
 export const SOCKET_URI = getSocketUrl();
+export const END_POINT = process.env.END_POINT;
 
 export const API_QR = process.env.QRCODE_BASE;
 

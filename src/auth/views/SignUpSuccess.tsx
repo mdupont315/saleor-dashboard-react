@@ -43,7 +43,7 @@ const useStyles = makeStyles(
   { name: "LoginCard" }
 );
 
-function SignUpSuccess({ redirectUrl }: any) {
+function SignUpSuccess({ redirectUrl, storeName }: any) {
   const classes = useStyles();
   return (
     <>
@@ -64,7 +64,7 @@ function SignUpSuccess({ redirectUrl }: any) {
           values={{
             boldText: (
               <span className={classes.subTitleBold}>
-                Nooki Japanese Restaurant.
+                {`${storeName || ""}.`}
               </span>
             )
           }}
