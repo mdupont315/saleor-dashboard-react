@@ -4,6 +4,7 @@ import {
   TextField,
   Typography
 } from "@material-ui/core";
+import { ignoreSpecialCharacter } from "@saleor/auth";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
 import useNavigator from "@saleor/hooks/useNavigator";
@@ -65,9 +66,6 @@ interface IProps {
   validateSchema: any;
   onSubmit: (values: any) => void;
 }
-
-const ignoreSpecialCharacter = (data: string) =>
-  data.replace(/[^a-zA-Z ]/g, "").replace(" ", "-");
 
 function SignUpSiteForm(props: IProps) {
   const { initialForm, validateSchema, onSubmit } = props;
