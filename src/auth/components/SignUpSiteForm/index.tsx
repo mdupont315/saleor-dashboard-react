@@ -1,10 +1,15 @@
-import { Button, TextField, Typography } from "@material-ui/core";
+import {
+  Button,
+  InputAdornment,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
 import useNavigator from "@saleor/hooks/useNavigator";
 import { makeStyles } from "@saleor/theme";
 import { Formik } from "formik";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 const useStyles = makeStyles(
@@ -61,10 +66,14 @@ interface IProps {
   onSubmit: (values: any) => void;
 }
 
+const ignoreSpecialCharacter = (data: string) =>
+  data.replace(/[^a-zA-Z ]/g, "").replace(" ", "-");
+
 function SignUpSiteForm(props: IProps) {
   const { initialForm, validateSchema, onSubmit } = props;
   const classes = useStyles();
   const intl = useIntl();
+  const domain = process.env.END_POINT;
   const navigate = useNavigator();
   return (
     <div
@@ -96,7 +105,8 @@ function SignUpSiteForm(props: IProps) {
           handleSubmit,
           handleBlur,
           errors,
-          touched
+          touched,
+          setFieldValue
         }) => (
           <>
             <form autoComplete="off" onSubmit={handleSubmit}>
@@ -107,13 +117,18 @@ function SignUpSiteForm(props: IProps) {
                 fullWidth
                 name="name"
                 value={values.name}
-                onChange={handleChange}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  handleChange(event);
+                  setFieldValue(
+                    "domain",
+                    ignoreSpecialCharacter(event.target.value)
+                  );
+                }}
                 onBlur={handleBlur}
                 error={errors.name && !!touched.name}
                 helperText={errors.name && touched.name && errors.name}
               />
               <FormSpacer />
-
               <TextField
                 label={intl.formatMessage({
                   defaultMessage: "Street address"
@@ -127,7 +142,6 @@ function SignUpSiteForm(props: IProps) {
                 helperText={errors.address && touched.address && errors.address}
               />
               <FormSpacer />
-
               <Grid className={classes.reverse}>
                 <div>
                   <TextField
@@ -176,13 +190,10 @@ function SignUpSiteForm(props: IProps) {
                 helperText={errors.phone && touched.phone && errors.phone}
               />
               <FormSpacer />
-
               <Typography className={classes.subTitle}>
                 <FormattedMessage defaultMessage="Now let’s set up your login information" />
               </Typography>
-
               <FormSpacer />
-
               <TextField
                 label={intl.formatMessage({
                   defaultMessage: "Domain*"
@@ -194,9 +205,13 @@ function SignUpSiteForm(props: IProps) {
                 onBlur={handleBlur}
                 error={errors.domain && !!touched.domain}
                 helperText={errors.domain && touched.domain && errors.domain}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">.{domain}</InputAdornment>
+                  )
+                }}
               />
               <FormSpacer />
-
               <TextField
                 label={intl.formatMessage({
                   defaultMessage: "Email*"
@@ -242,9 +257,7 @@ function SignUpSiteForm(props: IProps) {
                   errors.resetPassword
                 }
               />
-
               <FormSpacer />
-
               <div className={classes.buttonContainer}>
                 <Button
                   className={classes.loginButton}
