@@ -170,33 +170,17 @@ const App: React.FC = () => {
   );
 };
 
-const Routes = ({ myStore }: any) => {
-  const intl = useIntl();
-  const [, dispatchAppState] = useAppState();
-  const {
-    hasToken,
-    isAuthenticated,
-    tokenAuthLoading,
-    tokenVerifyLoading,
-    user
-  } = useAuth();
-  const { channel } = useAppChannel(false);
-  const channelLoaded = typeof channel !== "undefined";
-  // const { data: myStore } = useGetMyStore({ variables: {} });
-  const [orderDetail, setOrderDetail] = React.useState(null);
+const TestComponent = ({ myStore, user }) => {
   const componentRef = React.useRef<any>();
+
+  const [orderDetail, setOrderDetail] = React.useState(null);
   const buttonRef = React.useRef<any>();
+  // const { data: myStore } = useGetMyStore({ variables: {} });
   const { data } = useSubscription(SUBSCRIPTION_MESSAGE, {
     variables: { id: myStore?.myStore.id }
   });
 
   const { messageTitle } = data?.appLiveNotification || {};
-
-  const homePageLoaded =
-    channelLoaded &&
-    isAuthenticated &&
-    !tokenAuthLoading &&
-    !tokenVerifyLoading;
 
   const [getOrderFull] = useLazyQuery(orderFull, {
     variables: { orderId: messageTitle || "" },
@@ -223,10 +207,8 @@ const Routes = ({ myStore }: any) => {
     }
   }, [orderDetail]);
 
-  const homePageLoading =
-    (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
   return (
-    <>
+    <div>
       {/* ------------------------print element */}
       <ReactToPrint
         trigger={() => (
@@ -244,6 +226,35 @@ const Routes = ({ myStore }: any) => {
           <OrderDetail orderDetail={orderDetail} myStore={myStore} />
         </div>
       </div>
+    </div>
+  );
+};
+const Routes = ({ myStore }: any) => {
+  const intl = useIntl();
+  const [, dispatchAppState] = useAppState();
+  const {
+    hasToken,
+    isAuthenticated,
+    tokenAuthLoading,
+    tokenVerifyLoading,
+    user
+  } = useAuth();
+  const { channel } = useAppChannel(false);
+  const channelLoaded = typeof channel !== "undefined";
+
+  const homePageLoaded =
+    channelLoaded &&
+    isAuthenticated &&
+    !tokenAuthLoading &&
+    !tokenVerifyLoading;
+
+  const homePageLoading =
+    (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
+  return (
+    <>
+      {myStore && myStore.myStore && myStore.myStore.id && (
+        <TestComponent user={user} myStore={myStore}></TestComponent>
+      )}
       {/* ------------------------------------------------ */}
 
       <WindowTitle title={intl.formatMessage(commonMessages.dashboard)} />
