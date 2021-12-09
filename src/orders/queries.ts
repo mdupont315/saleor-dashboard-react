@@ -304,6 +304,17 @@ export const orderFull = gql`
       tableName
       expectedDate
       expectedTime
+      total {
+        currency
+        gross {
+          currency
+          amount
+        }
+        net {
+          currency
+          amount
+        }
+      }
       lines {
         id
         productName

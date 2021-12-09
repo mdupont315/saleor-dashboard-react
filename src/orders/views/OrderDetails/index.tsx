@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/react-hooks";
 import { MetadataFormData } from "@saleor/components/Metadata";
 import NotFoundPage from "@saleor/components/NotFoundPage";
 import { Task } from "@saleor/containers/BackgroundTasks/types";
@@ -16,6 +15,7 @@ import {
   usePrivateMetadataUpdate
 } from "@saleor/utils/metadata/updateMetadata";
 import React from "react";
+import { useLazyQuery } from "react-apollo";
 import { useIntl } from "react-intl";
 
 import { JobStatusEnum, OrderStatus } from "../../../types/globalTypes";
@@ -41,6 +41,7 @@ interface OrderDetailsProps {
 export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
   const navigate = useNavigator();
   const { queue } = useBackgroundTask();
+  const [orderFullFill, setOrderFullFill] = React.useState({});
   const intl = useIntl();
   const [updateMetadata, updateMetadataOpts] = useMetadataUpdate({});
   const [
@@ -69,10 +70,20 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
     }
   });
 
-  const { data: orderFullFill } = useQuery(orderFull, {
+  const [getOrderFull] = useLazyQuery(orderFull, {
     variables: { orderId: id },
-    fetchPolicy: "cache-and-network"
+    fetchPolicy: "no-cache",
+    notifyOnNetworkStatusChange: true,
+    onCompleted: data => {
+      setOrderFullFill(data);
+    }
   });
+
+  React.useEffect(() => {
+    if (id) {
+      getOrderFull();
+    }
+  }, [id]);
 
   return (
     <TypedOrderDetailsQuery displayLoader variables={{ id }}>

@@ -149,6 +149,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
     return 0;
   };
 
+  // console.log(orderDetail);
+
   const padLeadingZeros = (num, size) => {
     let s = `${num}`;
     while (s.length < size) {
@@ -285,17 +287,19 @@ function OrderDetail({ orderDetail, myStore }: any) {
                 >
                   RECEIVER
                 </p>
-                {Object.keys(receiver).map((item: any, index: number) => (
-                  <p
-                    className={classes.normalText}
-                    style={{
-                      margin: "0"
-                    }}
-                    key={index}
-                  >
-                    {receiver[item]}
-                  </p>
-                ))}
+                {Object.keys(receiver)
+                  .filter((item: any) => receiver[item])
+                  .map((item: any, index: number) => (
+                    <p
+                      className={classes.normalText}
+                      style={{
+                        margin: "0"
+                      }}
+                      key={index}
+                    >
+                      {receiver[item]}
+                    </p>
+                  ))}
               </div>
               {customerNote && (
                 <div>
@@ -480,8 +484,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
                 <p className={classes.normalText}>TOTAL</p>
                 <p className={classes.normalText}>
                   €{" "}
-                  {orderDetail?.subtotal &&
-                    orderDetail?.subtotal?.gross.amount
+                  {orderDetail?.total &&
+                    orderDetail?.total?.gross.amount
                       .toFixed(2)
                       .replace(".", ",")}
                 </p>
