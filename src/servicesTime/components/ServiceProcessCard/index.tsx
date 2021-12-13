@@ -17,11 +17,11 @@ const renDeliveryTime = () => {
   const result = [];
   let t = 0;
   while (true) {
-    if (t >= 500) {
+    if (t > 120) {
       break;
     }
     result.push(t);
-    t += 10;
+    t += 5;
   }
   return result;
 };

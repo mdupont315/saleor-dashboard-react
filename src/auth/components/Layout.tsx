@@ -9,7 +9,7 @@ const useStyles = makeStyles(
     logo: {
       display: "block",
       height: 40,
-      margin: "auto",
+      // margin: "auto",
       marginBottom: theme.spacing(4)
     },
     mainPanel: {
