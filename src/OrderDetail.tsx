@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 
 // import "./style.css";
-
+const fontFamily = '"Inter", "roboto", "sans-serif"';
 const useStyles = makeStyles({
   orderWrap: {
     // height: "500px",
@@ -13,7 +13,10 @@ const useStyles = makeStyles({
     // borderRadius: "8px",
     // padding: "24px",
     color: "#222222",
-    marginTop: "8px"
+    marginTop: "8px",
+    fontFamily,
+    fontSize: "14px",
+    lineHeight: "16px"
   },
   listLine: {
     width: "100%",
@@ -69,19 +72,19 @@ const useStyles = makeStyles({
     borderWidth: "3px"
   },
   imgBox: {
-    width: "80px",
-    height: "80px",
+    width: "120px",
+    height: "120px",
     borderRadius: "8px",
     overflow: "hidden"
   },
   normalText: {
-    fontFamily: "monospace",
     fontSize: "12px",
-    lineHeight: "20px",
+    lineHeight: "14px",
     textAlign: "center",
-    margin: 0
+    margin: 0,
+    fontWeight: 500
   },
-  orderInfomation: {
+  orderInformation: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -101,6 +104,18 @@ const useStyles = makeStyles({
   },
   mb16: {
     marginBottom: "16px"
+  },
+  title: {
+    margin: "0 0 16px 0",
+    fontSize: "20px",
+    lineHeight: "24px",
+    textTransform: "uppercase",
+    fontWeight: "bold"
+  },
+  orderNote: {
+    width: "100%",
+    border: "1px dotted #000",
+    padding: "8px"
   }
 });
 
@@ -161,7 +176,12 @@ function OrderDetail({ orderDetail, myStore }: any) {
 
   const getDateTime = () => {
     const today = new Date();
-    const date = today.toDateString();
+    // remove date string
+    const date = today
+      .toDateString()
+      .split(" ")
+      .slice(1)
+      .join(" ");
     const hours = padLeadingZeros(today.getHours(), 2);
     const minute = padLeadingZeros(today.getMinutes(), 2);
     const result = `${date} ${hours}:${minute}`;
@@ -170,13 +190,10 @@ function OrderDetail({ orderDetail, myStore }: any) {
 
   return (
     <div
-      className="parrent-container"
+      className="parent-container"
       style={{
-        width: "80%",
+        width: "90%",
         height: "100%"
-        // display: "flex",
-        // alignItems: "center",
-        // justifyContent: "center"
       }}
     >
       <div
@@ -237,17 +254,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
             </div>
           ) : (
             <div className={classes.orderTypeWrap}>
-              <p
-                className={classes.normalText}
-                style={{
-                  margin: "0 0 16px 0",
-                  fontSize: "16px",
-                  lineHeight: "24px",
-                  textTransform: "uppercase"
-                }}
-              >
-                {`${orderType} ${number}`}
-              </p>
+              <p className={classes.title}>{`${orderType} ${number}`}</p>
               <div className={classes.mb16}>
                 <p
                   className={classes.normalText}
@@ -262,7 +269,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
                 <p
                   className={classes.normalText}
                   style={{
-                    margin: "0"
+                    margin: "0",
+                    fontWeight: "bold"
                   }}
                 >
                   {expectedDate}
@@ -270,7 +278,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
                 <p
                   className={classes.normalText}
                   style={{
-                    margin: "0"
+                    margin: "0",
+                    fontWeight: "bold"
                   }}
                 >
                   {expectedTime}
@@ -302,7 +311,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                   ))}
               </div>
               {customerNote && (
-                <div>
+                <div className={classes.orderNote}>
                   <p
                     className={classes.normalText}
                     style={{
@@ -326,7 +335,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
             </div>
           )}
           {/* ----order info */}
-          <div className={classes.orderInfomation}>
+          <div className={classes.orderInformation}>
             <p
               className={classes.normalText}
               style={{
@@ -347,7 +356,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                         <tr>
                           <td
                             className={classes.normalText}
-                            style={{ textAlign: "left" }}
+                            style={{ textAlign: "left", fontWeight: "bold" }}
                           >
                             {item?.quantity} x
                           </td>
@@ -358,7 +367,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
                                 style={{
                                   padding: 0,
                                   margin: 0,
-                                  textAlign: "left"
+                                  textAlign: "left",
+                                  fontWeight: "bold"
                                 }}
                               >
                                 {item?.productName}
@@ -408,7 +418,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                       <tr>
                         <td
                           className={classes.normalText}
-                          style={{ textAlign: "left" }}
+                          style={{ textAlign: "left", fontWeight: 700 }}
                         >
                           {item?.quantity} x
                         </td>
@@ -419,7 +429,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
                               style={{
                                 padding: 0,
                                 margin: 0,
-                                textAlign: "left"
+                                textAlign: "left",
+                                fontWeight: 700
                               }}
                             >
                               {item?.productName}
@@ -481,8 +492,10 @@ function OrderDetail({ orderDetail, myStore }: any) {
               )}
 
               <div className={classes.discountItem}>
-                <p className={classes.normalText}>TOTAL</p>
-                <p className={classes.normalText}>
+                <p className={classes.normalText} style={{ fontWeight: 700 }}>
+                  TOTAL
+                </p>
+                <p className={classes.normalText} style={{ fontWeight: 700 }}>
                   €{" "}
                   {orderDetail?.total &&
                     orderDetail?.total?.gross.amount
@@ -494,7 +507,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
                 <div>
                   <p
                     className={classes.normalText}
-                    style={{ margin: 0, textAlign: "left" }}
+                    style={{ margin: 0, textAlign: "left", fontWeight: 700 }}
                   >
                     {payments &&
                     payments[0]?.gateway === "mirumee.payments.dummy"
