@@ -1,4 +1,4 @@
-import { END_POINT } from "@saleor/config";
+// import { END_POINT } from "@saleor/config";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
 import React from "react";
@@ -26,7 +26,10 @@ const initialForm = {
 };
 
 const validateSchema = yup.object().shape({
-  name: yup.string().required("Required!"),
+  name: yup
+    .string()
+    .required("Required!")
+    .max(60, "Store name can only contain 60 characters"),
   domain: yup.string().required("Required!"),
   phone: yup.string().required("Required!"),
   address: yup.string().required("Required!"),
@@ -57,6 +60,7 @@ function SignUpSite({}: IProps) {
     onCompleted: data => {
       if (data.storeCreate.errors.length === 0) {
         setStoreName(data?.storeCreate?.store?.name);
+        setRedirectUrl(data?.storeCreate?.store?.domain);
         notify({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
@@ -85,7 +89,7 @@ function SignUpSite({}: IProps) {
         ...data
       }
     };
-    setRedirectUrl(`${data.domain}.${END_POINT}`);
+    // setRedirectUrl(`${data.domain}.${END_POINT}`);
 
     createStore({
       variables

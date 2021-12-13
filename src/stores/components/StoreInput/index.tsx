@@ -3,6 +3,7 @@ import placeholderImage from "@assets/images/placeholder255x255.png";
 import {
   Card,
   CardContent,
+  InputAdornment,
   makeStyles,
   TextField,
   Typography
@@ -63,6 +64,8 @@ function StoreInput({
   const intl = useIntl();
   const classes = useStyles();
   const { errors, touched, handleBlur, setFieldValue }: any = formikProps;
+  const endPoint = process.env.END_POINT;
+
   const [imagesToUpload, setImagesToUpload] = React.useState<any>({
     logo: [],
     coverPhoto: [],
@@ -160,13 +163,13 @@ function StoreInput({
                   Your store URL
                 </p>
                 <a
-                  href={`http://${values.domain}`}
+                  href={`https://${values.domain}.${endPoint}`}
                   style={{
                     color: "#06847B",
                     fontSize: "15px",
                     textDecoration: "none"
                   }}
-                >{`http://${values.domain}`}</a>
+                >{`https://${values.domain}.${endPoint}`}</a>
                 <FormSpacer />
                 <TextField
                   label={intl.formatMessage({
@@ -179,6 +182,13 @@ function StoreInput({
                   onBlur={handleBlur}
                   error={errors.domain && touched.domain}
                   helperText={errors.domain && touched.domain && errors.domain}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        .{endPoint}
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </CardContent>
             </Card>

@@ -75,8 +75,13 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
 //   return result;
 // };
 
+const endPoint = process.env.END_POINT;
+
 const validateSchema = yup.object().shape({
-  name: yup.string().required("Required!"),
+  name: yup
+    .string()
+    .required("Required!")
+    .max(60, "Store name can only contain 60 characters"),
   domain: yup.string().required("Required!"),
   // phone: yup.string().required("Required!"),
   // address: yup.string().required("Required!"),
@@ -91,7 +96,10 @@ const validateSchema = yup.object().shape({
 });
 
 const validateSchemaUpdate = yup.object().shape({
-  name: yup.string().required("Required!"),
+  name: yup
+    .string()
+    .required("Required!")
+    .max(60, "Store name can only contain 60 characters"),
   domain: yup.string().required("Required!"),
   phone: yup.string().required("Required!"),
   address: yup.string().required("Required!"),
@@ -116,7 +124,7 @@ const StoreDetailPage: React.FC<IProps> = ({
     initialValues && initialValues?.store
       ? {
           name: initialValues.store.name,
-          domain: initialValues.store.domain,
+          domain: initialValues.store.domain.replace(`.${endPoint}`, ""),
           email: initialValues.store.email,
           password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],

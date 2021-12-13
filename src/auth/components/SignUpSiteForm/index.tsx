@@ -1,9 +1,4 @@
-import {
-  Button,
-  InputAdornment,
-  TextField,
-  Typography
-} from "@material-ui/core";
+import { Button, TextField, Typography } from "@material-ui/core";
 import { ignoreSpecialCharacter } from "@saleor/auth";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
@@ -71,7 +66,7 @@ function SignUpSiteForm(props: IProps) {
   const { initialForm, validateSchema, onSubmit } = props;
   const classes = useStyles();
   const intl = useIntl();
-  const domain = process.env.END_POINT;
+  // const domain = process.env.END_POINT;
   const navigate = useNavigator();
   return (
     <div
@@ -192,7 +187,7 @@ function SignUpSiteForm(props: IProps) {
                 <FormattedMessage defaultMessage="Now let’s set up your login information" />
               </Typography>
               <FormSpacer />
-              <TextField
+              {/* <TextField
                 label={intl.formatMessage({
                   defaultMessage: "Domain*"
                 })}
@@ -209,10 +204,10 @@ function SignUpSiteForm(props: IProps) {
                   )
                 }}
               />
-              <FormSpacer />
+              <FormSpacer /> */}
               <TextField
                 label={intl.formatMessage({
-                  defaultMessage: "Email*"
+                  defaultMessage: "Email address*"
                 })}
                 fullWidth
                 name="email"
@@ -225,7 +220,7 @@ function SignUpSiteForm(props: IProps) {
               <FormSpacer />
               <TextField
                 label={intl.formatMessage({
-                  defaultMessage: "password*"
+                  defaultMessage: "Password*"
                 })}
                 fullWidth
                 name="password"
@@ -241,7 +236,7 @@ function SignUpSiteForm(props: IProps) {
               <FormSpacer />
               <TextField
                 label={intl.formatMessage({
-                  defaultMessage: "Reset password*"
+                  defaultMessage: "Repeat password*"
                 })}
                 fullWidth
                 name="resetPassword"
