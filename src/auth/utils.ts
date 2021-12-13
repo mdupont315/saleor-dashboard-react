@@ -90,4 +90,4 @@ export async function handleQueryAuthError(
 }
 
 export const ignoreSpecialCharacter = (data: string) =>
-  data.replace(/[^a-zA-Z ]/g, "").replace(" ", "-");
+  data.replace(/[^a-zA-Z ]/g, "").replaceAll(" ", "-");
