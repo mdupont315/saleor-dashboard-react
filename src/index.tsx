@@ -170,7 +170,7 @@ const App: React.FC = () => {
   );
 };
 
-const TestComponent = ({ myStore, user }) => {
+const PrintComponent = ({ myStore, user }) => {
   const componentRef = React.useRef<any>();
 
   const [orderDetail, setOrderDetail] = React.useState(null);
@@ -184,7 +184,7 @@ const TestComponent = ({ myStore, user }) => {
 
   const [getOrderFull] = useLazyQuery(orderFull, {
     variables: { orderId: messageTitle || "" },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "no-cache",
     onCompleted: data => {
       // peint here
       setOrderDetail(data.order);
@@ -195,7 +195,6 @@ const TestComponent = ({ myStore, user }) => {
   useEffect(() => {
     if (user && messageTitle) {
       getOrderFull();
-      // console.log(messageTitle, "====titile");
     }
   }, [messageTitle]);
 
@@ -223,7 +222,9 @@ const TestComponent = ({ myStore, user }) => {
       {/*  style={{ display: "none" }}*/}
       <div style={{ display: "none" }}>
         <div ref={componentRef}>
-          <OrderDetail orderDetail={orderDetail} myStore={myStore} />
+          {orderDetail && (
+            <OrderDetail orderDetail={orderDetail} myStore={myStore} />
+          )}
         </div>
       </div>
     </div>
@@ -253,7 +254,7 @@ const Routes = ({ myStore }: any) => {
   return (
     <>
       {myStore && myStore.myStore && myStore.myStore.id && (
-        <TestComponent user={user} myStore={myStore}></TestComponent>
+        <PrintComponent user={user} myStore={myStore} />
       )}
       {/* ------------------------------------------------ */}
 
