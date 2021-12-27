@@ -193,7 +193,7 @@ const PrintComponent = ({ myStore, user }) => {
   });
 
   useEffect(() => {
-    if (user && messageTitle) {
+    if (user && messageTitle && myStore.myStore.posEnable) {
       getOrderFull();
     }
   }, [messageTitle]);

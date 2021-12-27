@@ -1,3 +1,4 @@
+import { ignoreSpecialCharacter } from "@saleor/auth";
 import {
   ChannelData,
   ChannelPriceArgs,
@@ -135,7 +136,9 @@ export const getAvailabilityVariables = (channels: ChannelData[]) =>
   });
 
 export const genarateSlug = (storeName: any, productName) => {
-  const tempSlug = (storeName + " " + productName).split(" ").join("-");
+  const tempSlug = (storeName + " " + ignoreSpecialCharacter(productName))
+    .split(" ")
+    .join("-");
   // const tempProductName = productName.split(" ").join("-");
   if (!tempSlug) {
     return "";

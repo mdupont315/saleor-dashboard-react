@@ -75,7 +75,7 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
 //   return result;
 // };
 
-const endPoint = process.env.END_POINT;
+// const endPoint = process.env.END_POINT;
 
 const validateSchema = yup.object().shape({
   name: yup
@@ -124,7 +124,7 @@ const StoreDetailPage: React.FC<IProps> = ({
     initialValues && initialValues?.store
       ? {
           name: initialValues.store.name,
-          domain: initialValues.store.domain.replace(`.${endPoint}`, ""),
+          domain: initialValues.store.domain,
           email: initialValues.store.email,
           password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],
