@@ -14,7 +14,7 @@ import { sectionNames } from "@saleor/intl";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { maybe } from "../../../misc";
+// import { maybe } from "../../../misc";
 import { ChannelProps, TabListActions } from "../../../types";
 import CategoryDetailsForm from "../../components/CategoryDetailsForm";
 import CategoryList from "../../components/CategoryList";
@@ -23,7 +23,7 @@ import {
   CategoryDetails_category_children_edges_node,
   CategoryDetails_category_products_edges_node
 } from "../../types/CategoryDetails";
-import CategoryBackground from "../CategoryBackground";
+// import CategoryBackground from "../CategoryBackground";
 import CategoryProducts from "../CategoryProducts";
 import CategoryUpdateForm, { CategoryUpdateData } from "./form";
 
@@ -86,8 +86,8 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
   onPreviousPage,
   onProductClick,
   onSubmit,
-  onImageDelete,
-  onImageUpload,
+  // onImageDelete,
+  // onImageUpload,
   isChecked,
   productListToolbar,
   selected,
@@ -114,13 +114,13 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
             onDescriptionChange={handlers.changeDescription}
           />
           <CardSpacer />
-          <CategoryBackground
+          {/* <CategoryBackground
             data={data}
             onImageUpload={onImageUpload}
             onImageDelete={onImageDelete}
             image={maybe(() => category.backgroundImage)}
             onChange={change}
-          />
+          /> */}
           <CardSpacer />
           {/* <SeoForm
             helperText={intl.formatMessage({

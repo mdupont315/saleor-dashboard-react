@@ -192,7 +192,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
     <div
       className="parent-container"
       style={{
-        width: "90%",
+        width: "88%",
         height: "100%"
       }}
     >

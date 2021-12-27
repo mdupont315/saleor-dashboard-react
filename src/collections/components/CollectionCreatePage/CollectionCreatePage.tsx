@@ -18,7 +18,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 
 import CollectionDetails from "../CollectionDetails/CollectionDetails";
-import { CollectionImage } from "../CollectionImage/CollectionImage";
+// import { CollectionImage } from "../CollectionImage/CollectionImage";
 import CollectionCreateForm, { CollectionCreateData } from "./form";
 
 export interface CollectionCreatePageProps {
@@ -75,7 +75,7 @@ const CollectionCreatePage: React.FC<CollectionCreatePageProps> = ({
                 onDescriptionChange={handlers.changeDescription}
               />
               <CardSpacer />
-              <CollectionImage
+              {/* <CollectionImage
                 image={
                   data.backgroundImage.url
                     ? {
@@ -109,7 +109,7 @@ const CollectionCreatePage: React.FC<CollectionCreatePageProps> = ({
                 }
                 onChange={change}
                 data={data}
-              />
+              /> */}
               <CardSpacer />
               <SeoForm
                 allowEmptySlug={true}
