@@ -4,6 +4,7 @@ import Container from "@saleor/components/Container";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { sectionNames } from "@saleor/intl";
+import { StoreUrlQueryParams } from "@saleor/stores/urls";
 import { Formik } from "formik";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -12,12 +13,15 @@ import * as yup from "yup";
 import StoreInput from "../StoreInput";
 
 interface IProps {
+  params?: StoreUrlQueryParams;
   disabled?: boolean;
   storeId?: string;
   initialValues?: any;
   userData?: any;
   onBack?: () => void;
   onSubmit?: (data: Partial<StoreDetailVariables>) => void;
+  openModal: any;
+  closeModal: any;
   saveButtonBarState?: ConfirmButtonTransitionState;
   handleRefetch?: () => void;
 }
@@ -116,7 +120,9 @@ const StoreDetailPage: React.FC<IProps> = ({
   saveButtonBarState,
   storeId,
   onSubmit,
-  onBack
+  onBack,
+  openModal,
+  closeModal
 }) => {
   const intl = useIntl();
 
@@ -185,6 +191,9 @@ const StoreDetailPage: React.FC<IProps> = ({
                 values={values}
                 handleChange={handleChange}
                 storeId={storeId}
+                // onDialogEditUrl={() => openModal("edit-domain")}
+                onDialogAddDomain={() => openModal("add-domain")}
+                closeModal={closeModal}
               />
             </form>
             <SaveButtonBar

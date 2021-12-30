@@ -2,6 +2,7 @@ import { WindowTitle } from "@saleor/components/WindowTitle";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
+import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 // import { maybe } from "@saleor/misc";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -17,19 +18,27 @@ import {
 import {
   storePath,
   storesManagementSection,
+  storeUrl,
+  StoreUrlDialog,
   StoreUrlQueryParams
 } from "../urls";
+import StoreDetailSubDomainFields from "./StoreDetailSubDomainField";
 
 interface IProps {
   id: string;
   params: StoreUrlQueryParams;
 }
 
-const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
+const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
   const navigate = useNavigator();
   const notify = useNotifier();
   const intl = useIntl();
   const { user } = useAuth();
+
+  const [openModal, closeModal] = createDialogActionHandlers<
+    StoreUrlDialog,
+    StoreUrlQueryParams
+  >(navigate, params => storeUrl(id, params), params);
 
   const onBack = () => {
     navigate(user.isSuperuser === true ? "/" : "/configuration");
@@ -91,6 +100,7 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
           <>
             <WindowTitle title="Site setting" />
             <StoreDetailPage
+              params={params}
               disabled={updateStoreOpts.loading}
               storeId={id}
               initialValues={data}
@@ -99,6 +109,13 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
               onBack={onBack}
               handleRefetch={refetch}
               onSubmit={handleSubmit}
+              openModal={openModal}
+              closeModal={closeModal}
+            />
+            <StoreDetailSubDomainFields
+              id={id}
+              onClose={closeModal}
+              action={params.action}
             />
           </>
         )}
@@ -147,6 +164,8 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id }) => {
           onSubmit={handleSubmit}
           saveButtonBarState={createStoreOpts.status}
           disabled={createStoreOpts.loading}
+          openModal={openModal}
+          closeModal={closeModal}
         />
       </>
     );

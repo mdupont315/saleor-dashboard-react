@@ -1,69 +1,61 @@
 /* eslint-disable local-rules/named-styles */
 import placeholderImage from "@assets/images/placeholder255x255.png";
 import {
+  Button,
   Card,
   CardContent,
+  IconButton,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   // InputAdornment,
-  makeStyles,
   TextField,
+  Tooltip,
   Typography
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
+import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { FormChange } from "@saleor/hooks/useForm";
 import React from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
+// import EditUrlDialog from "../StoreEditUrlDialog";
 import StoreMedia from "../StoreMedia";
-
-const useStyles = makeStyles(theme => ({
-  configurationCategorySite: {
-    [theme.breakpoints.down("md")]: {
-      gridTemplateColumns: "1fr",
-      paddingBottom: theme.spacing(2)
-    },
-    display: "grid",
-    gridColumnGap: theme.spacing(4) + "px",
-    gridTemplateColumns: "1fr 3fr",
-    paddingBottom: theme.spacing(4)
-  },
-  configurationCategoryInformation: {
-    [theme.breakpoints.down("md")]: {
-      gridTemplateColumns: "1fr",
-      paddingTop: theme.spacing(0)
-    },
-    borderTop: `solid 1px ${theme.palette.divider}`,
-    display: "grid",
-    gridColumnGap: theme.spacing(4) + "px",
-    gridTemplateColumns: "1fr 3fr",
-    paddingTop: theme.spacing(4)
-  },
-  configurationLabel: {
-    paddingBottom: 20
-  },
-  reverse: {
-    gridTemplateColumns: "4fr 9fr"
-  }
-}));
+import { useStyles } from "./styles";
 
 interface IProps {
   header: string;
   handleChange: FormChange;
   values: Partial<any>;
   storeId?: any;
+  onDialogAddDomain?: any;
+  closeModal?: any;
 }
+
+const fakeDomainList = [
+  { url: "peak-holo.orderich.online", status: "Active" },
+  { url: "order.nooki.nl", status: "DNS not configured" },
+  { url: "nooki-togo.nl", status: "Active" }
+];
 
 function StoreInput({
   header,
   values,
   handleChange,
   storeId,
+  onDialogAddDomain,
+  closeModal,
   ...formikProps
 }: IProps) {
   const intl = useIntl();
   const classes = useStyles();
   const { errors, touched, handleBlur, setFieldValue }: any = formikProps;
+  // const numberOfColumns = 2;
   // const endPoint = process.env.END_POINT;
 
   const [imagesToUpload, setImagesToUpload] = React.useState<any>({
@@ -88,6 +80,8 @@ function StoreInput({
     coverPhoto: [],
     favicon: []
   });
+
+  const [canCustomDomain, setCanCustomDomain] = React.useState(false);
 
   const handleImageDelete = (id?: string, title?: string) => () => {
     if (title === "Logo") {
@@ -115,6 +109,10 @@ function StoreInput({
         setImagesToUpload({ ...imagesToUpload });
       }
     }
+  };
+
+  const handleDeleteSubDomain = () => {
+    alert("Delete sub domain");
   };
 
   React.useEffect(() => {
@@ -152,26 +150,202 @@ function StoreInput({
           </div>
           <div>
             <Card>
-              <CardTitle title="Site Settings" />
+              <CardTitle title="Your URL" />
               <CardContent>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    margin: "0 0 3px 0"
-                  }}
-                >
-                  Your store URL
-                </p>
-                <a
-                  href={`https://${values.domain}`}
-                  style={{
-                    color: "#06847B",
-                    fontSize: "15px",
-                    textDecoration: "none"
-                  }}
-                >{`https://${values.domain}`}</a>
-                <FormSpacer />
-                <TextField
+                <div>
+                  <p>
+                    Below is your URL that we generated for you the moment you
+                    signed up. You can let your customers access and place
+                    orders through this. Alternatively, you can also add your
+                    custom (sub)domains below.
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      margin: "0 0 3px 0"
+                    }}
+                  >
+                    Your generated URL
+                  </p>
+                  <a
+                    href={`https://${values.domain}`}
+                    style={{
+                      color: "#06847B",
+                      textDecoration: "none"
+                    }}
+                  >{`https://${values.domain}`}</a>
+                  <FormSpacer />
+
+                  <ControlledSwitch
+                    name="e_custom-domain"
+                    label={`Use custom domain`}
+                    checked={canCustomDomain}
+                    onChange={() => setCanCustomDomain(!canCustomDomain)}
+                  />
+                </div>
+
+                {canCustomDomain && (
+                  <>
+                    <p>
+                      Below you can connect (sub)domains that you own for your
+                      customers to access it easier.
+                    </p>
+                    <FormSpacer />
+
+                    <div className={classes.tableContainer}>
+                      <ResponsiveTable className={classes.table}>
+                        <TableHead>
+                          <TableCell className={classes.colName}>
+                            <span>
+                              <FormattedMessage
+                                defaultMessage="Domain name"
+                                description="column title"
+                              />
+                            </span>
+                          </TableCell>
+                          <TableCell className={classes.colName}>
+                            <div>
+                              <span>Status</span>
+                            </div>
+                          </TableCell>
+                        </TableHead>
+                        <TableBody>
+                          {fakeDomainList &&
+                            fakeDomainList.length > 0 &&
+                            fakeDomainList.map(domain => (
+                              <TableRow key={domain.url}>
+                                <TableCell className={classes.colUrl}>
+                                  <div style={{ alignSelf: "center" }}>
+                                    <a
+                                      href={`https://${domain.url}`}
+                                      style={{
+                                        color: "#06847B",
+                                        fontSize: "15px",
+                                        textDecoration: "none"
+                                      }}
+                                    >{`https://${domain.url}`}</a>
+                                  </div>
+                                </TableCell>
+                                <TableCell className={classes.colStatus}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "space-between"
+                                    }}
+                                  >
+                                    <span>{domain.status}</span>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        height: "95%"
+                                      }}
+                                    >
+                                      <Tooltip title="Delete">
+                                        <IconButton
+                                          aria-label="delete"
+                                          onClick={() =>
+                                            handleDeleteSubDomain()
+                                          }
+                                          style={{ color: "#06847B" }}
+                                        >
+                                          <DeleteIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                    </div>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </ResponsiveTable>
+                    </div>
+
+                    <FormSpacer />
+
+                    <FormSpacer />
+
+                    <div>
+                      <p className={classes.guideTitle}>
+                        How to connect your (sub)domain to Orderich
+                      </p>
+
+                      <ol style={{ listStyle: "decimal", lineHeight: "24px" }}>
+                        <li>
+                          On your domain provider’s website, log in to your
+                          account.
+                        </li>
+                        <li>
+                          Find the DNS settings or domain management area.
+                        </li>
+                        <li>
+                          Point the A record of your (sub)domain to this IP
+                          address 52.58.195.234.
+                          <ol style={{ listStyle: "lower-alpha" }}>
+                            <li>
+                              If you’re connecting a domain name, change the
+                              Host name to the @ symbol
+                            </li>
+                            <li>
+                              If you’re connecting a subdomain, change the Host
+                              name to the subdomain name (e.g. order, bestellen)
+                            </li>
+                            <li>
+                              Delete any other duplicate A records with the same
+                              Host names if there are any present.
+                            </li>
+                          </ol>
+                        </li>
+                        <li>
+                          Click the Verify Connection button below when you’re
+                          done. Note that it might take up to a few hours for
+                          the DNS changes to take effect.
+                        </li>
+                      </ol>
+                      <div>
+                        <Button color="primary" variant="text">
+                          <FormattedMessage
+                            defaultMessage="Verify Connection"
+                            description="Verify Connection"
+                          />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <FormSpacer />
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        padding: "14px 24px"
+                      }}
+                    >
+                      <Button
+                        color="primary"
+                        variant="text"
+                        onClick={onDialogAddDomain}
+                      >
+                        <FormattedMessage
+                          defaultMessage="Add (Sub)Domain"
+                          description="Edit URL"
+                        />
+                      </Button>
+                    </div>
+                  </>
+                )}
+
+                {/* <EditUrlDialog
+                  confirmButtonState="default"
+                  // field={selectedConfig?.configuration.find(
+                  //   field => field.name === params.id
+                  // )}
+                  onClose={closeModal}
+                  // onConfirm={formData => handleFieldUpdate(formData.value)}
+                  open={null}
+                /> */}
+
+                {/* <TextField
                   label={intl.formatMessage({
                     defaultMessage: "Custom domain name"
                   })}
@@ -189,7 +363,7 @@ function StoreInput({
                   //     </InputAdornment>
                   //   )
                   // }}
-                />
+                /> */}
               </CardContent>
             </Card>
           </div>
