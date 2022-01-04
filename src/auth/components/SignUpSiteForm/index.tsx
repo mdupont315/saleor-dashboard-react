@@ -26,6 +26,16 @@ const useStyles = makeStyles(
       fontSize: "16px",
       lineHeight: "24px"
     },
+    subInfo: {
+      fontWeight: 400,
+      fontSize: "14px",
+      lineHeight: "20px",
+
+      "& span": {
+        color: theme.palette.primary.main,
+        cursor: "pointer"
+      }
+    },
     link: {
       color: theme.palette.primary.main,
       cursor: "pointer",
@@ -83,7 +93,7 @@ function SignUpSiteForm(props: IProps) {
       <FormSpacer />
 
       <Typography className={classes.subTitle}>
-        <FormattedMessage defaultMessage="Let’s create a free order site for your restaurant today" />
+        <FormattedMessage defaultMessage="Tell us a little bit about your restaurant" />
       </Typography>
 
       <FormSpacer />
@@ -121,6 +131,19 @@ function SignUpSiteForm(props: IProps) {
                 error={errors.name && !!touched.name}
                 helperText={errors.name && touched.name && errors.name}
               />
+              <FormSpacer />
+              {values.domain && (
+                <Typography className={classes.subInfo}>
+                  <FormattedMessage
+                    defaultMessage="Your URL will be {link}. You can add your own custom domain name later."
+                    values={{
+                      link: (
+                        <span>{`https://${values.domain}.orderich.online`}</span>
+                      )
+                    }}
+                  />
+                </Typography>
+              )}
               <FormSpacer />
               <TextField
                 label={intl.formatMessage({

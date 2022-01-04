@@ -96,10 +96,17 @@ function SignUpSite({}: IProps) {
     });
   };
 
+  const renderSignUpSucess = () => {
+    setTimeout(
+      () => <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />,
+      2000
+    );
+  };
+
   return (
     <>
       {isSuccess ? (
-        <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />
+        renderSignUpSucess()
       ) : loading ? (
         <LoginLoading />
       ) : (

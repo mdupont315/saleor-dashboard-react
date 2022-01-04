@@ -59,13 +59,18 @@ function SignUpSuccess({ redirectUrl, storeName }: any) {
       <FormSpacer />
       <Typography className={classes.subTitle}>
         <FormattedMessage
-          defaultMessage="Hooray! A free order site has just been set up for {boldText}"
+          defaultMessage="Hooray! A free order site has just been set up for {boldText} at {link}"
           description="description"
           values={{
             boldText: (
               <span className={classes.subTitleBold}>
-                {`${storeName || ""}.`}
+                {`${storeName || ""}`}
               </span>
+            ),
+            link: (
+              <a href={`https://${redirectUrl}`} className={classes.link}>
+                {`https://${redirectUrl}`}
+              </a>
             )
           }}
         />
