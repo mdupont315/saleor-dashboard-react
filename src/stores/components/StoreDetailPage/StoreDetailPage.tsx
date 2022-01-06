@@ -96,7 +96,8 @@ const validateSchema = yup.object().shape({
   password: yup
     .string()
     .required("Required!")
-    .min(8, "Too Short!")
+    .min(8, "Too Short!"),
+  description: yup.string().max(160, "Too long")
 });
 
 const validateSchemaUpdate = yup.object().shape({
@@ -107,7 +108,8 @@ const validateSchemaUpdate = yup.object().shape({
   domain: yup.string().required("Required!"),
   phone: yup.string().required("Required!"),
   address: yup.string().required("Required!"),
-  postalcode: yup.string().required("Required")
+  postalcode: yup.string().required("Required"),
+  description: yup.string().max(160, "Too long")
   // .test(
   //   "postalCode",
   //   "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
@@ -139,7 +141,10 @@ const StoreDetailPage: React.FC<IProps> = ({
           address: initialValues.store.address,
           phone: initialValues.store.phone,
           postalcode: initialValues.store.postalCode,
-          city: initialValues.store.city
+          city: initialValues.store.city,
+          description:
+            initialValues.store.description ||
+            `${initialValues.store.name} is open for online takeaway orders`
         }
       : {
           name: "",
