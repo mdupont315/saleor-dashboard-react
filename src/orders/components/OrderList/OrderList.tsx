@@ -99,6 +99,22 @@ export const OrderList: React.FC<OrderListProps> = props => {
         status: transformOrderStatus(order.status, intl)
       }))
     : undefined;
+
+  const renderOrderDateTime = (expectedDate, expectedTime) => {
+    const today = new Date().toString().slice(0, 15);
+
+    if (expectedDate && expectedTime) {
+      expectedDate = expectedDate.includes("Today")
+        ? expectedDate.slice(7)
+        : expectedDate;
+
+      if (new Date(expectedDate).toString().slice(0, 15) === today) {
+        return "Today, " + expectedDate + " " + expectedTime;
+      } else {
+        return expectedDate + " " + expectedTime;
+      }
+    }
+  };
   return (
     <ResponsiveTable>
       <TableHead>
@@ -232,9 +248,10 @@ export const OrderList: React.FC<OrderListProps> = props => {
                 )}
               </TableCell>
               <TableCell>
-                {order.expectedDate &&
+                {renderOrderDateTime(order.expectedDate, order.expectedTime)}
+                {/* {order.expectedDate &&
                   order.expectedTime &&
-                  order.expectedDate + " " + order.expectedTime}
+                  order.expectedDate + " " + order.expectedTime} */}
               </TableCell>
               <TableCell className={classes.colCustomer}>
                 {order.tableName && order.orderType === OrderType.dinein ? (
