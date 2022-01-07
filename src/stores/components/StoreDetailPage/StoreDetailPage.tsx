@@ -142,9 +142,7 @@ const StoreDetailPage: React.FC<IProps> = ({
           phone: initialValues.store.phone,
           postalcode: initialValues.store.postalCode,
           city: initialValues.store.city,
-          description:
-            initialValues.store.description ||
-            `${initialValues.store.name} is open for online takeaway orders`
+          description: initialValues.store.description
         }
       : {
           name: "",

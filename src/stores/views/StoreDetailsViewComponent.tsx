@@ -86,7 +86,11 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
           favicon: data.favicon[0].image,
           coverPhoto: data.coverPhoto[0].image,
           city: data.city,
-          postalCode: data.postalcode
+          postalCode: data.postalcode,
+          description:
+            data.description !== ""
+              ? data.description
+              : `${data.name} is open for online takeaway orders`
         }
       };
       updateStore({
