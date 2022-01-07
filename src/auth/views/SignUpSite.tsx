@@ -1,6 +1,6 @@
 // import { END_POINT } from "@saleor/config";
 import useNotifier from "@saleor/hooks/useNotifier";
-import { commonMessages } from "@saleor/intl";
+// import { commonMessages } from "@saleor/intl";
 import React from "react";
 import { useMutation } from "react-apollo";
 import { useIntl } from "react-intl";
@@ -50,8 +50,10 @@ const validateSchema = yup.object().shape({
 
 function SignUpSite({}: IProps) {
   const [isSuccess, setIsSuccess] = React.useState(false);
+  const [loginLoading, setLoginLoading] = React.useState(false);
   const [redirectUrl, setRedirectUrl] = React.useState("");
   const [storeName, setStoreName] = React.useState("");
+  // const [showSignUpSuccess, setShowSignUpSuccess] = React.useState(false);
 
   const notify = useNotifier();
   const intl = useIntl();
@@ -63,9 +65,12 @@ function SignUpSite({}: IProps) {
         setRedirectUrl(data?.storeCreate?.store?.domain);
         notify({
           status: "success",
-          text: intl.formatMessage(commonMessages.savedChanges)
+          text: intl.formatMessage({ defaultMessage: "Create Successfully" })
         });
-        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(true);
+          setLoginLoading(false);
+        }, 2000);
       } else {
         notify({
           status: "error",
@@ -82,6 +87,12 @@ function SignUpSite({}: IProps) {
       })
   });
 
+  React.useEffect(() => {
+    if (loading && isSuccess === false) {
+      setLoginLoading(true);
+    }
+  }, [loading]);
+
   const handleSubmit = (data: Partial<any>) => {
     delete data.resetPassword;
     const variables: any = {
@@ -96,18 +107,17 @@ function SignUpSite({}: IProps) {
     });
   };
 
-  const renderSignUpSucess = () => {
-    setTimeout(
-      () => <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />,
-      2000
-    );
-  };
-
+  // const renderSignUpSucess = (redirectUrl, storeName) => {
+  //   setTimeout(() => {
+  //     console.log();
+  //     return <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />;
+  //   }, 2000);
+  // };
   return (
     <>
       {isSuccess ? (
-        renderSignUpSucess()
-      ) : loading ? (
+        <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />
+      ) : loginLoading ? (
         <LoginLoading />
       ) : (
         <SignUpSiteForm

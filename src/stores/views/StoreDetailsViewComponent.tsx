@@ -49,6 +49,7 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
       displayLoader: true,
       variables: { id }
     });
+    // console.log("Store Data", data);
 
     const { data: userData } = useUserStoreGet({
       displayLoader: true,
