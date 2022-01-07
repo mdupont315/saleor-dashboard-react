@@ -294,6 +294,13 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
               />
             </div>
             <div>
+              <OrderCustomerNote
+                note={maybe(() => order.customerNote)}
+                orderDate={maybe(() => orderFullFill.order.expectedDate)}
+                orderTime={maybe(() => orderFullFill.order.expectedTime)}
+              />
+              <CardSpacer />
+
               <OrderCustomer
                 canEditAddresses={canEditAddresses}
                 canEditCustomer={false}
@@ -304,7 +311,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
                 onProfileView={onProfileView}
               />
               <CardSpacer />
-              <OrderCustomerNote note={maybe(() => order.customerNote)} />
+
               {/* <CardSpacer />
               <OrderChannelSectionCard
                 selectedChannelName={order?.channel?.name}

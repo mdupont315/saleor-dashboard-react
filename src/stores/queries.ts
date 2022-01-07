@@ -120,6 +120,7 @@ export const storeForUser = gql`
       }
       address
       phone
+      description
     }
   }
 `;

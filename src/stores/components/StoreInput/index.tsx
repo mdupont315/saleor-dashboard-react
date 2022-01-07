@@ -473,6 +473,23 @@ function StoreInput({
                         }
                       />
                       <FormSpacer />
+                      <TextField
+                        label={intl.formatMessage({
+                          defaultMessage: "Description"
+                        })}
+                        fullWidth
+                        name="description"
+                        multiline
+                        value={values.description}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.description && touched.description}
+                        helperText={
+                          errors.description &&
+                          touched.description &&
+                          errors.description
+                        }
+                      />
                     </>
                   ) : (
                     <>
