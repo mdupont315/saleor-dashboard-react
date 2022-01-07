@@ -20,6 +20,7 @@ interface ProductDetailsFormProps {
     description: OutputData;
     name: string;
     rating: number;
+    enable?: boolean;
     sku?: any;
   };
   disabled?: boolean;
@@ -38,28 +39,10 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
 }) => {
   const intl = useIntl();
   // const notify = useNotifier();
-  const [canEnableProduct, setCanEnableProduct] = React.useState(true);
-
   const formErrors = getFormErrors(
     ["name", "description", "rating", "sku"],
     errors
   );
-
-  /* 
-    Call graphQL UPDATE ENABLE PRODUCT
-  */
-  // const [enableProduct] = useMutation(enableProductMutation, {
-  //   onCompleted: data => {
-  //     if (data.enableProduct.errors.length === 0) {
-
-  //     } else {
-
-  //     }
-  //   },
-  //   onError: err => {
-  //     console.log(err);
-  //   }
-  // });
 
   return (
     <Card>
@@ -68,10 +51,10 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
       />
       <CardContent>
         <ControlledSwitch
-          name="e_enable_product"
+          name="enable"
           label={`Enable this product`}
-          checked={canEnableProduct}
-          onChange={() => setCanEnableProduct(!canEnableProduct)}
+          checked={!!data.enable}
+          onChange={onChange}
         />
         <FormSpacer />
 

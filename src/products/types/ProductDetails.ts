@@ -317,6 +317,7 @@ export interface ProductDetails_product {
   category: ProductDetails_product_category | null;
   collections: (ProductDetails_product_collections | null)[] | null;
   chargeTaxes: boolean;
+  enable?: boolean;
   media: ProductDetails_product_media[] | null;
   isAvailable: boolean | null;
   variants: (ProductDetails_product_variants | null)[] | null;

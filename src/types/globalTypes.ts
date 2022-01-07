@@ -1707,6 +1707,7 @@ export interface ProductInput {
   attributes?: AttributeValueInput[] | null;
   category?: string | null;
   chargeTaxes?: boolean | null;
+  enable?: boolean;
   collections?: string[] | null;
   description?: any | null;
   name?: string | null;

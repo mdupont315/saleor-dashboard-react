@@ -60,6 +60,7 @@ export interface ProductUpdateFormData extends MetadataFormData {
   chargeTaxes: boolean;
   collections: string[];
   isAvailable: boolean;
+  enable?: boolean;
   name: string;
   rating: number;
   slug: string;

@@ -139,6 +139,7 @@ export function createUpdateHandler(
         collections: data.collections,
         description: getParsedDataForJsonStringField(data.description),
         name: data.name,
+        enable: data.enable,
         rating: data.rating,
         seo: {
           description: data.seoDescription,
