@@ -462,9 +462,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
                       - €{" "}
                       {orderDetail?.discounts &&
                         orderDetail?.discounts[0]?.amount.amount
-                      // .toFixed(2)
-                      // .replace(".", ",")
-                      }
+                          .toFixed(2)
+                          .replace(".", ",")}
                     </p>
                   </div>
                 )}
