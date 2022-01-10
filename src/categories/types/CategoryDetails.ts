@@ -169,6 +169,7 @@ export interface CategoryDetails_category {
   description: any | null;
   seoDescription: string | null;
   seoTitle: string | null;
+  enable?: boolean;
   parent: CategoryDetails_category_parent | null;
   children: CategoryDetails_category_children | null;
   products: CategoryDetails_category_products | null;

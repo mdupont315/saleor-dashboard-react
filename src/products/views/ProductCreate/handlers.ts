@@ -126,7 +126,8 @@ export function createHandler(
         slug: formData.slug,
         taxCode: formData.changeTaxCode ? formData.taxCode : undefined,
         weight: weight(formData.weight),
-        options: formData.options
+        options: formData.options,
+        enable: !!formData.enable
       }
     };
 

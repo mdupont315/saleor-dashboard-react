@@ -16,6 +16,7 @@ export interface CategoryUpdateFormData extends MetadataFormData {
   slug: string;
   seoTitle: string;
   seoDescription: string;
+  enable?: boolean;
 }
 export interface CategoryUpdateData extends CategoryUpdateFormData {
   description: OutputData;
@@ -53,7 +54,8 @@ function useCategoryUpdateForm(
     privateMetadata: category?.privateMetadata?.map(mapMetadataItemToInput),
     seoDescription: category?.seoDescription || "",
     seoTitle: category?.seoTitle || "",
-    slug: category?.slug || ""
+    slug: category?.slug || "",
+    enable: category?.enable
   });
   const [description, changeDescription] = useRichText({
     initial: category?.description,

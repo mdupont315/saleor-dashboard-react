@@ -47,7 +47,7 @@ export const OrderCustomerNote: React.FC<OrderCustomerNoteProps> = ({
         return expectedDate + " " + expectedTime;
       }
     }
-    return null;
+    return "";
   };
 
   return (
@@ -59,32 +59,37 @@ export const OrderCustomerNote: React.FC<OrderCustomerNoteProps> = ({
         })}
       />
       <CardContent>
+        <div>
+          <Typography className={classes.sectionHeaderTitle}>
+            <FormattedMessage defaultMessage="Preferred date & time" />
+          </Typography>
+          <Typography color="textSecondary">
+            {renderOrderDateTime(orderDate, orderTime)}
+          </Typography>
+        </div>
+      </CardContent>
+      <Hr />
+
+      <CardContent>
         {note === undefined ? (
           <Skeleton />
         ) : note === "" ? (
           <div>
             <Typography className={classes.sectionHeaderTitle}>
-              <FormattedMessage defaultMessage="Preferred date & time" />
+              <FormattedMessage defaultMessage="Order Note" />
             </Typography>
             <Typography color="textSecondary">
-              {renderOrderDateTime(orderDate, orderTime) ||
-                "No preferred date & time from customer"}
+              No notes from customer
             </Typography>
           </div>
         ) : (
-          <Typography>{note}</Typography>
+          <div>
+            <Typography className={classes.sectionHeaderTitle}>
+              <FormattedMessage defaultMessage="Order Note" />
+            </Typography>
+            <Typography>{note}</Typography>
+          </div>
         )}
-      </CardContent>
-      <Hr />
-      <CardContent>
-        <div>
-          <Typography className={classes.sectionHeaderTitle}>
-            <FormattedMessage defaultMessage="Order Note" />
-          </Typography>
-          <Typography color="textSecondary">
-            {note !== "" ? note : "No notes from customer"}
-          </Typography>
-        </div>
       </CardContent>
     </Card>
   );

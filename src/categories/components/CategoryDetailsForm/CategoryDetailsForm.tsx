@@ -16,6 +16,7 @@ interface CategoryDetailsFormProps {
   data: {
     name: string;
     description: OutputData;
+    enable?: boolean;
   };
   disabled: boolean;
   errors: ProductErrorFragment[];
@@ -31,7 +32,6 @@ export const CategoryDetailsForm: React.FC<CategoryDetailsFormProps> = ({
   errors
 }) => {
   const intl = useIntl();
-  const [canEnableCategory, setCanEnableCategory] = React.useState(true);
 
   const formErrors = getFormErrors(["name", "description"], errors);
 
@@ -43,10 +43,10 @@ export const CategoryDetailsForm: React.FC<CategoryDetailsFormProps> = ({
       <CardContent>
         <div>
           <ControlledSwitch
-            name="e_enable_category"
+            name="enable"
             label={`Enable this category`}
-            checked={canEnableCategory}
-            onChange={() => setCanEnableCategory(!canEnableCategory)}
+            checked={!!data.enable}
+            onChange={onChange}
           />
         </div>
 

@@ -138,7 +138,7 @@ function SignUpSiteForm(props: IProps) {
                     defaultMessage="Your URL will be {link}. You can add your own custom domain name later."
                     values={{
                       link: (
-                        <span>{`https://${values.domain}.orderich.online`}</span>
+                        <span>{`https://${values.domain}.${process.env.END_POINT}`}</span>
                       )
                     }}
                   />

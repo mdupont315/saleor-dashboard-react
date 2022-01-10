@@ -58,11 +58,13 @@ export const CategoryCreateView: React.FC<CategoryCreateViewProps> = ({
             description: formData.seoDescription,
             title: formData.seoTitle
           },
-          slug: genarateSlug(myStore?.myStore?.name, formData.name)
+          slug: genarateSlug(myStore?.myStore?.name, formData.name),
+          enable: formData.enable
         },
         parent: parentId || null
       }
     });
+    console.log("Result", result);
 
     return result.data?.categoryCreate.category?.id || null;
   };

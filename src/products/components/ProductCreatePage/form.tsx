@@ -166,7 +166,7 @@ function useProductCreateForm(
     isAvailable: false,
     metadata: [],
     name: "",
-    enable: false,
+    enable: true,
     privateMetadata: [],
     productType: null,
     rating: 0,

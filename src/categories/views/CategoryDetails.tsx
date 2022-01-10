@@ -194,7 +194,8 @@ export const CategoryDetails: React.FC<CategoryDetailsProps> = ({
             description: formData.seoDescription,
             title: formData.seoTitle
           },
-          slug: formData.slug
+          slug: formData.slug,
+          enable: !!formData.enable
         }
       }
     });

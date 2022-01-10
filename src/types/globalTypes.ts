@@ -1224,6 +1224,7 @@ export interface CategoryInput {
   name?: string | null;
   slug?: string | null;
   seo?: SeoInput | null;
+  enable?: boolean;
   backgroundImage?: any | null;
   backgroundImageAlt?: string | null;
 }
@@ -1684,6 +1685,7 @@ export interface ProductCreateInput {
   weight?: any | null;
   rating?: number | null;
   productType: string;
+  enable?: boolean;
 }
 
 export interface ProductFilterInput {

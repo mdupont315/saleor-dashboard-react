@@ -63,14 +63,14 @@ function SignUpSite({}: IProps) {
       if (data.storeCreate.errors.length === 0) {
         setStoreName(data?.storeCreate?.store?.name);
         setRedirectUrl(data?.storeCreate?.store?.domain);
-        notify({
-          status: "success",
-          text: intl.formatMessage({ defaultMessage: "Create Successfully" })
-        });
         setTimeout(() => {
+          notify({
+            status: "success",
+            text: intl.formatMessage({ defaultMessage: "Create Successfully" })
+          });
           setIsSuccess(true);
           setLoginLoading(false);
-        }, 2000);
+        }, 10000);
       } else {
         notify({
           status: "error",
@@ -107,12 +107,6 @@ function SignUpSite({}: IProps) {
     });
   };
 
-  // const renderSignUpSucess = (redirectUrl, storeName) => {
-  //   setTimeout(() => {
-  //     console.log();
-  //     return <SignUpSuccess redirectUrl={redirectUrl} storeName={storeName} />;
-  //   }, 2000);
-  // };
   return (
     <>
       {isSuccess ? (
