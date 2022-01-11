@@ -139,7 +139,8 @@ function OrderDetail({ orderDetail, myStore }: any) {
     phone,
     city,
     streetAddress1,
-    postalCode
+    postalCode,
+    apartment
   } = billingAddress || {};
   const receiver =
     orderType === "PICKUP"
@@ -151,7 +152,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
         }
       : {
           name: `${firstName} ${lastName}`,
-          streetAddress1,
+          streetAddress1: `${streetAddress1}, ${apartment}`,
           postalCode: `${postalCode}, ${city}`,
           email,
           phone,

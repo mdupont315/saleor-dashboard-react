@@ -41,6 +41,7 @@ export interface OrderDetails_order_billingAddress {
   postalCode: string;
   streetAddress1: string;
   streetAddress2: string;
+  apartment: string;
 }
 
 export interface OrderDetails_order_discounts_amount {

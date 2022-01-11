@@ -357,7 +357,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
               <Typography>
                 {billingAddress.streetAddress1}
                 <br />
-                {billingAddress.streetAddress2}
+                {billingAddress?.apartment}
               </Typography>
               <Typography>
                 {billingAddress.postalCode} {billingAddress.city}

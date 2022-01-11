@@ -18,5 +18,6 @@ export const fragmentAddress = gql`
     postalCode
     streetAddress1
     streetAddress2
+    apartment
   }
 `;
