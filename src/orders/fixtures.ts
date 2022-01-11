@@ -810,7 +810,8 @@ export const order = (placeholder: string): OrderDetails_order => ({
     phone: "",
     postalCode: "66272",
     streetAddress1: "487 Roberto Shores",
-    streetAddress2: ""
+    streetAddress2: "",
+    apartment: ""
   },
   canFinalize: true,
   channel: {

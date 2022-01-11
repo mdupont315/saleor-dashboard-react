@@ -49,7 +49,8 @@ const orderBase: OrderDetails_order = {
     phone: "",
     postalCode: "52203",
     streetAddress1: "419 Ruiz Orchard Apt. 199",
-    streetAddress2: ""
+    streetAddress2: "",
+    apartment: "Apartment 1"
   },
   created: "2018-09-11T09:37:30.124154+00:00",
   id: "T3JkZXI6MTk=",
