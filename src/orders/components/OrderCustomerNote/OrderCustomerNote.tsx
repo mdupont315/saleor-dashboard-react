@@ -64,7 +64,9 @@ export const OrderCustomerNote: React.FC<OrderCustomerNoteProps> = ({
             <FormattedMessage defaultMessage="Preferred date & time" />
           </Typography>
           <Typography color="textSecondary">
-            {renderOrderDateTime(orderDate, orderTime)}
+            {renderOrderDateTime(orderDate, orderTime)?.slice(0, -5)}
+            <br />
+            {renderOrderDateTime(orderDate, orderTime)?.substr(-5, 5)}
           </Typography>
         </div>
       </CardContent>
