@@ -136,7 +136,7 @@ export const getAvailabilityVariables = (channels: ChannelData[]) =>
   });
 
 export const genarateSlug = (storeName: any, productName) => {
-  const tempSlug = (storeName + " " + checkSlug(productName))
+  const tempSlug = (checkSlug(storeName) + " " + checkSlug(productName))
     .split(" ")
     .join("-");
   // const tempProductName = productName.split(" ").join("-");

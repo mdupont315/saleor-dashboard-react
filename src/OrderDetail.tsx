@@ -134,7 +134,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
   const {
     firstName,
     lastName,
-    company,
+    companyName,
     email,
     phone,
     city,
@@ -148,7 +148,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
           name: `${firstName} ${lastName}`,
           email,
           phone,
-          company
+          companyName
         }
       : {
           name: `${firstName} ${lastName}`,
@@ -156,7 +156,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
           postalCode: `${postalCode}, ${city}`,
           email,
           phone,
-          company
+          companyName
         };
   const getPrice = (input: any) => {
     if (input) {
@@ -193,7 +193,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
     <div
       className="parent-container"
       style={{
-        width: "88%",
+        width: "100%",
         height: "100%"
       }}
     >
@@ -236,6 +236,9 @@ function OrderDetail({ orderDetail, myStore }: any) {
             </p>
             <p className={classes.normalText} style={{ margin: 0 }}>
               {myStore?.myStore?.phone || ""}
+            </p>
+            <p className={classes.normalText} style={{ margin: 0 }}>
+              {companyName || ""}
             </p>
           </div>
           {/* ordertype wrap */}

@@ -33,18 +33,19 @@ export const OrderCustomerNote: React.FC<OrderCustomerNoteProps> = ({
   const classes = useStyles();
   const intl = useIntl();
 
-  const renderOrderDateTime = (expectedDate, expectedTime) => {
+  // Show 'Today' if order today
+  const renderOrderDate = expectedDate => {
     const today = new Date().toString().slice(0, 15);
 
-    if (expectedDate && expectedTime) {
+    if (expectedDate) {
       expectedDate = expectedDate.includes("Today")
         ? expectedDate.slice(7)
         : expectedDate;
 
       if (new Date(expectedDate).toString().slice(0, 15) === today) {
-        return "Today, " + expectedDate + " " + expectedTime;
+        return "Today, " + expectedDate;
       } else {
-        return expectedDate + " " + expectedTime;
+        return expectedDate;
       }
     }
     return "";
@@ -64,9 +65,9 @@ export const OrderCustomerNote: React.FC<OrderCustomerNoteProps> = ({
             <FormattedMessage defaultMessage="Preferred date & time" />
           </Typography>
           <Typography color="textSecondary">
-            {renderOrderDateTime(orderDate, orderTime)?.slice(0, -5)}
+            {renderOrderDate(orderDate)}
             <br />
-            {renderOrderDateTime(orderDate, orderTime)?.substr(-5, 5)}
+            {orderTime}
           </Typography>
         </div>
       </CardContent>

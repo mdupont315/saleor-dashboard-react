@@ -97,10 +97,10 @@ export const ignoreSpecialCharacter = (data: string) =>
     .replaceAll(" ", "-");
 // .replaceAll(" ", "-")
 
-//Ignore special charact except letter and number
+// Ignore special character except letter and number
 export const checkSlug = (data: string) =>
   data
     .toLowerCase()
-    .replace(/[^[\w] ]/g, "")
+    .replace(/[^a-zA-Z0-9 ]/g, "")
     .replace(/^\s+|\s+$|\s+(?=\s)/g, "")
     .replaceAll(" ", "-");
