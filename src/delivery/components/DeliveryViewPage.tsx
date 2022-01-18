@@ -253,13 +253,13 @@ function DeliveryViewPage({
 const validateSchema = Yup.object().shape({
   deliveryFee: Yup.string()
     .required("PLease enter delivery fee")
-    .matches(/^[0-9]+$/, "Must be only digits"),
+    .matches(/^[0-9]\d*(\.\d{1})?$/, "Must be only digits"),
   minOrder: Yup.string()
     .required("PLease enter min order")
-    .matches(/^[0-9]+$/, "Must be only digits"),
+    .matches(/^[0-9]\d*(\.\d{1})?$/, "Must be only digits"),
   fromDelivery: Yup.string()
     .required("PLease enter from delivery")
-    .matches(/^[0-9]+$/, "Must be only digits"),
+    .matches(/^[0-9]\d*(\.\d{1})?$/, "Must be only digits"),
   deliveryArea: Yup.array().of(
     Yup.object().shape({
       to: Yup.number()

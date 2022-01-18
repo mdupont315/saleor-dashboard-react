@@ -15,13 +15,14 @@ import {
   Typography
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { ignoreSpecialCharacter } from "@saleor/auth";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { FormChange } from "@saleor/hooks/useForm";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 // import EditUrlDialog from "../StoreEditUrlDialog";
@@ -396,7 +397,14 @@ function StoreInput({
                     fullWidth
                     name="name"
                     value={values.name}
-                    onChange={handleChange}
+                    // onChange={handleChange}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                      handleChange(event);
+                      setFieldValue(
+                        "domain",
+                        ignoreSpecialCharacter(event.target.value)
+                      );
+                    }}
                     onBlur={handleBlur}
                     error={errors.name && touched.name}
                     helperText={errors.name && touched.name && errors.name}

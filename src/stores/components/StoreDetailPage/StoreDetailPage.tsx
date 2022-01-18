@@ -96,8 +96,8 @@ const validateSchema = yup.object().shape({
   password: yup
     .string()
     .required("Required!")
-    .min(8, "Too Short!"),
-  description: yup.string().max(160, "Too long")
+    .min(8, "Too Short!")
+  // description: yup.string().max(160, "Too long")
 });
 
 const validateSchemaUpdate = yup.object().shape({
