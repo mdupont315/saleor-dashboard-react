@@ -181,7 +181,7 @@ const PrintComponent = ({ myStore, user }) => {
   });
 
   const { messageTitle } = data?.appLiveNotification || {};
-
+  localStorage.setItem("store_id", myStore?.myStore.id);
   const [getOrderFull] = useLazyQuery(orderFull, {
     variables: { orderId: messageTitle || "" },
     fetchPolicy: "no-cache",
