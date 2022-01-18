@@ -400,10 +400,12 @@ function StoreInput({
                     // onChange={handleChange}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       handleChange(event);
-                      setFieldValue(
-                        "domain",
-                        ignoreSpecialCharacter(event.target.value)
-                      );
+                      if (!storeId) {
+                        setFieldValue(
+                          "domain",
+                          ignoreSpecialCharacter(event.target.value)
+                        );
+                      }
                     }}
                     onBlur={handleBlur}
                     error={errors.name && touched.name}
