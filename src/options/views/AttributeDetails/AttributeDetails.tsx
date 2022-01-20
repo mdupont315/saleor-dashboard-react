@@ -8,7 +8,7 @@ import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
-import { ListViews } from "@saleor/types";
+import { ListViews, ReorderEvent } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -24,6 +24,7 @@ import AttributeValueEditDialog, {
 import {
   useOptionDeleteMutation,
   useOptionUpdateMutation,
+  useOptionValueReorderMutation,
   useOptionValueUpdateMutation
 } from "../../mutations";
 import { useOptionDetailsQuery } from "../../queries";
@@ -142,6 +143,14 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
     }
   });
 
+  const [attributeReorder] = useOptionValueReorderMutation({
+    onCompleted: data => {
+      if (data.reorderOptionValues.errors.length === 0) {
+        refetch();
+      }
+    }
+  });
+
   const handleValueDelete = () => {
     const option = cacheValues.option.optionValues.filter(
       value => params.id === value.id
@@ -231,6 +240,20 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
     return result.data.optionUpdate.errors;
   };
 
+  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
+    attributeReorder({
+      variables: {
+        optionId: id,
+        moves: [
+          {
+            optionValueId: data.option.optionValues[oldIndex].id,
+            sortOrder: newIndex - oldIndex
+          }
+        ]
+      }
+    });
+  };
+
   return (
     <>
       <AttributePage
@@ -241,6 +264,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
         onDelete={() => openModal("remove")}
         onSubmit={handleSubmit}
         onValueAdd={() => openModal("add-value")}
+        onValueReorder={handleValueReorder}
         onValueDelete={id =>
           openModal("remove-value", {
             id

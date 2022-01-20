@@ -122,3 +122,21 @@ const optionUpdateMutation = gql`
 export const useOptionUpdateMutation = makeMutation<any, {}>(
   optionUpdateMutation
 );
+
+export const optionValueReorderMutation = gql`
+  mutation ReorderOptionValues(
+    $optionId: ID!
+    $moves: [MoveOptionValueInput]!
+  ) {
+    reorderOptionValues(optionId: $optionId, moves: $moves) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const useOptionValueReorderMutation = makeMutation<any, any>(
+  optionValueReorderMutation
+);
