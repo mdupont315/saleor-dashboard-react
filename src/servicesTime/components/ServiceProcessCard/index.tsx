@@ -15,7 +15,7 @@ import { useIntl } from "react-intl";
 
 const renDeliveryTime = () => {
   const result = [];
-  let t = 0;
+  let t = 5;
   while (true) {
     if (t > 120) {
       break;

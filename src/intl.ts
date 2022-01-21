@@ -115,7 +115,7 @@ export const commonMessages = defineMessages({
     defaultMessage: "Your session has expired. Please log in again to continue."
   },
   somethingWentWrong: {
-    defaultMessage: "Saleor ran into an unexpected problem"
+    defaultMessage: "Something went wrong"
   },
   startDate: {
     defaultMessage: "Start Date"
