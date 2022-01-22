@@ -15,6 +15,19 @@ import { useIntl } from "react-intl";
 
 const renDeliveryTime = () => {
   const result = [];
+  let t = 0;
+  while (true) {
+    if (t > 120) {
+      break;
+    }
+    result.push(t);
+    t += 5;
+  }
+  return result;
+};
+
+const renTimePicker = () => {
+  const result = [];
   let t = 5;
   while (true) {
     if (t > 120) {
@@ -140,7 +153,7 @@ function ServiceProcessCard({
           <Grid item xs={6}>
             <FormControl variant="outlined" fullWidth>
               <InputLabel id="demo-simple-select-outlined-label">
-                Delivery time
+                {type === "delivery" ? "Delivery time" : "Pickup time"}
               </InputLabel>
               <Select
                 labelId="demo-simple-select-outlined-label"
@@ -172,7 +185,7 @@ function ServiceProcessCard({
                 onChange={handleChange}
                 label="From"
               >
-                {renDeliveryTime().map((item, index) => (
+                {renTimePicker().map((item, index) => (
                   <MenuItem key={index} value={item}>
                     {item} minutes
                   </MenuItem>
