@@ -57,7 +57,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
   ];
 
   const formApiErrors = getFormErrors(
-    ["name", "slug", "inputType", "entityType", "unit"],
+    ["name", "slug", "type", "entityType", "unit"],
     apiErrors
   );
 
@@ -82,10 +82,10 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
           <SingleSelectField
             choices={inputTypeChoices}
             disabled={disabled || !canChangeType}
-            error={!!formApiErrors.inputType}
-            hint={getAttributeErrorMessage(formApiErrors.inputType, intl)}
-            label={intl.formatMessage(messages.inputType)}
-            name="type"
+            error={!!formApiErrors.type}
+            hint={getAttributeErrorMessage(formApiErrors.type, intl)}
+            label={intl.formatMessage(messages.type)}
+            name={"type" as keyof AttributePageFormData}
             onChange={onChange}
             value={data.type}
           />

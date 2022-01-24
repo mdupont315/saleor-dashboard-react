@@ -13,7 +13,6 @@ import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFr
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import { ListSettings, ReorderAction } from "@saleor/types";
-import { AttributeTypeEnum } from "@saleor/types/globalTypes";
 import { mapEdgesToItems } from "@saleor/utils/maps";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -46,7 +45,7 @@ export interface AttributePageProps {
 
 export interface AttributePageFormData {
   name: string;
-  type: AttributeTypeEnum;
+  type: string;
   required: boolean;
   values: [];
 }
@@ -71,23 +70,24 @@ const AttributePage: React.FC<AttributePageProps> = ({
   onPreviousPage
 }) => {
   const intl = useIntl();
+
   const initialForm: AttributePageFormData =
     attribute === null
       ? {
           name: "",
-          type: AttributeTypeEnum.PRODUCT_TYPE,
+          type: "",
           required: true,
           values: []
         }
       : {
           name: attribute?.name ?? "",
-          type: attribute?.type || AttributeTypeEnum.PRODUCT_TYPE,
+          type: attribute?.type ?? "",
           required: !!attribute?.required ?? true,
           values: []
         };
 
   const handleSubmit = (data: AttributePageFormData) => {
-    const type = attribute === null ? data.type : undefined;
+    const type = attribute === null ? data.type : "";
     return onSubmit({
       ...data,
       type

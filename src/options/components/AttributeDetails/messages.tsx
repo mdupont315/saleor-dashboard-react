@@ -22,7 +22,7 @@ export const messages = defineMessages({
     description: "attribute's editor component entity"
   },
 
-  inputType: {
+  type: {
     defaultMessage: "Modifier Type",
     description: "attribute's editor component"
   },
