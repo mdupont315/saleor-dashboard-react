@@ -86,13 +86,11 @@ const AttributePage: React.FC<AttributePageProps> = ({
           values: []
         };
 
-  const handleSubmit = (data: AttributePageFormData) => {
-    const type = attribute === null ? data.type : "";
-    return onSubmit({
-      ...data,
-      type
+  const handleSubmit = (data: AttributePageFormData) =>
+    // const type = attribute !== null ? data.type : "";
+    onSubmit({
+      ...data
     });
-  };
 
   return (
     <Form initial={initialForm} onSubmit={handleSubmit}>
