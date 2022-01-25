@@ -9,7 +9,8 @@ const useStyles = makeStyles(
   theme => ({
     buttonContainer: {
       display: "flex",
-      justifyContent: "flex-end"
+      justifyContent: "flex-end",
+      textDecoration: "none"
     },
     headerTitle: {
       // marginBottom: "32px",
