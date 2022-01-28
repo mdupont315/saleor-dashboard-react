@@ -32,6 +32,7 @@ import useShop from "@saleor/hooks/useShop";
 import { commonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import {
+  useOptionReorderMutation,
   useProductChannelListingUpdate,
   useProductDeleteMutation,
   useProductMediaCreateMutation,
@@ -48,6 +49,7 @@ import useCategorySearch from "@saleor/searches/useCategorySearch";
 import useCollectionSearch from "@saleor/searches/useCollectionSearch";
 import usePageSearch from "@saleor/searches/usePageSearch";
 import useProductSearch from "@saleor/searches/useProductSearch";
+import { ReorderEvent } from "@saleor/types";
 import { getProductErrorMessage } from "@saleor/utils/errors";
 import createAttributeValueSearchHandler from "@saleor/utils/handlers/attributeValueSearchHandler";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -379,6 +381,28 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     }
   });
 
+  const [optionReorder] = useOptionReorderMutation({
+    onCompleted: data => {
+      if (data.reorderOptions.errors.length === 0) {
+        refetch();
+      }
+    }
+  });
+
+  const handleOptionsReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
+    // console.log("Reorder");
+    optionReorder({
+      variables: {
+        moves: [
+          {
+            optionId: data.product?.options[oldIndex]?.id,
+            sortOrder: newIndex - oldIndex
+          }
+        ]
+      }
+    });
+  };
+
   const [
     updateVariantChannels,
     updateVariantChannelsOpts
@@ -697,6 +721,7 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
         onImageUpload={handleImageUpload}
         onImageEdit={handleImageEdit}
         onImageDelete={handleImageDelete}
+        onOptionsReorder={handleOptionsReorder}
         toolbar={
           <IconButton
             color="primary"

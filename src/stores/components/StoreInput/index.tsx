@@ -1,29 +1,29 @@
 /* eslint-disable local-rules/named-styles */
 import placeholderImage from "@assets/images/placeholder255x255.png";
 import {
-  Button,
+  // Button,
   Card,
   CardContent,
-  IconButton,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
+  // IconButton,
+  // TableBody,
+  // TableCell,
+  // TableHead,
+  // TableRow,
   // InputAdornment,
   TextField,
-  Tooltip,
+  // Tooltip,
   Typography
 } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+// import DeleteIcon from "@material-ui/icons/Delete";
 import { ignoreSpecialCharacter } from "@saleor/auth";
 import CardTitle from "@saleor/components/CardTitle";
-import ControlledSwitch from "@saleor/components/ControlledSwitch";
+// import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
-import ResponsiveTable from "@saleor/components/ResponsiveTable";
+// import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { FormChange } from "@saleor/hooks/useForm";
 import React, { ChangeEvent } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 
 // import EditUrlDialog from "../StoreEditUrlDialog";
 import StoreMedia from "../StoreMedia";
@@ -38,11 +38,11 @@ interface IProps {
   closeModal?: any;
 }
 
-const fakeDomainList = [
-  { url: "peak-holo.orderich.online", status: "Active" },
-  { url: "order.nooki.nl", status: "DNS not configured" },
-  { url: "nooki-togo.nl", status: "Active" }
-];
+// const fakeDomainList = [
+//   { url: "peak-holo.orderich.online", status: "Active" },
+//   { url: "order.nooki.nl", status: "DNS not configured" },
+//   { url: "nooki-togo.nl", status: "Active" }
+// ];
 
 function StoreInput({
   header,
@@ -82,7 +82,7 @@ function StoreInput({
     favicon: []
   });
 
-  const [canCustomDomain, setCanCustomDomain] = React.useState(false);
+  // const [canCustomDomain, setCanCustomDomain] = React.useState(false);
 
   const handleImageDelete = (id?: string, title?: string) => () => {
     if (title === "Logo") {
@@ -112,9 +112,9 @@ function StoreInput({
     }
   };
 
-  const handleDeleteSubDomain = () => {
-    alert("Delete sub domain");
-  };
+  // const handleDeleteSubDomain = () => {
+  //   alert("Delete sub domain");
+  // };
 
   React.useEffect(() => {
     if (storeId) {
@@ -177,15 +177,15 @@ function StoreInput({
                   >{`https://${values.domain}`}</a>
                   <FormSpacer />
 
-                  <ControlledSwitch
+                  {/* <ControlledSwitch
                     name="e_custom-domain"
                     label={`Use custom domain`}
                     checked={canCustomDomain}
                     onChange={() => setCanCustomDomain(!canCustomDomain)}
-                  />
+                  /> */}
                 </div>
 
-                {canCustomDomain && (
+                {/* {canCustomDomain && (
                   <>
                     <p>
                       Below you can connect (sub)domains that you own for your
@@ -334,7 +334,7 @@ function StoreInput({
                       </Button>
                     </div>
                   </>
-                )}
+                )} */}
 
                 {/* <EditUrlDialog
                   confirmButtonState="default"
@@ -346,7 +346,7 @@ function StoreInput({
                   open={null}
                 /> */}
 
-                {/* <TextField
+                <TextField
                   label={intl.formatMessage({
                     defaultMessage: "Custom domain name"
                   })}
@@ -364,7 +364,7 @@ function StoreInput({
                   //     </InputAdornment>
                   //   )
                   // }}
-                /> */}
+                />
               </CardContent>
             </Card>
           </div>
