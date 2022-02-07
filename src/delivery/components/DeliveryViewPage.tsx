@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -90,14 +91,16 @@ function DeliveryViewPage({
           minOrder: data.minOrder,
           fromDelivery: data.fromDelivery,
           deliveryArea: JSON.parse(data.deliveryArea).areas,
-          enableForBigOrder: data.enableForBigOrder
+          enableForBigOrder: data.enableForBigOrder,
+          enableCustomDeliveryFee: data.enableCustomDeliveryFee
         }
       : {
           deliveryFee: 0,
           minOrder: 0,
           fromDelivery: 0,
           deliveryArea: [{ to: "", from: "" }],
-          enableForBigOrder: false
+          enableForBigOrder: false,
+          enableCustomDeliveryFee: false
         };
 
   const compareWithData = values =>
@@ -126,6 +129,40 @@ function DeliveryViewPage({
             }) => (
               <Form>
                 <PageHeader title={intl.formatMessage(sectionNames.delivery)} />
+                <div className={S.configurationCategory}>
+                  <div className={S.configurationLabel}>
+                    <Typography>
+                      <h2
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 400,
+                          color: "#3d3d3d"
+                        }}
+                      >
+                        Delivery order Settings
+                      </h2>
+                      <p
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: 400,
+                          color: "#3d3d3d"
+                        }}
+                      >
+                        Determine your delivery fee, minimum delivery order
+                        value and free delivery threshold.
+                      </p>
+                    </Typography>
+                  </div>
+                  <div>
+                    <DeliveryFeeCard
+                      handleChange={handleChange}
+                      values={values}
+                      handleBlur={handleBlur}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                </div>
 
                 <FieldArray
                   name="deliveryArea"
@@ -161,8 +198,82 @@ function DeliveryViewPage({
                                 commonMessages.deliveryArea
                               )}
                             />
-                            <CardContent>
-                              {values.deliveryArea.map((value, index) => (
+                            <CardContent
+                              style={{
+                                padding: "25px 30px 0px 25px",
+                                borderBottom: "1px solid #EAEAEA"
+                              }}
+                            >
+                              <Grid container item xs={12}>
+                                <Grid
+                                  item
+                                  style={{
+                                    width: "100%",
+                                    marginBottom: "40px"
+                                  }}
+                                >
+                                  <ControlledSwitch
+                                    name="enableCustomDeliveryFee"
+                                    label={`Enable custom delivery fees`}
+                                    checked={values.enableCustomDeliveryFee}
+                                    onChange={handleChange}
+                                  />
+                                </Grid>
+
+                                <Grid
+                                  item
+                                  style={{ width: "29%", marginRight: "24px" }}
+                                >
+                                  <p
+                                    style={{
+                                      marginTop: "0px",
+                                      marginBottom: "16px"
+                                    }}
+                                  >
+                                    Postcodes
+                                  </p>
+                                </Grid>
+
+                                <Grid
+                                  item
+                                  style={{ width: "29%", marginRight: "24px" }}
+                                >
+                                  <p
+                                    style={{
+                                      marginTop: "0px",
+                                      marginBottom: "16px"
+                                    }}
+                                  ></p>
+                                </Grid>
+
+                                {values.enableCustomDeliveryFee && (
+                                  <Grid
+                                    item
+                                    style={{
+                                      width: "29%",
+                                      marginRight: "24px"
+                                    }}
+                                  >
+                                    <p
+                                      style={{
+                                        marginTop: "0px",
+                                        marginBottom: "16px"
+                                      }}
+                                    >
+                                      Delivery fee
+                                    </p>
+                                  </Grid>
+                                )}
+                              </Grid>
+                            </CardContent>
+
+                            {values.deliveryArea.map((value, index) => (
+                              <CardContent
+                                style={{
+                                  padding: "8px 30px 8px 25px",
+                                  borderBottom: "1px solid #EAEAEA"
+                                }}
+                              >
                                 <DeliveryAreaCard
                                   key={index}
                                   value={value}
@@ -172,10 +283,13 @@ function DeliveryViewPage({
                                   touched={touched}
                                   handleChange={handleChange}
                                   handleBlur={handleBlur}
+                                  canCustomDeliveryFee={
+                                    values.enableCustomDeliveryFee
+                                  }
                                 />
-                              ))}
-                            </CardContent>
-                            <hr className={S.divider} />
+                              </CardContent>
+                            ))}
+                            {/* <hr className={S.divider} /> */}
                             <Grid className={S.grid}>
                               <Button
                                 color="primary"
@@ -198,41 +312,6 @@ function DeliveryViewPage({
                     </>
                   )}
                 />
-
-                <div className={S.configurationCategory}>
-                  <div className={S.configurationLabel}>
-                    <Typography>
-                      <h2
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 400,
-                          color: "#3d3d3d"
-                        }}
-                      >
-                        Delivery order Settings
-                      </h2>
-                      <p
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: 400,
-                          color: "#3d3d3d"
-                        }}
-                      >
-                        Determine your delivery fee, minimum delivery order
-                        value and free delivery threshold.
-                      </p>
-                    </Typography>
-                  </div>
-                  <div>
-                    <DeliveryFeeCard
-                      handleChange={handleChange}
-                      values={values}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                </div>
 
                 <SaveButtonBar
                   disabled={compareWithData(values)}

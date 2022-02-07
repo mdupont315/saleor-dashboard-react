@@ -1,6 +1,6 @@
 import { Grid, IconButton, TextField, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FormSpacer from "@saleor/components/FormSpacer";
+// import FormSpacer from "@saleor/components/FormSpacer";
 // import { useIntl } from "react-intl";
 // import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
@@ -12,13 +12,14 @@ function DeliveryAreaCard({
   handleChange,
   handleBlur,
   touched,
-  errors
+  errors,
+  canCustomDeliveryFee
 }: any) {
   // const intl = useIntl();
 
   return (
     <>
-      <FormSpacer />
+      {/* <FormSpacer /> */}
       {/* <div
         style={{
           display: "grid",
@@ -26,8 +27,9 @@ function DeliveryAreaCard({
           gridTemplateColumns: "auto auto auto"
         }}
       > */}
-      <Grid container item xs={12} spacing={2}>
-        <Grid item style={{ width: "47%" }}>
+
+      <Grid container item xs={12}>
+        <Grid item style={{ width: "29%", marginRight: "24px" }}>
           <TextField
             name={`deliveryArea.${index}.from`}
             label="From"
@@ -55,7 +57,7 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item style={{ width: "47%" }}>
+        <Grid item style={{ width: "29%", marginRight: "24px" }}>
           <TextField
             name={`deliveryArea.${index}.to`}
             label="Until"
@@ -83,7 +85,20 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item style={{ width: "1%" }}>
+        {canCustomDeliveryFee && (
+          <Grid item style={{ width: "29%" }}>
+            <TextField
+              name={`deliveryArea.${index}.customDeliveryFee`}
+              label="Delivery Fee"
+              fullWidth
+              type="number"
+              value={value.customDeliveryFee}
+              onChange={handleChange}
+            />
+          </Grid>
+        )}
+
+        <Grid item style={{ width: "1%", marginLeft: "19px" }}>
           {" "}
           <div>
             <Tooltip title="Delete">
@@ -101,12 +116,12 @@ function DeliveryAreaCard({
         </Grid>
       </Grid>
 
-      <hr
+      {/* <hr
         style={{
           border: "1px solid #EAEAEA",
           marginTop: "24px"
         }}
-      ></hr>
+      ></hr> */}
       {/* </div> */}
     </>
   );

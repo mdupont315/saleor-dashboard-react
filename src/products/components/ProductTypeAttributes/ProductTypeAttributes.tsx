@@ -163,6 +163,7 @@ const ProductTypeAttributes: React.FC<ProductTypeAttributesProps> = props => {
           </TableHead>
         )}
         <SortableTableBody onSortEnd={onAttributeReorder}>
+          {/* {console.log("ATRIBUTE", attributes)} */}
           {renderCollection(
             attributes,
             (attribute, attributeIndex) => {
