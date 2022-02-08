@@ -28,8 +28,8 @@ function DeliveryAreaCard({
         }}
       > */}
 
-      <Grid container item xs={12}>
-        <Grid item style={{ width: "29%", marginRight: "24px" }}>
+      <Grid container item xs={12} style={{ alignItems: "center" }}>
+        <Grid item style={{ width: "29.3%", marginRight: "24px" }}>
           <TextField
             name={`deliveryArea.${index}.from`}
             label="From"
@@ -57,7 +57,7 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item style={{ width: "29%", marginRight: "24px" }}>
+        <Grid item style={{ width: "29.3%", marginRight: "24px" }}>
           <TextField
             name={`deliveryArea.${index}.to`}
             label="Until"
@@ -86,7 +86,7 @@ function DeliveryAreaCard({
         </Grid>
 
         {canCustomDeliveryFee && (
-          <Grid item style={{ width: "29%" }}>
+          <Grid item style={{ width: "29.3%" }}>
             <TextField
               name={`deliveryArea.${index}.customDeliveryFee`}
               label="Delivery Fee"
@@ -98,7 +98,7 @@ function DeliveryAreaCard({
           </Grid>
         )}
 
-        <Grid item style={{ width: "1%", marginLeft: "19px" }}>
+        <Grid item style={{ width: "1%", marginLeft: "12px" }}>
           {" "}
           <div>
             <Tooltip title="Delete">

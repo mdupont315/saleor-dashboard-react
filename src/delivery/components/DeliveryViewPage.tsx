@@ -200,7 +200,7 @@ function DeliveryViewPage({
                             />
                             <CardContent
                               style={{
-                                padding: "25px 30px 0px 25px",
+                                padding: "14px 30px 0px 25px",
                                 borderBottom: "1px solid #EAEAEA"
                               }}
                             >
@@ -209,7 +209,7 @@ function DeliveryViewPage({
                                   item
                                   style={{
                                     width: "100%",
-                                    marginBottom: "40px"
+                                    marginBottom: "24px"
                                   }}
                                 >
                                   <ControlledSwitch
@@ -222,7 +222,10 @@ function DeliveryViewPage({
 
                                 <Grid
                                   item
-                                  style={{ width: "29%", marginRight: "24px" }}
+                                  style={{
+                                    width: "29.3%",
+                                    marginRight: "24px"
+                                  }}
                                 >
                                   <p
                                     style={{
@@ -236,7 +239,10 @@ function DeliveryViewPage({
 
                                 <Grid
                                   item
-                                  style={{ width: "29%", marginRight: "24px" }}
+                                  style={{
+                                    width: "29.3%",
+                                    marginRight: "24px"
+                                  }}
                                 >
                                   <p
                                     style={{
@@ -250,7 +256,7 @@ function DeliveryViewPage({
                                   <Grid
                                     item
                                     style={{
-                                      width: "29%",
+                                      width: "29.3%",
                                       marginRight: "24px"
                                     }}
                                   >
