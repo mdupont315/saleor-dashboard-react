@@ -701,9 +701,12 @@ export const useReorderProducts = makeMutation<any, any>(
   ProductsReorderMutation
 );
 
-export const optionReorderMutation = gql`
-  mutation ReorderOptions($moves: [MoveOptionInput]!) {
-    reorderOptions(moves: $moves) {
+export const productOptionReorderMutation = gql`
+  mutation ReorderProductOption(
+    $moves: [MoveProductOptionInput]!
+    $productId: ID!
+  ) {
+    reorderProductOption(moves: $moves, productId: $productId) {
       errors {
         field
         message
@@ -712,6 +715,6 @@ export const optionReorderMutation = gql`
   }
 `;
 
-export const useOptionReorderMutation = makeMutation<any, any>(
-  optionReorderMutation
+export const useProductOptionReorderMutation = makeMutation<any, any>(
+  productOptionReorderMutation
 );

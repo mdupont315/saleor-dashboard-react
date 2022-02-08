@@ -32,12 +32,12 @@ import useShop from "@saleor/hooks/useShop";
 import { commonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import {
-  useOptionReorderMutation,
   useProductChannelListingUpdate,
   useProductDeleteMutation,
   useProductMediaCreateMutation,
   useProductMediaDeleteMutation,
   useProductMediaReorder,
+  useProductOptionReorderMutation,
   useProductUpdateMutation,
   useProductVariantBulkDeleteMutation,
   useProductVariantChannelListingUpdate,
@@ -62,13 +62,18 @@ import {
 import { useWarehouseList } from "@saleor/warehouses/queries";
 import { warehouseAddPath } from "@saleor/warehouses/urls";
 import React from "react";
+import { useLazyQuery } from "react-apollo";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import { getMutationState } from "../../../misc";
 import ProductUpdatePage, {
   ProductUpdatePageSubmitData
 } from "../../components/ProductUpdatePage";
-import { useListOptionData, useProductDetails } from "../../queries";
+import {
+  productOptionByProductId,
+  useListOptionData,
+  useProductDetails
+} from "../../queries";
 import { ProductMediaCreateVariables } from "../../types/ProductMediaCreate";
 import { ProductUpdate as ProductUpdateMutationResult } from "../../types/ProductUpdate";
 import {
@@ -204,9 +209,9 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
   });
 
   React.useEffect(() => {
-    if (data) {
-      setValues(data.product.options);
-    }
+    // if (data) {
+    //   setValues(data.product.options);
+    // }
   }, [data]);
 
   const limitOpts = useShopLimitsQuery({
@@ -381,27 +386,77 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     }
   });
 
-  const [optionReorder] = useOptionReorderMutation({
+  const [productOptionReorder] = useProductOptionReorderMutation({
     onCompleted: data => {
-      if (data.reorderOptions.errors.length === 0) {
+      if (data.reorderProductOption.errors.length === 0) {
         refetch();
+        getDataProductOption();
       }
     }
   });
 
-  const handleOptionsReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
+  const handleProductOptionsReorder = ({
+    newIndex,
+    oldIndex
+  }: ReorderEvent) => {
     // console.log("Reorder");
-    optionReorder({
+    productOptionReorder({
       variables: {
         moves: [
           {
-            optionId: data.product?.options[oldIndex]?.id,
+            optionId:
+              dataProductOption?.productOption?.edges[oldIndex]?.node?.option
+                ?.id,
             sortOrder: newIndex - oldIndex
           }
-        ]
+        ],
+        productId: product.id
       }
     });
   };
+
+  const [
+    getDataProductOption,
+    { data: dataProductOption, loading: productOptionLoading }
+  ] = useLazyQuery(productOptionByProductId, {
+    fetchPolicy: "no-cache",
+    variables: {
+      productId: product?.id || ""
+    }
+  });
+
+  React.useEffect(() => {
+    if (product && product?.id) {
+      setValues(product.options);
+      getDataProductOption();
+    }
+  }, [product]);
+
+  const sort = (data: any) => {
+    if (
+      data &&
+      values?.length === data?.productOption?.edges.length &&
+      productOptionLoading === false
+    ) {
+      const sortedProductOptions = [];
+      data.productOption.edges.forEach((item: any) => {
+        values.forEach((value: any) => {
+          if (value.id === item?.node.option.id) {
+            sortedProductOptions.push(value);
+          }
+        });
+      });
+      setValues(sortedProductOptions);
+    }
+  };
+  // console.log("productOptionLoading", dataProductOption);
+
+  React.useEffect(() => {
+    // console.log("Data change");
+    if (productOptionLoading === false) {
+      sort(dataProductOption);
+    }
+  }, [data, productOptionLoading]);
 
   const [
     updateVariantChannels,
@@ -555,6 +610,7 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     productVariantCreateOpts.loading ||
     deleteAttributeValueOpts.loading ||
     createProductMediaOpts.loading ||
+    productOptionLoading ||
     loading;
 
   const formTransitionState = getMutationState(
@@ -721,7 +777,7 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
         onImageUpload={handleImageUpload}
         onImageEdit={handleImageEdit}
         onImageDelete={handleImageDelete}
-        onOptionsReorder={handleOptionsReorder}
+        onProductOptionsReorder={handleProductOptionsReorder}
         toolbar={
           <IconButton
             color="primary"
@@ -753,16 +809,17 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
         fetchMoreReferenceProducts={fetchMoreReferenceProducts}
         fetchMoreAttributeValues={fetchMoreAttributeValues}
         onCloseDialog={() => navigate(productUrl(id))}
-        values={maybe(() =>
-          values.sort((a, b) => {
-            if (a.name.length > b.name.length) {
-              return 1;
-            }
-            if (a.name.length < b.name.length) {
-              return -1;
-            }
-            return 0;
-          })
+        values={maybe(
+          () => values
+          // values.sort((a, b) => {
+          //   if (a.name.length > b.name.length) {
+          //     return 1;
+          //   }
+          //   if (a.name.length < b.name.length) {
+          //     return -1;
+          //   }
+          //   return 0;
+          // })
         )}
         onAttributeAdd={() => openModal("assign-attribute-value")}
         isCheckedOption={checkedOption}

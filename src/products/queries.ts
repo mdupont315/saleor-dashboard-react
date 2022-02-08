@@ -449,3 +449,22 @@ const listOptionData = gql`
   }
 `;
 export const useListOptionData = makeQuery<any, {}>(listOptionData);
+
+export const productOptionByProductId = gql`
+  query ProductOptions($productId: ID) {
+    productOption(productId: $productId, first: 100) {
+      edges {
+        node {
+          id
+          option {
+            id
+          }
+          sortOrder
+        }
+      }
+    }
+  }
+`;
+export const useListProductOptionByProductId = makeQuery<any, {}>(
+  productOptionByProductId
+);
