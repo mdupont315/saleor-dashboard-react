@@ -17,6 +17,7 @@ import {
 import TableHead from "@saleor/components/TableHead";
 import { maybe, renderCollection, stopPropagation } from "@saleor/misc";
 import { makeStyles } from "@saleor/theme";
+import { ReorderAction } from "@saleor/types";
 // import { ListActions, ReorderAction } from "@saleor/types";
 import { ProductAttributeType } from "@saleor/types/globalTypes";
 import React from "react";
@@ -60,9 +61,10 @@ interface ProductTypeAttributesProps {
   toggle?: (id: string) => void;
   toggleAll?: () => void;
   onAttributeUnassign?: (id: string) => void;
-  onAttributeReorder?: () => void;
+  onAttributeReorder?: ReorderAction;
   onAttributeClick?: (id: string) => void;
   onAttributeUnassignAll: () => void;
+  // onOptionReorder?: ReorderAction;
   isChecked: any;
   type?: string;
   disabled?: boolean;

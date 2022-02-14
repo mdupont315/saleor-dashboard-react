@@ -113,6 +113,7 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onToggleAll?: () => void;
   onAttributeAdd?: () => void;
   openChannelsModal: () => void;
+  onProductOptionsReorder?: ReorderAction;
   onBack?();
   onDelete();
   onImageEdit?(id: string);
@@ -201,6 +202,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   onAttributeUnassignAll,
   onToggle,
   onToggleAll,
+  onProductOptionsReorder,
   isCheckedOption
 }) => {
   const intl = useIntl();
@@ -313,6 +315,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     onAttributeUnassignAll();
                     handlers.handlerAttribute();
                   }}
+                  onAttributeReorder={onProductOptionsReorder}
                 />
                 <CardSpacer />
                 <ProductMedia

@@ -700,3 +700,21 @@ export const ProductsReorderMutation = gql`
 export const useReorderProducts = makeMutation<any, any>(
   ProductsReorderMutation
 );
+
+export const productOptionReorderMutation = gql`
+  mutation ReorderProductOption(
+    $moves: [MoveProductOptionInput]!
+    $productId: ID!
+  ) {
+    reorderProductOption(moves: $moves, productId: $productId) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const useProductOptionReorderMutation = makeMutation<any, any>(
+  productOptionReorderMutation
+);
