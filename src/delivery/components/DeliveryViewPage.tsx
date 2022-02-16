@@ -139,7 +139,7 @@ function DeliveryViewPage({
                           color: "#3d3d3d"
                         }}
                       >
-                        Delivery order Settings
+                        Delivery Fee Settings
                       </h2>
                       <p
                         style={{
