@@ -5,6 +5,10 @@ import React from "react";
 const useStyles = makeStyles(
   {
     root: {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
       alignItems: "center",
       display: "flex",
       height: "100vh",

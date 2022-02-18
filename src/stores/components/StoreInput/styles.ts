@@ -33,6 +33,10 @@ export const useStyles = makeStyles(
       fontSize: 14,
       width: "auto"
     },
+    colDomain: {
+      fontSize: 14,
+      width: "57%"
+    },
     colUrl: {
       border: 0,
       borderTop: `solid 1px ${theme.palette.divider}`
@@ -40,6 +44,23 @@ export const useStyles = makeStyles(
     colStatus: {
       border: 0,
       borderTop: `solid 1px ${theme.palette.divider}`
+    },
+    dotStatusActive: {
+      width: "8px",
+      height: "8px",
+      borderRadius: "50%",
+      background: "#FE6D76"
+    },
+    dotStatus: {
+      width: "8px",
+      height: "8px",
+      borderRadius: "50%",
+      background: "#06847B"
+    },
+    domainStatus: {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px"
     },
     table: {
       tableLayout: "fixed"
