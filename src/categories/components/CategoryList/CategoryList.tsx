@@ -46,7 +46,7 @@ const useStyles = makeStyles(
     },
     noOfProduct: {
       width: "100%",
-      textAlign: "center"
+      textAlign: "right"
     },
     colProducts: {
       textAlign: "center"
@@ -159,7 +159,7 @@ const CategoryList: React.FC<CategoryListProps> = props => {
         </TableCellHeader> */}
 
         <TableCellHeader
-          textAlign="center"
+          textAlign="right"
           direction={
             isRoot && sort.sort === CategoryListUrlSortField.productCount
               ? getArrowDirection(sort.asc)

@@ -4,12 +4,14 @@ import Skeleton from "@saleor/components/Skeleton";
 import TableCellAvatar from "@saleor/components/TableCellAvatar";
 import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
 import { maybe } from "@saleor/misc";
+import { getProductOptionByProductId } from "@saleor/orders/queries";
 import {
   OrderDetails_order_fulfillments_lines,
   OrderDetails_order_lines
 } from "@saleor/orders/types/OrderDetails";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
+import { useQuery } from "react-apollo";
 
 const useStyles = makeStyles(
   theme => ({
@@ -17,7 +19,8 @@ const useStyles = makeStyles(
       cursor: "pointer"
     },
     colName: {
-      width: "auto"
+      width: "auto",
+      fontSize: "15px"
     },
     colNameLabel: {
       marginLeft: AVATAR_MARGIN
@@ -57,6 +60,13 @@ const useStyles = makeStyles(
     },
     table: {
       tableLayout: "fixed"
+    },
+    option: {
+      display: "block",
+      fontSize: "12px",
+      fontWeight: 400,
+      lineHeight: "16px",
+      color: "#28234A99"
     }
   }),
   { name: "TableLine" }
@@ -89,13 +99,28 @@ const TableLine: React.FC<TableLineProps> = ({
     ? quantity - quantityFulfilled
     : quantity;
 
+  const { data: productOption } = useQuery(getProductOptionByProductId, {
+    variables: {
+      productId: line?.orderLine?.variant?.id || ""
+    }
+  });
+
   return (
     <TableRow className={classes.clickableRow} hover key={line.id}>
       <TableCellAvatar
         className={classes.colName}
         thumbnail={maybe(() => line.orderLine.thumbnail.url)}
       >
-        {maybe(() => line.orderLine.productName) || <Skeleton />}
+        {line.orderLine.productName ? (
+          <div>
+            <p>{maybe(() => line.orderLine.productName)}</p>
+            {productOption?.productOption?.edges.map((item: any) => (
+              <span className={classes.option}>{item?.node?.option?.name}</span>
+            ))}
+          </div>
+        ) : (
+          <Skeleton />
+        )}
       </TableCellAvatar>
       <TableCell className={classes.colSku}>
         {line?.orderLine.productSku || <Skeleton />}

@@ -83,6 +83,8 @@ import TranslationsSection from "./translations";
 import { PermissionEnum } from "./types/globalTypes";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const alarm = require("@assets/sound/orderich_notification.wav");
 if (process.env.GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
@@ -230,6 +232,28 @@ const PrintComponent = ({ myStore, user }) => {
     </div>
   );
 };
+
+const SoundNotificationComponent = () => {
+  const soundRef = React.useRef(null);
+  const store_id = localStorage.getItem("store_id") || "";
+  const enableSound = JSON.parse(localStorage.getItem("soundNotification"));
+
+  const { data: dataSocket } = useSubscription(SUBSCRIPTION_MESSAGE, {
+    variables: { id: store_id }
+  });
+
+  useEffect(() => {
+    if (dataSocket && enableSound) {
+      soundRef.current.play();
+    }
+  }, [dataSocket]);
+  return (
+    <audio controls ref={soundRef} style={{ display: "none" }}>
+      <source src={alarm.default} type="audio/mpeg" />
+    </audio>
+  );
+};
+
 const Routes = ({ myStore }: any) => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
@@ -253,8 +277,11 @@ const Routes = ({ myStore }: any) => {
     (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
   return (
     <>
+      <SoundNotificationComponent />
       {myStore && myStore.myStore && myStore.myStore.id && (
-        <PrintComponent user={user} myStore={myStore} />
+        <>
+          <PrintComponent user={user} myStore={myStore} />
+        </>
       )}
       {/* ------------------------------------------------ */}
 

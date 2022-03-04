@@ -429,3 +429,19 @@ export const useOrderRefundData = makeQuery<
   OrderRefundData,
   OrderRefundDataVariables
 >(orderRefundData);
+
+export const getProductOptionByProductId = gql`
+  query ProductOptions($productId: ID) {
+    productOption(productId: $productId, first: 100) {
+      edges {
+        node {
+          id
+          option {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;

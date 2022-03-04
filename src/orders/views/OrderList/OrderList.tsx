@@ -1,3 +1,4 @@
+// import orderichNotification from "@assets/sound/orderich_notification.mp3";
 import ChannelPickerDialog from "@saleor/channels/components/ChannelPickerDialog";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
@@ -45,7 +46,6 @@ import {
   saveFilterTab
 } from "./filters";
 import { getSortQueryVariables } from "./sort";
-
 interface OrderListProps {
   params: OrderListUrlQueryParams;
 }

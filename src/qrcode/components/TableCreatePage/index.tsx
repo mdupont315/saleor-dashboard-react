@@ -15,7 +15,7 @@ import ActionDialog from "@saleor/components/ActionDialog";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
-import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -155,7 +155,7 @@ function TableCreatePage({
 
   const initialValues = data
     ? { tableName: data.tableName, active: data.active }
-    : { tableName: "", active: false };
+    : { tableName: "", active: true };
 
   React.useEffect(() => {
     if (data) {
@@ -254,25 +254,28 @@ function TableCreatePage({
                         errors
                       }) => (
                         <form onSubmit={handleSubmit}>
-                          <TextField
-                            label="QR location name"
-                            fullWidth
-                            name="tableName"
-                            onChange={e => {
-                              handleChange(e);
-                            }}
-                            onBlur={handleBlur}
-                            error={!!errors?.tableName}
-                            helperText={errors?.tableName}
-                            value={values.tableName}
+                          <ControlledSwitch
+                            name="active"
+                            checked={values.active}
+                            label="Enable this QR location"
+                            onChange={handleChange}
                           />
                           <FormSpacer />
-                          <ControlledCheckbox
-                            checked={values.active}
-                            name="active"
-                            onChange={handleChange}
-                            label="This QR location is active"
-                          />
+                          {values.active && (
+                            <TextField
+                              label="QR location name"
+                              fullWidth
+                              name="tableName"
+                              onChange={e => {
+                                handleChange(e);
+                              }}
+                              onBlur={handleBlur}
+                              error={!!errors?.tableName}
+                              helperText={errors?.tableName}
+                              value={values.tableName}
+                            />
+                          )}
+
                           {id ? (
                             <SaveButtonBar
                               state={saveButtonBarState}

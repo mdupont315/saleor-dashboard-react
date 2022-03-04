@@ -2,20 +2,31 @@ import {
   Card,
   CardContent,
   FormControl,
-  FormControlLabel,
   FormLabel,
   Grid,
-  Radio,
-  RadioGroup,
+  makeStyles,
   TextField
 } from "@material-ui/core";
 import CardSpacer from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
+import Hr from "@saleor/components/Hr";
 import React from "react";
 import { useIntl } from "react-intl";
 
 import { InitialFormNotification } from "../Notification";
+
+const useStyles = makeStyles(
+  theme => ({
+    title: {
+      fontWeight: 400,
+      fontSize: "15px",
+      lineHeight: "28px"
+    }
+  }),
+  { name: "NotificationProcessCard" }
+);
 
 export interface ServiceProcessCard {
   values: InitialFormNotification;
@@ -33,17 +44,45 @@ const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
   errors
 }) => {
   const intl = useIntl();
+  const S = useStyles();
+  const enableSound = JSON.parse(localStorage.getItem("soundNotification"));
+
   return (
     <>
       <Card>
-        <CardTitle title={"New order notifications"} />
+        <CardTitle title={"Notification Settings"} />
         <CardContent>
           <FormControl component="fieldset" fullWidth>
             <Grid container>
-              <Grid xs={6}>
-                <FormLabel component="legend">Email notifications</FormLabel>
-                <p></p>
-                <RadioGroup aria-label="gender" name="sameDayOrder">
+              <Grid xs={12}>
+                <FormLabel className={S.title} component="legend">
+                  Sound notifications
+                </FormLabel>
+
+                <Hr />
+                <FormSpacer />
+
+                <ControlledSwitch
+                  name="soundNotifications"
+                  label={`Enable sound notifications`}
+                  checked={
+                    values.soundNotifications === undefined
+                      ? enableSound
+                      : values.soundNotifications
+                  }
+                  onChange={handleChange}
+                />
+              </Grid>
+
+              <Grid xs={12}>
+                <FormSpacer />
+                <FormLabel className={S.title} component="legend">
+                  Email notifications
+                </FormLabel>
+
+                <Hr />
+                <FormSpacer />
+                {/* <RadioGroup aria-label="gender" name="sameDayOrder">
                   <div
                     style={{
                       display: "grid",
@@ -72,70 +111,40 @@ const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
                       }
                     />
                   </div>
-                </RadioGroup>
-              </Grid>
-              <Grid xs={6}>
-                <FormSpacer />
-                <TextField
-                  error={!!errors.emailAddress}
-                  helperText={errors.emailAddress}
-                  // disabled={disabled}
-                  fullWidth
-                  label={intl.formatMessage({
-                    defaultMessage: "Email address for notifications",
-                    description: "Email address for notifications"
-                  })}
-                  name="emailAddress"
-                  value={values && values.emailAddress}
+                </RadioGroup> */}
+
+                <ControlledSwitch
+                  name="emailNotifications"
+                  label={`Enable email notifications`}
+                  checked={values.emailNotifications}
                   onChange={handleChange}
                 />
+                <FormSpacer />
               </Grid>
+
+              {values.emailNotifications && (
+                <Grid xs={6}>
+                  <TextField
+                    error={!!errors.emailAddress}
+                    helperText={errors.emailAddress}
+                    // disabled={disabled}
+                    fullWidth
+                    label={intl.formatMessage({
+                      defaultMessage: "Email address for notifications",
+                      description: "Email address for notifications"
+                    })}
+                    name="emailAddress"
+                    value={values && values.emailAddress}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              )}
             </Grid>
           </FormControl>
         </CardContent>
       </Card>
+
       <CardSpacer />
-      <Card>
-        <CardTitle title={"Print order receipt"} />
-        <CardContent>
-          <FormControl component="fieldset" fullWidth>
-            <Grid container>
-              <Grid xs={6}>
-                <FormLabel component="legend">Print order receipt</FormLabel>
-                <p></p>
-                <RadioGroup aria-label="gender" name="sameDayOrder">
-                  <div
-                    style={{
-                      display: "grid",
-                      gridColumnGap: "10px",
-                      gridTemplateColumns: "auto auto"
-                    }}
-                  >
-                    <FormControlLabel
-                      name="posEnable"
-                      value={true}
-                      control={<Radio />}
-                      onBlur={handleBlur}
-                      checked={values && values.posEnable === true}
-                      label="Enable"
-                      onChange={() => setFieldValue("posEnable", true)}
-                    />
-                    <FormControlLabel
-                      name="posEnable"
-                      value={false}
-                      control={<Radio />}
-                      onBlur={handleBlur}
-                      checked={values && values.posEnable === false}
-                      label="Disable"
-                      onChange={() => setFieldValue("posEnable", false)}
-                    />
-                  </div>
-                </RadioGroup>
-              </Grid>
-            </Grid>
-          </FormControl>
-        </CardContent>
-      </Card>
     </>
   );
 };

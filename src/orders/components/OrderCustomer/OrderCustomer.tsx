@@ -37,6 +37,10 @@ const useStyles = makeStyles(
     sectionHeaderToolbar: {
       marginRight: -theme.spacing(2)
     },
+    sectionHeaderRight: {
+      marginRight: -theme.spacing(2),
+      textAlign: "right"
+    },
     userEmail: {
       fontWeight: 600 as 600,
       marginBottom: theme.spacing(1)
@@ -98,6 +102,11 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
 
   const billingAddress = maybe(() => order.billingAddress);
   const shippingAddress = maybe(() => order.shippingAddress);
+
+  const showOnGoogleMaps = (address: any) => {
+    const url = `http://maps.google.com/?q=${address.city},${address.streetAddress1}`;
+    window.open(url);
+  };
 
   return (
     <Card>
@@ -371,6 +380,19 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
                   : billingAddress.country.country}
               </Typography>
               <Typography>{billingAddress.phone}</Typography>
+              {order?.orderType === "DELIVERY" &&
+                billingAddress.streetAddress1 && (
+                  <div className={classes.sectionHeaderRight}>
+                    <Button
+                      data-test-id="edit-billing-address"
+                      color="primary"
+                      variant="text"
+                      onClick={() => showOnGoogleMaps(billingAddress)}
+                    >
+                      <FormattedMessage {...buttonMessages.showGGM} />
+                    </Button>
+                  </div>
+                )}
             </>
           )}
         </CardContent>

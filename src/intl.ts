@@ -221,6 +221,10 @@ export const buttonMessages = defineMessages({
   undo: {
     defaultMessage: "Undo",
     description: "button"
+  },
+  showGGM: {
+    defaultMessage: "Show On Goggle Maps",
+    description: "button"
   }
 });
 
