@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  FormControl,
-  Grid,
-  makeStyles
-} from "@material-ui/core";
+import { Card, CardContent, FormControl, Grid } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import React from "react";
