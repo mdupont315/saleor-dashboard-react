@@ -18,7 +18,7 @@ import { useIntl } from "react-intl";
 import { InitialFormNotification } from "../Notification";
 
 const useStyles = makeStyles(
-  theme => ({
+  () => ({
     title: {
       fontWeight: 400,
       fontSize: "15px",
@@ -39,8 +39,8 @@ export interface ServiceProcessCard {
 const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
   values,
   handleChange,
-  handleBlur,
-  setFieldValue,
+  // handleBlur,
+  // setFieldValue,
   errors
 }) => {
   const intl = useIntl();
