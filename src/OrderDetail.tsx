@@ -244,9 +244,9 @@ function OrderDetail({ orderDetail, myStore }: any) {
           </div>
           {/* ordertype wrap */}
           <div className={classes.orderTypeWrap}>
-            <p className={classes.title}>{`${
-              orderType === "DINEIN" ? "QR-ORDER" : orderType
-            } ${number}`}</p>
+            <p className={classes.title}>
+              {orderType === "DINEIN" ? tableName : `${orderType} ${number}`}
+            </p>
             {orderType !== "DINEIN" && (
               <>
                 <div className={classes.mb16}>
@@ -497,19 +497,16 @@ function OrderDetail({ orderDetail, myStore }: any) {
                       .replace(".", ",")}
                 </p>
               </div>
-              {!tableName && (
-                <div>
-                  <p
-                    className={classes.normalText}
-                    style={{ margin: 0, textAlign: "left", fontWeight: 700 }}
-                  >
-                    {payments &&
-                    payments[0]?.gateway === "mirumee.payments.dummy"
-                      ? "(UNPAID CASH ON DELIVERY)"
-                      : "(PAID WITH IDEAL)"}
-                  </p>
-                </div>
-              )}
+              <div>
+                <p
+                  className={classes.normalText}
+                  style={{ margin: 0, textAlign: "left", fontWeight: 700 }}
+                >
+                  {payments && payments[0]?.gateway === "mirumee.payments.dummy"
+                    ? "(UNPAID CASH ON DELIVERY)"
+                    : "(PAID WITH IDEAL)"}
+                </p>
+              </div>
             </div>
           </div>
           <div>
