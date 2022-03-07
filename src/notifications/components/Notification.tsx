@@ -78,12 +78,11 @@ const NotificationViewPage: React.FC<StroreNotification> = ({
 }: any) => {
   const intl = useIntl();
   const S = useStyles();
-  const enableSound = JSON.parse(localStorage.getItem("soundNotification"));
 
   const initialForm =
     data && Object.keys(data).length > 0
       ? {
-          soundNotifications: enableSound ?? false,
+          soundNotifications: data?.soundNotifications ?? false,
           emailNotifications: data?.emailNotifications ?? false,
           emailAddress: data?.emailAddress ?? "",
           posEnable: data?.posEnable ?? false

@@ -40,14 +40,6 @@ function NotificationView() {
   };
 
   const onSubmit = async input => {
-    if (input.soundNotifications !== undefined) {
-      localStorage.setItem(
-        "soundNotification",
-        JSON.stringify(input.soundNotifications)
-      );
-    }
-
-    delete input.soundNotifications;
     const result = await updateEmergency({
       variables: {
         input

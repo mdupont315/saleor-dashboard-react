@@ -233,17 +233,16 @@ const PrintComponent = ({ myStore, user }) => {
   );
 };
 
-const SoundNotificationComponent = () => {
+const SoundNotificationComponent = ({ enable }: any) => {
   const soundRef = React.useRef(null);
   const store_id = localStorage.getItem("store_id") || "";
-  const enableSound = JSON.parse(localStorage.getItem("soundNotification"));
 
   const { data: dataSocket } = useSubscription(SUBSCRIPTION_MESSAGE, {
     variables: { id: store_id }
   });
 
   useEffect(() => {
-    if (dataSocket && enableSound) {
+    if (dataSocket && enable) {
       soundRef.current.play();
     }
   }, [dataSocket]);
@@ -277,9 +276,11 @@ const Routes = ({ myStore }: any) => {
     (isAuthenticated && !channelLoaded) || (hasToken && tokenVerifyLoading);
   return (
     <>
-      <SoundNotificationComponent />
       {myStore && myStore.myStore && myStore.myStore.id && (
         <>
+          <SoundNotificationComponent
+            enable={myStore?.myStore?.soundNotifications}
+          />
           <PrintComponent user={user} myStore={myStore} />
         </>
       )}

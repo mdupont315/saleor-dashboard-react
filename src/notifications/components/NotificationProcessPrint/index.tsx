@@ -17,11 +17,11 @@ const ServiceProcessPrint: React.FC<ServiceProcessPrint> = ({
   handleChange
 }) => (
   <Card>
-    <CardTitle title={"Automactic Order Receipt Printing"} />
+    <CardTitle title={"Automatic Order Receipt Printing"} />
     <CardContent>
       <FormControl component="fieldset" fullWidth>
         <Grid container>
-          <Grid xs={6}>
+          <Grid xs={12} sm={6}>
             <ControlledSwitch
               name="posEnable"
               label={`Enable automatic order receipt printing`}

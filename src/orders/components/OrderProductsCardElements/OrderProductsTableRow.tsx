@@ -4,14 +4,12 @@ import Skeleton from "@saleor/components/Skeleton";
 import TableCellAvatar from "@saleor/components/TableCellAvatar";
 import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
 import { maybe } from "@saleor/misc";
-import { getProductOptionByProductId } from "@saleor/orders/queries";
 import {
   OrderDetails_order_fulfillments_lines,
   OrderDetails_order_lines
 } from "@saleor/orders/types/OrderDetails";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
-import { useQuery } from "react-apollo";
 
 const useStyles = makeStyles(
   theme => ({
@@ -75,10 +73,12 @@ const useStyles = makeStyles(
 interface TableLineProps {
   line: OrderDetails_order_fulfillments_lines | OrderDetails_order_lines;
   isOrderLine?: boolean;
+  linesFullFill?: any;
 }
 
 const TableLine: React.FC<TableLineProps> = ({
   line: lineData,
+  linesFullFill,
   isOrderLine = false
 }) => {
   const classes = useStyles({});
@@ -99,11 +99,7 @@ const TableLine: React.FC<TableLineProps> = ({
     ? quantity - quantityFulfilled
     : quantity;
 
-  const { data: productOption } = useQuery(getProductOptionByProductId, {
-    variables: {
-      productId: line?.orderLine?.variant?.id || ""
-    }
-  });
+  const productOptions = JSON.parse(JSON.parse(linesFullFill.optionItems));
 
   return (
     <TableRow className={classes.clickableRow} hover key={line.id}>
@@ -114,8 +110,10 @@ const TableLine: React.FC<TableLineProps> = ({
         {line.orderLine.productName ? (
           <div>
             <p>{maybe(() => line.orderLine.productName)}</p>
-            {productOption?.productOption?.edges.map((item: any) => (
-              <span className={classes.option}>{item?.node?.option?.name}</span>
+            {productOptions.map((item: any) => (
+              <span className={classes.option} key={item.id}>
+                {item.name}
+              </span>
             ))}
           </div>
         ) : (

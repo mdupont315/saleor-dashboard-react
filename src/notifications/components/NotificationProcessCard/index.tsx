@@ -45,7 +45,6 @@ const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
 }) => {
   const intl = useIntl();
   const S = useStyles();
-  const enableSound = JSON.parse(localStorage.getItem("soundNotification"));
 
   return (
     <>
@@ -65,11 +64,7 @@ const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
                 <ControlledSwitch
                   name="soundNotifications"
                   label={`Enable sound notifications`}
-                  checked={
-                    values.soundNotifications === undefined
-                      ? enableSound
-                      : values.soundNotifications
-                  }
+                  checked={values.soundNotifications}
                   onChange={handleChange}
                 />
               </Grid>
@@ -123,7 +118,7 @@ const ServiceProcessCard: React.FC<ServiceProcessCard> = ({
               </Grid>
 
               {values.emailNotifications && (
-                <Grid xs={6}>
+                <Grid xs={12} sm={6}>
                   <TextField
                     error={!!errors.emailAddress}
                     helperText={errors.emailAddress}
