@@ -46,7 +46,11 @@ const OrderUnfulfilledProductsCard: React.FC<OrderUnfulfilledProductsCardProps> 
               <TableLine
                 isOrderLine
                 line={line}
-                linesFullFill={linesFullFill[index]}
+                linesFullFill={
+                  linesFullFill && linesFullFill.length > 0
+                    ? linesFullFill[index]
+                    : null
+                }
               />
             ))}
           </TableBody>

@@ -99,7 +99,8 @@ const TableLine: React.FC<TableLineProps> = ({
     ? quantity - quantityFulfilled
     : quantity;
 
-  const productOptions = JSON.parse(JSON.parse(linesFullFill.optionItems));
+  const productOptions =
+    linesFullFill && JSON.parse(JSON.parse(linesFullFill.optionItems));
 
   return (
     <TableRow className={classes.clickableRow} hover key={line.id}>
@@ -110,11 +111,12 @@ const TableLine: React.FC<TableLineProps> = ({
         {line.orderLine.productName ? (
           <div>
             <p>{maybe(() => line.orderLine.productName)}</p>
-            {productOptions.map((item: any) => (
-              <span className={classes.option} key={item.id}>
-                {item.name}
-              </span>
-            ))}
+            {productOptions &&
+              productOptions.map((item: any) => (
+                <span className={classes.option} key={item.id}>
+                  {item.name}
+                </span>
+              ))}
           </div>
         ) : (
           <Skeleton />
