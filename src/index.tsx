@@ -248,7 +248,10 @@ const SoundNotificationComponent = ({ enable }: any) => {
   }, [dataSocket]);
   return (
     <audio controls ref={soundRef} style={{ display: "none" }}>
-      <source src={alarm.default} type="audio/mpeg" />
+      <source
+        src="https://orderich-prod.s3.eu-central-1.amazonaws.com/static/sounds/orderich_notification.mp3"
+        type="audio/mpeg"
+      />
     </audio>
   );
 };
