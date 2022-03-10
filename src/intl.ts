@@ -81,7 +81,8 @@ export const commonMessages = defineMessages({
     defaultMessage: "First Name"
   },
   generalInformations: {
-    defaultMessage: "General Information"
+    // defaultMessage: "General Information"
+    defaultMessage: "Modifier Information"
   },
   insufficientPermissions: {
     defaultMessage: "Insufficient permissions"

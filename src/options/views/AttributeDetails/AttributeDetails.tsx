@@ -1,3 +1,5 @@
+/* eslint-disable simple-import-sort/sort */
+/* eslint-disable no-console */
 import { ChannelSaleData, createSortedSaleData } from "@saleor/channels/utils";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import useListSettings from "@saleor/hooks/useListSettings";
@@ -27,7 +29,7 @@ import {
   useOptionValueReorderMutation,
   useOptionValueUpdateMutation
 } from "../../mutations";
-import { useOptionDetailsQuery } from "../../queries";
+import { useOptionDetailsQuery, useDetailOption } from "../../queries";
 import {
   attributeUrl,
   AttributeUrlDialog,
@@ -227,7 +229,9 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
           currency: channel.currency
         }))
       })),
-      removeValues
+      removeValues,
+      maxOptions: data.maxOptions,
+      enable: data.enable
     };
 
     const result = await attributeUpdate({
@@ -254,10 +258,24 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
     });
   };
 
+  const { data: optionDetail } = useDetailOption({
+    variables: {
+      id
+    }
+  });
+
+  const detailOption = optionDetail ? optionDetail.option : {};
+
+  const attributePage = {
+    ...maybe(() => data.option),
+    ...detailOption
+  };
+
   return (
     <>
       <AttributePage
-        attribute={maybe(() => data.option)}
+        // attribute={maybe(() => data.option)}
+        attribute={attributePage}
         disabled={loading}
         errors={attributeUpdateOpts.data?.optionUpdate.errors || []}
         onBack={() => navigate(optionListUrl())}

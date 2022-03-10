@@ -1,13 +1,12 @@
+/* eslint-disable no-console */
 import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
-import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
-import SingleSelectField from "@saleor/components/SingleSelectField";
 import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFragment";
 import { UseFormResult } from "@saleor/hooks/useForm";
 import { commonMessages } from "@saleor/intl";
 import { makeStyles } from "@saleor/theme";
-import { OptionInputTypeEnum } from "@saleor/types/globalTypes";
 import { getFormErrors } from "@saleor/utils/errors";
 import getAttributeErrorMessage from "@saleor/utils/errors/attribute";
 import React from "react";
@@ -15,6 +14,7 @@ import { useIntl } from "react-intl";
 
 import { AttributePageFormData } from "../AttributePage";
 import { inputTypeMessages, messages } from "./messages";
+// import { messages } from "./messages";
 
 const useStyles = makeStyles(
   theme => ({
@@ -42,19 +42,10 @@ export interface AttributeDetailsProps
 }
 
 const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
-  const { canChangeType, data, disabled, apiErrors, onChange } = props;
+  // const { canChangeType, data, disabled, apiErrors, onChange } = props;
+  const { data, disabled, apiErrors, onChange } = props;
   const classes = useStyles(props);
   const intl = useIntl();
-  const inputTypeChoices = [
-    {
-      label: intl.formatMessage(inputTypeMessages.single),
-      value: OptionInputTypeEnum.SINGLE
-    },
-    {
-      label: intl.formatMessage(inputTypeMessages.multiple),
-      value: OptionInputTypeEnum.MULTIPLE
-    }
-  ];
 
   const formApiErrors = getFormErrors(
     ["name", "slug", "type", "entityType", "unit"],
@@ -64,9 +55,17 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
   return (
     <Card>
       <CardTitle
-        title={intl.formatMessage(commonMessages.generalInformations)}
+        // title={intl.formatMessage(commonMessages.generalInformations)}
+        title={commonMessages.generalInformations.defaultMessage}
       />
       <CardContent>
+        <ControlledSwitch
+          name={`enable`}
+          label={`Enable this modifier`}
+          checked={data.enable}
+          onChange={onChange}
+        />
+        <FormSpacer />
         <TextField
           disabled={disabled}
           error={!!formApiErrors.name}
@@ -78,26 +77,6 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
           onChange={onChange}
         />
         <FormSpacer />
-        <div className={classes.inputTypeSection}>
-          <SingleSelectField
-            choices={inputTypeChoices}
-            disabled={disabled || !canChangeType}
-            error={!!formApiErrors.type}
-            hint={getAttributeErrorMessage(formApiErrors.type, intl)}
-            label={intl.formatMessage(messages.type)}
-            name={"type" as keyof AttributePageFormData}
-            onChange={onChange}
-            value={data.type}
-          />
-        </div>
-        <FormSpacer />
-        <ControlledCheckbox
-          name={"required" as keyof AttributePageFormData}
-          label={intl.formatMessage(messages.valueRequired)}
-          checked={data.required}
-          onChange={onChange}
-          disabled={disabled}
-        />
       </CardContent>
     </Card>
   );
