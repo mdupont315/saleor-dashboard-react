@@ -104,7 +104,8 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
   const shippingAddress = maybe(() => order.shippingAddress);
 
   const showOnGoogleMaps = (address: any) => {
-    const url = `http://maps.google.com/?q=${address.city},${address.streetAddress1}`;
+    // console.log("address", address);
+    const url = `http://maps.google.com/?q=${address?.streetAddress1},${address?.postalCode},${address?.city},${address?.country?.country}`;
     window.open(url);
   };
 

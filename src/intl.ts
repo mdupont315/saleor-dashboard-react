@@ -223,7 +223,7 @@ export const buttonMessages = defineMessages({
     description: "button"
   },
   showGGM: {
-    defaultMessage: "Show On Goggle Maps",
+    defaultMessage: "Show On Google Maps",
     description: "button"
   }
 });

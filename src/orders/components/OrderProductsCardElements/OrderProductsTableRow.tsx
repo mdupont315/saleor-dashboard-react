@@ -110,7 +110,9 @@ const TableLine: React.FC<TableLineProps> = ({
       >
         {line.orderLine.productName ? (
           <div>
-            <p>{maybe(() => line.orderLine.productName)}</p>
+            <p style={{ margin: 0 }}>
+              {maybe(() => line.orderLine.productName)}
+            </p>
             {productOptions &&
               productOptions.map((item: any) => (
                 <span className={classes.option} key={item.id}>

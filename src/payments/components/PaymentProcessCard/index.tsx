@@ -101,7 +101,7 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
     },
     {
       text: "indexStripe",
-      label: "Stripe",
+      label: "Cash/pin upon receipt",
       cost: "stripeCost",
       enable: "stripeEnable"
     }
