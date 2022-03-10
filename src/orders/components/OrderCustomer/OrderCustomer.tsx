@@ -1,4 +1,10 @@
-import { Button, Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography
+} from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import ExternalLink from "@saleor/components/ExternalLink";
 import Form from "@saleor/components/Form";
@@ -38,7 +44,7 @@ const useStyles = makeStyles(
       marginRight: -theme.spacing(2)
     },
     sectionHeaderRight: {
-      marginRight: -theme.spacing(2),
+      // marginRight: theme.spacing(2),
       textAlign: "right"
     },
     userEmail: {
@@ -319,6 +325,7 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
         )}
       </CardContent>
       <Hr /> */}
+
       {!order?.tableName && (
         <CardContent>
           <div className={classes.sectionHeader}>
@@ -381,23 +388,25 @@ const OrderCustomer: React.FC<OrderCustomerProps> = props => {
                   : billingAddress.country.country}
               </Typography>
               <Typography>{billingAddress.phone}</Typography>
-              {order?.orderType === "DELIVERY" &&
-                billingAddress.streetAddress1 && (
-                  <div className={classes.sectionHeaderRight}>
-                    <Button
-                      data-test-id="edit-billing-address"
-                      color="primary"
-                      variant="text"
-                      onClick={() => showOnGoogleMaps(billingAddress)}
-                    >
-                      <FormattedMessage {...buttonMessages.showGGM} />
-                    </Button>
-                  </div>
-                )}
             </>
           )}
         </CardContent>
       )}
+      <Hr />
+      <CardActions>
+        {order?.orderType === "DELIVERY" && billingAddress?.streetAddress1 && (
+          <div className={classes.sectionHeaderRight}>
+            <Button
+              data-test-id="edit-billing-address"
+              color="primary"
+              variant="text"
+              onClick={() => showOnGoogleMaps(billingAddress)}
+            >
+              <FormattedMessage {...buttonMessages.showGGM} />
+            </Button>
+          </div>
+        )}
+      </CardActions>
     </Card>
   );
 };

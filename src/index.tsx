@@ -84,7 +84,6 @@ import { PermissionEnum } from "./types/globalTypes";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const alarm = require("@assets/sound/orderich_notification.wav");
 if (process.env.GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
