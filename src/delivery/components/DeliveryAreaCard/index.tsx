@@ -12,7 +12,9 @@ function DeliveryAreaCard({
   handleChange,
   handleBlur,
   touched,
-  errors
+  errors,
+  canCustomDeliveryFee,
+  canCustomMinOrder
 }: any) {
   // const intl = useIntl();
 
@@ -26,8 +28,9 @@ function DeliveryAreaCard({
           gridTemplateColumns: "auto auto auto"
         }}
       > */}
-      <Grid container item xs={12} spacing={2}>
-        <Grid item style={{ width: "47%" }}>
+
+      <Grid container item xs={12} style={{ alignItems: "center" }}>
+        <Grid item style={{ width: "20%", marginRight: "24px" }}>
           <TextField
             name={`deliveryArea.${index}.from`}
             label="From"
@@ -55,7 +58,7 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item style={{ width: "47%" }}>
+        <Grid item style={{ width: "20%", marginRight: "24px" }}>
           <TextField
             name={`deliveryArea.${index}.to`}
             label="Until"
@@ -83,7 +86,32 @@ function DeliveryAreaCard({
           />
         </Grid>
 
-        <Grid item style={{ width: "1%" }}>
+        {canCustomDeliveryFee && (
+          <Grid item style={{ width: "20%", marginRight: "24px" }}>
+            <TextField
+              name={`deliveryArea.${index}.customDeliveryFee`}
+              label="Delivery Fee"
+              fullWidth
+              type="number"
+              value={value.customDeliveryFee}
+              onChange={handleChange}
+            />
+          </Grid>
+        )}
+        {canCustomMinOrder && (
+          <Grid item style={{ width: "20%" }}>
+            <TextField
+              name={`deliveryArea.${index}.customMinOrder`}
+              label="Min delivery order"
+              fullWidth
+              type="number"
+              value={value.customMinOrder}
+              onChange={handleChange}
+            />
+          </Grid>
+        )}
+
+        <Grid item style={{ width: "1%", marginLeft: "12px" }}>
           {" "}
           <div>
             <Tooltip title="Delete">

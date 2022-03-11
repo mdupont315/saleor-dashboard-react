@@ -10,6 +10,8 @@ const getMyDelivery = gql`
       fromDelivery
       minOrder
       enableForBigOrder
+      enableCustomDeliveryFee
+      enableMinimumDeliveryOrderValue
       __typename
     }
   }
