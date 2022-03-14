@@ -1,3 +1,4 @@
+import LoginLoading from "@saleor/auth/components/LoginLoading";
 import { WindowTitle } from "@saleor/components/WindowTitle";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
@@ -10,10 +11,14 @@ import { useIntl } from "react-intl";
 import { useAuth } from "../../auth/AuthProvider";
 import StoreDetailPage from "../components/StoreDetailPage/StoreDetailPage";
 import {
+  addCustomDomainMutation,
+  deleteCustomDomainMutation,
   useCreateStoreMutation,
+  useCustomDomainsGet,
   useStoreById,
   useUpdateStoreMutation,
-  useUserStoreGet
+  useUserStoreGet,
+  verifyCustomDomainMutation
 } from "../queries";
 import {
   storePath,
@@ -56,6 +61,14 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
       variables: { id }
     });
 
+    const {
+      data: customDomainData,
+      refetch: refetchCustomDomainData
+    } = useCustomDomainsGet({
+      displayLoader: true,
+      variables: { first: 100 }
+    });
+
     const [updateStore, updateStoreOpts] = useUpdateStoreMutation({
       onCompleted: data => {
         if (data.storeUpdate.errors.length === 0) {
@@ -69,6 +82,72 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
             status: "error",
             text: intl.formatMessage({
               defaultMessage: "Update Fail! Please Try Again!"
+            })
+          });
+        }
+      }
+    });
+
+    // Add custom domain
+    const [addCustomDomain] = addCustomDomainMutation({
+      onCompleted: data => {
+        if (data.customDomainCreate.errors.length === 0) {
+          notify({
+            status: "success",
+            text: intl.formatMessage(commonMessages.savedChanges)
+          });
+          refetchCustomDomainData();
+          // navigate(storePath(id));
+        } else {
+          notify({
+            status: "error",
+            text: intl.formatMessage({
+              defaultMessage: "Create Fail! Please Try Again!"
+            })
+          });
+        }
+      }
+    });
+
+    // Verify domain
+    const [
+      verifyCustomDomain,
+      verifyCustomDomainOtps
+    ] = verifyCustomDomainMutation({
+      onCompleted: data => {
+        if (data.customDomainVerify.errors.length >= 0) {
+          notify({
+            status: "success",
+            text: intl.formatMessage(commonMessages.savedChanges)
+          });
+          refetchCustomDomainData();
+          // navigate(storePath(id));
+        } else {
+          notify({
+            status: "error",
+            text: intl.formatMessage({
+              defaultMessage: "Fail! Please Try Again!"
+            })
+          });
+        }
+      }
+    });
+
+    // Delete custom domain
+    const [deleteCustomDomain] = deleteCustomDomainMutation({
+      onCompleted: data => {
+        if (data.customDomainDelete.errors.length === 0) {
+          notify({
+            status: "success",
+            text: intl.formatMessage(commonMessages.savedChanges)
+          });
+          refetchCustomDomainData();
+          // navigate(storePath(id));
+        } else {
+          notify({
+            status: "error",
+            text: intl.formatMessage({
+              defaultMessage: "Delete Fail! Please Try Again!"
             })
           });
         }
@@ -91,7 +170,8 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
           description:
             data.description !== ""
               ? data.description
-              : `${data.name} is open for online takeaway orders`
+              : `${data.name} is open for online takeaway orders`,
+          customDomainEnable: data.enableCustomDomain
         }
       };
       updateStore({
@@ -99,11 +179,47 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
       });
     };
 
+    const handleAddCustomDomain = (data: Partial<any>) => {
+      const variables: any = {
+        input: {
+          domainCustom: data.customDomain,
+          status: false
+        }
+      };
+      addCustomDomain({
+        variables
+      });
+      closeModal();
+    };
+
+    const handleDeleteCustomDomain = (domainId: Partial<any>) => {
+      const variables: any = {
+        id: domainId
+      };
+      deleteCustomDomain({
+        variables
+      });
+    };
+
+    const handleVerifySSL = (data: any) => {
+      const input: any = data.customDomains.edges.map((item: any) => ({
+        domainCustom: item.node.domainCustom,
+        status: item.node.status
+      }));
+      const variables: any = {
+        input: {
+          domains: input
+        }
+      };
+      verifyCustomDomain({ variables });
+    };
+
     return (
       <>
         {data && (
           <>
             <WindowTitle title="Site setting" />
+            {verifyCustomDomainOtps.loading && <LoginLoading />}
             <StoreDetailPage
               params={params}
               disabled={updateStoreOpts.loading}
@@ -116,11 +232,15 @@ const StoreDetailsViewComponent: React.FC<IProps> = ({ id, params }) => {
               onSubmit={handleSubmit}
               openModal={openModal}
               closeModal={closeModal}
+              customDomainData={customDomainData}
+              handleDeleteCustomDomain={handleDeleteCustomDomain}
+              handleVerifySSL={handleVerifySSL}
             />
             <StoreDetailSubDomainFields
               id={id}
               onClose={closeModal}
               action={params.action}
+              onSubmit={handleAddCustomDomain}
             />
           </>
         )}

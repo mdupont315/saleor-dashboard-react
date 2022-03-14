@@ -33,7 +33,10 @@ const Title: React.FC<TitleProps> = props => {
   }
 
   // const { localized, status } = transformOrderStatus(order.status, intl);
-  const { localized, status } = transformOrderType(order.orderType, intl);
+  const { localized, status } = transformOrderType(
+    order.orderType === "DINEIN" ? "QR-ORDER" : order.orderType,
+    intl
+  );
   return (
     <div className={classes.container}>
       {`#${order.number}`}

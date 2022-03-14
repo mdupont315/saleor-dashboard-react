@@ -24,6 +24,9 @@ interface IProps {
   closeModal: any;
   saveButtonBarState?: ConfirmButtonTransitionState;
   handleRefetch?: () => void;
+  customDomainData?: any;
+  handleVerifySSL?: any;
+  handleDeleteCustomDomain?: any;
 }
 
 export function areAddressInputFieldsModified(
@@ -124,7 +127,10 @@ const StoreDetailPage: React.FC<IProps> = ({
   onSubmit,
   onBack,
   openModal,
-  closeModal
+  closeModal,
+  customDomainData,
+  handleVerifySSL,
+  handleDeleteCustomDomain
 }) => {
   const intl = useIntl();
 
@@ -142,7 +148,8 @@ const StoreDetailPage: React.FC<IProps> = ({
           phone: initialValues.store.phone,
           postalcode: initialValues.store.postalCode,
           city: initialValues.store.city,
-          description: initialValues.store.description
+          description: initialValues.store.description,
+          enableCustomDomain: initialValues.store.customDomainEnable
         }
       : {
           name: "",
@@ -196,7 +203,10 @@ const StoreDetailPage: React.FC<IProps> = ({
                 storeId={storeId}
                 // onDialogEditUrl={() => openModal("edit-domain")}
                 onDialogAddDomain={() => openModal("add-domain")}
+                customDomainData={customDomainData}
                 closeModal={closeModal}
+                handleVerifySSL={handleVerifySSL}
+                handleDeleteCustomDomain={handleDeleteCustomDomain}
               />
             </form>
             <SaveButtonBar

@@ -165,7 +165,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
     return 0;
   };
 
-  // console.log(orderDetail);
+  // console.log("orderDetail", orderDetail);
 
   const padLeadingZeros = (num, size) => {
     let s = `${num}`;
@@ -243,80 +243,13 @@ function OrderDetail({ orderDetail, myStore }: any) {
             </p>
           </div>
           {/* ordertype wrap */}
-          {tableName ? (
-            <div className={classes.orderTypeWrap}>
-              <p
-                className={classes.normalText}
-                style={{
-                  margin: "0",
-                  fontSize: "16px",
-                  lineHeight: "24px",
-                  textTransform: "uppercase"
-                }}
-              >
-                {tableName}
-              </p>
-            </div>
-          ) : (
-            <div className={classes.orderTypeWrap}>
-              <p className={classes.title}>{`${orderType} ${number}`}</p>
-              <div className={classes.mb16}>
-                <p
-                  className={classes.normalText}
-                  style={{
-                    margin: "0 0 8px 0",
-                    textTransform: "uppercase",
-                    textDecoration: "underline"
-                  }}
-                >
-                  {orderType} MOMENT
-                </p>
-                <p
-                  className={classes.normalText}
-                  style={{
-                    margin: "0",
-                    fontWeight: "bold"
-                  }}
-                >
-                  {expectedDate}
-                </p>
-                <p
-                  className={classes.normalText}
-                  style={{
-                    margin: "0",
-                    fontWeight: "bold"
-                  }}
-                >
-                  {expectedTime}
-                </p>
-              </div>
-              <div className={classes.mb16}>
-                <p
-                  className={classes.normalText}
-                  style={{
-                    margin: "0 0 8px 0",
-                    textTransform: "uppercase",
-                    textDecoration: "underline"
-                  }}
-                >
-                  RECEIVER
-                </p>
-                {Object.keys(receiver)
-                  .filter((item: any) => receiver[item])
-                  .map((item: any, index: number) => (
-                    <p
-                      className={classes.normalText}
-                      style={{
-                        margin: "0"
-                      }}
-                      key={index}
-                    >
-                      {receiver[item]}
-                    </p>
-                  ))}
-              </div>
-              {customerNote && (
-                <div className={classes.orderNote}>
+          <div className={classes.orderTypeWrap}>
+            <p className={classes.title}>
+              {orderType === "DINEIN" ? tableName : `${orderType} ${number}`}
+            </p>
+            {orderType !== "DINEIN" && (
+              <>
+                <div className={classes.mb16}>
                   <p
                     className={classes.normalText}
                     style={{
@@ -325,20 +258,77 @@ function OrderDetail({ orderDetail, myStore }: any) {
                       textDecoration: "underline"
                     }}
                   >
-                    ORDER NOTE
+                    {orderType} MOMENT
                   </p>
                   <p
                     className={classes.normalText}
                     style={{
-                      margin: "0"
+                      margin: "0",
+                      fontWeight: "bold"
                     }}
                   >
-                    {customerNote}
+                    {expectedDate}
+                  </p>
+                  <p
+                    className={classes.normalText}
+                    style={{
+                      margin: "0",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    {expectedTime}
                   </p>
                 </div>
-              )}
-            </div>
-          )}
+                <div className={classes.mb16}>
+                  <p
+                    className={classes.normalText}
+                    style={{
+                      margin: "0 0 8px 0",
+                      textTransform: "uppercase",
+                      textDecoration: "underline"
+                    }}
+                  >
+                    RECEIVER
+                  </p>
+                  {Object.keys(receiver)
+                    .filter((item: any) => receiver[item])
+                    .map((item: any, index: number) => (
+                      <p
+                        className={classes.normalText}
+                        style={{
+                          margin: "0"
+                        }}
+                        key={index}
+                      >
+                        {receiver[item]}
+                      </p>
+                    ))}
+                </div>
+              </>
+            )}
+            {customerNote && (
+              <div className={classes.orderNote}>
+                <p
+                  className={classes.normalText}
+                  style={{
+                    margin: "0 0 8px 0",
+                    textTransform: "uppercase",
+                    textDecoration: "underline"
+                  }}
+                >
+                  ORDER NOTE
+                </p>
+                <p
+                  className={classes.normalText}
+                  style={{
+                    margin: "0"
+                  }}
+                >
+                  {customerNote}
+                </p>
+              </div>
+            )}
+          </div>
           {/* ----order info */}
           <div className={classes.orderInformation}>
             <p
@@ -507,19 +497,16 @@ function OrderDetail({ orderDetail, myStore }: any) {
                       .replace(".", ",")}
                 </p>
               </div>
-              {!tableName && (
-                <div>
-                  <p
-                    className={classes.normalText}
-                    style={{ margin: 0, textAlign: "left", fontWeight: 700 }}
-                  >
-                    {payments &&
-                    payments[0]?.gateway === "mirumee.payments.dummy"
-                      ? "(UNPAID CASH ON DELIVERY)"
-                      : "(PAID WITH IDEAL)"}
-                  </p>
-                </div>
-              )}
+              <div>
+                <p
+                  className={classes.normalText}
+                  style={{ margin: 0, textAlign: "left", fontWeight: 700 }}
+                >
+                  {payments && payments[0]?.gateway === "mirumee.payments.dummy"
+                    ? "(UNPAID CASH ON DELIVERY)"
+                    : "(PAID WITH IDEAL)"}
+                </p>
+              </div>
             </div>
           </div>
           <div>

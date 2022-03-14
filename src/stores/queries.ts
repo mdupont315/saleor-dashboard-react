@@ -121,6 +121,7 @@ export const storeForUser = gql`
       address
       phone
       description
+      customDomainEnable
     }
   }
 `;
@@ -214,6 +215,63 @@ export const uploadMediaStore = gql`
 `;
 
 export const useStoreUploadMedia = makeMutation<any, {}>(uploadMediaStore);
+
+export const customDomainsGet = gql`
+  query CustomDomainsGet($first: Int) {
+    customDomains(first: $first) {
+      edges {
+        node {
+          id
+          domainCustom
+          status
+        }
+      }
+    }
+  }
+`;
+export const useCustomDomainsGet = makeQuery<any, {}>(customDomainsGet);
+
+export const addCustomDomain = gql`
+  mutation CustomDomainCreate($input: DomainCustomInput!) {
+    customDomainCreate(input: $input) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const addCustomDomainMutation = makeMutation<any, {}>(addCustomDomain);
+
+export const deleteCustomDomain = gql`
+  mutation CustomDomainDelete($id: ID!) {
+    customDomainDelete(id: $id) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const deleteCustomDomainMutation = makeMutation<any, {}>(
+  deleteCustomDomain
+);
+
+export const verifyCustomDomain = gql`
+  mutation CustomDomainVerify($input: MultipleDomainCustomInput!) {
+    customDomainVerify(input: $input) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+export const verifyCustomDomainMutation = makeMutation<any, {}>(
+  verifyCustomDomain
+);
 
 export interface IStoreType {
   storeTypes: StoreType | null;

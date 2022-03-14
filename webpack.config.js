@@ -140,6 +140,14 @@ module.exports = speedMeasureWrapper((env, argv) => {
           options: {
             outputPath: "dashboard/images"
           }
+        },
+        {
+          include: [resolve("assets/sound")],
+          loader: fileLoaderPath,
+          test: /\.(mp3|wav)(\?v=[0-9.]+)?$/,
+          options: {
+            outputPath: "dashboard/sound"
+          }
         }
       ]
     },

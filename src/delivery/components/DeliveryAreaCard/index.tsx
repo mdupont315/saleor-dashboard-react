@@ -1,6 +1,6 @@
 import { Grid, IconButton, TextField, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FormSpacer from "@saleor/components/FormSpacer";
+// import FormSpacer from "@saleor/components/FormSpacer";
 // import { useIntl } from "react-intl";
 // import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
@@ -20,7 +20,7 @@ function DeliveryAreaCard({
 
   return (
     <>
-      <FormSpacer />
+      {/* <FormSpacer /> */}
       {/* <div
         style={{
           display: "grid",
@@ -129,12 +129,12 @@ function DeliveryAreaCard({
         </Grid>
       </Grid>
 
-      <hr
+      {/* <hr
         style={{
           border: "1px solid #EAEAEA",
           marginTop: "24px"
         }}
-      ></hr>
+      ></hr> */}
       {/* </div> */}
     </>
   );

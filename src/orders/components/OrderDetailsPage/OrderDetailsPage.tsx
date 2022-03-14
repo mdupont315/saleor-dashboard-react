@@ -245,6 +245,7 @@ const OrderDetailsPage: React.FC<OrderDetailsPageProps> = props => {
                 <OrderUnfulfilledProductsCard
                   canFulfill={canFulfill}
                   lines={unfulfilled}
+                  linesFullFill={orderFullFill?.order?.lines}
                   onFulfill={onOrderFulfill}
                 />
               ) : (

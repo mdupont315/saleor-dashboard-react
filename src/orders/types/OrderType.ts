@@ -2,11 +2,11 @@
 export enum OrderType {
   pickup = 'PICKUP',
   delivery = 'DELIVERY',
-  dinein = 'DINEIN',
+  dinein = 'QR-ORDER',
 }
 
 export const orderTypeItems = {
     PICKUP: 'Pickup',
     DELIVERY: 'Delivery',
-    DINEIN: 'Dine-in'
+    DINEIN: 'QR-order'
 }

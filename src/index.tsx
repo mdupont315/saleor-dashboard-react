@@ -83,6 +83,7 @@ import TranslationsSection from "./translations";
 import { PermissionEnum } from "./types/globalTypes";
 import WarehouseSection from "./warehouses";
 import { warehouseSection } from "./warehouses/urls";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 if (process.env.GTM_ID) {
   TagManager.initialize({ gtmId: GTM_ID });
 }
@@ -230,6 +231,30 @@ const PrintComponent = ({ myStore, user }) => {
     </div>
   );
 };
+
+const SoundNotificationComponent = ({ enable }: any) => {
+  const soundRef = React.useRef(null);
+  const store_id = localStorage.getItem("store_id") || "";
+
+  const { data: dataSocket } = useSubscription(SUBSCRIPTION_MESSAGE, {
+    variables: { id: store_id }
+  });
+
+  useEffect(() => {
+    if (dataSocket && enable) {
+      soundRef.current.play();
+    }
+  }, [dataSocket]);
+  return (
+    <audio controls ref={soundRef} style={{ display: "none" }}>
+      <source
+        src="https://orderich-prod.s3.eu-central-1.amazonaws.com/static/sounds/orderich_notification.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+  );
+};
+
 const Routes = ({ myStore }: any) => {
   const intl = useIntl();
   const [, dispatchAppState] = useAppState();
@@ -254,7 +279,12 @@ const Routes = ({ myStore }: any) => {
   return (
     <>
       {myStore && myStore.myStore && myStore.myStore.id && (
-        <PrintComponent user={user} myStore={myStore} />
+        <>
+          <SoundNotificationComponent
+            enable={myStore?.myStore?.soundNotifications}
+          />
+          <PrintComponent user={user} myStore={myStore} />
+        </>
       )}
       {/* ------------------------------------------------ */}
 

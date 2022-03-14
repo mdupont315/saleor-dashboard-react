@@ -48,6 +48,7 @@ export const getMyStore = gql`
         alt
       }
       emailNotifications
+      soundNotifications
       emailAddress
       posEnable
       # payments{

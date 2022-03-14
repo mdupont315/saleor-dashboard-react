@@ -9,7 +9,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  // InputAdornment,
   TextField,
   Tooltip,
   Typography
@@ -23,7 +22,8 @@ import Grid from "@saleor/components/Grid";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import { FormChange } from "@saleor/hooks/useForm";
 import React, { ChangeEvent } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
+import { useIntl } from "react-intl";
 
 // import EditUrlDialog from "../StoreEditUrlDialog";
 import StoreMedia from "../StoreMedia";
@@ -36,13 +36,16 @@ interface IProps {
   storeId?: any;
   onDialogAddDomain?: any;
   closeModal?: any;
+  customDomainData?: any;
+  handleVerifySSL?: any;
+  handleDeleteCustomDomain?: any;
 }
 
-const fakeDomainList = [
-  { url: "peak-holo.orderich.online", status: "Active" },
-  { url: "order.nooki.nl", status: "DNS not configured" },
-  { url: "nooki-togo.nl", status: "Active" }
-];
+// const fakeDomainList = [
+//   { url: "peak-holo.orderich.online", status: "Active" },
+//   { url: "order.nooki.nl", status: "DNS not configured" },
+//   { url: "nooki-togo.nl", status: "Active" }
+// ];
 
 function StoreInput({
   header,
@@ -51,6 +54,9 @@ function StoreInput({
   storeId,
   onDialogAddDomain,
   closeModal,
+  customDomainData,
+  handleVerifySSL,
+  handleDeleteCustomDomain,
   ...formikProps
 }: IProps) {
   const intl = useIntl();
@@ -82,8 +88,6 @@ function StoreInput({
     favicon: []
   });
 
-  const [canCustomDomain, setCanCustomDomain] = React.useState(false);
-
   const handleImageDelete = (id?: string, title?: string) => () => {
     if (title === "Logo") {
       tempImgDelete.logo.push(id);
@@ -110,10 +114,6 @@ function StoreInput({
         setImagesToUpload({ ...imagesToUpload });
       }
     }
-  };
-
-  const handleDeleteSubDomain = () => {
-    alert("Delete sub domain");
   };
 
   React.useEffect(() => {
@@ -178,14 +178,14 @@ function StoreInput({
                   <FormSpacer />
 
                   <ControlledSwitch
-                    name="e_custom-domain"
+                    name="enableCustomDomain"
                     label={`Use custom domain`}
-                    checked={canCustomDomain}
-                    onChange={() => setCanCustomDomain(!canCustomDomain)}
+                    checked={values.enableCustomDomain}
+                    onChange={handleChange}
                   />
                 </div>
 
-                {canCustomDomain && (
+                {values.enableCustomDomain && (
                   <>
                     <p>
                       Below you can connect (sub)domains that you own for your
@@ -196,7 +196,7 @@ function StoreInput({
                     <div className={classes.tableContainer}>
                       <ResponsiveTable className={classes.table}>
                         <TableHead>
-                          <TableCell className={classes.colName}>
+                          <TableCell className={classes.colDomain}>
                             <span>
                               <FormattedMessage
                                 defaultMessage="Domain name"
@@ -211,54 +211,72 @@ function StoreInput({
                           </TableCell>
                         </TableHead>
                         <TableBody>
-                          {fakeDomainList &&
-                            fakeDomainList.length > 0 &&
-                            fakeDomainList.map(domain => (
-                              <TableRow key={domain.url}>
-                                <TableCell className={classes.colUrl}>
-                                  <div style={{ alignSelf: "center" }}>
-                                    <a
-                                      href={`https://${domain.url}`}
-                                      style={{
-                                        color: "#06847B",
-                                        fontSize: "15px",
-                                        textDecoration: "none"
-                                      }}
-                                    >{`https://${domain.url}`}</a>
-                                  </div>
-                                </TableCell>
-                                <TableCell className={classes.colStatus}>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "space-between"
-                                    }}
-                                  >
-                                    <span>{domain.status}</span>
+                          {customDomainData &&
+                            customDomainData?.customDomains?.edges?.length >
+                              0 &&
+                            customDomainData?.customDomains?.edges?.map(
+                              domain => (
+                                <TableRow key={domain.node.id}>
+                                  <TableCell className={classes.colUrl}>
+                                    <div style={{ alignSelf: "center" }}>
+                                      <a
+                                        href={`https://${domain.node.domainCustom}`}
+                                        style={{
+                                          color: "#06847B",
+                                          fontSize: "15px",
+                                          textDecoration: "none"
+                                        }}
+                                      >{`https://${domain.node.domainCustom}`}</a>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell className={classes.colStatus}>
                                     <div
                                       style={{
                                         display: "flex",
-                                        justifyContent: "flex-end",
-                                        height: "95%"
+                                        alignItems: "center",
+                                        justifyContent: "space-between"
                                       }}
                                     >
-                                      <Tooltip title="Delete">
-                                        <IconButton
-                                          aria-label="delete"
-                                          onClick={() =>
-                                            handleDeleteSubDomain()
+                                      <p className={classes.domainStatus}>
+                                        <span
+                                          className={
+                                            domain.node.status
+                                              ? classes.dotStatusActive
+                                              : classes.dotStatus
                                           }
-                                          style={{ color: "#06847B" }}
-                                        >
-                                          <DeleteIcon />
-                                        </IconButton>
-                                      </Tooltip>
+                                        ></span>
+                                        <span>
+                                          {domain.node.status
+                                            ? "Active"
+                                            : "DNS not configured"}
+                                        </span>
+                                      </p>
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "flex-end",
+                                          height: "95%"
+                                        }}
+                                      >
+                                        <Tooltip title="Delete">
+                                          <IconButton
+                                            aria-label="delete"
+                                            onClick={() =>
+                                              handleDeleteCustomDomain(
+                                                domain.node.id
+                                              )
+                                            }
+                                            style={{ color: "#06847B" }}
+                                          >
+                                            <DeleteIcon />
+                                          </IconButton>
+                                        </Tooltip>
+                                      </div>
                                     </div>
-                                  </div>
-                                </TableCell>
-                              </TableRow>
-                            ))}
+                                  </TableCell>
+                                </TableRow>
+                              )
+                            )}
                         </TableBody>
                       </ResponsiveTable>
                     </div>
@@ -269,7 +287,7 @@ function StoreInput({
 
                     <div>
                       <p className={classes.guideTitle}>
-                        How to connect your (sub)domain to Orderich
+                        How to connect your domain name to Orderich?
                       </p>
 
                       <ol style={{ listStyle: "decimal", lineHeight: "24px" }}>
@@ -281,16 +299,17 @@ function StoreInput({
                           Find the DNS settings or domain management area.
                         </li>
                         <li>
-                          Point the A record of your (sub)domain to this IP
-                          address 52.58.195.234.
+                          Point the <b>A</b> record of your (sub)domain to this
+                          IP address <b>3.66.10.99</b>.
                           <ol style={{ listStyle: "lower-alpha" }}>
                             <li>
-                              If you’re connecting a domain name, change the
-                              Host name to the @ symbol
+                              If you’re connecting a domain name, change the{" "}
+                              <b>Host name</b> to the <b>@</b> symbol
                             </li>
                             <li>
-                              If you’re connecting a subdomain, change the Host
-                              name to the subdomain name (e.g. order, bestellen)
+                              If you’re connecting a subdomain, change the{" "}
+                              <b>Host name</b> to the subdomain name (e.g.
+                              order, bestellen)
                             </li>
                             <li>
                               Delete any other duplicate A records with the same
@@ -305,7 +324,11 @@ function StoreInput({
                         </li>
                       </ol>
                       <div>
-                        <Button color="primary" variant="text">
+                        <Button
+                          color="primary"
+                          variant="text"
+                          onClick={() => handleVerifySSL(customDomainData)}
+                        >
                           <FormattedMessage
                             defaultMessage="Verify Connection"
                             description="Verify Connection"
@@ -328,7 +351,7 @@ function StoreInput({
                         onClick={onDialogAddDomain}
                       >
                         <FormattedMessage
-                          defaultMessage="Add (Sub)Domain"
+                          defaultMessage="Add Domain Name"
                           description="Edit URL"
                         />
                       </Button>

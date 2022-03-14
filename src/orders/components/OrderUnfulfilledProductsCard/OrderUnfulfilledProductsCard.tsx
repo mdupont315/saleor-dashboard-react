@@ -23,11 +23,12 @@ const useStyles = makeStyles(
 interface OrderUnfulfilledProductsCardProps {
   canFulfill: boolean;
   lines: OrderDetails_order_lines[];
+  linesFullFill: any;
   onFulfill: () => void;
 }
 
 const OrderUnfulfilledProductsCard: React.FC<OrderUnfulfilledProductsCardProps> = props => {
-  const { canFulfill, lines } = props;
+  const { canFulfill, lines, linesFullFill } = props;
   const classes = useStyles({});
 
   if (!lines.length) {
@@ -41,8 +42,16 @@ const OrderUnfulfilledProductsCard: React.FC<OrderUnfulfilledProductsCardProps> 
         <ResponsiveTable className={classes.table}>
           <TableHeader />
           <TableBody>
-            {renderCollection(lines, line => (
-              <TableLine isOrderLine line={line} />
+            {renderCollection(lines, (line, index) => (
+              <TableLine
+                isOrderLine
+                line={line}
+                linesFullFill={
+                  linesFullFill && linesFullFill.length > 0
+                    ? linesFullFill[index]
+                    : null
+                }
+              />
             ))}
           </TableBody>
         </ResponsiveTable>
