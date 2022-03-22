@@ -95,13 +95,13 @@ const ServiceProcessCard: React.FC<PaymentProcessCard> = ({
   const cachedText = [
     {
       text: "indexCash",
-      label: "Cash upon receipt",
+      label: "Cash/card upon receipt",
       cost: "contantCost",
       enable: "contantEnable"
     },
     {
       text: "indexStripe",
-      label: "Stripe",
+      label: "Stripe online payments",
       cost: "stripeCost",
       enable: "stripeEnable"
     }
