@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-console */
 import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
@@ -31,6 +32,7 @@ export interface AttributeRulesProps
     UseFormResult<AttributePageFormData>,
     "set" | "setError" | "data" | "clearErrors" | "errors"
   > {
+  optionValues: any;
   canChangeType: boolean;
   disabled: boolean;
   apiErrors: AttributeErrorFragment[];
@@ -38,13 +40,9 @@ export interface AttributeRulesProps
 }
 
 const AttributeRules: React.FC<AttributeRulesProps> = props => {
-  // const { canChangeType, data, disabled, apiErrors, onChange } = props;
-  const { data, onChange } = props;
+  const { data, onChange, optionValues } = props;
   const classes = useStyles(props);
   const intl = useIntl();
-
-  console.log(onChange);
-  console.log(data);
 
   const handleChangeType = e => {
     const { value } = e.target;
@@ -72,29 +70,29 @@ const AttributeRules: React.FC<AttributeRulesProps> = props => {
           // label={intl.formatMessage(messages.valueRequired)}
           checked={data.required}
           onChange={onChange}
-          // onChange={handleChangeType}
         />
         <FormSpacer />
         <div className={classes.inputTypeSection}>
           <ControlledSwitch
             name={"type" as keyof AttributePageFormData}
             label={`Allow customers to select multiple items`}
-            // label={intl.formatMessage(messages.type)}
-            // checked={!!data.type}
             checked={isMultiple}
-            // onChange={onChange}
             onChange={handleChangeType}
           />
         </div>
         <FormSpacer />
         {isMultiple && (
           <TextField
-            // disabled={disabled}
-            // error={!!formApiErrors.name}
+            error={data.maxOptions < 1 || optionValues.length === 0}
             label={`Maximum amount of options customers can select`}
             name={`maxOptions`}
             fullWidth
-            // helperText={getAttributeErrorMessage(formApiErrors.name, intl)}
+            helperText={
+              (optionValues.length === 0 || data.maxOptions < 1) &&
+              (optionValues.length > 0 && data.maxOptions < 1
+                ? "Please enter at least 1 option"
+                : "Please add the options above to use this feature")
+            }
             value={data.maxOptions}
             onChange={onChange}
           />

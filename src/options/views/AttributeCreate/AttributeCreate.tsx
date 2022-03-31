@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFragment";
 import useListSettings from "@saleor/hooks/useListSettings";
 import useLocalPageInfo from "@saleor/hooks/useLocalPageInfo";
@@ -174,6 +175,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ params }) => {
           })
         }
         saveButtonBarState={attributeCreateOpts.status}
+        optionValues={values}
         values={{
           __typename: "AttributeValueCountableConnection" as "AttributeValueCountableConnection",
           pageInfo: {

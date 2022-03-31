@@ -13,7 +13,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 
 import { AttributePageFormData } from "../AttributePage";
-import { inputTypeMessages, messages } from "./messages";
+import { messages } from "./messages";
 // import { messages } from "./messages";
 
 const useStyles = makeStyles(

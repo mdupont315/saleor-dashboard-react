@@ -17,6 +17,7 @@ import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFr
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
 import { ListSettings, ReorderAction } from "@saleor/types";
+// import { login } from "@saleor/utils/credentialsManagement";
 import { mapEdgesToItems } from "@saleor/utils/maps";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -31,12 +32,19 @@ import AttributeRules from "../AttributeRules";
 import AttributeValues from "../AttributeValues";
 
 const useStyles = makeStyles({
+  flexContainerBorder: {
+    display: "flex",
+    paddingBottom: "24px",
+    borderBottom: "solid 1px #EAEAEA"
+  },
   flexContainer: {
-    display: "flex"
+    display: "flex",
+    paddingBottom: "24px"
   },
   leftFlexLayout: {
-    width: "380px",
-    marginRight: "28px"
+    width: "352px",
+    marginRight: "28px",
+    paddingTop: "24px"
   },
   rightFlexLayout: {
     flex: "1"
@@ -48,6 +56,7 @@ export interface AttributePageProps {
   disabled?: boolean;
   errors?: AttributeErrorFragment[];
   saveButtonBarState?: ConfirmButtonTransitionState;
+  optionValues: any;
   values: AttributeDetails_attribute_choices;
   onBack: () => void;
   onDelete: () => void;
@@ -72,11 +81,12 @@ export interface AttributePageFormData {
   required: boolean;
   values: [];
   enable: boolean;
-  maxOptions: number;
+  maxOptions: number | string;
 }
 
 const AttributePage: React.FC<AttributePageProps> = ({
   attribute,
+  optionValues,
   disabled,
   errors: apiErrors,
   saveButtonBarState,
@@ -101,35 +111,39 @@ const AttributePage: React.FC<AttributePageProps> = ({
     attribute === null
       ? {
           name: "",
-          type: "",
+          type: "single",
           required: true,
           values: [],
           enable: true,
-          maxOptions: 0
+          maxOptions: ""
         }
       : {
-          name: attribute?.name ?? "",
-          type: attribute?.type ?? "",
-          required: !!attribute?.required ?? true,
+          name: attribute?.name || "",
+          type: attribute?.type || "",
+          required: !!attribute?.required || true,
           values: [],
-          enable: !!attribute?.enable ?? true,
-          maxOptions: attribute?.maxOptions ?? 0
+          enable: !!attribute?.enable || true,
+          maxOptions: attribute?.maxOptions || ""
         };
 
-  const handleSubmit = (data: AttributePageFormData) =>
-    // const type = attribute !== null ? data.type : "";
-    {
-      let { maxOptions, type } = data;
-      maxOptions = type === "multiple" ? Number(maxOptions) : 0;
+  const handleSubmit = (data: AttributePageFormData) => {
+    let { maxOptions, type, required } = data;
+    maxOptions = Number(maxOptions);
+    if (type === "single" && required === false) {
+      maxOptions = 1;
+      type = "multiple";
+    }
 
-      const newData = {
-        ...data,
-        maxOptions
-      };
-      return onSubmit({
-        ...newData
-      });
+    const newData = {
+      ...data,
+      maxOptions,
+      type
     };
+
+    return onSubmit({
+      ...newData
+    });
+  };
 
   return (
     <Form initial={initialForm} onSubmit={handleSubmit}>
@@ -148,9 +162,8 @@ const AttributePage: React.FC<AttributePageProps> = ({
                 : maybe(() => attribute.name)
             }
           />
-          {/* <Grid> */}
           <div>
-            <div className={classes.flexContainer}>
+            <div className={classes.flexContainerBorder}>
               <div className={classes.leftFlexLayout}>
                 <ModifierInfomationDescription />
               </div>
@@ -166,15 +179,15 @@ const AttributePage: React.FC<AttributePageProps> = ({
                   setError={setError}
                   clearErrors={clearErrors}
                 />
-                <CardSpacer />
               </div>
             </div>
 
-            <div className={classes.flexContainer}>
+            <div className={classes.flexContainerBorder}>
               <div className={classes.leftFlexLayout}>
                 <ModifierOptionsDescription />
               </div>
               <div className={classes.rightFlexLayout}>
+                <CardSpacer />
                 <AttributeValues
                   disabled={disabled}
                   values={mapEdgesToItems(values)}
@@ -189,7 +202,6 @@ const AttributePage: React.FC<AttributePageProps> = ({
                   onPreviousPage={onPreviousPage}
                   onChange={change}
                 />
-                <CardSpacer />
               </div>
             </div>
 
@@ -198,9 +210,11 @@ const AttributePage: React.FC<AttributePageProps> = ({
                 <ModifierRulesDescription />
               </div>
               <div className={classes.rightFlexLayout}>
+                <CardSpacer />
                 <AttributeRules
                   canChangeType={attribute === null}
                   data={data}
+                  optionValues={optionValues}
                   disabled={disabled}
                   apiErrors={apiErrors}
                   onChange={change}

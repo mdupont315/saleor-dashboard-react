@@ -329,6 +329,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
         pageInfo={pageInfo}
         onNextPage={loadNextPage}
         onPreviousPage={loadPreviousPage}
+        optionValues={undefined}
       />
       <AttributeDeleteDialog
         open={params.action === "remove"}
