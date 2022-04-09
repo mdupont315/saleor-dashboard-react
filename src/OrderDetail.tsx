@@ -511,7 +511,7 @@ function OrderDetail({ orderDetail, myStore }: any) {
           </div>
           <div>
             <p className={classes.normalText} style={{ margin: 0 }}>
-              {`Order placed on`}
+              {`Order ${number} placed on`}
             </p>
             <p className={classes.normalText} style={{ margin: 0 }}>
               {getDateTime()}

@@ -240,7 +240,7 @@ function DeliveryViewPage({
                                 <Grid
                                   item
                                   style={{
-                                    width: "29.3%",
+                                    width: "20%",
                                     marginRight: "24px"
                                   }}
                                 >
@@ -257,7 +257,7 @@ function DeliveryViewPage({
                                 <Grid
                                   item
                                   style={{
-                                    width: "29.3%",
+                                    width: "20%",
                                     marginRight: "24px"
                                   }}
                                 >
@@ -273,7 +273,7 @@ function DeliveryViewPage({
                                   <Grid
                                     item
                                     style={{
-                                      width: "29.3%",
+                                      width: "20%",
                                       marginRight: "24px"
                                     }}
                                   >
@@ -284,6 +284,24 @@ function DeliveryViewPage({
                                       }}
                                     >
                                       Delivery fee
+                                    </p>
+                                  </Grid>
+                                )}
+                                {values.enableMinimumDeliveryOrderValue && (
+                                  <Grid
+                                    item
+                                    style={{
+                                      width: "20%",
+                                      marginRight: "24px"
+                                    }}
+                                  >
+                                    <p
+                                      style={{
+                                        marginTop: "0px",
+                                        marginBottom: "16px"
+                                      }}
+                                    >
+                                      Min delivery order
                                     </p>
                                   </Grid>
                                 )}

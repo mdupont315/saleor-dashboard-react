@@ -1,8 +1,6 @@
+/* eslint-disable no-console */
 import { Grid, IconButton, TextField, Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-// import FormSpacer from "@saleor/components/FormSpacer";
-// import { useIntl } from "react-intl";
-// import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
 
 function DeliveryAreaCard({
@@ -16,19 +14,8 @@ function DeliveryAreaCard({
   canCustomDeliveryFee,
   canCustomMinOrder
 }: any) {
-  // const intl = useIntl();
-
   return (
     <>
-      {/* <FormSpacer /> */}
-      {/* <div
-        style={{
-          display: "grid",
-          gridGap: "20px",
-          gridTemplateColumns: "auto auto auto"
-        }}
-      > */}
-
       <Grid container item xs={12} style={{ alignItems: "center" }}>
         <Grid item style={{ width: "20%", marginRight: "24px" }}>
           <TextField
@@ -128,14 +115,6 @@ function DeliveryAreaCard({
           </div>
         </Grid>
       </Grid>
-
-      {/* <hr
-        style={{
-          border: "1px solid #EAEAEA",
-          marginTop: "24px"
-        }}
-      ></hr> */}
-      {/* </div> */}
     </>
   );
 }
