@@ -163,8 +163,21 @@ const optionDetails = gql`
           }
         }
       }
+      enable
+      maxOptions
     }
   }
 `;
 
 export const useOptionDetailsQuery = makeQuery<any, {}>(optionDetails);
+
+const detailOption = gql`
+  query($id: ID) {
+    option(id: $id) {
+      enable
+      maxOptions
+    }
+  }
+`;
+
+export const useDetailOption = makeQuery<any, any>(detailOption);

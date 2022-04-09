@@ -39,4 +39,6 @@ export interface AttributeDetailsFragment {
   storefrontSearchPosition: number;
   valueRequired: boolean;
   required?: boolean
+  enable?: boolean;
+  maxOptions?: number;
 }
