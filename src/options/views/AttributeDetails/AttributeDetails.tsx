@@ -1,5 +1,3 @@
-/* eslint-disable simple-import-sort/sort */
-/* eslint-disable no-console */
 import { ChannelSaleData, createSortedSaleData } from "@saleor/channels/utils";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import useListSettings from "@saleor/hooks/useListSettings";
@@ -29,7 +27,7 @@ import {
   useOptionValueReorderMutation,
   useOptionValueUpdateMutation
 } from "../../mutations";
-import { useOptionDetailsQuery, useDetailOption } from "../../queries";
+import { useDetailOption, useOptionDetailsQuery } from "../../queries";
 import {
   attributeUrl,
   AttributeUrlDialog,
@@ -201,7 +199,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ id, params }) => {
 
     const channelListingUpdate = input.channelListing?.map(value => ({
       channelId: value.id,
-      price: Number(value.discountValue.toFixed(1)),
+      price: Number(value.discountValue).toFixed(1),
       currency: value.currency,
       id: findElement.channelListing.find(find => find.channel.id === value.id)
         .id

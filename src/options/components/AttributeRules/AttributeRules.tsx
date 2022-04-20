@@ -8,7 +8,6 @@ import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFr
 import { UseFormResult } from "@saleor/hooks/useForm";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
-import { useIntl } from "react-intl";
 
 import { AttributePageFormData } from "../AttributePage";
 // import { inputTypeMessages, messages } from "./messages";
@@ -32,7 +31,6 @@ export interface AttributeRulesProps
     UseFormResult<AttributePageFormData>,
     "set" | "setError" | "data" | "clearErrors" | "errors"
   > {
-  optionValues: any;
   canChangeType: boolean;
   disabled: boolean;
   apiErrors: AttributeErrorFragment[];
@@ -40,9 +38,20 @@ export interface AttributeRulesProps
 }
 
 const AttributeRules: React.FC<AttributeRulesProps> = props => {
-  const { data, onChange, optionValues } = props;
+  const { data, onChange, setError, errors, clearErrors } = props;
   const classes = useStyles(props);
-  const intl = useIntl();
+
+  // Set error for maxOPtions
+  const isError = e => {
+    const value = e.target.value;
+    const regex = /^[1-9][0-9]*$/;
+    const isInt = regex.test(value);
+    // Is interger
+    if (!isInt) {
+      setError("maxOptions", "Must be only digits");
+    }
+    return isInt;
+  };
 
   const handleChangeType = e => {
     const { value } = e.target;
@@ -83,18 +92,20 @@ const AttributeRules: React.FC<AttributeRulesProps> = props => {
         <FormSpacer />
         {isMultiple && (
           <TextField
-            error={data.maxOptions < 1 || optionValues.length === 0}
+            error={!!errors.maxOptions}
             label={`Maximum amount of options customers can select`}
             name={`maxOptions`}
             fullWidth
-            helperText={
-              (optionValues.length === 0 || data.maxOptions < 1) &&
-              (optionValues.length > 0 && data.maxOptions < 1
-                ? "Please enter at least 1 option"
-                : "Please add the options above to use this feature")
-            }
+            helperText={errors.maxOptions}
             value={data.maxOptions}
-            onChange={onChange}
+            onChange={e => {
+              onChange(e);
+              // break function  -----> check value input -------> return boolean -----------> clear error
+              isError(e);
+              if (isError(e)) {
+                clearErrors("maxOptions");
+              }
+            }}
           />
         )}
       </CardContent>
