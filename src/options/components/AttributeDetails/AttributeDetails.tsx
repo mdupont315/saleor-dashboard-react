@@ -42,7 +42,10 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
   const { data, disabled, apiErrors, onChange } = props;
   const intl = useIntl();
 
-  const formApiErrors = getFormErrors(["name"], apiErrors);
+  const formApiErrors = getFormErrors(
+    ["name", "slug", "type", "entityType", "unit"],
+    apiErrors
+  );
 
   return (
     <Card>
