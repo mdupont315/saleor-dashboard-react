@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import ControlledSwitch from "@saleor/components/ControlledSwitch";
@@ -6,7 +5,6 @@ import FormSpacer from "@saleor/components/FormSpacer";
 import { AttributeErrorFragment } from "@saleor/fragments/types/AttributeErrorFragment";
 import { UseFormResult } from "@saleor/hooks/useForm";
 import { commonMessages } from "@saleor/intl";
-import { makeStyles } from "@saleor/theme";
 import { getFormErrors } from "@saleor/utils/errors";
 import getAttributeErrorMessage from "@saleor/utils/errors/attribute";
 import React from "react";
@@ -14,21 +12,20 @@ import { useIntl } from "react-intl";
 
 import { AttributePageFormData } from "../AttributePage";
 import { messages } from "./messages";
-// import { messages } from "./messages";
 
-const useStyles = makeStyles(
-  theme => ({
-    inputTypeSection: {
-      columnGap: theme.spacing(2) + "px",
-      display: "flex",
-      [theme.breakpoints.down("md")]: {
-        flexFlow: "wrap",
-        rowGap: theme.spacing(3) + "px"
-      }
-    }
-  }),
-  { name: "AttributeDetails" }
-);
+// const useStyles = makeStyles(
+//   theme => ({
+//     inputTypeSection: {
+//       columnGap: theme.spacing(2) + "px",
+//       display: "flex",
+//       [theme.breakpoints.down("md")]: {
+//         flexFlow: "wrap",
+//         rowGap: theme.spacing(3) + "px"
+//       }
+//     }
+//   }),
+//   { name: "AttributeDetails" }
+// );
 
 export interface AttributeDetailsProps
   extends Pick<
@@ -42,9 +39,7 @@ export interface AttributeDetailsProps
 }
 
 const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
-  // const { canChangeType, data, disabled, apiErrors, onChange } = props;
   const { data, disabled, apiErrors, onChange } = props;
-  const classes = useStyles(props);
   const intl = useIntl();
 
   const formApiErrors = getFormErrors(
@@ -54,10 +49,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = props => {
 
   return (
     <Card>
-      <CardTitle
-        // title={intl.formatMessage(commonMessages.generalInformations)}
-        title={commonMessages.generalInformations.defaultMessage}
-      />
+      <CardTitle title={commonMessages.generalInformations.defaultMessage} />
       <CardContent>
         <ControlledSwitch
           name={`enable`}

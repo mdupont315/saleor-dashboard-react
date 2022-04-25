@@ -86,7 +86,6 @@ export interface AttributePageFormData {
 
 const AttributePage: React.FC<AttributePageProps> = ({
   attribute,
-  optionValues,
   disabled,
   errors: apiErrors,
   saveButtonBarState,
@@ -115,7 +114,7 @@ const AttributePage: React.FC<AttributePageProps> = ({
           required: true,
           values: [],
           enable: true,
-          maxOptions: ""
+          maxOptions: 1
         }
       : {
           name: attribute?.name || "",
@@ -123,7 +122,7 @@ const AttributePage: React.FC<AttributePageProps> = ({
           required: !!attribute?.required || true,
           values: [],
           enable: !!attribute?.enable || true,
-          maxOptions: attribute?.maxOptions || ""
+          maxOptions: attribute?.maxOptions || 1
         };
 
   const handleSubmit = (data: AttributePageFormData) => {
@@ -214,7 +213,6 @@ const AttributePage: React.FC<AttributePageProps> = ({
                 <AttributeRules
                   canChangeType={attribute === null}
                   data={data}
-                  optionValues={optionValues}
                   disabled={disabled}
                   apiErrors={apiErrors}
                   onChange={change}
