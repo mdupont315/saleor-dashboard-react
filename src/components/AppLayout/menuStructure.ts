@@ -1,23 +1,18 @@
-import appsIcon from "@assets/images/menu-apps-icon.svg";
+// import appsIcon from "@assets/images/menu-apps-icon.svg";
 import catalogIcon from "@assets/images/menu-catalog-icon.svg";
 import customerIcon from "@assets/images/menu-customers-icon.svg";
 import discountsIcon from "@assets/images/menu-discounts-icon.svg";
 import homeIcon from "@assets/images/menu-home-icon.svg";
 import ordersIcon from "@assets/images/menu-orders-icon.svg";
-import translationIcon from "@assets/images/menu-translation-icon.svg";
+import { voucherListPath } from "@saleor/discounts/urls";
 import { commonMessages, sectionNames } from "@saleor/intl";
-import { servicesUrl } from "@saleor/servicesTime/urls";
-import { storesManagementListUrl } from "@saleor/stores/urls";
 import { IntlShape } from "react-intl";
 
-import { appsListPath } from "../../apps/urls";
 import { categoryListUrl } from "../../categories/urls";
 import { collectionListUrl } from "../../collections/urls";
 import { customerListUrl } from "../../customers/urls";
-import { saleListUrl, voucherListUrl } from "../../discounts/urls";
 import { orderDraftListUrl, orderListUrl } from "../../orders/urls";
 import { productListUrl } from "../../products/urls";
-import { languageListUrl } from "../../translations/urls";
 import { PermissionEnum } from "../../types/globalTypes";
 
 export interface IMenuItem {
@@ -38,20 +33,6 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       label: intl.formatMessage(sectionNames.home),
       testingContextId: "home",
       url: "/"
-    },
-    {
-      ariaLabel: "stores",
-      icon: homeIcon,
-      label: intl.formatMessage(sectionNames.stores),
-      testingContextId: "stores",
-      url: storesManagementListUrl()
-    },
-    {
-      ariaLabel: "services time",
-      icon: homeIcon,
-      label: intl.formatMessage(sectionNames.serviceTime),
-      testingContextId: "serviceTime",
-      url: servicesUrl()
     },
     {
       ariaLabel: "catalogue",
@@ -103,6 +84,15 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       permission: PermissionEnum.MANAGE_ORDERS,
       testingContextId: "orders"
     },
+
+    {
+      ariaLabel: "vouchers",
+      icon: discountsIcon,
+      label: intl.formatMessage(commonMessages.vouchers),
+      permission: PermissionEnum.MANAGE_DISCOUNTS,
+      testingContextId: "vouchers",
+      url: voucherListPath
+    },
     {
       ariaLabel: "customers",
       icon: customerIcon,
@@ -110,44 +100,25 @@ function createMenuStructure(intl: IntlShape): IMenuItem[] {
       permission: PermissionEnum.MANAGE_USERS,
       testingContextId: "customers",
       url: customerListUrl()
-    },
+    }
+  ];
+}
 
+export function createMenuSuperUserStructure(intl: IntlShape): IMenuItem[] {
+  return [
     {
-      ariaLabel: "discounts",
-      children: [
-        {
-          ariaLabel: "sales",
-          label: intl.formatMessage(sectionNames.sales),
-          testingContextId: "sales",
-          url: saleListUrl()
-        },
-        {
-          ariaLabel: "vouchers",
-          label: intl.formatMessage(sectionNames.vouchers),
-          testingContextId: "vouchers",
-          url: voucherListUrl()
-        }
-      ],
-      icon: discountsIcon,
-      label: intl.formatMessage(commonMessages.discounts),
-      permission: PermissionEnum.MANAGE_DISCOUNTS,
-      testingContextId: "discounts"
+      ariaLabel: "Stores",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.home),
+      testingContextId: "Stores",
+      url: "/stores"
     },
     {
-      ariaLabel: "apps",
-      icon: appsIcon,
-      label: intl.formatMessage(sectionNames.apps),
-      permission: PermissionEnum.MANAGE_APPS,
-      testingContextId: "apps",
-      url: appsListPath
-    },
-    {
-      ariaLabel: "translations",
-      icon: translationIcon,
-      label: intl.formatMessage(sectionNames.translations),
-      permission: PermissionEnum.MANAGE_TRANSLATIONS,
-      testingContextId: "translations",
-      url: languageListUrl
+      ariaLabel: "Plugin",
+      icon: homeIcon,
+      label: intl.formatMessage(sectionNames.plugins),
+      testingContextId: "Plugins",
+      url: "/plugins"
     }
   ];
 }

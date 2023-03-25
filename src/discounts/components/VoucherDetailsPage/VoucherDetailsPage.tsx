@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core";
 import { ChannelVoucherData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
+// import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import CountryList from "@saleor/components/CountryList";
@@ -10,7 +10,7 @@ import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import { Tab, TabContainer } from "@saleor/components/Tab";
+// import { Tab, TabContainer } from "@saleor/components/Tab";
 import {
   createChannelsChangeHandler,
   createDiscountTypeChangeHandler
@@ -26,18 +26,18 @@ import { maybe, splitDateTime } from "../../../misc";
 import { ChannelProps, ListProps, TabListActions } from "../../../types";
 import {
   DiscountValueTypeEnum,
-  PermissionEnum,
+  // PermissionEnum,
   VoucherTypeEnum
 } from "../../../types/globalTypes";
 import { VoucherDetails_voucher } from "../../types/VoucherDetails";
-import DiscountCategories from "../DiscountCategories";
-import DiscountCollections from "../DiscountCollections";
-import DiscountDates from "../DiscountDates";
-import DiscountProducts from "../DiscountProducts";
+// import DiscountCategories from "../DiscountCategories";
+// import DiscountCollections from "../DiscountCollections";
+// // import DiscountDates from "../DiscountDates";
+// import DiscountProducts from "../DiscountProducts";
 import VoucherInfo from "../VoucherInfo";
-import VoucherLimits from "../VoucherLimits";
+// import VoucherLimits from "../VoucherLimits";
 import VoucherRequirements from "../VoucherRequirements";
-import VoucherSummary from "../VoucherSummary";
+// import VoucherSummary from "../VoucherSummary";
 import VoucherTypes from "../VoucherTypes";
 import VoucherValue from "../VoucherValue";
 
@@ -72,6 +72,7 @@ export interface VoucherDetailsPageFormData {
   startTime: string;
   type: VoucherTypeEnum;
   usageLimit: string;
+  active: boolean;
 }
 
 export interface VoucherDetailsPageProps
@@ -106,47 +107,47 @@ export interface VoucherDetailsPageProps
   openChannelsModal: () => void;
 }
 
-const CategoriesTab = Tab(VoucherDetailsPageTab.categories);
-const CollectionsTab = Tab(VoucherDetailsPageTab.collections);
-const ProductsTab = Tab(VoucherDetailsPageTab.products);
+// const CategoriesTab = Tab(VoucherDetailsPageTab.categories);
+// const CollectionsTab = Tab(VoucherDetailsPageTab.collections);
+// const ProductsTab = Tab(VoucherDetailsPageTab.products);
 
 const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
-  activeTab,
-  allChannelsCount,
+  // activeTab,
+  // allChannelsCount,
   channelListings = [],
   disabled,
   errors,
-  pageInfo,
+  // pageInfo,
   saveButtonBarState,
   voucher,
   onBack,
-  onCategoryAssign,
-  onCategoryClick,
-  onCategoryUnassign,
+  // onCategoryAssign,
+  // onCategoryClick,
+  // onCategoryUnassign,
   onChannelsChange,
   onCountryAssign,
   onCountryUnassign,
-  onCollectionAssign,
-  onCollectionClick,
-  onCollectionUnassign,
-  onNextPage,
-  onPreviousPage,
-  onProductAssign,
-  onProductClick,
-  onProductUnassign,
-  onTabClick,
+  // onCollectionAssign,
+  // onCollectionClick,
+  // onCollectionUnassign,
+  // onNextPage,
+  // onPreviousPage,
+  // onProductAssign,
+  // onProductClick,
+  // onProductUnassign,
+  // onTabClick,
   hasChannelChanged,
-  openChannelsModal,
+  // openChannelsModal,
   onRemove,
   onSubmit,
-  toggle,
-  toggleAll,
-  selected,
-  selectedChannelId,
-  isChecked,
-  categoryListToolbar,
-  collectionListToolbar,
-  productListToolbar
+  // toggle,
+  // toggleAll,
+  // selected,
+  selectedChannelId
+  // isChecked,
+  // categoryListToolbar,
+  // collectionListToolbar,
+  // productListToolbar
 }) => {
   const intl = useIntl();
   const channel = voucher?.channelListings?.find(
@@ -187,7 +188,8 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
     startDate: splitDateTime(maybe(() => voucher.startDate, "")).date,
     startTime: splitDateTime(maybe(() => voucher.startDate, "")).time,
     type: maybe(() => voucher.type, VoucherTypeEnum.ENTIRE_ORDER),
-    usageLimit: maybe(() => voucher.usageLimit.toString(), "0")
+    usageLimit: maybe(() => voucher.usageLimit.toString(), "0"),
+    active: voucher?.active || false
   };
 
   return (
@@ -223,6 +225,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   errors={errors}
                   onChange={change}
                   variant="update"
+                  onCbxChange={change}
                 />
                 <CardSpacer />
                 <VoucherTypes
@@ -243,7 +246,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   />
                 ) : null}
                 <CardSpacer />
-                {data.type === VoucherTypeEnum.SPECIFIC_PRODUCT &&
+                {/* {data.type === VoucherTypeEnum.SPECIFIC_PRODUCT &&
                 data.discountType.toString() !== "SHIPPING" ? (
                   <>
                     <TabContainer>
@@ -356,7 +359,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                       />
                     )}
                   </>
-                ) : null}
+                ) : null} */}
                 <CardSpacer />
                 {data.discountType.toString() === "SHIPPING" ? (
                   <CountryList
@@ -389,26 +392,26 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   onChannelChange={handleChannelChange}
                 />
                 <CardSpacer />
-                <VoucherLimits
+                {/* <VoucherLimits
                   data={data}
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
-                />
-                <CardSpacer />
-                <DiscountDates
+                /> */}
+                {/* <CardSpacer /> */}
+                {/* <DiscountDates
                   data={data}
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
-                />
+                /> */}
               </div>
               <div>
-                <VoucherSummary
+                {/* <VoucherSummary
                   voucher={voucher}
                   selectedChannelId={selectedChannelId}
-                />
-                <CardSpacer />
+                /> */}
+                {/* <CardSpacer />
                 <ChannelsAvailabilityCard
                   managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
@@ -419,7 +422,7 @@ const VoucherDetailsPage: React.FC<VoucherDetailsPageProps> = ({
                   }))}
                   disabled={disabled}
                   openModal={openChannelsModal}
-                />
+                /> */}
               </div>
             </Grid>
             <SaveButtonBar

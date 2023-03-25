@@ -45,7 +45,7 @@ export interface CustomerListProps
   customers: ListCustomers_customers_edges_node[];
 }
 
-const numberOfColumns = 4;
+const numberOfColumns = 3;
 
 const CustomerList: React.FC<CustomerListProps> = props => {
   const {

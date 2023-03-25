@@ -1,6 +1,8 @@
 import { DialogContentText } from "@material-ui/core";
+import { useAuth } from "@saleor/auth/AuthProvider";
 import ActionDialog from "@saleor/components/ActionDialog";
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { configurationMenuUrl } from "@saleor/configuration";
 import { PluginConfigurationFragment_configuration } from "@saleor/fragments/types/PluginConfigurationFragment";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
@@ -56,7 +58,7 @@ export const PluginsDetails: React.FC<PluginsDetailsProps> = ({
   const navigate = useNavigator();
   const notify = useNotifier();
   const intl = useIntl();
-
+  const { user } = useAuth();
   const { data: pluginData, loading } = usePluginDetails({
     displayLoader: true,
     variables: { id }
@@ -143,7 +145,13 @@ export const PluginsDetails: React.FC<PluginsDetailsProps> = ({
                 !params.action ? pluginUpdateOpts.status : "default"
               }
               plugin={plugin}
-              onBack={() => navigate(pluginListUrl())}
+              onBack={() => {
+                if (user.isSuperuser) {
+                  navigate(pluginListUrl());
+                } else {
+                  navigate(configurationMenuUrl);
+                }
+              }}
               onClear={id =>
                 openModal("clear", {
                   id

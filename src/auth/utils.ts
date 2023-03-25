@@ -88,3 +88,19 @@ export async function handleQueryAuthError(
     });
   }
 }
+
+export const ignoreSpecialCharacter = (data: string) =>
+  data
+    .toLowerCase()
+    .replace(/[^a-zA-Z ]/g, "")
+    .replace(/^\s+|\s+$|\s+(?=\s)/g, "")
+    .replaceAll(" ", "-");
+// .replaceAll(" ", "-")
+
+// Ignore special character except letter and number
+export const checkSlug = (data: string) =>
+  data
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9 ]/g, "")
+    .replace(/^\s+|\s+$|\s+(?=\s)/g, "")
+    .replaceAll(" ", "-");

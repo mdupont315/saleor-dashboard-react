@@ -2,9 +2,47 @@ import packageInfo from "../package.json";
 import { SearchVariables } from "./hooks/makeSearch";
 import { ListSettings, ListViews, Pagination } from "./types";
 
+export const getApiUrl = () => {
+  const isCheckCurDomain = process.env.APP_WITH_CURRENT_DOMAIN === "true";
+
+  if (isCheckCurDomain) {
+    if (typeof window !== "undefined") {
+      const { protocol, hostname } = window.location;
+      return `${protocol}//${hostname}/graphql`;
+    }
+    return process.env.API_URI!;
+  }
+  return process.env.API_URI!;
+};
+
+export const getSocketUrl = () => {
+  const isCheckCurDomain = process.env.APP_WITH_CURRENT_DOMAIN === "true";
+  // const reg =/[a-zA-Z]/gm;
+
+  if (isCheckCurDomain) {
+    if (typeof window !== "undefined") {
+      const { protocol, hostname } = window.location;
+      if (protocol === "https:") {
+        return `wss://${hostname}/graphql`;
+      } else {
+        return `ws://${hostname}/graphql`;
+      }
+    }
+    return process.env.SOCKET_URI!;
+  }
+  return process.env.SOCKET_URI!;
+};
+
 export const APP_MOUNT_URI = process.env.APP_MOUNT_URI;
 export const APP_DEFAULT_URI = "/";
-export const API_URI = process.env.API_URI;
+export const API_URI = getApiUrl();
+// export const STATIC_URL = process.env.STATIC_URL;
+
+export const SOCKET_URI = getSocketUrl();
+export const END_POINT = process.env.END_POINT;
+
+export const API_QR = process.env.QRCODE_BASE;
+
 export const SW_INTERVAL = parseInt(process.env.SW_INTERVAL, 0);
 
 export const DEFAULT_INITIAL_SEARCH_DATA: SearchVariables = {
@@ -29,6 +67,7 @@ export interface AppListViewSettings {
   [ListViews.COLLECTION_LIST]: ListSettings;
   [ListViews.CUSTOMER_LIST]: ListSettings;
   [ListViews.STORE_LIST]: ListSettings;
+  [ListViews.TABLE_LIST]: ListSettings;
   [ListViews.DRAFT_LIST]: ListSettings;
   [ListViews.NAVIGATION_LIST]: ListSettings;
   [ListViews.ORDER_LIST]: ListSettings;
@@ -61,6 +100,9 @@ export const defaultListSettings: AppListViewSettings = {
     rowNumber: PAGINATE_BY
   },
   [ListViews.STORE_LIST]: {
+    rowNumber: PAGINATE_BY
+  },
+  [ListViews.TABLE_LIST]: {
     rowNumber: PAGINATE_BY
   },
   [ListViews.DRAFT_LIST]: {

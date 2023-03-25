@@ -1,11 +1,14 @@
-import { Button, Container } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
+import AppHeader from "@saleor/components/AppHeader";
+import CardSpacer from "@saleor/components/CardSpacer";
 import FormSpacer from "@saleor/components/FormSpacer";
-import Grid from "@saleor/components/Grid";
 import PageHeader from "@saleor/components/PageHeader";
+import SaveButtonBar from "@saleor/components/SaveButtonBar";
+import useNavigator from "@saleor/hooks/useNavigator";
 import useNotifier from "@saleor/hooks/useNotifier";
 import { commonMessages, sectionNames } from "@saleor/intl";
 import React from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 
 import {
   useCreateServiceTime,
@@ -24,6 +27,13 @@ const data = {
     }
   ],
   pickupService: [
+    {
+      days: [false, false, false, false, false, false, false],
+      open: "0:0",
+      close: "23:55"
+    }
+  ],
+  tableService: [
     {
       days: [false, false, false, false, false, false, false],
       open: "0:0",
@@ -51,16 +61,45 @@ const initProcess = {
   }
 };
 
+const useStyles = makeStyles(
+  theme => ({
+    configurationCategory: {
+      [theme.breakpoints.down("md")]: {
+        gridTemplateColumns: "1fr"
+      },
+      borderTop: `solid 1px ${theme.palette.divider}`,
+      display: "grid",
+      gridColumnGap: theme.spacing(4) + "px",
+      gridTemplateColumns: "1fr 3fr",
+      paddingTop: theme.spacing(3)
+    },
+    configurationLabel: {
+      paddingBottom: 20
+    }
+  }),
+  {
+    name:
+      "D:HocTapProject_NCCorderichdashboardsrcservicesTimecomponentsServiceViewPage"
+  }
+);
+
 function ServiceViewPage() {
   const intl = useIntl();
+  const navigate = useNavigator();
   const notify = useNotifier();
   const [serviceTime, setServiceTime] = React.useState(data);
-
+  const classes = useStyles();
   const [serviceProcess, setServiceProcess] = React.useState(initProcess);
+
+  // console.log(serviceTime);
+
+  // console.log(serviceProcess);
 
   const { data: listService, refetch } = useListServiceTime({
     variables: { first: 10 }
   });
+
+  const ids = listService && JSON.parse(JSON.stringify(listService));
 
   const [createServiceTime] = useCreateServiceTime({
     onCompleted: data => {
@@ -70,6 +109,7 @@ function ServiceViewPage() {
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",
@@ -81,13 +121,14 @@ function ServiceViewPage() {
     }
   });
 
-  const [updateServiceTime] = useUpdateServiceTime({
+  const [updateServiceTime, updateServiceTimeOpts] = useUpdateServiceTime({
     onCompleted: data => {
       if (data.serviceTimeUpdate.errors.length === 0) {
         notify({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
+        refetch();
       } else {
         notify({
           status: "error",
@@ -108,6 +149,9 @@ function ServiceViewPage() {
         const pu = JSON.parse(
           listService?.serviceTimes?.edges[0].node.puServiceTime
         )?.pu;
+        const tb = JSON.parse(
+          listService?.serviceTimes?.edges[0].node.tableServiceTime
+        )?.tb;
 
         const process = {
           deliveryProcess: {
@@ -136,7 +180,8 @@ function ServiceViewPage() {
         setServiceTime({
           ...serviceTime,
           deliveryService: dl,
-          pickupService: pu
+          pickupService: pu,
+          tableService: tb
         });
 
         setServiceProcess(process);
@@ -156,16 +201,43 @@ function ServiceViewPage() {
     puTimeGap: serviceProcess.pickupProcess.timePickerGap,
     puAsSoonAsPosible: serviceProcess.pickupProcess.asSoonAs,
     puAllowPreorder: serviceProcess.pickupProcess.preOrder,
-    puSameDayOrder: serviceProcess.pickupProcess.sameDayOrder,
     puPreorderDay: serviceProcess.pickupProcess.preOrderDay,
-    puServiceTime: JSON.stringify({ pu: serviceTime.pickupService })
+    puSameDayOrder: serviceProcess.pickupProcess.sameDayOrder,
+    puServiceTime: JSON.stringify({ pu: serviceTime.pickupService }),
+    tableServiceTime: JSON.stringify({ tb: serviceTime.tableService })
   };
 
   const handleClick = () => {
+    Object.keys(input).forEach(key => {
+      if (
+        key === "dlServiceTime" ||
+        key === "puServiceTime" ||
+        key === "tableServiceTime"
+      ) {
+        input[key] =
+          input[key].length === 9
+            ? JSON.stringify({
+                [input[key].slice(2, 4)]: [
+                  {
+                    days: Array.from({ length: 7 }, () => false),
+                    open: "00:05",
+                    close: "23:55"
+                  }
+                ]
+              })
+            : input[key];
+      }
+    });
+
     let checkErr = false;
 
     if (listService && listService?.serviceTimes?.edges.length > 0) {
       serviceTime.deliveryService.map(item => {
+        if (item.close < item.open) {
+          checkErr = true;
+        }
+      });
+      serviceTime.pickupService.map(item => {
         if (item.close < item.open) {
           checkErr = true;
         }
@@ -208,21 +280,53 @@ function ServiceViewPage() {
     }
   };
 
+  const compareStatus = input => {
+    delete ids?.serviceTimes?.edges[0].node.id;
+    delete ids?.serviceTimes?.edges[0].node.__typename;
+    const comapareValue = { ...ids?.serviceTimes?.edges[0].node };
+    const data =
+      ids &&
+      Object.assign(comapareValue, {
+        dlServiceTime: ids?.serviceTimes?.edges[0].node.dlServiceTime.replace(
+          /\s/g,
+          ""
+        ),
+        puServiceTime: ids?.serviceTimes?.edges[0].node.puServiceTime.replace(
+          /\s/g,
+          ""
+        ),
+        talbleServiceTime: ids?.serviceTimes?.edges[0].node.tableServiceTime.replace(
+          /\s/g,
+          ""
+        )
+      });
+
+    return JSON.stringify(data) === JSON.stringify(input);
+  };
+
+  const onBack = () => {
+    navigate("/configuration");
+  };
+
   return (
     <Container>
-      <PageHeader title={intl.formatMessage(sectionNames.serviceTime)}>
-        <Button color="primary" variant="outlined">
-          <FormattedMessage defaultMessage="Cancle" description="button" />
-        </Button>
-        <Button color="primary" variant="contained" onClick={handleClick}>
-          <FormattedMessage
-            defaultMessage="Save changes"
-            description="button"
-          />
-        </Button>
-      </PageHeader>
+      <AppHeader onBack={onBack}>
+        {intl.formatMessage(sectionNames.configuration)}
+      </AppHeader>
+      <PageHeader title={intl.formatMessage(sectionNames.serviceTime)} />
 
-      <Grid>
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              Delivery order Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine your delivery fee, minimum delivery order value and free
+              delivery threshold.
+            </p>
+          </Typography>
+        </div>
         <div>
           <ServiceCardComponent
             titleHead={commonMessages.deliveryService}
@@ -230,31 +334,76 @@ function ServiceViewPage() {
             type="delivery"
             setServiceTime={setServiceTime}
           />
-          <FormSpacer />
-          <ServiceCardComponent
-            titleHead={commonMessages.pickupService}
-            serviceTime={serviceTime}
-            setServiceTime={setServiceTime}
-            type="pickup"
-          />
-        </div>
-
-        <div>
+          <CardSpacer />
           <ServiceProcessCard
             titleHead={commonMessages.deliveryProcess}
             serviceProcess={serviceProcess}
             setServiceProcess={setServiceProcess}
             type="delivery"
           />
-          <FormSpacer />
-          <ServiceProcessCard
+        </div>
+      </div>
+      <FormSpacer />
+
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              Pickup Order Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine when and how your customers can place pickup orders.
+            </p>
+          </Typography>
+        </div>
+        <div>
+          <ServiceCardComponent
             titleHead={commonMessages.pickupService}
+            serviceTime={serviceTime}
+            setServiceTime={setServiceTime}
+            type="pickup"
+          />
+          <CardSpacer />
+          <ServiceProcessCard
+            titleHead={commonMessages.pickupProcess}
             serviceProcess={serviceProcess}
             setServiceProcess={setServiceProcess}
             type="pickup"
           />
         </div>
-      </Grid>
+      </div>
+      <FormSpacer />
+
+      <div className={classes.configurationCategory}>
+        <div className={classes.configurationLabel}>
+          <Typography>
+            <h2 style={{ fontSize: "16px", fontWeight: 400, color: "#3d3d3d" }}>
+              QR Order Settings
+            </h2>
+            <p style={{ fontSize: "14px", fontWeight: 400, color: "#3d3d3d" }}>
+              Determine when and how your customers can place QR orders.
+            </p>
+          </Typography>
+        </div>
+        <div>
+          <ServiceCardComponent
+            titleHead={commonMessages.qrService}
+            serviceTime={serviceTime}
+            setServiceTime={setServiceTime}
+            type="table"
+          />
+        </div>
+      </div>
+      <FormSpacer />
+
+      {Object.keys(serviceProcess).length > 0 && (
+        <SaveButtonBar
+          disabled={compareStatus(input)}
+          state={updateServiceTimeOpts.status}
+          onSave={handleClick}
+          onCancel={() => navigate("/configuration")}
+        />
+      )}
     </Container>
   );
 }

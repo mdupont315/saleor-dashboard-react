@@ -1,6 +1,7 @@
 import { OutputData } from "@editorjs/editorjs";
 import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import RichTextEditor, {
   RichTextEditorChange
@@ -15,6 +16,7 @@ interface CategoryDetailsFormProps {
   data: {
     name: string;
     description: OutputData;
+    enable?: boolean;
   };
   disabled: boolean;
   errors: ProductErrorFragment[];
@@ -40,6 +42,16 @@ export const CategoryDetailsForm: React.FC<CategoryDetailsFormProps> = ({
       />
       <CardContent>
         <div>
+          <ControlledSwitch
+            name="enable"
+            label={`Enable this category`}
+            checked={!!data.enable}
+            onChange={onChange}
+          />
+        </div>
+
+        <FormSpacer />
+        <div>
           <TextField
             label={intl.formatMessage({
               defaultMessage: "Category Name"
@@ -53,6 +65,7 @@ export const CategoryDetailsForm: React.FC<CategoryDetailsFormProps> = ({
             fullWidth
           />
         </div>
+
         <FormSpacer />
         <RichTextEditor
           data={data.description}

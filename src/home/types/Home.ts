@@ -112,7 +112,8 @@ export interface Home_activities_edges_node {
   oversoldItems: (string | null)[] | null;
   quantity: number | null;
   type: OrderEventsEnum | null;
-  user: Home_activities_edges_node_user | null;
+  user: Home_activities_edges_node_user | null ;
+  order?: any | null;
 }
 
 export interface Home_activities_edges {

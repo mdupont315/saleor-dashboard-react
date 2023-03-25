@@ -1,3 +1,4 @@
+/* eslint-disable chai-friendly/no-unused-expressions */
 import placeholderImg from "@assets/images/placeholder255x255.png";
 import { DialogContentText, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -10,6 +11,7 @@ import {
 } from "@saleor/channels/utils";
 import ActionDialog from "@saleor/components/ActionDialog";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
+import AssignAttributeDialog from "@saleor/components/AssignAttributeDialog";
 import { AttributeInput } from "@saleor/components/Attributes";
 import ChannelsAvailabilityDialog from "@saleor/components/ChannelsAvailabilityDialog";
 import NotFoundPage from "@saleor/components/NotFoundPage";
@@ -28,12 +30,14 @@ import useNotifier from "@saleor/hooks/useNotifier";
 import useOnSetDefaultVariant from "@saleor/hooks/useOnSetDefaultVariant";
 import useShop from "@saleor/hooks/useShop";
 import { commonMessages } from "@saleor/intl";
+import { maybe } from "@saleor/misc";
 import {
   useProductChannelListingUpdate,
   useProductDeleteMutation,
   useProductMediaCreateMutation,
   useProductMediaDeleteMutation,
   useProductMediaReorder,
+  useProductOptionReorderMutation,
   useProductUpdateMutation,
   useProductVariantBulkDeleteMutation,
   useProductVariantChannelListingUpdate,
@@ -45,6 +49,7 @@ import useCategorySearch from "@saleor/searches/useCategorySearch";
 import useCollectionSearch from "@saleor/searches/useCollectionSearch";
 import usePageSearch from "@saleor/searches/usePageSearch";
 import useProductSearch from "@saleor/searches/useProductSearch";
+import { ReorderEvent } from "@saleor/types";
 import { getProductErrorMessage } from "@saleor/utils/errors";
 import createAttributeValueSearchHandler from "@saleor/utils/handlers/attributeValueSearchHandler";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
@@ -57,13 +62,18 @@ import {
 import { useWarehouseList } from "@saleor/warehouses/queries";
 import { warehouseAddPath } from "@saleor/warehouses/urls";
 import React from "react";
+import { useLazyQuery } from "react-apollo";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
 import { getMutationState } from "../../../misc";
 import ProductUpdatePage, {
   ProductUpdatePageSubmitData
 } from "../../components/ProductUpdatePage";
-import { useProductDetails } from "../../queries";
+import {
+  productOptionByProductId,
+  useListOptionData,
+  useProductDetails
+} from "../../queries";
 import { ProductMediaCreateVariables } from "../../types/ProductMediaCreate";
 import { ProductUpdate as ProductUpdateMutationResult } from "../../types/ProductUpdate";
 import {
@@ -109,12 +119,28 @@ interface ProductUpdateProps {
   params: ProductUrlQueryParams;
 }
 
+export interface AvailableAttributeFragment {
+  __typename?: "Attribute";
+  id: any;
+  name: any;
+  slug: any;
+}
+
 export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
   const navigate = useNavigator();
   const notify = useNotifier();
   const { isSelected, listElements, reset, toggle, toggleAll } = useBulkActions(
     params.ids
   );
+
+  const [values, setValues] = React.useState<any>([]);
+
+  const [checkedOption, setCheckedOption] = React.useState<any>([]);
+
+  const [checking, setChecking] = React.useState<any>([]);
+
+  const [assignAttribute, setAssignAttribute] = React.useState<any>([]);
+
   const intl = useIntl();
   const {
     loadMore: loadMoreCategories,
@@ -171,6 +197,23 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
       firstValues: VALUES_PAGINATE_BY
     }
   });
+
+  const {
+    data: listData,
+    loading: listLoading,
+    refetch: listRefetch
+  } = useListOptionData({
+    variables: {
+      first: 100
+    }
+  });
+
+  React.useEffect(() => {
+    // if (data) {
+    //   setValues(data.product.options);
+    // }
+  }, [data]);
+
   const limitOpts = useShopLimitsQuery({
     variables: {
       productVariants: true
@@ -180,13 +223,38 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
   const [uploadFile, uploadFileOpts] = useFileUploadMutation({});
 
   const handleUpdate = (data: ProductUpdateMutationResult) => {
-    if (data.productUpdate.errors.length === 0) {
+    // if (data.productUpdate.errors.length === 0) {
+    //   notify({
+    //     status: "success",
+    //     text: intl.formatMessage(commonMessages.savedChanges)
+    //   });
+    // } else {
+
+    // }
+    let err = false;
+    Object.keys(data).map(item => {
+      if (data[item]?.errors.length !== 0) {
+        data[item]?.errors.map(error => {
+          notify({
+            status: "error",
+            text: getProductErrorMessage(error, intl)
+          });
+        });
+        err = false;
+      } else {
+        err = true;
+      }
+    });
+
+    if (err) {
       notify({
         status: "success",
         text: intl.formatMessage(commonMessages.savedChanges)
       });
     }
+    // console.log(data, "---------");
   };
+
   const [updateProduct, updateProductOpts] = useProductUpdateMutation({
     onCompleted: handleUpdate
   });
@@ -318,6 +386,78 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     }
   });
 
+  const [productOptionReorder] = useProductOptionReorderMutation({
+    onCompleted: data => {
+      if (data.reorderProductOption.errors.length === 0) {
+        refetch();
+        getDataProductOption();
+      }
+    }
+  });
+
+  const handleProductOptionsReorder = ({
+    newIndex,
+    oldIndex
+  }: ReorderEvent) => {
+    // console.log("Reorder");
+    productOptionReorder({
+      variables: {
+        moves: [
+          {
+            optionId:
+              dataProductOption?.productOption?.edges[oldIndex]?.node?.option
+                ?.id,
+            sortOrder: newIndex - oldIndex
+          }
+        ],
+        productId: product.id
+      }
+    });
+  };
+
+  const [
+    getDataProductOption,
+    { data: dataProductOption, loading: productOptionLoading }
+  ] = useLazyQuery(productOptionByProductId, {
+    fetchPolicy: "no-cache",
+    variables: {
+      productId: product?.id || ""
+    }
+  });
+
+  React.useEffect(() => {
+    if (product && product?.id) {
+      setValues(product.options);
+      getDataProductOption();
+    }
+  }, [product]);
+
+  const sort = (data: any) => {
+    if (
+      data &&
+      values?.length === data?.productOption?.edges.length &&
+      productOptionLoading === false
+    ) {
+      const sortedProductOptions = [];
+      data.productOption.edges.forEach((item: any) => {
+        values.forEach((value: any) => {
+          if (value.id === item?.node.option.id) {
+            sortedProductOptions.push(value);
+          }
+        });
+      });
+      setValues(sortedProductOptions);
+    }
+  };
+  // console.log("productOptionLoading", dataProductOption);
+
+  React.useEffect(() => {
+    // console.log("Data change");
+    if (productOptionLoading === false) {
+      sort(dataProductOption);
+    }
+  }, [data, productOptionLoading]);
+
   const [
     updateVariantChannels,
     updateVariantChannelsOpts
@@ -408,6 +548,48 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     reorderProductVariants({ variables })
   );
 
+  const onToggle = (id: string) => {
+    const findChecked = checkedOption.find(checkId => checkId === id);
+    if (findChecked) {
+      setCheckedOption(checkedOption.filter(checkId => checkId !== id));
+    } else {
+      setCheckedOption([...checkedOption, id]);
+    }
+  };
+
+  const onToggleAll = () => {
+    if (checkedOption.length > 0) {
+      setCheckedOption([]);
+    } else {
+      setCheckedOption(values.map(value => value.id));
+    }
+  };
+
+  const onAttributeUnassign = (id: string) => {
+    setValues(values.filter(value => value.id !== id));
+    setAssignAttribute(assignAttribute.filter(value => value.id !== id));
+  };
+
+  const onAttributeUnassignAll = () => {
+    checkedOption.reverse().forEach(index => {
+      const indexValues = values.findIndex(value => value.id === index);
+      values.splice(indexValues, 1);
+      setValues([...values]);
+    });
+  };
+
+  const handleAssignAttribute = () => {
+    if (assignAttribute.length > 0) {
+      const array = Array.from(new Set(values.concat(assignAttribute)));
+      setValues(array);
+      setChecking([]);
+      setCheckedOption([]);
+      closeModal();
+    }
+  };
+
+  const loadMore = () => null;
+
   const handleAssignAttributeReferenceClick = (attribute: AttributeInput) =>
     navigate(
       productUrl(id, {
@@ -428,6 +610,7 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
     productVariantCreateOpts.loading ||
     deleteAttributeValueOpts.loading ||
     createProductMediaOpts.loading ||
+    productOptionLoading ||
     loading;
 
   const formTransitionState = getMutationState(
@@ -488,6 +671,30 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
       ?.hasNextPage,
     loading: !!searchAttributeValuesOpts.loading,
     onFetchMore: loadMoreAttributeValues
+  };
+
+  const listDataAttribute = () => {
+    const array: any = [];
+    const formatList: any = listData && mapEdgesToItems(listData.options);
+
+    if (data && formatList) {
+      values.forEach(index => {
+        const indexList = formatList.findIndex(value => value.id === index.id);
+        formatList.splice(indexList, 1);
+      });
+    }
+    formatList.map(value => {
+      if (value) {
+        array.push({
+          __typename: "Attribute",
+          id: value.id || "",
+          name: value.name || "",
+          slug: value.type || ""
+        });
+      }
+    });
+
+    return array;
   };
 
   return (
@@ -570,6 +777,7 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
         onImageUpload={handleImageUpload}
         onImageEdit={handleImageEdit}
         onImageDelete={handleImageDelete}
+        onProductOptionsReorder={handleProductOptionsReorder}
         toolbar={
           <IconButton
             color="primary"
@@ -601,6 +809,24 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
         fetchMoreReferenceProducts={fetchMoreReferenceProducts}
         fetchMoreAttributeValues={fetchMoreAttributeValues}
         onCloseDialog={() => navigate(productUrl(id))}
+        values={maybe(
+          () => values
+          // values.sort((a, b) => {
+          //   if (a.name.length > b.name.length) {
+          //     return 1;
+          //   }
+          //   if (a.name.length < b.name.length) {
+          //     return -1;
+          //   }
+          //   return 0;
+          // })
+        )}
+        onAttributeAdd={() => openModal("assign-attribute-value")}
+        isCheckedOption={checkedOption}
+        onToggle={onToggle}
+        onToggleAll={onToggleAll}
+        onAttributeUnassign={onAttributeUnassign}
+        onAttributeUnassignAll={onAttributeUnassignAll}
       />
       <ActionDialog
         open={params.action === "remove"}
@@ -641,6 +867,51 @@ export const ProductUpdate: React.FC<ProductUpdateProps> = ({ id, params }) => {
           />
         </DialogContentText>
       </ActionDialog>
+      {listData && (
+        <AssignAttributeDialog
+          attributes={maybe(listDataAttribute)}
+          errors={maybe(
+            () =>
+              listData.opts.data.productAttributeAssign.errors.map(
+                err => err.message
+              ),
+            []
+          )}
+          showFillter={false}
+          loading={listLoading}
+          onClose={closeModal}
+          onSubmit={handleAssignAttribute}
+          onFetch={() => listRefetch}
+          onFetchMore={loadMore}
+          onOpen={() => listDataAttribute()}
+          hasMore={maybe(
+            () =>
+              listData.data.productType.availableAttributes.pageInfo
+                .hasNextPage,
+            false
+          )}
+          selected={checking}
+          open={params.action === "assign-attribute-value"}
+          onToggle={attributeId => {
+            const checkHadValues = !!checking.find(id => id === attributeId);
+            if (checkHadValues) {
+              setChecking(checking.filter(id => id !== attributeId));
+              setAssignAttribute(
+                assignAttribute.filter(value => value.id !== attributeId)
+              );
+            } else {
+              setChecking([...checking, attributeId]);
+              setAssignAttribute([
+                ...assignAttribute,
+                mapEdgesToItems(listData.options).find(
+                  // @ts-ignore
+                  value => value.id === attributeId
+                )
+              ]);
+            }
+          }}
+        />
+      )}
     </>
   );
 };

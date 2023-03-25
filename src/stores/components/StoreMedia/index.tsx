@@ -14,9 +14,9 @@ import { SortableContainer, SortableElement } from "react-sortable-hoc";
 const useStyles = makeStyles(
   theme => ({
     card: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(3),
       [theme.breakpoints.down("sm")]: {
-        marginTop: 0
+        marginTop: theme.spacing(1)
       }
     },
     fileField: {
@@ -182,10 +182,23 @@ const StoreMedia: React.FC<PageCarouselProps> = props => {
               }
             ]
           }));
-        } else {
+        } else if (title === "Cover Photo") {
           setImagesToUpload(prevImagesToUpload => ({
             ...prevImagesToUpload,
             coverPhoto: [
+              {
+                alt: "",
+                id: "",
+                sortOrder: fileIndex,
+                url: event.target.result as string,
+                image: file
+              }
+            ]
+          }));
+        } else {
+          setImagesToUpload(prevImagesToUpload => ({
+            ...prevImagesToUpload,
+            favicon: [
               {
                 alt: "",
                 id: "",

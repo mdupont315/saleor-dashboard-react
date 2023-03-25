@@ -21,6 +21,12 @@ const useStyles = makeStyles(
       display: "flex",
       justifyContent: "flex-end"
     },
+    wrapper: {
+      // position: "absolute",
+      // top: "50%",
+      // left: "50%",
+      // transform: "translate(-50%,-50%)"
+    },
     link: {
       color: theme.palette.primary.main,
       cursor: "pointer",
@@ -33,7 +39,7 @@ const useStyles = makeStyles(
       justifyContent: "center"
     },
     loginButton: {
-      width: 140
+      // width: 140
     },
     panel: {
       "& span": {
@@ -56,6 +62,7 @@ export interface LoginCardProps {
   externalAuthentications?: AvailableExternalAuthentications_shop_availableExternalAuthentications[];
   onExternalAuthentication: (pluginId: string) => void;
   onPasswordRecovery: () => void;
+  onCreateNewSite: () => void;
   onSubmit?: (event: LoginFormData) => SubmitPromise;
 }
 
@@ -68,6 +75,7 @@ const LoginCard: React.FC<LoginCardProps> = props => {
     externalAuthentications = [],
     onExternalAuthentication,
     onPasswordRecovery,
+    onCreateNewSite,
     onSubmit
   } = props;
 
@@ -83,9 +91,19 @@ const LoginCard: React.FC<LoginCardProps> = props => {
   }
 
   return (
-    <LoginForm onSubmit={onSubmit}>
+    <LoginForm onSubmit={onSubmit} className={classes.wrapper}>
       {({ change: handleChange, data, submit: handleSubmit }) => (
         <>
+          <Typography
+            style={{
+              marginBottom: "32px",
+              fontWeight: 600,
+              fontSize: "24px",
+              lineHeight: "32px"
+            }}
+          >
+            <FormattedMessage defaultMessage="Restaurant login" />
+          </Typography>
           {error && (
             <div className={classes.panel} data-test="loginErrorMessage">
               <Typography variant="caption">
@@ -134,17 +152,18 @@ const LoginCard: React.FC<LoginCardProps> = props => {
             <Button
               className={classes.loginButton}
               color="primary"
+              fullWidth
               disabled={disabled}
               variant="contained"
               onClick={handleSubmit}
               type="submit"
               data-test="submit"
             >
-              <FormattedMessage defaultMessage="Login" description="button" />
+              <FormattedMessage defaultMessage="Log in" description="button" />
             </Button>
           </div>
           <FormSpacer />
-          <Typography>
+          <Typography style={{ marginBottom: "8px" }}>
             <FormattedMessage
               defaultMessage="Forgot password? {resetPasswordLink}"
               description="description"
@@ -153,6 +172,23 @@ const LoginCard: React.FC<LoginCardProps> = props => {
                   <a className={classes.link} onClick={onPasswordRecovery}>
                     <FormattedMessage
                       defaultMessage="Use this link to recover it"
+                      description="link"
+                    />
+                  </a>
+                )
+              }}
+            />
+          </Typography>
+
+          <Typography>
+            <FormattedMessage
+              defaultMessage="New to Orderich? {createNewSiteLink}"
+              description="description"
+              values={{
+                createNewSiteLink: (
+                  <a className={classes.link} onClick={onCreateNewSite}>
+                    <FormattedMessage
+                      defaultMessage="Create a free order site for your restaraunt"
                       description="link"
                     />
                   </a>

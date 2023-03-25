@@ -1,8 +1,10 @@
 import AppHeader from "@saleor/components/AppHeader";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
+import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { sectionNames } from "@saleor/intl";
+import { StoreUrlQueryParams } from "@saleor/stores/urls";
 import { Formik } from "formik";
 import React from "react";
 import { useIntl } from "react-intl";
@@ -11,14 +13,20 @@ import * as yup from "yup";
 import StoreInput from "../StoreInput";
 
 interface IProps {
+  params?: StoreUrlQueryParams;
   disabled?: boolean;
   storeId?: string;
   initialValues?: any;
   userData?: any;
   onBack?: () => void;
   onSubmit?: (data: Partial<StoreDetailVariables>) => void;
+  openModal: any;
+  closeModal: any;
   saveButtonBarState?: ConfirmButtonTransitionState;
   handleRefetch?: () => void;
+  customDomainData?: any;
+  handleVerifySSL?: any;
+  handleDeleteCustomDomain?: any;
 }
 
 export function areAddressInputFieldsModified(
@@ -62,9 +70,28 @@ export interface SiteSettingsPageFormData extends StoreDetailVariables {
   name: string;
 }
 
+// const postCodeCheck = (value: any) => {
+//   const result =
+//     value.length > 0 && value.length < 8
+//       ? isNaN(Number(value.slice(0, 4))) === false &&
+//         value.slice(4, 5) === " " &&
+//         !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value.slice(5, 7))
+//         ? true
+//         : false
+//       : false;
+//   return result;
+// };
+
+// const endPoint = process.env.END_POINT;
+
 const validateSchema = yup.object().shape({
-  name: yup.string().required("Required!"),
+  name: yup
+    .string()
+    .required("Required!")
+    .max(60, "Store name can only contain 60 characters"),
   domain: yup.string().required("Required!"),
+  // phone: yup.string().required("Required!"),
+  // address: yup.string().required("Required!"),
   email: yup
     .string()
     .required("Required!")
@@ -73,23 +100,39 @@ const validateSchema = yup.object().shape({
     .string()
     .required("Required!")
     .min(8, "Too Short!")
+  // description: yup.string().max(160, "Too long")
 });
 
 const validateSchemaUpdate = yup.object().shape({
-  name: yup.string().required("Required!"),
-  domain: yup.string().required("Required!")
+  name: yup
+    .string()
+    .required("Required!")
+    .max(60, "Store name can only contain 60 characters"),
+  domain: yup.string().required("Required!"),
+  phone: yup.string().required("Required!"),
+  address: yup.string().required("Required!"),
+  postalcode: yup.string().required("Required"),
+  description: yup.string().max(160, "Too long")
+  // .test(
+  //   "postalCode",
+  //   "Sorry, we do not deliver to this area. Try another postcode or place a pickup delivery instead.",
+  //   value => postCodeCheck(value)
+  // )
 });
 
 const StoreDetailPage: React.FC<IProps> = ({
   initialValues,
-  onBack,
   saveButtonBarState,
   storeId,
-  onSubmit
+  onSubmit,
+  onBack,
+  openModal,
+  closeModal,
+  customDomainData,
+  handleVerifySSL,
+  handleDeleteCustomDomain
 }) => {
   const intl = useIntl();
-
-  // console.log(initialValues, "-initialValues");
 
   const initialForm =
     initialValues && initialValues?.store
@@ -99,29 +142,52 @@ const StoreDetailPage: React.FC<IProps> = ({
           email: initialValues.store.email,
           password: initialValues.store.password,
           logo: [initialValues.store.logo || ""],
-          coverPhoto: [initialValues.store.coverPhoto || ""]
+          coverPhoto: [initialValues.store.coverPhoto || ""],
+          favicon: [initialValues.store.favicon || ""],
+          address: initialValues.store.address,
+          phone: initialValues.store.phone,
+          postalcode: initialValues.store.postalCode,
+          city: initialValues.store.city,
+          description: initialValues.store.description,
+          enableCustomDomain: initialValues.store.customDomainEnable
         }
       : {
           name: "",
           domain: "",
           email: "",
-          password: "",
-          logo: [],
-          coverPhoto: []
+          password: ""
+          // logo: [],
+          // coverPhoto: [],
+          // address: "",
+          // phone: ""
         };
+
+  const compareStatus = values => {
+    if (initialValues && initialValues?.store) {
+      delete initialValues?.store.id;
+      delete initialValues?.store.__typename;
+      const cloneObject = { ...values };
+      const value = Object.assign(cloneObject, {
+        logo: initialValues?.store?.logo || "",
+        coverPhoto: initialValues?.store?.coverPhoto || "",
+        favicon: initialValues?.store?.favicon || ""
+      });
+
+      return JSON.stringify(value) === JSON.stringify(initialValues?.store);
+    }
+    return false;
+  };
+
   return (
     <Container>
       <AppHeader onBack={onBack}>
-        {storeId
-          ? intl.formatMessage(sectionNames.stores)
-          : intl.formatMessage(sectionNames.stores)}
+        {intl.formatMessage(sectionNames.configuration)}
       </AppHeader>
+      <PageHeader title={intl.formatMessage(sectionNames.stores)} />
       <Formik
         initialValues={initialForm}
         validationSchema={storeId ? validateSchemaUpdate : validateSchema}
-        onSubmit={values => {
-          onSubmit(values);
-        }}
+        onSubmit={values => onSubmit(values)}
       >
         {({ values, handleChange, handleSubmit, ...formikProps }) => (
           <>
@@ -135,11 +201,17 @@ const StoreDetailPage: React.FC<IProps> = ({
                 values={values}
                 handleChange={handleChange}
                 storeId={storeId}
+                // onDialogEditUrl={() => openModal("edit-domain")}
+                onDialogAddDomain={() => openModal("add-domain")}
+                customDomainData={customDomainData}
+                closeModal={closeModal}
+                handleVerifySSL={handleVerifySSL}
+                handleDeleteCustomDomain={handleDeleteCustomDomain}
               />
             </form>
             <SaveButtonBar
               state={saveButtonBarState}
-              disabled={false}
+              disabled={compareStatus(values)}
               onCancel={onBack}
               onSave={handleSubmit}
             />

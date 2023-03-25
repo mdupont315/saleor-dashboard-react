@@ -42,14 +42,14 @@ const VoucherTypes = ({
         description: "voucher discount type"
       }),
       value: DiscountTypeEnum.VALUE_PERCENTAGE
-    },
-    {
-      label: intl.formatMessage({
-        defaultMessage: "Free Shipping",
-        description: "voucher discount type"
-      }),
-      value: DiscountTypeEnum.SHIPPING
     }
+    // {
+    //   label: intl.formatMessage({
+    //     defaultMessage: "Free Shipping",
+    //     description: "voucher discount type"
+    //   }),
+    //   value: DiscountTypeEnum.SHIPPING
+    // }
   ];
 
   return (

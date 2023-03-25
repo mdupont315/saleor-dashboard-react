@@ -59,7 +59,7 @@ interface SaveButtonBarProps {
     delete?: string;
     save?: string;
   };
-  onCancel: () => void;
+  onCancel?: () => void;
   onDelete?: () => void;
   onSave(event: any);
 }
@@ -92,7 +92,7 @@ export const SaveButtonBar: React.FC<SaveButtonBarProps> = props => {
 
   return appAction.anchor ? (
     <Portal container={appAction.anchor.current}>
-      <div className={classes.root} {...rest}>
+      <div id="duyocbo" className={classes.root} {...rest}>
         <Container>
           <Card
             className={classes.paper}
@@ -110,14 +110,16 @@ export const SaveButtonBar: React.FC<SaveButtonBarProps> = props => {
                 </Button>
               )}
               <div className={classes.spacer} />
-              <Button
-                className={classes.cancelButton}
-                variant="text"
-                onClick={onCancel}
-                data-test="button-bar-cancel"
-              >
-                {labels?.cancel || intl.formatMessage(buttonMessages.back)}
-              </Button>
+              {!!onCancel && (
+                <Button
+                  className={classes.cancelButton}
+                  variant="text"
+                  onClick={onCancel}
+                  data-test="button-bar-cancel"
+                >
+                  {labels?.cancel || intl.formatMessage(buttonMessages.back)}
+                </Button>
+              )}
               <ConfirmButton
                 disabled={disabled}
                 onClick={onSave}

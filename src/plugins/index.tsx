@@ -1,8 +1,10 @@
+import useUser from "@saleor/hooks/useUser";
 import { sectionNames } from "@saleor/intl";
 import { asSortParams } from "@saleor/utils/sort";
 import { parse as parseQs } from "qs";
 import React from "react";
 import { useIntl } from "react-intl";
+import { Redirect } from "react-router";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 
 import { WindowTitle } from "../components/WindowTitle";
@@ -11,7 +13,8 @@ import {
   PluginListUrlQueryParams,
   PluginListUrlSortField,
   pluginPath,
-  PluginUrlQueryParams
+  PluginUrlQueryParams,
+  STRIPE_PLUGIN_ID
 } from "./urls";
 import PluginsListComponent from "./views/PluginList";
 import PluginsDetailsComponent from "./views/PluginsDetails";
@@ -28,7 +31,13 @@ const PluginList: React.FC<RouteComponentProps<any>> = ({ location }) => {
 const PageDetails: React.FC<RouteComponentProps<any>> = ({ match }) => {
   const qs = parseQs(location.search.substr(1));
   const params: PluginUrlQueryParams = qs;
+  const { user } = useUser();
 
+  if (decodeURIComponent(match.params.id) !== STRIPE_PLUGIN_ID) {
+    if (user.isSupplier) {
+      return <Redirect to="/" />;
+    }
+  }
   return (
     <PluginsDetailsComponent
       id={decodeURIComponent(match.params.id)}
@@ -39,6 +48,13 @@ const PageDetails: React.FC<RouteComponentProps<any>> = ({ match }) => {
 
 const Component = () => {
   const intl = useIntl();
+  // const { user } = useUser();
+  // if (!user.isSuperuser) {
+  //   if (!user.isSupplier) {
+  //     return <Redirect to="/" />;
+  //   }
+  // }
+
   return (
     <>
       <WindowTitle title={intl.formatMessage(sectionNames.plugins)} />

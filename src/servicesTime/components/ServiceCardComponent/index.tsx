@@ -7,18 +7,21 @@ import {
   FormControlLabel,
   FormGroup,
   FormHelperText,
+  IconButton,
   InputLabel,
   MenuItem,
-  Select
+  Select,
+  Tooltip
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import CardTitle from "@saleor/components/CardTitle";
 import FormSpacer from "@saleor/components/FormSpacer";
 import React from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const initTime = {
   days: [false, false, false, false, false, false, false],
-  open: "0:0",
+  open: "00:00",
   close: "23:55"
 };
 
@@ -48,6 +51,14 @@ const checkDay = (input?: any) => {
   }
 };
 
+function padLeadingZeros(num, size) {
+  let s = num + "";
+  while (s.length < size) {
+    s = "0" + s;
+  }
+  return s;
+}
+
 const renHours = () => {
   const result = [];
   const hours = new Date();
@@ -59,8 +70,14 @@ const renHours = () => {
 
     hours.setMinutes(t);
     result.push({
-      label: `${hours.getHours()}:${hours.getMinutes()}`,
-      value: `${hours.getHours()}:${hours.getMinutes()}`
+      label: `${padLeadingZeros(hours.getHours(), 2)}:${padLeadingZeros(
+        hours.getMinutes(),
+        2
+      )}`,
+      value: `${padLeadingZeros(hours.getHours(), 2)}:${padLeadingZeros(
+        hours.getMinutes(),
+        2
+      )}`
     });
     if (hours.getHours() === 0 && hours.getMinutes() === 0) {
       break;
@@ -76,31 +93,58 @@ function ServiceCardComponent({
   setServiceTime
 }: IProps) {
   const intl = useIntl();
+
   const handleChange = (_: any, indexItem: number, index: number) => {
     if (type === "delivery") {
-      const clone = { ...serviceTime };
-      clone.deliveryService[indexItem].days[index] = !clone.deliveryService[
-        indexItem
-      ].days[index];
-      setServiceTime(clone);
+      const editValue = [...serviceTime.deliveryService];
+      editValue[indexItem] = {
+        ...editValue[indexItem],
+        days: editValue[indexItem].days.map((item, i) =>
+          i === index ? !item : item
+        )
+      };
+      setServiceTime({ ...serviceTime, deliveryService: editValue });
+    } else if (type === "pickup") {
+      const editValue = [...serviceTime.pickupService];
+      editValue[indexItem] = {
+        ...editValue[indexItem],
+        days: editValue[indexItem].days.map((item, i) =>
+          i === index ? !item : item
+        )
+      };
+      setServiceTime({ ...serviceTime, pickupService: editValue });
     } else {
-      const clone = { ...serviceTime };
-      clone.pickupService[indexItem].days[index] = !clone.pickupService[
-        indexItem
-      ].days[index];
-      setServiceTime(clone);
+      const editValue = [...serviceTime.tableService];
+      editValue[indexItem] = {
+        ...editValue[indexItem],
+        days: editValue[indexItem].days.map((item, i) =>
+          i === index ? !item : item
+        )
+      };
+      setServiceTime({ ...serviceTime, tableService: editValue });
     }
   };
   const arr = renHours();
 
   const onAddNewTimeSlot = () => {
+    const newTest = { ...initTime };
     if (type === "delivery") {
-      const clone = { ...serviceTime };
-      clone.deliveryService.push(initTime);
+      const clone = {
+        ...serviceTime,
+        deliveryService: [...serviceTime.deliveryService, { ...newTest }]
+      };
+      setServiceTime(clone);
+    } else if (type === "pickup") {
+      const clone = {
+        ...serviceTime,
+        pickupService: [...serviceTime.pickupService, { ...newTest }]
+      };
       setServiceTime(clone);
     } else {
-      const clone = { ...serviceTime };
-      clone.pickupService.push(initTime);
+      const clone = {
+        ...serviceTime,
+        tableService: [...serviceTime.tableService, { ...newTest }]
+      };
       setServiceTime(clone);
     }
   };
@@ -110,9 +154,13 @@ function ServiceCardComponent({
       const clone = { ...serviceTime };
       clone.deliveryService.splice(index, 1);
       setServiceTime(clone);
-    } else {
+    } else if (type === "pickup") {
       const clone = { ...serviceTime };
       clone.pickupService.splice(index, 1);
+      setServiceTime(clone);
+    } else {
+      const clone = { ...serviceTime };
+      clone.tableService.splice(index, 1);
       setServiceTime(clone);
     }
   };
@@ -127,12 +175,20 @@ function ServiceCardComponent({
       }
 
       setServiceTime(clone);
-    } else {
+    } else if (type === "pickup") {
       const clone = { ...serviceTime };
       if (isFrom) {
         clone.pickupService[indexItem].open = e.target.value;
       } else {
         clone.pickupService[indexItem].close = e.target.value;
+      }
+      setServiceTime(clone);
+    } else {
+      const clone = { ...serviceTime };
+      if (isFrom) {
+        clone.tableService[indexItem].open = e.target.value;
+      } else {
+        clone.tableService[indexItem].close = e.target.value;
       }
       setServiceTime(clone);
     }
@@ -141,11 +197,14 @@ function ServiceCardComponent({
   const listArr =
     type === "delivery"
       ? serviceTime.deliveryService
-      : serviceTime.pickupService;
+      : type === "pickup"
+      ? serviceTime.pickupService
+      : serviceTime.tableService;
+
   return (
     <Card>
       <CardTitle title={intl.formatMessage(titleHead)} />
-      <CardContent>
+      <CardContent style={{ padding: "0 24px 24px" }}>
         {listArr.map((item: any, indexItem: number) => {
           const error = item.open > item.close;
           // if (error) {
@@ -153,11 +212,18 @@ function ServiceCardComponent({
           // }
           return (
             <>
-              <FormControl aria-label="Day">
+              <FormControl style={{ marginTop: "24px" }} aria-label="Day">
                 <FormGroup>
-                  <div style={{ display: "flex" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-between"
+                    }}
+                  >
                     {item?.days.map((item, index) => (
                       <FormControlLabel
+                        style={{ width: "74px" }}
                         key={index}
                         control={
                           <Checkbox
@@ -180,7 +246,8 @@ function ServiceCardComponent({
                 style={{
                   display: "grid",
                   gridColumnGap: "10px",
-                  gridTemplateColumns: "auto auto"
+                  gridTemplateColumns: "7fr 7fr 0fr",
+                  paddingBottom: "6px"
                 }}
               >
                 <FormControl variant="outlined" fullWidth error={error}>
@@ -225,28 +292,46 @@ function ServiceCardComponent({
                     <FormHelperText>From have small than until</FormHelperText>
                   )}
                 </FormControl>
-              </div>
-              <FormSpacer />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => onDeleteSlot(indexItem)}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    height: "95%"
+                  }}
                 >
-                  Delete timeslot
-                </Button>
+                  <Tooltip title="Delete">
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => onDeleteSlot(indexItem)}
+                      style={{ color: "#06847B" }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </div>
               <FormSpacer />
-              <hr />
               <FormSpacer />
+              <hr style={{ border: "1px solid #EAEAEA", margin: 0 }} />
             </>
           );
         })}
-
-        <Button variant="contained" color="primary" onClick={onAddNewTimeSlot}>
-          Add a timeslot
-        </Button>
       </CardContent>
+      <hr style={{ border: "1px solid #EAEAEA", margin: "-26px 0 0 0" }} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "14px 24px"
+        }}
+      >
+        <Button color="primary" variant="text" onClick={onAddNewTimeSlot}>
+          <FormattedMessage
+            defaultMessage="Add timeslot"
+            description="Add timeslot button"
+          />
+        </Button>
+      </div>
     </Card>
   );
 }

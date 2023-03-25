@@ -6,7 +6,7 @@ import Container from "@saleor/components/Container";
 import CountryList from "@saleor/components/CountryList";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import { MultiAutocompleteChoiceType } from "@saleor/components/MultiAutocompleteSelectField";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -18,7 +18,7 @@ import useStateFromProps from "@saleor/hooks/useStateFromProps";
 import { ShippingZone_shippingZone } from "@saleor/shipping/types/ShippingZone";
 import createMultiAutocompleteSelectHandler from "@saleor/utils/handlers/multiAutocompleteSelectChangeHandler";
 import { mapNodeToChoice } from "@saleor/utils/maps";
-import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
+// import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
 import React from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
 
@@ -122,10 +122,6 @@ const ShippingZoneDetailsPage: React.FC<ShippingZoneDetailsPageProps> = ({
     MultiAutocompleteChoiceType[]
   >(mapNodeToChoice(shippingZone?.channels));
 
-  const {
-    makeChangeHandler: makeMetadataChangeHandler
-  } = useMetadataChangeTrigger();
-
   return (
     <Form initial={initialForm} onSubmit={onSubmit}>
       {({ change, data, hasChanged, submit, toggleValue }) => {
@@ -143,7 +139,7 @@ const ShippingZoneDetailsPage: React.FC<ShippingZoneDetailsPageProps> = ({
           channelChoices
         );
 
-        const changeMetadata = makeMetadataChangeHandler(change);
+        // const changeMetadata = makeMetadataChangeHandler(change);
 
         return (
           <Container>
@@ -201,7 +197,7 @@ const ShippingZoneDetailsPage: React.FC<ShippingZoneDetailsPageProps> = ({
                   testId="add-weight-rate"
                 />
                 <CardSpacer />
-                <Metadata data={data} onChange={changeMetadata} />
+                {/* <Metadata data={data} onChange={changeMetadata} /> */}
               </div>
               <div>
                 <ShippingZoneSettingsCard

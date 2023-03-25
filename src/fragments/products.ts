@@ -103,6 +103,7 @@ export const productFragment = gql`
   fragment ProductFragment on Product {
     id
     name
+    enable
     thumbnail {
       url
     }
@@ -188,11 +189,17 @@ export const productFragmentDetails = gql`
     ...ProductVariantAttributesFragment
     ...MetadataFragment
     name
+    enable
     slug
     description
     seoTitle
     seoDescription
     rating
+    options {
+      id
+      name
+      type
+    }
     defaultVariant {
       id
     }

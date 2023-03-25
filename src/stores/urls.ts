@@ -45,7 +45,8 @@ export type StoreListUrlQueryParams = ActiveTab &
   Pagination;
 
 export const storePath = (id: string) => urlJoin(storeSection, id);
-export type StoreUrlDialog = "remove";
+
+export type StoreUrlDialog = "remove" | "add-domain";
 export type StoreUrlQueryParams = Dialog<StoreUrlDialog>;
 export const storeUrl = (id: string, params?: StoreUrlQueryParams) =>
   storePath(encodeURIComponent(id)) + "?" + stringifyQs(params);

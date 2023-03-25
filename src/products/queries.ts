@@ -2,6 +2,7 @@ import {
   attributeValueFragment,
   attributeValueListFragment
 } from "@saleor/fragments/attributes";
+import { optionsFragment } from "@saleor/fragments/options";
 import { pageInfoFragment } from "@saleor/fragments/pageInfo";
 import {
   fragmentVariant,
@@ -152,6 +153,13 @@ const productListQuery = gql`
       edges {
         node {
           ...ProductFragment
+          category {
+            id
+            name
+          }
+          variants {
+            sku
+          }
           attributes {
             attribute {
               id
@@ -423,3 +431,40 @@ export const useCreateMultipleVariantsData = makeQuery<
   CreateMultipleVariantsData,
   CreateMultipleVariantsDataVariables
 >(createMultipleVariantsData);
+
+const listOptionData = gql`
+  ${optionsFragment}
+  ${pageInfoFragment}
+  query OptionList($before: String, $after: String, $first: Int, $last: Int) {
+    options(before: $before, after: $after, first: $first, last: $last) {
+      edges {
+        node {
+          ...OptionsFragment
+        }
+      }
+      pageInfo {
+        ...PageInfoFragment
+      }
+    }
+  }
+`;
+export const useListOptionData = makeQuery<any, {}>(listOptionData);
+
+export const productOptionByProductId = gql`
+  query ProductOptions($productId: ID) {
+    productOption(productId: $productId, first: 100) {
+      edges {
+        node {
+          id
+          option {
+            id
+          }
+          sortOrder
+        }
+      }
+    }
+  }
+`;
+export const useListProductOptionByProductId = makeQuery<any, {}>(
+  productOptionByProductId
+);

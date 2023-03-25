@@ -1,3 +1,4 @@
+import { useAuth } from "@saleor/auth/AuthProvider";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
 // import CardSpacer from "@saleor/components/CardSpacer";
@@ -54,7 +55,7 @@ const PluginsDetailsPage: React.FC<PluginsDetailsPageProps> = ({
   setSelectedChannelId
 }) => {
   const intl = useIntl();
-
+  const { user } = useAuth();
   const initialFormData = (): PluginDetailsPageFormData => ({
     active: selectedConfig?.active,
     configuration: selectedConfig?.configuration
@@ -102,7 +103,9 @@ const PluginsDetailsPage: React.FC<PluginsDetailsPageProps> = ({
         return (
           <Container>
             <AppHeader onBack={onBack}>
-              {intl.formatMessage(sectionNames.plugins)}
+              {user.isSuperuser
+                ? intl.formatMessage(sectionNames.plugins)
+                : intl.formatMessage(sectionNames.configuration)}
             </AppHeader>
             <PageHeader
               title={intl.formatMessage(

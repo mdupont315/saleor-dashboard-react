@@ -218,6 +218,7 @@ export interface ProductUpdatePageFormData extends MetadataFormData {
   chargeTaxes: boolean;
   collections: string[];
   isAvailable: boolean;
+  enable?: boolean;
   name: string;
   slug: string;
   rating: number;
@@ -248,6 +249,7 @@ export function getProductUpdatePageFormData(
     ),
     channelListings: currentChannels,
     isAvailable: !!product?.isAvailable,
+    enable: !!product?.enable,
     metadata: product?.metadata?.map(mapMetadataItemToInput),
     name: maybe(() => product.name, ""),
     privateMetadata: product?.privateMetadata?.map(mapMetadataItemToInput),

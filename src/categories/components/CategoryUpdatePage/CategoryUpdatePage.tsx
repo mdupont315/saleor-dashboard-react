@@ -1,13 +1,11 @@
-import { Button, Card } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import AppHeader from "@saleor/components/AppHeader";
 import { CardSpacer } from "@saleor/components/CardSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
-import Metadata from "@saleor/components/Metadata/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import SeoForm from "@saleor/components/SeoForm";
 import { SingleAutocompleteChoiceType } from "@saleor/components/SingleAutocompleteSelectField";
 import { Tab, TabContainer } from "@saleor/components/Tab";
 import { ProductErrorFragment } from "@saleor/fragments/types/ProductErrorFragment";
@@ -16,7 +14,7 @@ import { sectionNames } from "@saleor/intl";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { maybe } from "../../../misc";
+// import { maybe } from "../../../misc";
 import { ChannelProps, TabListActions } from "../../../types";
 import CategoryDetailsForm from "../../components/CategoryDetailsForm";
 import CategoryList from "../../components/CategoryList";
@@ -25,13 +23,13 @@ import {
   CategoryDetails_category_children_edges_node,
   CategoryDetails_category_products_edges_node
 } from "../../types/CategoryDetails";
-import CategoryBackground from "../CategoryBackground";
+// import CategoryBackground from "../CategoryBackground";
 import CategoryProducts from "../CategoryProducts";
 import CategoryUpdateForm, { CategoryUpdateData } from "./form";
 
 export enum CategoryPageTab {
-  categories = "categories",
-  products = "products"
+  products = "products",
+  categories = "categories"
 }
 
 export interface CategoryUpdatePageProps
@@ -64,7 +62,7 @@ export interface CategoryUpdatePageProps
   onCategoryClick(id: string): () => void;
 }
 
-const CategoriesTab = Tab(CategoryPageTab.categories);
+// const CategoriesTab = Tab(CategoryPageTab.categories);
 const ProductsTab = Tab(CategoryPageTab.products);
 
 export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
@@ -79,7 +77,7 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
   products,
   saveButtonBarState,
   subcategories,
-  onAddCategory,
+  // onAddCategory,
   onAddProduct,
   onBack,
   onCategoryClick,
@@ -88,8 +86,8 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
   onPreviousPage,
   onProductClick,
   onSubmit,
-  onImageDelete,
-  onImageUpload,
+  // onImageDelete,
+  // onImageUpload,
   isChecked,
   productListToolbar,
   selected,
@@ -116,15 +114,15 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
             onDescriptionChange={handlers.changeDescription}
           />
           <CardSpacer />
-          <CategoryBackground
+          {/* <CategoryBackground
             data={data}
             onImageUpload={onImageUpload}
             onImageDelete={onImageDelete}
             image={maybe(() => category.backgroundImage)}
             onChange={change}
-          />
+          /> */}
           <CardSpacer />
-          <SeoForm
+          {/* <SeoForm
             helperText={intl.formatMessage({
               defaultMessage:
                 "Add search engine title and description to make this category easier to find"
@@ -141,18 +139,9 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
             disabled={disabled}
           />
           <CardSpacer />
-          <Metadata data={data} onChange={handlers.changeMetadata} />
+          <Metadata data={data} onChange={handlers.changeMetadata} /> */}
           <CardSpacer />
           <TabContainer>
-            <CategoriesTab
-              isActive={currentTab === CategoryPageTab.categories}
-              changeTab={changeTab}
-            >
-              <FormattedMessage
-                defaultMessage="Subcategories"
-                description="number of subcategories in category"
-              />
-            </CategoriesTab>
             <ProductsTab
               isActive={currentTab === CategoryPageTab.products}
               changeTab={changeTab}
@@ -162,6 +151,15 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
                 description="number of products in category"
               />
             </ProductsTab>
+            {/* <CategoriesTab
+              isActive={currentTab === CategoryPageTab.categories}
+              changeTab={changeTab}
+            >
+              <FormattedMessage
+                defaultMessage="Subcategories"
+                description="number of subcategories in category"
+              />
+            </CategoriesTab> */}
           </TabContainer>
           <CardSpacer />
           {currentTab === CategoryPageTab.categories && (
@@ -171,18 +169,6 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
                   defaultMessage: "All Subcategories",
                   description: "section header"
                 })}
-                toolbar={
-                  <Button
-                    color="primary"
-                    variant="text"
-                    onClick={onAddCategory}
-                  >
-                    <FormattedMessage
-                      defaultMessage="Create subcategory"
-                      description="button"
-                    />
-                  </Button>
-                }
               />
               <CategoryList
                 categories={subcategories}
@@ -199,6 +185,7 @@ export const CategoryUpdatePage: React.FC<CategoryUpdatePageProps> = ({
                 onPreviousPage={onPreviousPage}
                 onRowClick={onCategoryClick}
                 onSort={() => undefined}
+                onValueReorder={() => undefined}
               />
             </Card>
           )}

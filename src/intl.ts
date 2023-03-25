@@ -4,6 +4,19 @@ export const commonMessages = defineMessages({
   availability: {
     defaultMessage: "Availability"
   },
+  vouchers: {
+    defaultMessage: "Discounts"
+  },
+
+  delivery: {
+    defaultMessage: "Delivery"
+  },
+  deliveryArea: {
+    defaultMessage: "Delivery Area By Postcodes"
+  },
+  deliveryFees: {
+    defaultMessage: "Delivery Fee Settings"
+  },
   catalog: {
     defaultMessage: "Catalog"
   },
@@ -20,17 +33,23 @@ export const commonMessages = defineMessages({
   stores: {
     defaultMessage: "Stores Manage"
   },
+  emergency: {
+    defaultMessage: "Emergency"
+  },
   deliveryService: {
-    defaultMessage: "Delivery service hours"
+    defaultMessage: "Delivery Hours"
   },
   deliveryProcess: {
-    defaultMessage: "Delivery processing time"
+    defaultMessage: "Delivery Order Processing Time"
   },
   pickupProcess: {
-    defaultMessage: "Pickup processing time"
+    defaultMessage: "Pickup Order Processing Time"
   },
   pickupService: {
-    defaultMessage: "Pick-up service hours"
+    defaultMessage: "Pickup Hours"
+  },
+  qrService: {
+    defaultMessage: "QR Order Hours"
   },
   demo: {
     defaultMessage:
@@ -62,7 +81,8 @@ export const commonMessages = defineMessages({
     defaultMessage: "First Name"
   },
   generalInformations: {
-    defaultMessage: "General Information"
+    // defaultMessage: "General Information"
+    defaultMessage: "Modifier Information"
   },
   insufficientPermissions: {
     defaultMessage: "Insufficient permissions"
@@ -96,7 +116,7 @@ export const commonMessages = defineMessages({
     defaultMessage: "Your session has expired. Please log in again to continue."
   },
   somethingWentWrong: {
-    defaultMessage: "Saleor ran into an unexpected problem"
+    defaultMessage: "Something went wrong"
   },
   startDate: {
     defaultMessage: "Start Date"
@@ -202,6 +222,10 @@ export const buttonMessages = defineMessages({
   undo: {
     defaultMessage: "Undo",
     description: "button"
+  },
+  showGGM: {
+    defaultMessage: "Show On Google Maps",
+    description: "button"
   }
 });
 
@@ -210,8 +234,20 @@ export const sectionNames = defineMessages({
     defaultMessage: "Apps",
     description: "apps section name"
   },
+  Notification: {
+    defaultMessage: "Notifications",
+    description: "Notifications section name"
+  },
+  QRcode: {
+    defaultMessage: "QR Ordering",
+    description: "QRcode section name"
+  },
+  Payment: {
+    defaultMessage: "Payment Methods",
+    description: "Payment section name"
+  },
   attributes: {
-    defaultMessage: "Attributes",
+    defaultMessage: "Modifiers",
     description: "attributes section name"
   },
   categories: {
@@ -219,12 +255,20 @@ export const sectionNames = defineMessages({
     description: "categories section name"
   },
   stores: {
-    defaultMessage: "Stores",
-    description: "stores section name"
+    defaultMessage: "Site Settings",
+    description: "Site settings section name"
+  },
+  delivery: {
+    defaultMessage: "Delivery Settings",
+    description: "delivery section name"
   },
   serviceTime: {
-    defaultMessage: "Service time",
-    description: "service section name"
+    defaultMessage: "Ordering",
+    description: "ordering section name"
+  },
+  emergency: {
+    defaultMessage: "Emergency",
+    description: "emergency section name"
   },
   channels: {
     defaultMessage: "Channels",
@@ -325,6 +369,10 @@ export const sectionNames = defineMessages({
   webhooks: {
     defaultMessage: "Webhooks",
     description: "webhooks section name"
+  },
+  stripe: {
+    defaultMessage: "Stripe Settings",
+    description: "Stripe Settings"
   }
 });
 

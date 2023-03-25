@@ -1,6 +1,7 @@
 import { OutputData } from "@editorjs/editorjs";
 import { Card, CardContent, TextField } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
+import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import FormSpacer from "@saleor/components/FormSpacer";
 import Grid from "@saleor/components/Grid";
 import Hr from "@saleor/components/Hr";
@@ -8,21 +9,24 @@ import RichTextEditor, {
   RichTextEditorChange
 } from "@saleor/components/RichTextEditor";
 import { ProductErrorFragment } from "@saleor/fragments/types/ProductErrorFragment";
+import { FormsetChange } from "@saleor/hooks/useFormset";
 import { commonMessages } from "@saleor/intl";
 import { getFormErrors, getProductErrorMessage } from "@saleor/utils/errors";
 import React from "react";
 import { useIntl } from "react-intl";
-
+// import useNotifier from "@saleor/hooks/useNotifier";
 interface ProductDetailsFormProps {
   data: {
     description: OutputData;
     name: string;
     rating: number;
+    enable?: boolean;
+    sku?: any;
   };
   disabled?: boolean;
   errors: ProductErrorFragment[];
-
   onDescriptionChange: RichTextEditorChange;
+  onChangeStock?: FormsetChange;
   onChange(event: any);
 }
 
@@ -34,8 +38,11 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
   onChange
 }) => {
   const intl = useIntl();
-
-  const formErrors = getFormErrors(["name", "description", "rating"], errors);
+  // const notify = useNotifier();
+  const formErrors = getFormErrors(
+    ["name", "description", "rating", "sku"],
+    errors
+  );
 
   return (
     <Card>
@@ -43,6 +50,14 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
         title={intl.formatMessage(commonMessages.generalInformations)}
       />
       <CardContent>
+        <ControlledSwitch
+          name="enable"
+          label={`Enable this product`}
+          checked={!!data.enable}
+          onChange={onChange}
+        />
+        <FormSpacer />
+
         <TextField
           error={!!formErrors.name}
           helperText={getProductErrorMessage(formErrors.name, intl)}
@@ -71,17 +86,19 @@ export const ProductDetailsForm: React.FC<ProductDetailsFormProps> = ({
         <FormSpacer />
         <Grid variant="uniform">
           <TextField
-            type="number"
-            error={!!formErrors.rating}
-            helperText={getProductErrorMessage(formErrors.rating, intl)}
+            error={!!formErrors.sku}
+            helperText={getProductErrorMessage(formErrors.sku, intl)}
             disabled={disabled}
             label={intl.formatMessage({
-              defaultMessage: "Product Rating",
+              defaultMessage: "SKU (Stock Keeping Unit)",
               description: "product rating"
             })}
-            name="rating"
-            value={data.rating || ""}
-            onChange={onChange}
+            name="sku"
+            // required
+            value={data.sku || ""}
+            onChange={e => {
+              onChange(e);
+            }}
           />
         </Grid>
       </CardContent>

@@ -103,7 +103,7 @@ const VoucherList: React.FC<VoucherListProps> = props => {
   return (
     <ResponsiveTable>
       <TableHead
-        colSpan={numberOfColumns}
+        colSpan={numberOfColumns + 1}
         selected={selected}
         disabled={disabled}
         items={vouchers}

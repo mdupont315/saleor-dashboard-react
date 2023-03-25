@@ -7,10 +7,10 @@ import {
   Typography
 } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
-import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
-import { FormSpacer } from "@saleor/components/FormSpacer";
-import Hr from "@saleor/components/Hr";
-import RadioGroupField from "@saleor/components/RadioGroupField";
+// import ControlledCheckbox from "@saleor/components/ControlledCheckbox";
+// import { FormSpacer } from "@saleor/components/FormSpacer";
+// import Hr from "@saleor/components/Hr";
+// import RadioGroupField from "@saleor/components/RadioGroupField";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
 import TableHead from "@saleor/components/TableHead";
@@ -24,7 +24,7 @@ import getDiscountErrorMessage from "@saleor/utils/errors/discounts";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { translateVoucherTypes } from "../../translations";
+// import { translateVoucherTypes } from "../../translations";
 import { VoucherDetailsPageFormData } from "../VoucherDetailsPage";
 import { useStyles } from "./styles";
 
@@ -45,18 +45,23 @@ export enum VoucherType {
 const numberOfColumns = 2;
 
 const VoucherValue: React.FC<VoucherValueProps> = props => {
-  const { data, disabled, errors, variant, onChange, onChannelChange } = props;
-
+  const {
+    data,
+    disabled,
+    errors,
+    // variant, onChange,
+    onChannelChange
+  } = props;
   const classes = useStyles(props);
   const intl = useIntl();
 
   const formErrors = getFormErrors(["discountValue", "type"], errors);
 
-  const translatedVoucherTypes = translateVoucherTypes(intl);
-  const voucherTypeChoices = Object.values(VoucherType).map(type => ({
-    label: translatedVoucherTypes[type],
-    value: type
-  }));
+  // const translatedVoucherTypes = translateVoucherTypes(intl);
+  // const voucherTypeChoices = Object.values(VoucherType).map(type => ({
+  //   label: translatedVoucherTypes[type],
+  //   value: type
+  // }));
 
   return (
     <Card>
@@ -159,7 +164,7 @@ const VoucherValue: React.FC<VoucherValueProps> = props => {
           </ResponsiveTable>
         </div>
 
-        <FormSpacer />
+        {/* <FormSpacer />
         {variant === "update" && (
           <>
             <Hr className={classes.hr} />
@@ -177,8 +182,8 @@ const VoucherValue: React.FC<VoucherValueProps> = props => {
             />
           </>
         )}
-        <FormSpacer />
-        <ControlledCheckbox
+        <FormSpacer /> */}
+        {/* <ControlledCheckbox
           name={"applyOncePerOrder" as keyof VoucherDetailsPageFormData}
           label={
             <>
@@ -194,7 +199,7 @@ const VoucherValue: React.FC<VoucherValueProps> = props => {
           checked={data.applyOncePerOrder}
           onChange={onChange}
           disabled={disabled}
-        />
+        /> */}
       </CardContent>
     </Card>
   );

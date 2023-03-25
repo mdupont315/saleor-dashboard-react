@@ -51,7 +51,8 @@ const props: ProductListPageProps = {
     ...pageListProps.default.settings,
     columns: ["availability", "productType", "price"]
   },
-  totalGridAttributes: attributes.length
+  totalGridAttributes: attributes.length,
+  onValueReorder: () => null
 };
 
 storiesOf("Views / Products / Product list", module)

@@ -1,6 +1,7 @@
 import { useAuth } from "@saleor/auth/AuthProvider";
 import { useBaseChannelsList } from "@saleor/channels/queries";
 import { BaseChannels_channels } from "@saleor/channels/types/BaseChannels";
+import { useGetMyStore } from "@saleor/emergency/queries";
 import { ChannelFragment } from "@saleor/fragments/types/ChannelFragment";
 import useLocalStorage from "@saleor/hooks/useLocalStorage";
 import { getById } from "@saleor/orders/components/OrderReturnPage/utils";
@@ -60,6 +61,16 @@ export const AppChannelProvider: React.FC = ({ children }) => {
     channelData &&
     (availableChannels.find(channel => channel.id === selectedChannel) || null);
 
+  const { data: myStore } = useGetMyStore({ variables: {} });
+
+  const childrenWithProps = React.Children.map(children, child => {
+    // Checking isValidElement is the safe way and avoids a typescript
+    // error too.
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { myStore });
+    }
+    return child;
+  });
   return (
     <AppChannelContext.Provider
       value={{
@@ -71,7 +82,7 @@ export const AppChannelProvider: React.FC = ({ children }) => {
         setPickerActive
       }}
     >
-      {children}
+      {childrenWithProps}
     </AppChannelContext.Provider>
   );
 };

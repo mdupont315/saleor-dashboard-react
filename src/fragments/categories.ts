@@ -6,6 +6,7 @@ export const categoryFragment = gql`
   fragment CategoryFragment on Category {
     id
     name
+    enable
     children {
       totalCount
     }
@@ -28,6 +29,7 @@ export const categoryDetailsFragment = gql`
     description
     seoDescription
     seoTitle
+    enable
     parent {
       id
     }

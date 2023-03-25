@@ -9,6 +9,9 @@
   "configurationMenuChannels": {
     "string": "Define and manage your sales channels"
   },
+  "configurationMenuQRcode": {
+    "string": "Define and manage your qr codes"
+  },
   "configurationMenuNavigation": {
     "string": "Визначте, які користувачі можуть переміщатися по вашому магазину"
   },

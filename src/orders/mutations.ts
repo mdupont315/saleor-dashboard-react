@@ -750,3 +750,20 @@ export const useOrderSettingsUpdateMutation = makeMutation<
   OrderSettingsUpdate,
   OrderSettingsUpdateVariables
 >(orderSettingsUpdateMutation);
+
+export const deleteOrderMutation = gql`
+  mutation orderdelete($id: ID!) {
+    orderDelete(id: $id) {
+      errors {
+        field
+        message
+      }
+      order {
+        id
+        created
+      }
+    }
+  }
+`;
+
+export const TypedDeleteOrder = TypedMutation<any, any>(deleteOrderMutation);

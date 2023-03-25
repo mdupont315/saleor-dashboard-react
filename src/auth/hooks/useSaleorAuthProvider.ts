@@ -155,15 +155,14 @@ export function useSaleorAuthProvider({
   const login = async (email: string, password: string) => {
     setAuthPlugin(undefined);
     const result = await tokenAuth({ variables: { email, password } });
-
-    if (result && !result.data.tokenCreate.errors.length) {
+    if (result && !result?.data?.tokenCreate?.errors.length) {
       if (!!onLogin) {
         onLogin();
       }
-      saveCredentials(result.data.tokenCreate.user, password);
+      saveCredentials(result?.data?.tokenCreate?.user, password);
     }
 
-    return result.data.tokenCreate;
+    return result?.data?.tokenCreate;
   };
 
   const loginByToken = (auth: string, refresh: string, user: User) => {

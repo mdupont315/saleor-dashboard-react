@@ -19,6 +19,7 @@ const props: Omit<LoginCardProps, "classes"> = {
   loading: false,
   onExternalAuthentication: () => undefined,
   onPasswordRecovery: undefined,
+  onCreateNewSite: undefined,
   onSubmit: () => undefined
 };
 

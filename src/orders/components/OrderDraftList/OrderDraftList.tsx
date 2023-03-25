@@ -58,7 +58,7 @@ interface OrderDraftListProps
   orders: OrderDraftList_draftOrders_edges_node[];
 }
 
-const numberOfColumns = 5;
+const numberOfColumns = 4;
 
 export const OrderDraftList: React.FC<OrderDraftListProps> = props => {
   const {

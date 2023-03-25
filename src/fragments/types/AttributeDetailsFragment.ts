@@ -38,4 +38,7 @@ export interface AttributeDetailsFragment {
   entityType: AttributeEntityTypeEnum | null;
   storefrontSearchPosition: number;
   valueRequired: boolean;
+  required?: boolean
+  enable?: boolean;
+  maxOptions?: number;
 }

@@ -19,8 +19,9 @@ import {
 import HomeActivityCard from "../HomeActivityCard";
 import HomeAnalyticsCard from "../HomeAnalyticsCard";
 import HomeHeader from "../HomeHeader";
-import HomeNotificationTable from "../HomeNotificationTable/HomeNotificationTable";
+// import HomeNotificationTable from "../HomeNotificationTable/HomeNotificationTable";
 import HomeProductListCard from "../HomeProductListCard";
+import QuickSettingsCard from "../QuickSettingsCard";
 
 const useStyles = makeStyles(
   theme => ({
@@ -69,13 +70,6 @@ const HomePage: React.FC<HomePageProps> = props => {
     topProducts,
     onProductClick,
     activities,
-    onCreateNewChannelClick,
-    onOrdersToCaptureClick,
-    onOrdersToFulfillClick,
-    onProductsOutOfStockClick,
-    ordersToCapture = 0,
-    ordersToFulfill = 0,
-    productsOutOfStock = 0,
     userPermissions = [],
     noChannel
   } = props;
@@ -85,7 +79,6 @@ const HomePage: React.FC<HomePageProps> = props => {
   return (
     <Container>
       <HomeHeader userName={userName} />
-      <CardSpacer />
       <Grid>
         <div>
           <RequirePermissions
@@ -133,17 +126,10 @@ const HomePage: React.FC<HomePageProps> = props => {
               </HomeAnalyticsCard>
             </div>
           </RequirePermissions>
-          <HomeNotificationTable
-            onCreateNewChannelClick={onCreateNewChannelClick}
-            onOrdersToCaptureClick={onOrdersToCaptureClick}
-            onOrdersToFulfillClick={onOrdersToFulfillClick}
-            onProductsOutOfStockClick={onProductsOutOfStockClick}
-            ordersToCapture={ordersToCapture}
-            ordersToFulfill={ordersToFulfill}
-            productsOutOfStock={productsOutOfStock}
-            userPermissions={userPermissions}
-            noChannel={noChannel}
-          />
+          {/* <CardSpacer /> */}
+          {/* quick settings */}
+          <QuickSettingsCard />
+          {/*  */}
           <CardSpacer />
           {topProducts && (
             <RequirePermissions

@@ -87,3 +87,18 @@ export const useCategoryBulkDeleteMutation = makeMutation<
   CategoryBulkDelete,
   CategoryBulkDeleteVariables
 >(categoryBulkDeleteMutation);
+
+export const CategoriesReorderMutation = gql`
+  mutation ReorderCategory($moves: [MoveCategoryInput]!) {
+    reorderCategories(moves: $moves) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const useReorderCategories = makeMutation<any, any>(
+  CategoriesReorderMutation
+);

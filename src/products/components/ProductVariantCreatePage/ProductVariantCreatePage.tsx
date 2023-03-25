@@ -13,7 +13,7 @@ import CardSpacer from "@saleor/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata";
+// import Metadata from "@saleor/components/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
@@ -241,7 +241,7 @@ const ProductVariantCreatePage: React.FC<ProductVariantCreatePageProps> = ({
                 onWarehouseConfigure={onWarehouseConfigure}
               />
               <CardSpacer />
-              <Metadata data={data} onChange={handlers.changeMetadata} />
+              {/* <Metadata data={data} onChange={handlers.changeMetadata} /> */}
             </div>
           </Grid>
           <SaveButtonBar

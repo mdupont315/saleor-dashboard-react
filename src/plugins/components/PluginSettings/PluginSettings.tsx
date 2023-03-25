@@ -1,13 +1,13 @@
 import {
   Card,
   CardContent,
-  TextField,
-  Tooltip,
-  Typography
+  TextField
+  // Tooltip,
+  // Typography
 } from "@material-ui/core";
-import InfoIcon from "@material-ui/icons/Info";
+// import InfoIcon from "@material-ui/icons/Info";
 import CardTitle from "@saleor/components/CardTitle";
-import ControlledSwitch from "@saleor/components/ControlledSwitch";
+// import ControlledSwitch from "@saleor/components/ControlledSwitch";
 import { PluginConfigurationFragment_configuration } from "@saleor/fragments/types/PluginConfigurationFragment";
 import { makeStyles } from "@saleor/theme";
 import { UserError } from "@saleor/types";
@@ -79,7 +79,7 @@ const PluginSettings: React.FC<PluginSettingsProps> = ({
             <div className={classes.item} key={field.name}>
               {fieldData.type === ConfigurationTypeFieldEnum.BOOLEAN ? (
                 <>
-                  <ControlledSwitch
+                  {/* <ControlledSwitch
                     name={field.name}
                     label={fieldData.label}
                     checked={
@@ -100,7 +100,7 @@ const PluginSettings: React.FC<PluginSettingsProps> = ({
                     >
                       <InfoIcon />
                     </Tooltip>
-                  )}
+                  )} */}
                 </>
               ) : (
                 <TextField

@@ -22,6 +22,7 @@ export interface ListSettings<TColumn extends string = string> {
 
 export enum ListViews {
   STORE_LIST = "STORE_LIST",
+  TABLE_LIST = "TABLE_LIST",
   APPS_LIST = "APPS_LIST",
   ATTRIBUTE_LIST = "ATTRIBUTE_LIST",
   ATTRIBUTE_VALUE_LIST = "ATTRIBUTE_VALUE_LIST",
@@ -110,15 +111,16 @@ export interface FilterProps<TKeys extends string> {
   currencySymbol?: string;
   onFilterChange: (filter: IFilter<TKeys>) => void;
   onFilterAttributeFocus?: (id?: string) => void;
+  isCustomExact?: boolean;
 }
 
 export interface TabPageProps {
-  currentTab: number;
-  tabs: string[];
-  onAll: () => void;
-  onTabChange: (tab: number) => void;
-  onTabDelete: () => void;
-  onTabSave: () => void;
+  currentTab?: number;
+  tabs?: string[];
+  onAll?: () => void;
+  onTabChange?: (tab: number) => void;
+  onTabDelete?: () => void;
+  onTabSave?: () => void;
 }
 
 export interface ChannelProps {

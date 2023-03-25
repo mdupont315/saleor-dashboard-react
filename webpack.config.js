@@ -38,6 +38,10 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
 });
 const environmentPlugin = new webpack.EnvironmentPlugin({
   API_URI: "",
+  SOCKET_URI: "",
+  END_POINT: "",
+  APP_WITH_CURRENT_DOMAIN: "",
+  PORT_SOCKET: "",
   APP_MOUNT_URI: "/",
   DEMO_MODE: false,
   ENVIRONMENT: "",
@@ -132,7 +136,18 @@ module.exports = speedMeasureWrapper((env, argv) => {
             resolve("assets/favicons")
           ],
           loader: fileLoaderPath,
-          test: /\.(eot|otf|png|svg|jpg|ttf|woff|woff2)(\?v=[0-9.]+)?$/
+          test: /\.(eot|otf|png|svg|jpg|ttf|woff|woff2)(\?v=[0-9.]+)?$/,
+          options: {
+            outputPath: "dashboard/images"
+          }
+        },
+        {
+          include: [resolve("assets/sound")],
+          loader: fileLoaderPath,
+          test: /\.(mp3|wav)(\?v=[0-9.]+)?$/,
+          options: {
+            outputPath: "dashboard/sound"
+          }
         }
       ]
     },

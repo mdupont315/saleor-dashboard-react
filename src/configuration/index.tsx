@@ -1,42 +1,40 @@
-import { attributeListUrl } from "@saleor/attributes/urls";
-import { channelsListUrl } from "@saleor/channels/urls";
+/* eslint-disable simple-import-sort/sort */
+// import { channelsListUrl } from "@saleor/channels/urls";
 import { WindowTitle } from "@saleor/components/WindowTitle";
+import { deliverySection } from "@saleor/delivery/urls";
 import useNavigator from "@saleor/hooks/useNavigator";
 import useUser from "@saleor/hooks/useUser";
 import Attributes from "@saleor/icons/Attributes";
-import Channels from "@saleor/icons/Channels";
-import Navigation from "@saleor/icons/Navigation";
-import Pages from "@saleor/icons/Pages";
-import PageTypes from "@saleor/icons/PageTypes";
+// import Channels from "@saleor/icons/Channels";
 import PermissionGroups from "@saleor/icons/PermissionGroups";
 import Plugins from "@saleor/icons/Plugins";
-import ProductTypes from "@saleor/icons/ProductTypes";
 import ShippingMethods from "@saleor/icons/ShippingMethods";
 import SiteSettings from "@saleor/icons/SiteSettings";
 import StaffMembers from "@saleor/icons/StaffMembers";
-import Taxes from "@saleor/icons/Taxes";
-import Warehouses from "@saleor/icons/Warehouses";
 import { sectionNames } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
-import { menuListUrl } from "@saleor/navigation/urls";
-import { pageListUrl } from "@saleor/pages/urls";
-import { pageTypeListUrl } from "@saleor/pageTypes/urls";
+import { notificationUrl } from "@saleor/notifications/urls";
+import { optionListUrl } from "@saleor/options/urls";
+import { paymentUrl } from "@saleor/payments/urls";
 import { permissionGroupListUrl } from "@saleor/permissionGroups/urls";
 import { pluginListUrl } from "@saleor/plugins/urls";
-import { productTypeListUrl } from "@saleor/productTypes/urls";
-import { shippingZonesListUrl } from "@saleor/shipping/urls";
-import { siteSettingsUrl } from "@saleor/siteSettings/urls";
+import { qrListUrl } from "@saleor/qrcode/urls";
+import { stripePluginUrl } from "@saleor/plugins/urls";
+import { secvicesSection } from "@saleor/servicesTime/urls";
+// import { shippingZonesListUrl } from "@saleor/shipping/urls";
 import { staffListUrl } from "@saleor/staff/urls";
-import { taxSection } from "@saleor/taxes/urls";
 import { PermissionEnum } from "@saleor/types/globalTypes";
-import { warehouseSection } from "@saleor/warehouses/urls";
+// import { warehouseSection } from "@saleor/warehouses/urls";
 import React from "react";
 import { IntlShape, useIntl } from "react-intl";
 
 import ConfigurationPage, { MenuSection } from "./ConfigurationPage";
 
-export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
-  return [
+export function createConfigurationMenu(
+  intl: IntlShape,
+  isSuperuser?: boolean
+): MenuSection[] {
+  const menus = [
     {
       label: intl.formatMessage({
         defaultMessage: "Attributes and Product Types"
@@ -50,38 +48,20 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           icon: <Attributes fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
           title: intl.formatMessage(sectionNames.attributes),
-          url: attributeListUrl(),
+          url: optionListUrl(),
           testId: "configurationMenuAttributes"
-        },
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define types of products you sell",
-            id: "configurationMenuProductTypes"
-          }),
-          icon: <ProductTypes fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
-          title: intl.formatMessage(sectionNames.productTypes),
-          url: productTypeListUrl(),
-          testId: "configurationMenuProductTypes"
         }
-      ]
-    },
-    {
-      label: intl.formatMessage({
-        defaultMessage: "Product Settings"
-      }),
-      menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Manage how your store charges tax",
-            id: "configurationMenuTaxes"
-          }),
-          icon: <Taxes fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
-          title: intl.formatMessage(sectionNames.taxes),
-          url: taxSection,
-          testId: "configurationMenuTaxes"
-        }
+        // {
+        //   description: intl.formatMessage({
+        //     defaultMessage: "Define types of products you sell",
+        //     id: "configurationMenuProductTypes"
+        //   }),
+        //   icon: <ProductTypes fontSize="inherit" viewBox="0 0 44 44" />,
+        //   permission: PermissionEnum.MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES,
+        //   title: intl.formatMessage(sectionNames.productTypes),
+        //   url: productTypeListUrl(),
+        //   testId: "configurationMenuProductTypes"
+        // }
       ]
     },
     {
@@ -116,107 +96,151 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "Shipping Settings"
+        defaultMessage: "Store Settings"
       }),
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage how you ship out orders",
-            id: "configurationMenuShipping"
+            defaultMessage: "View and update your site settings",
+            id: "configurationMenuQRcode"
           }),
-          icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SHIPPING,
-          title: intl.formatMessage(sectionNames.shipping),
-          url: shippingZonesListUrl(),
-          testId: "configurationMenuShipping"
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_STORES,
+          title: "Site Settings",
+          url: "/stores",
+          testId: "configurationMenuQRcode"
         },
         {
           description: intl.formatMessage({
-            defaultMessage: "Manage and update your warehouse information",
-            id: "configurationMenuWarehouses"
+            defaultMessage:
+              "Manage your service hours, delivery time, preordering settings",
+            id: "configurationMenuQRcode"
           }),
-          icon: <Warehouses fontSize="inherit" viewBox="0 0 44 44" />,
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_SERVICE_TIME,
+          title: "Ordering",
+          url: secvicesSection,
+          testId: "configurationMenuQRcode"
+        },
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Manage your delivery area and fees",
+            id: "configurationMenuQRcode"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_STORES,
+          title: "Delivery Settings",
+          url: deliverySection,
+          testId: "configurationMenuQRcode"
+        },
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Define and manage your table QR codes",
+            id: "configurationMenuQRcode"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_TABLE_SERVICE,
+          title: intl.formatMessage(sectionNames.QRcode),
+          url: qrListUrl(),
+          testId: "configurationMenuQRcode"
+        },
+        {
+          description: intl.formatMessage({
+            defaultMessage: "Manage your payment methods and transaction fees",
+            id: "configurationPayment"
+          }),
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
           permission: PermissionEnum.MANAGE_PRODUCTS,
-          title: intl.formatMessage(sectionNames.warehouses),
-          url: warehouseSection,
+          title: intl.formatMessage(sectionNames.Payment),
+          url: paymentUrl(),
           testId: "configurationMenuWarehouses"
         }
       ]
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "Multichannel"
+        defaultMessage: "Notification Settings"
       }),
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Define and manage your sales channels",
-            id: "configurationMenuChannels"
+            defaultMessage: "Manage how you prefer to receive notifications",
+            id: "configurationNotification"
           }),
-          icon: <Channels fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_CHANNELS,
-          title: intl.formatMessage(sectionNames.channels),
-          url: channelsListUrl(),
-          testId: "configurationMenuChannels"
+          icon: <ShippingMethods fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_STORES,
+          title: intl.formatMessage(sectionNames.Notification),
+          url: notificationUrl(),
+          testId: "configurationMenuShipping"
         }
       ]
     },
     {
       label: intl.formatMessage({
-        defaultMessage: "Content Management"
+        defaultMessage: "Stripe Settings"
       }),
       menuItems: [
         {
           description: intl.formatMessage({
-            defaultMessage: "Define types of content pages used in your store",
-            id: "configurationMenuPageTypes"
+            defaultMessage: "Manage and update your Stripe API",
+            id: "configurationNotification"
           }),
-          icon: <PageTypes fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_PAGES,
-          title: intl.formatMessage(sectionNames.pageTypes),
-          url: pageTypeListUrl(),
-          testId: "configurationMenuPageTypes"
-        },
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Manage and add additional pages",
-            id: "configurationMenuPages"
-          }),
-          icon: <Pages fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_PAGES,
-          title: intl.formatMessage(sectionNames.pages),
-          url: pageListUrl(),
-          testId: "configurationMenuPages"
+          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
+          permission: PermissionEnum.MANAGE_PLUGINS,
+          title: intl.formatMessage(sectionNames.stripe),
+          url: stripePluginUrl()
         }
       ]
-    },
-    {
+    }
+    // {
+    //   label: intl.formatMessage({
+    //     defaultMessage: "Multichannel"
+    //   }),
+    //   menuItems: [
+    //     {
+    //       description: intl.formatMessage({
+    //         defaultMessage: "Define and manage your sales channels",
+    //         id: "configurationMenuChannels"
+    //       }),
+    //       icon: <Channels fontSize="inherit" viewBox="0 0 44 44" />,
+    //       permission: PermissionEnum.MANAGE_CHANNELS,
+    //       title: intl.formatMessage(sectionNames.channels),
+    //       url: channelsListUrl(),
+    //       testId: "configurationMenuChannels"
+    //     }
+    //   ]
+    // },
+    // {
+    //   label: intl.formatMessage({
+    //     defaultMessage: "Miscellaneous"
+    //   }),
+    //   menuItems: [
+    //     {
+    //       description: intl.formatMessage({
+    //         defaultMessage: "View and update your plugins and their settings.",
+    //         id: "configurationPluginsPages"
+    //       }),
+    //       icon: (
+    //         <Plugins
+    //           fontSize="inherit"
+    //           viewBox="-8 -5 44 44"
+    //           preserveAspectRatio="xMinYMin meet"
+    //         />
+    //       ),
+    //       permission: PermissionEnum.MANAGE_PLUGINS,
+    //       title: intl.formatMessage(sectionNames.plugins),
+    //       url: pluginListUrl(),
+    //       testId: "configurationPluginsPages"
+    //     }
+    //   ]
+    // }
+  ];
+  if (isSuperuser) {
+    menus.push({
       label: intl.formatMessage({
         defaultMessage: "Miscellaneous"
       }),
       menuItems: [
-        {
-          description: intl.formatMessage({
-            defaultMessage: "Define how users can navigate through your store",
-            id: "configurationMenuNavigation"
-          }),
-          icon: <Navigation fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_MENUS,
-          title: intl.formatMessage(sectionNames.navigation),
-          url: menuListUrl(),
-          testId: "configurationMenuNavigation"
-        },
-        {
-          description: intl.formatMessage({
-            defaultMessage: "View and update your site settings",
-            id: "configurationMenuSiteSettings"
-          }),
-          icon: <SiteSettings fontSize="inherit" viewBox="0 0 44 44" />,
-          permission: PermissionEnum.MANAGE_SETTINGS,
-          title: intl.formatMessage(sectionNames.siteSettings),
-          url: siteSettingsUrl(),
-          testId: "configurationMenuSiteSettings"
-        },
         {
           description: intl.formatMessage({
             defaultMessage: "View and update your plugins and their settings.",
@@ -235,8 +259,9 @@ export function createConfigurationMenu(intl: IntlShape): MenuSection[] {
           testId: "configurationPluginsPages"
         }
       ]
-    }
-  ];
+    });
+  }
+  return menus;
 }
 
 export const configurationMenuUrl = "/configuration/";
@@ -246,11 +271,13 @@ export const ConfigurationSection: React.FC = () => {
   const user = useUser();
   const intl = useIntl();
 
+  const menus = createConfigurationMenu(intl, user?.user?.isSuperuser);
+
   return (
     <>
       <WindowTitle title={intl.formatMessage(sectionNames.configuration)} />
       <ConfigurationPage
-        menu={createConfigurationMenu(intl)}
+        menu={menus}
         user={maybe(() => user.user)}
         onSectionClick={navigate}
       />

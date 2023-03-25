@@ -51,7 +51,7 @@ interface ProductTypeListProps
   productTypes: ProductTypeList_productTypes_edges_node[];
 }
 
-const numberOfColumns = 4;
+const numberOfColumns = 3;
 
 const ProductTypeList: React.FC<ProductTypeListProps> = props => {
   const {
@@ -112,12 +112,12 @@ const ProductTypeList: React.FC<ProductTypeListProps> = props => {
             description="product type is either simple or configurable"
           />
         </TableCellHeader>
-        <TableCell className={classes.colTax}>
+        {/* <TableCell className={classes.colTax}>
           <FormattedMessage
             defaultMessage="Tax"
             description="tax rate for a product type"
           />
-        </TableCell>
+        </TableCell> */}
       </TableHead>
       <TableFooter>
         <TableRow>
@@ -196,13 +196,13 @@ const ProductTypeList: React.FC<ProductTypeListProps> = props => {
                     <Skeleton />
                   )}
                 </TableCell>
-                <TableCell className={classes.colTax}>
+                {/* <TableCell className={classes.colTax}>
                   {maybe(() => productType.taxType) ? (
                     productType.taxType.description
                   ) : (
                     <Skeleton />
                   )}
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             );
           },

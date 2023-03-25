@@ -18,6 +18,7 @@ export interface UseLoginFormResult {
 export interface LoginFormProps {
   children: (props: UseLoginFormResult) => React.ReactNode;
   onSubmit: (data: LoginFormData) => SubmitPromise;
+  className?: any;
 }
 
 const getLoginFormData = () => {
@@ -63,10 +64,18 @@ function useLoginForm(
   };
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ children, onSubmit }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  children,
+  onSubmit,
+  className
+}) => {
   const props = useLoginForm(onSubmit);
 
-  return <form onSubmit={props.submit}>{children(props)}</form>;
+  return (
+    <form className={className} onSubmit={props.submit}>
+      {children(props)}
+    </form>
+  );
 };
 
 LoginForm.displayName = "LoginForm";

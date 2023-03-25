@@ -1,7 +1,7 @@
 import { ChannelVoucherData } from "@saleor/channels/utils";
 import AppHeader from "@saleor/components/AppHeader";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
+// import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
@@ -15,14 +15,15 @@ import {
 import { DiscountErrorFragment } from "@saleor/fragments/types/DiscountErrorFragment";
 import { sectionNames } from "@saleor/intl";
 import { validatePrice } from "@saleor/products/utils/validation";
+import moment from "moment-timezone";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import { PermissionEnum, VoucherTypeEnum } from "../../../types/globalTypes";
+import { VoucherTypeEnum } from "../../../types/globalTypes";
 import { DiscountTypeEnum, RequirementsPicker } from "../../types";
-import VoucherDates from "../VoucherDates";
+// import VoucherDates from "../VoucherDates";
 import VoucherInfo from "../VoucherInfo";
-import VoucherLimits from "../VoucherLimits";
+// import VoucherLimits from "../VoucherLimits";
 import VoucherRequirements from "../VoucherRequirements";
 import VoucherTypes from "../VoucherTypes";
 import VoucherValue from "../VoucherValue";
@@ -45,6 +46,7 @@ export interface FormData {
   type: VoucherTypeEnum;
   usageLimit: string;
   value: number;
+  active: boolean;
 }
 
 export interface VoucherCreatePageProps {
@@ -61,7 +63,7 @@ export interface VoucherCreatePageProps {
 }
 
 const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
-  allChannelsCount,
+  // allChannelsCount,
   channelListings = [],
   disabled,
   errors,
@@ -69,8 +71,8 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
   onBack,
   onChannelsChange,
   onSubmit,
-  hasChannelChanged,
-  openChannelsModal
+  hasChannelChanged
+  // openChannelsModal
 }) => {
   const intl = useIntl();
 
@@ -87,11 +89,12 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
     hasUsageLimit: false,
     minCheckoutItemsQuantity: "0",
     requirementsPicker: RequirementsPicker.NONE,
-    startDate: "",
-    startTime: "",
+    startDate: moment().format("YYYY-MM-DD"),
+    startTime: "00:00",
     type: VoucherTypeEnum.ENTIRE_ORDER,
     usageLimit: "0",
-    value: 0
+    value: 0,
+    active: false
   };
 
   return (
@@ -132,6 +135,7 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   disabled={disabled}
                   onChange={event => handleDiscountTypeChange(data, event)}
                   variant="create"
+                  onCbxChange={change}
                 />
                 <CardSpacer />
                 <VoucherTypes
@@ -162,21 +166,21 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   onChange={change}
                 />
                 <CardSpacer />
-                <VoucherLimits
+                {/* <VoucherLimits
                   data={data}
                   disabled={disabled}
                   errors={errors}
                   onChange={change}
-                />
-                <CardSpacer />
-                <VoucherDates
-                  data={data}
-                  disabled={disabled}
-                  errors={errors}
-                  onChange={change}
-                />
+                /> */}
+                {/* <CardSpacer />
+                  <VoucherDates
+                    data={data}
+                    disabled={disabled}
+                    errors={errors}
+                    onChange={change}
+                  /> */}
               </div>
-              <div>
+              {/* <div>
                 <ChannelsAvailabilityCard
                   managePermissions={[PermissionEnum.MANAGE_DISCOUNTS]}
                   selectedChannelsCount={data.channelListings.length}
@@ -188,7 +192,7 @@ const VoucherCreatePage: React.FC<VoucherCreatePageProps> = ({
                   disabled={disabled}
                   openModal={openChannelsModal}
                 />
-              </div>
+              </div> */}
             </Grid>
             <SaveButtonBar
               disabled={

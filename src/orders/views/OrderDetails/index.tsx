@@ -15,11 +15,12 @@ import {
   usePrivateMetadataUpdate
 } from "@saleor/utils/metadata/updateMetadata";
 import React from "react";
+import { useLazyQuery } from "react-apollo";
 import { useIntl } from "react-intl";
 
 import { JobStatusEnum, OrderStatus } from "../../../types/globalTypes";
 import OrderOperations from "../../containers/OrderOperations";
-import { TypedOrderDetailsQuery } from "../../queries";
+import { orderFull, TypedOrderDetailsQuery } from "../../queries";
 import {
   orderListUrl,
   orderUrl,
@@ -39,8 +40,8 @@ interface OrderDetailsProps {
 
 export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
   const navigate = useNavigator();
-
   const { queue } = useBackgroundTask();
+  const [orderFullFill, setOrderFullFill] = React.useState({});
   const intl = useIntl();
   const [updateMetadata, updateMetadataOpts] = useMetadataUpdate({});
   const [
@@ -68,6 +69,21 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
       });
     }
   });
+
+  const [getOrderFull] = useLazyQuery(orderFull, {
+    variables: { orderId: id },
+    fetchPolicy: "no-cache",
+    notifyOnNetworkStatusChange: true,
+    onCompleted: data => {
+      setOrderFullFill(data);
+    }
+  });
+
+  React.useEffect(() => {
+    if (id) {
+      getOrderFull();
+    }
+  }, [id]);
 
   return (
     <TypedOrderDetailsQuery displayLoader variables={{ id }}>
@@ -146,10 +162,12 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                   }
                 }}
                 onInvoiceSend={orderMessages.handleInvoiceSend}
+                onOrderDelete={orderMessages.handleOrderDelete}
               >
                 {({
                   orderAddNote,
                   orderCancel,
+                  orderDelete,
                   orderDraftUpdate,
                   orderLinesAdd,
                   orderLineDelete,
@@ -173,6 +191,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                         params={params}
                         data={data}
                         orderAddNote={orderAddNote}
+                        orderDelete={orderDelete}
                         orderInvoiceRequest={orderInvoiceRequest}
                         handleSubmit={handleSubmit}
                         orderCancel={orderCancel}
@@ -184,6 +203,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
                           orderFulfillmentUpdateTracking
                         }
                         orderInvoiceSend={orderInvoiceSend}
+                        orderFullFill={orderFullFill}
                         updateMetadataOpts={updateMetadataOpts}
                         updatePrivateMetadataOpts={updatePrivateMetadataOpts}
                         openModal={openModal}

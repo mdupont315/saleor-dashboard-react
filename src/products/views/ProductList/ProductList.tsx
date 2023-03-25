@@ -52,7 +52,7 @@ import useAttributeValueSearch from "@saleor/searches/useAttributeValueSearch";
 import useCategorySearch from "@saleor/searches/useCategorySearch";
 import useCollectionSearch from "@saleor/searches/useCollectionSearch";
 import useProductTypeSearch from "@saleor/searches/useProductTypeSearch";
-import { ListViews } from "@saleor/types";
+import { ListViews, ReorderEvent } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createFilterHandlers from "@saleor/utils/handlers/filterHandlers";
 import { mapEdgesToItems } from "@saleor/utils/maps";
@@ -64,7 +64,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 import ProductListPage from "../../components/ProductListPage";
 import {
   useProductBulkDeleteMutation,
-  useProductExport
+  useProductExport,
+  useReorderProducts
 } from "../../mutations";
 import {
   areFiltersApplied,
@@ -76,7 +77,7 @@ import {
   getFilterVariables,
   saveFilterTab
 } from "./filters";
-import { getSortQueryVariables } from "./sort";
+// import { getSortQueryVariables } from "./sort";
 
 interface ProductListProps {
   params: ProductListUrlQueryParams;
@@ -93,6 +94,7 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
   const { updateListSettings, settings } = useListSettings<ProductListColumns>(
     ListViews.PRODUCT_LIST
   );
+
   const intl = useIntl();
   const {
     data: initialFilterAttributes
@@ -121,6 +123,7 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     },
     skip: !params.productTypes?.length
   });
+
   const searchCategories = useCategorySearch({
     variables: {
       ...DEFAULT_INITIAL_SEARCH_DATA,
@@ -283,12 +286,12 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
   const paginationState = createPaginationState(settings.rowNumber, params);
   const channelSlug = noChannel ? null : channel.slug;
   const filter = getFilterVariables(params, channelSlug);
-  const sort = getSortQueryVariables(params, channelSlug);
+  // const sort = getSortQueryVariables(params, channelSlug);
   const queryVariables = React.useMemo<ProductListVariables>(
     () => ({
       ...paginationState,
-      filter,
-      sort
+      filter
+      // sort
     }),
     [params, settings.rowNumber]
   );
@@ -324,6 +327,14 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     }
   });
 
+  const [productsReorder] = useReorderProducts({
+    onCompleted: data => {
+      if (data.reorderProducts.errors.length === 0) {
+        refetch();
+      }
+    }
+  });
+
   const filterOpts = getFilterOpts(
     params,
     mapEdgesToItems(initialFilterAttributes?.attributes),
@@ -347,6 +358,19 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     paginationState,
     params
   );
+
+  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
+    productsReorder({
+      variables: {
+        moves: [
+          {
+            productId: data.products.edges[oldIndex].node.id,
+            sortOrder: newIndex - oldIndex
+          }
+        ]
+      }
+    });
+  };
 
   return (
     <>
@@ -438,6 +462,7 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
         onExport={() => openModal("export")}
         channelsCount={availableChannels?.length}
         selectedChannelId={channel?.id}
+        onValueReorder={handleValueReorder}
       />
       <ActionDialog
         open={params.action === "delete"}

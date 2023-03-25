@@ -56,7 +56,8 @@ export function createUpdateHandler(
             : formData.type,
         usageLimit: formData.hasUsageLimit
           ? parseInt(formData.usageLimit, 10)
-          : null
+          : null,
+        active: formData.active
       }
     });
 

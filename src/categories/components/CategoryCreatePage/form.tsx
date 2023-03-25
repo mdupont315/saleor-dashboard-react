@@ -12,6 +12,7 @@ export interface CategoryCreateFormData extends MetadataFormData {
   seoDescription: string;
   seoTitle: string;
   slug: string;
+  enable?: boolean;
 }
 export interface CategoryCreateData extends CategoryCreateFormData {
   description: OutputData;
@@ -46,7 +47,8 @@ function useCategoryCreateForm(
     privateMetadata: [],
     seoDescription: "",
     seoTitle: "",
-    slug: ""
+    slug: "",
+    enable: true
   });
   const [description, changeDescription] = useRichText({
     initial: null,

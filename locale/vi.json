@@ -9,6 +9,9 @@
   "configurationMenuChannels": {
     "string": "Define and manage your sales channels"
   },
+  "configurationMenuQRcode": {
+    "string": "Define and manage your qr codes"
+  },
   "configurationMenuNavigation": {
     "string": "Miêu tả cách người dùng điều hướng trong cửa hàng trực tuyến"
   },

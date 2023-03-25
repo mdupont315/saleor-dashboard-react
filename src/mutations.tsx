@@ -1,5 +1,6 @@
 import { ApolloError, MutationUpdaterFn } from "apollo-client";
 import { DocumentNode } from "graphql";
+import gql from "graphql-tag";
 import React from "react";
 import { Mutation, MutationFunction, MutationResult } from "react-apollo";
 import { useIntl } from "react-intl";
@@ -80,3 +81,12 @@ export function TypedMutation<TData, TVariables>(
     );
   };
 }
+
+export const SUBSCRIPTION_MESSAGE = gql`
+  subscription waitMessage($id: ID!) {
+    appLiveNotification(id: $id) {
+      storeId
+      messageTitle
+    }
+  }
+`;

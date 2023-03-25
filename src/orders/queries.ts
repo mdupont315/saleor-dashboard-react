@@ -68,6 +68,10 @@ export const orderListQuery = gql`
             }
           }
           userEmail
+          expectedDate
+          expectedTime
+          tableName
+          orderType
         }
       }
       pageInfo {
@@ -183,6 +187,22 @@ export const searchOrderVariant = gql`
           thumbnail {
             url
           }
+          options {
+            id
+            name
+            type
+            required
+            description
+            optionValues {
+              id
+              name
+              channelListing {
+                price {
+                  amount
+                }
+              }
+            }
+          }
           variants {
             id
             name
@@ -216,7 +236,7 @@ export const useOrderVariantSearch = makeTopLevelSearch<
   SearchOrderVariantVariables
 >(searchOrderVariant);
 
-const orderFulfillData = gql`
+export const orderFulfillData = gql`
   query OrderFulfillData($orderId: ID!) {
     order(id: $orderId) {
       id
@@ -264,6 +284,95 @@ export const useOrderFulfillData = makeQuery<
   OrderFulfillData,
   OrderFulfillDataVariables
 >(orderFulfillData);
+
+export const orderFull = gql`
+  query OrderFull($orderId: ID!) {
+    order(id: $orderId) {
+      id
+      billingAddress {
+        firstName
+        lastName
+        companyName
+        streetAddress1
+        city
+        postalCode
+        phone
+        email
+        apartment
+      }
+      orderType
+      tableName
+      expectedDate
+      expectedTime
+      total {
+        currency
+        gross {
+          currency
+          amount
+        }
+        net {
+          currency
+          amount
+        }
+      }
+      lines {
+        id
+        productName
+        variantName
+        optionItems
+        quantity
+        unitPrice {
+          gross {
+            amount
+            currency
+          }
+          net {
+            currency
+            amount
+          }
+        }
+
+        unitDiscountValue
+        unitDiscount {
+          amount
+        }
+        totalPrice {
+          gross {
+            currency
+            amount
+          }
+          net {
+            currency
+            amount
+          }
+        }
+      }
+
+      discounts {
+        amount {
+          currency
+          amount
+        }
+      }
+      customerNote
+      number
+      subtotal {
+        currency
+        gross {
+          currency
+          amount
+        }
+      }
+      deliveryFee
+      transactionCost
+      payments {
+        id
+        gateway
+      }
+    }
+  }
+`;
+export const useOrderFull = makeQuery<any, any>(orderFull);
 
 export const orderSettingsQuery = gql`
   ${fragmentOrderSettings}
@@ -320,3 +429,19 @@ export const useOrderRefundData = makeQuery<
   OrderRefundData,
   OrderRefundDataVariables
 >(orderRefundData);
+
+export const getProductOptionByProductId = gql`
+  query ProductOptions($productId: ID) {
+    productOption(productId: $productId, first: 100) {
+      edges {
+        node {
+          id
+          option {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;

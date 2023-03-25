@@ -31,7 +31,8 @@ export const getSimpleProductVariables = (
   deleteStocks: data.removeStocks,
   input: {
     ...productVariables.input,
-    weight: weight(data.weight)
+    weight: weight(data.weight),
+    options: data.options
   },
   productVariantId: productId,
   productVariantInput: {

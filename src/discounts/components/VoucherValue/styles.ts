@@ -13,7 +13,7 @@ export const useStyles = makeStyles(
     colType: {
       fontSize: 14,
       textAlign: "right",
-      width: 200
+      width: 400
     },
     hr: {
       margin: theme.spacing(2, -3),

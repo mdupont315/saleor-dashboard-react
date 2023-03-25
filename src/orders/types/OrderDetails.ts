@@ -41,6 +41,7 @@ export interface OrderDetails_order_billingAddress {
   postalCode: string;
   streetAddress1: string;
   streetAddress2: string;
+  apartment: string;
 }
 
 export interface OrderDetails_order_discounts_amount {
@@ -501,6 +502,10 @@ export interface OrderDetails_order {
   invoices: (OrderDetails_order_invoices | null)[] | null;
   channel: OrderDetails_order_channel;
   isPaid: boolean;
+  orderType?: string;
+  transactionCost?: number;
+  deliveryFee?: number;
+  tableName?: string;
 }
 
 export interface OrderDetails_shop_countries {

@@ -1,17 +1,21 @@
 import {
-  TableBody,
+  // TableBody,
   TableCell,
   TableFooter,
-  TableRow,
-  Typography
+  TableRow
+  // Typography
 } from "@material-ui/core";
-import { ChannelsAvailabilityDropdown } from "@saleor/components/ChannelsAvailabilityDropdown";
+// import { ChannelsAvailabilityDropdown } from "@saleor/components/ChannelsAvailabilityDropdown";
 import Checkbox from "@saleor/components/Checkbox";
 import MoneyRange from "@saleor/components/MoneyRange";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
+import {
+  SortableTableBody,
+  SortableTableRow
+} from "@saleor/components/SortableTable";
 import TableCellAvatar from "@saleor/components/TableCellAvatar";
-import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
+// import { AVATAR_MARGIN } from "@saleor/components/TableCellAvatar/Avatar";
 import TableCellHeader from "@saleor/components/TableCellHeader";
 import TableHead from "@saleor/components/TableHead";
 import TablePagination from "@saleor/components/TablePagination";
@@ -25,7 +29,13 @@ import { GridAttributes_grid_edges_node } from "@saleor/products/types/GridAttri
 import { ProductList_products_edges_node } from "@saleor/products/types/ProductList";
 import { ProductListUrlSortField } from "@saleor/products/urls";
 import { makeStyles } from "@saleor/theme";
-import { ChannelProps, ListActions, ListProps, SortPage } from "@saleor/types";
+import {
+  ChannelProps,
+  ListActions,
+  ListProps,
+  ReorderAction,
+  SortPage
+} from "@saleor/types";
 import TDisplayColumn, {
   DisplayColumnProps
 } from "@saleor/utils/columns/DisplayColumn";
@@ -38,7 +48,7 @@ const useStyles = makeStyles(
   theme => ({
     [theme.breakpoints.up("lg")]: {
       colName: {
-        width: "auto"
+        width: 300
       },
       colPrice: {
         width: 300
@@ -58,22 +68,32 @@ const useStyles = makeStyles(
       width: "100%"
     },
     colName: {
+      width: 300,
       "&$colNameFixed": {
         width: 250
       }
     },
-    colNameFixed: {},
+    colCheckbox: {
+      width: 50,
+      padding: 0
+    },
+    colNameFixed: {
+      width: 250
+    },
     colNameHeader: {
-      marginLeft: AVATAR_MARGIN
+      // marginLeft: 0
     },
     colNameWrapper: {
       display: "block"
     },
     colPrice: {
-      textAlign: "right"
+      textAlign: "right",
+      width: "100%"
     },
     colPublished: {},
-    colType: {},
+    colType: {
+      width: "50px"
+    },
     link: {
       cursor: "pointer"
     },
@@ -107,12 +127,13 @@ interface ProductListProps
   products: ProductList_products_edges_node[];
   loading: boolean;
   channelsCount: number;
+  onValueReorder: ReorderAction;
 }
 
 export const ProductList: React.FC<ProductListProps> = props => {
   const {
     activeAttributeSortId,
-    channelsCount,
+    // channelsCount,
     settings,
     disabled,
     isChecked,
@@ -129,24 +150,29 @@ export const ProductList: React.FC<ProductListProps> = props => {
     onUpdateListSettings,
     onRowClick,
     onSort,
-    selectedChannelId
+    selectedChannelId,
+    onValueReorder
   } = props;
 
   const classes = useStyles(props);
   const gridAttributesFromSettings = settings.columns.filter(
     isAttributeColumnValue
   );
-  const numberOfColumns = 2 + settings.columns.length;
+  const numberOfColumns = 5;
 
   return (
     <div className={classes.tableContainer}>
       <ResponsiveTable className={classes.table}>
         <colgroup>
-          <col />
+          {/* <col />
+          <col /> */}
+          <col className={classes.colCheckbox} />
+          <col className={classes.colType} />
+          {/* <col className={classes.colName} /> */}
+          {/* <col className={classes.colName} /> */}
           <col className={classes.colName} />
-          <DisplayColumn column="productType" displayColumns={settings.columns}>
-            <col className={classes.colType} />
-          </DisplayColumn>
+          <col className={classes.colName} />
+
           <DisplayColumn
             column="availability"
             displayColumns={settings.columns}
@@ -164,10 +190,23 @@ export const ProductList: React.FC<ProductListProps> = props => {
           colSpan={numberOfColumns}
           selected={selected}
           disabled={disabled}
-          items={products}
+          items={selected ? products : []}
           toggleAll={toggleAll}
           toolbar={toolbar}
         >
+          <TableCellHeader style={{ width: "50px", padding: 0 }} />
+
+          <TableCellHeader className={classes.colCheckbox} align="left">
+            <Checkbox
+              indeterminate={
+                products && products.length > selected && selected > 0
+              }
+              checked={selected === 0 ? false : true}
+              disabled={disabled}
+              onChange={() => toggleAll(products, selected)}
+            />
+          </TableCellHeader>
+
           <TableCellHeader
             data-test-id="colNameHeader"
             arrowPosition="right"
@@ -181,47 +220,41 @@ export const ProductList: React.FC<ProductListProps> = props => {
             }
             onClick={() => onSort(ProductListUrlSortField.name)}
           >
-            <span className={classes.colNameHeader}>
+            <span
+              className={classes.colNameHeader}
+              style={{ marginLeft: "32px" }}
+            >
               <FormattedMessage defaultMessage="Name" description="product" />
             </span>
           </TableCellHeader>
-          <DisplayColumn column="productType" displayColumns={settings.columns}>
-            <TableCellHeader
-              data-test-id="colTypeHeader"
-              className={classes.colType}
-              direction={
-                sort.sort === ProductListUrlSortField.productType
-                  ? getArrowDirection(sort.asc)
-                  : undefined
-              }
-              onClick={() => onSort(ProductListUrlSortField.productType)}
-            >
-              <FormattedMessage
-                defaultMessage="Type"
-                description="product type"
-              />
-            </TableCellHeader>
-          </DisplayColumn>
-          <DisplayColumn
-            column="availability"
-            displayColumns={settings.columns}
+
+          <TableCellHeader
+            data-test-id="colNameHeader"
+            arrowPosition="right"
+            className={classNames(classes.colName, {
+              [classes.colNameFixed]: settings.columns.length > 4
+            })}
           >
-            <TableCellHeader
-              data-test-id="colAvailabilityHeader"
-              className={classes.colPublished}
-              direction={
-                sort.sort === ProductListUrlSortField.status
-                  ? getArrowDirection(sort.asc)
-                  : undefined
-              }
-              onClick={() => onSort(ProductListUrlSortField.status)}
-            >
+            <span className={classes.colNameHeader}>
+              <FormattedMessage defaultMessage="SKU" description="product" />
+            </span>
+          </TableCellHeader>
+
+          <TableCellHeader
+            data-test-id="colNameHeader"
+            arrowPosition="right"
+            className={classNames(classes.colName, {
+              [classes.colNameFixed]: settings.columns.length > 4
+            })}
+          >
+            <span className={classes.colNameHeader}>
               <FormattedMessage
-                defaultMessage="Availability"
-                description="product channels"
+                defaultMessage="Category"
+                description="product"
               />
-            </TableCellHeader>
-          </DisplayColumn>
+            </span>
+          </TableCellHeader>
+
           {gridAttributesFromSettings.map(gridAttributeFromSettings => {
             const attributeId = getAttributeIdFromColumnValue(
               gridAttributeFromSettings
@@ -285,17 +318,18 @@ export const ProductList: React.FC<ProductListProps> = props => {
             />
           </TableRow>
         </TableFooter>
-        <TableBody>
+        <SortableTableBody onSortEnd={onValueReorder}>
           {renderCollection(
             products,
-            product => {
+            (product, valueIndex) => {
               const isSelected = product ? isChecked(product.id) : false;
               const channel = product?.channelListings.find(
                 listing => listing.channel.id === selectedChannelId
               );
 
               return (
-                <TableRow
+                <SortableTableRow
+                  index={valueIndex || 0}
                   selected={isSelected}
                   hover={!!product}
                   key={product ? product.id : "skeleton"}
@@ -304,7 +338,7 @@ export const ProductList: React.FC<ProductListProps> = props => {
                   data-test="id"
                   data-test-id={product ? product?.id : "skeleton"}
                 >
-                  <TableCell padding="checkbox">
+                  <TableCell padding="checkbox" style={{ width: "100px" }}>
                     <Checkbox
                       checked={isSelected}
                       disabled={disabled}
@@ -319,27 +353,12 @@ export const ProductList: React.FC<ProductListProps> = props => {
                     {product?.productType ? (
                       <div className={classes.colNameWrapper}>
                         <span data-test="name">{product.name}</span>
-                        {product?.productType && (
-                          <Typography variant="caption">
-                            {product.productType.hasVariants ? (
-                              <FormattedMessage
-                                defaultMessage="Configurable"
-                                description="product type"
-                              />
-                            ) : (
-                              <FormattedMessage
-                                defaultMessage="Simple"
-                                description="product type"
-                              />
-                            )}
-                          </Typography>
-                        )}
                       </div>
                     ) : (
                       <Skeleton />
                     )}
                   </TableCellAvatar>
-                  <DisplayColumn
+                  {/* <DisplayColumn
                     column="productType"
                     displayColumns={settings.columns}
                   >
@@ -349,8 +368,8 @@ export const ProductList: React.FC<ProductListProps> = props => {
                     >
                       {product?.productType?.name || <Skeleton />}
                     </TableCell>
-                  </DisplayColumn>
-                  <DisplayColumn
+                  </DisplayColumn> */}
+                  {/* <DisplayColumn
                     column="availability"
                     displayColumns={settings.columns}
                   >
@@ -373,7 +392,7 @@ export const ProductList: React.FC<ProductListProps> = props => {
                         <Skeleton />
                       )}
                     </TableCell>
-                  </DisplayColumn>
+                  </DisplayColumn> */}
                   {gridAttributesFromSettings.map(gridAttribute => (
                     <TableCell
                       className={classes.colAttribute}
@@ -398,6 +417,15 @@ export const ProductList: React.FC<ProductListProps> = props => {
                       }, <Skeleton />)}
                     </TableCell>
                   ))}
+                  <TableCell>
+                    {product.variants &&
+                      product.variants.length > 0 &&
+                      product.variants[0].sku}
+                  </TableCell>
+                  <TableCell>
+                    {product?.category.name || <Skeleton />}
+                  </TableCell>
+
                   <DisplayColumn
                     column="price"
                     displayColumns={settings.columns}
@@ -406,14 +434,14 @@ export const ProductList: React.FC<ProductListProps> = props => {
                       {product?.channelListings ? (
                         <MoneyRange
                           from={channel?.pricing?.priceRange?.start?.net}
-                          to={channel?.pricing?.priceRange?.stop?.net}
+                          // to={channel?.pricing?.priceRange?.stop?.net}
                         />
                       ) : (
                         <Skeleton />
                       )}
                     </TableCell>
                   </DisplayColumn>
-                </TableRow>
+                </SortableTableRow>
               );
             },
             () => (
@@ -424,7 +452,7 @@ export const ProductList: React.FC<ProductListProps> = props => {
               </TableRow>
             )
           )}
-        </TableBody>
+        </SortableTableBody>
       </ResponsiveTable>
     </div>
   );

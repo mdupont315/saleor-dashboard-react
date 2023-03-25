@@ -1,3 +1,4 @@
+// import orderichNotification from "@assets/sound/orderich_notification.mp3";
 import ChannelPickerDialog from "@saleor/channels/components/ChannelPickerDialog";
 import useAppChannel from "@saleor/components/AppLayout/AppChannelContext";
 import DeleteFilterTabDialog from "@saleor/components/DeleteFilterTabDialog";
@@ -12,13 +13,15 @@ import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
 import { getStringOrPlaceholder } from "@saleor/misc";
+import { SUBSCRIPTION_MESSAGE } from "@saleor/mutations";
 import { ListViews } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createFilterHandlers from "@saleor/utils/handlers/filterHandlers";
 import createSortHandler from "@saleor/utils/handlers/sortHandler";
 import { mapEdgesToItems, mapNodeToChoice } from "@saleor/utils/maps";
 import { getSortParams } from "@saleor/utils/sort";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSubscription } from "react-apollo";
 import { useIntl } from "react-intl";
 
 import OrderListPage from "../../components/OrderListPage/OrderListPage";
@@ -43,7 +46,6 @@ import {
   saveFilterTab
 } from "./filters";
 import { getSortQueryVariables } from "./sort";
-
 interface OrderListProps {
   params: OrderListUrlQueryParams;
 }
@@ -56,6 +58,10 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
     ListViews.ORDER_LIST
   );
   const intl = useIntl();
+  const store_id = localStorage.getItem("store_id") || "";
+  const { data: dataSocket } = useSubscription(SUBSCRIPTION_MESSAGE, {
+    variables: { id: store_id }
+  });
 
   const handleCreateOrderCreateSuccess = (data: OrderDraftCreate) => {
     notify({
@@ -136,7 +142,7 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
     }),
     [params, settings.rowNumber]
   );
-  const { data, loading } = useOrderListQuery({
+  const { data, loading, refetch } = useOrderListQuery({
     displayLoader: true,
     variables: queryVariables
   });
@@ -148,6 +154,12 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
   );
 
   const handleSort = createSortHandler(navigate, orderListUrl, params);
+
+  useEffect(() => {
+    if (dataSocket) {
+      refetch();
+    }
+  }, [dataSocket]);
 
   return (
     <>

@@ -7,7 +7,7 @@ import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Form from "@saleor/components/Form";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import { MetadataFormData } from "@saleor/components/Metadata/types";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
@@ -32,7 +32,7 @@ import {
   ShippingMethodTypeEnum
 } from "@saleor/types/globalTypes";
 import { mapEdgesToItems, mapMetadataItemToInput } from "@saleor/utils/maps";
-import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
+// import useMetadataChangeTrigger from "@saleor/utils/metadata/useMetadataChangeTrigger";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -117,9 +117,9 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
     type: rate?.type || null
   };
 
-  const {
-    makeChangeHandler: makeMetadataChangeHandler
-  } = useMetadataChangeTrigger();
+  // const {
+  //   makeChangeHandler: makeMetadataChangeHandler
+  // } = useMetadataChangeTrigger();
 
   return (
     <Form initial={initialForm} onSubmit={onSubmit}>
@@ -137,7 +137,7 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
           triggerChange();
         };
 
-        const changeMetadata = makeMetadataChangeHandler(change);
+        // const changeMetadata = makeMetadataChangeHandler(change);
         const formIsUnchanged =
           !hasChanged && !hasChannelChanged && !havePostalCodesChanged;
 
@@ -200,7 +200,7 @@ export const ShippingZoneRatesPage: React.FC<ShippingZoneRatesPageProps> = ({
                   {...listProps}
                 />
                 <CardSpacer />
-                <Metadata data={data} onChange={changeMetadata} />
+                {/* <Metadata data={data} onChange={changeMetadata} /> */}
               </div>
               <div>
                 <ChannelsAvailabilityCard

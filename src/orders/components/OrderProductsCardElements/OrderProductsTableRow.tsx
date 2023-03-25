@@ -17,7 +17,8 @@ const useStyles = makeStyles(
       cursor: "pointer"
     },
     colName: {
-      width: "auto"
+      width: "auto",
+      fontSize: "15px"
     },
     colNameLabel: {
       marginLeft: AVATAR_MARGIN
@@ -57,6 +58,13 @@ const useStyles = makeStyles(
     },
     table: {
       tableLayout: "fixed"
+    },
+    option: {
+      display: "block",
+      fontSize: "12px",
+      fontWeight: 400,
+      lineHeight: "16px",
+      color: "#28234A99"
     }
   }),
   { name: "TableLine" }
@@ -65,10 +73,12 @@ const useStyles = makeStyles(
 interface TableLineProps {
   line: OrderDetails_order_fulfillments_lines | OrderDetails_order_lines;
   isOrderLine?: boolean;
+  linesFullFill?: any;
 }
 
 const TableLine: React.FC<TableLineProps> = ({
   line: lineData,
+  linesFullFill,
   isOrderLine = false
 }) => {
   const classes = useStyles({});
@@ -89,13 +99,30 @@ const TableLine: React.FC<TableLineProps> = ({
     ? quantity - quantityFulfilled
     : quantity;
 
+  const productOptions =
+    linesFullFill && JSON.parse(JSON.parse(linesFullFill.optionItems));
+
   return (
     <TableRow className={classes.clickableRow} hover key={line.id}>
       <TableCellAvatar
         className={classes.colName}
         thumbnail={maybe(() => line.orderLine.thumbnail.url)}
       >
-        {maybe(() => line.orderLine.productName) || <Skeleton />}
+        {line.orderLine.productName ? (
+          <div>
+            <p style={{ margin: 0 }}>
+              {maybe(() => line.orderLine.productName)}
+            </p>
+            {productOptions &&
+              productOptions.map((item: any) => (
+                <span className={classes.option} key={item.id}>
+                  {item.name}
+                </span>
+              ))}
+          </div>
+        ) : (
+          <Skeleton />
+        )}
       </TableCellAvatar>
       <TableCell className={classes.colSku}>
         {line?.orderLine.productSku || <Skeleton />}

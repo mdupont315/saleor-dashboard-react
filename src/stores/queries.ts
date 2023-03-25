@@ -1,5 +1,6 @@
 import makeMutation from "@saleor/hooks/makeMutation";
 import makeQuery from "@saleor/hooks/makeQuery";
+import { TypedMutation } from "@saleor/mutations";
 import gql from "graphql-tag";
 
 export const storesList = gql`
@@ -72,7 +73,7 @@ export const updateUser = gql`
 
 export const useUpdateUser = makeMutation<any, any>(updateUser);
 
-const storeRegisterMutation = gql`
+export const storeRegisterMutation = gql`
   mutation createstore($input: StoreInput!) {
     storeCreate(input: $input) {
       store {
@@ -87,11 +88,13 @@ const storeRegisterMutation = gql`
   }
 `;
 
-export const useCreateStoreMutation = makeMutation<any, {}>(
+export const useCreateStoreMutation = makeMutation<any, any>(
   storeRegisterMutation
 );
 
-export const useStoreListQuery = makeQuery<any, {}>(storesList);
+export const AddStoreMutation = TypedMutation<any, any>(storeRegisterMutation);
+
+export const useStoreListQuery = makeQuery<any, any>(storesList);
 
 export const storeForUser = gql`
   query stores($id: ID!) {
@@ -99,6 +102,10 @@ export const storeForUser = gql`
       id
       name
       domain
+      phone
+      address
+      city
+      postalCode
       logo {
         url
         alt
@@ -107,6 +114,14 @@ export const storeForUser = gql`
         url
         alt
       }
+      favicon {
+        url
+        alt
+      }
+      address
+      phone
+      description
+      customDomainEnable
     }
   }
 `;
@@ -148,6 +163,8 @@ export const storeTypeQuery = gql`
         node {
           id
           name
+          address
+          phone
         }
       }
     }
@@ -198,6 +215,63 @@ export const uploadMediaStore = gql`
 `;
 
 export const useStoreUploadMedia = makeMutation<any, {}>(uploadMediaStore);
+
+export const customDomainsGet = gql`
+  query CustomDomainsGet($first: Int) {
+    customDomains(first: $first) {
+      edges {
+        node {
+          id
+          domainCustom
+          status
+        }
+      }
+    }
+  }
+`;
+export const useCustomDomainsGet = makeQuery<any, {}>(customDomainsGet);
+
+export const addCustomDomain = gql`
+  mutation CustomDomainCreate($input: DomainCustomInput!) {
+    customDomainCreate(input: $input) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const addCustomDomainMutation = makeMutation<any, {}>(addCustomDomain);
+
+export const deleteCustomDomain = gql`
+  mutation CustomDomainDelete($id: ID!) {
+    customDomainDelete(id: $id) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const deleteCustomDomainMutation = makeMutation<any, {}>(
+  deleteCustomDomain
+);
+
+export const verifyCustomDomain = gql`
+  mutation CustomDomainVerify($input: MultipleDomainCustomInput!) {
+    customDomainVerify(input: $input) {
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+export const verifyCustomDomainMutation = makeMutation<any, {}>(
+  verifyCustomDomain
+);
 
 export interface IStoreType {
   storeTypes: StoreType | null;

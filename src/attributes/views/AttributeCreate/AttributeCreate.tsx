@@ -136,7 +136,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ params }) => {
       closeModal();
     }
   };
-  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) =>
+  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
     setValues(
       move(
         values[pageInfo.startCursor + oldIndex],
@@ -145,6 +145,7 @@ const AttributeDetails: React.FC<AttributeDetailsProps> = ({ params }) => {
         pageInfo.startCursor + newIndex
       )
     );
+  };
 
   const handleCreate = async (data: AttributePageFormData) => {
     const input = getAttributeData(data, values);

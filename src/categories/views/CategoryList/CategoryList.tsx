@@ -12,7 +12,7 @@ import usePaginator, {
   createPaginationState
 } from "@saleor/hooks/usePaginator";
 import { maybe } from "@saleor/misc";
-import { ListViews } from "@saleor/types";
+import { ListViews, ReorderEvent } from "@saleor/types";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createSortHandler from "@saleor/utils/handlers/sortHandler";
 import { mapEdgesToItems } from "@saleor/utils/maps";
@@ -21,7 +21,10 @@ import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { CategoryListPage } from "../../components/CategoryListPage/CategoryListPage";
-import { useCategoryBulkDeleteMutation } from "../../mutations";
+import {
+  useCategoryBulkDeleteMutation,
+  useReorderCategories
+} from "../../mutations";
 import { useRootCategoriesQuery } from "../../queries";
 import { CategoryBulkDelete } from "../../types/CategoryBulkDelete";
 import {
@@ -40,7 +43,7 @@ import {
   getFilterVariables,
   saveFilterTab
 } from "./filter";
-import { getSortQueryVariables } from "./sort";
+// import { getSortQueryVariables } from "./sort";
 
 interface CategoryListProps {
   params: CategoryListUrlQueryParams;
@@ -61,8 +64,8 @@ export const CategoryList: React.FC<CategoryListProps> = ({ params }) => {
   const queryVariables = React.useMemo(
     () => ({
       ...paginationState,
-      filter: getFilterVariables(params),
-      sort: getSortQueryVariables(params)
+      filter: getFilterVariables(params)
+      // sort: getSortQueryVariables(params)
     }),
     [params]
   );
@@ -138,7 +141,27 @@ export const CategoryList: React.FC<CategoryListProps> = ({ params }) => {
     onCompleted: handleCategoryBulkDelete
   });
 
+  const [categoriesReorder] = useReorderCategories({
+    onCompleted: data => {
+      if (data.reorderCategories.errors.length === 0) {
+        refetch();
+      }
+    }
+  });
+
   const handleSort = createSortHandler(navigate, categoryListUrl, params);
+  const handleValueReorder = ({ newIndex, oldIndex }: ReorderEvent) => {
+    categoriesReorder({
+      variables: {
+        moves: [
+          {
+            categoryId: data.categories.edges[oldIndex].node.id,
+            sortOrder: newIndex - oldIndex
+          }
+        ]
+      }
+    });
+  };
 
   return (
     <>
@@ -178,6 +201,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ params }) => {
             <DeleteIcon />
           </IconButton>
         }
+        onValueReorder={handleValueReorder}
       />
       <ActionDialog
         confirmButtonState={categoryBulkDeleteOpts.status}

@@ -129,7 +129,7 @@ const OrderRefundAmount: React.FC<OrderRefundAmountProps> = props => {
 
   const isAmountTooSmall = selectedRefundAmount && selectedRefundAmount <= 0;
   const isAmountTooBig = selectedRefundAmount > maxRefund?.amount;
-
+  // console.log(selectedRefundAmount,isAmountTooBig, isAmountTooSmall)
   const disableRefundButton = isReturn
     ? disableSubmitButton || isAmountTooSmall || isAmountTooBig
     : !selectedRefundAmount || isAmountTooBig || isAmountTooSmall;

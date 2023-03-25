@@ -36,6 +36,10 @@ import {
   VariantCreate,
   VariantCreateVariables
 } from "@saleor/products/types/VariantCreate";
+// import {
+//   VariantCreate,
+//   VariantCreateVariables
+// } from "@saleor/products/types/VariantCreate";
 import { getAvailabilityVariables } from "@saleor/products/utils/handlers";
 import { getParsedDataForJsonStringField } from "@saleor/utils/richText/misc";
 import { MutationFetchResult } from "react-apollo";
@@ -67,6 +71,7 @@ const getSimpleProductVariables = (
 
 export function createHandler(
   productType: ProductType_productType,
+  // _,
   uploadFile: (
     variables: FileUploadVariables
   ) => Promise<MutationFetchResult<FileUpload>>,
@@ -82,6 +87,7 @@ export function createHandler(
   updateVariantChannels: (options: {
     variables: ProductVariantChannelListingUpdateVariables;
   }) => Promise<MutationFetchResult<ProductVariantChannelListingUpdate>>,
+  // _, _,
   productDelete: (options: {
     variables: ProductDeleteVariables;
   }) => Promise<MutationFetchResult<ProductDelete>>
@@ -119,7 +125,9 @@ export function createHandler(
         },
         slug: formData.slug,
         taxCode: formData.changeTaxCode ? formData.taxCode : undefined,
-        weight: weight(formData.weight)
+        weight: weight(formData.weight),
+        options: formData.options,
+        enable: !!formData.enable
       }
     };
 

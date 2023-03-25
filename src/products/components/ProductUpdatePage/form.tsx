@@ -60,6 +60,7 @@ export interface ProductUpdateFormData extends MetadataFormData {
   chargeTaxes: boolean;
   collections: string[];
   isAvailable: boolean;
+  enable?: boolean;
   name: string;
   rating: number;
   slug: string;
@@ -69,6 +70,7 @@ export interface ProductUpdateFormData extends MetadataFormData {
   taxCode: string;
   trackInventory: boolean;
   weight: string;
+  options?: string[];
 }
 export interface FileAttributeInputData {
   attributeId: string;
@@ -117,6 +119,7 @@ export interface ProductUpdateHandlers
         data: Omit<ChannelData, "name" | "price" | "currency" | "id">
       ) => void
     >,
+    Record<"handlerAttribute", () => void>,
     Record<"selectAttributeReference", FormsetChange<string[]>>,
     Record<"selectAttributeFile", FormsetChange<File>>,
     Record<"reorderAttributeValue", FormsetChange<ReorderEvent>>,
@@ -161,6 +164,7 @@ export interface UseProductUpdateFormOpts
   assignReferencesAttributeId?: string;
   channelsWithVariants: ChannelsWithVariantsData;
   isSimpleProduct: boolean;
+  options?: string[];
 }
 
 export interface ProductUpdateFormProps extends UseProductUpdateFormOpts {
@@ -314,6 +318,8 @@ function useProductUpdateForm(
     triggerChange
   );
 
+  const handlerAttribute = () => triggerChange();
+
   const data: ProductUpdateData = {
     ...form.data,
     channelListings: opts.currentChannels,
@@ -325,7 +331,8 @@ function useProductUpdateForm(
       opts.referenceProducts
     ),
     description: description.current,
-    stocks: stocks.data
+    stocks: stocks.data,
+    options: opts.options
   };
 
   // Need to make it function to always have description.current up to date
@@ -380,7 +387,8 @@ function useProductUpdateForm(
       selectAttributeReference: handleAttributeReferenceChange,
       selectCategory: handleCategorySelect,
       selectCollection: handleCollectionSelect,
-      selectTaxRate: handleTaxTypeSelect
+      selectTaxRate: handleTaxTypeSelect,
+      handlerAttribute
     },
     hasChanged: changed,
     submit

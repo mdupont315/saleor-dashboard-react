@@ -69,6 +69,7 @@ export type ProductUrlDialog =
   | "remove"
   | "remove-variants"
   | "assign-attribute-value"
+  | "assign-attribute"
   | ChannelsAction;
 export type ProductUrlQueryParams = BulkAction &
   Dialog<ProductUrlDialog> &

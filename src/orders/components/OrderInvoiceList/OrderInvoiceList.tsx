@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  CardActions,
   CardContent,
   TableBody,
   TableCell,
@@ -9,13 +10,17 @@ import {
 } from "@material-ui/core";
 import CardTitle from "@saleor/components/CardTitle";
 import Date from "@saleor/components/Date";
+import Hr from "@saleor/components/Hr";
 import ResponsiveTable from "@saleor/components/ResponsiveTable";
 import Skeleton from "@saleor/components/Skeleton";
+import { useGetMyStore } from "@saleor/emergency/queries";
 import { InvoiceFragment } from "@saleor/fragments/types/InvoiceFragment";
 import { buttonMessages } from "@saleor/intl";
+import OrderDetail from "@saleor/OrderDetail";
 import { makeStyles } from "@saleor/theme";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import ReactToPrint from "react-to-print";
 
 const useStyles = makeStyles(
   () => ({
@@ -52,13 +57,20 @@ const useStyles = makeStyles(
 
 export interface OrderInvoiceListProps {
   invoices: InvoiceFragment[];
+  orderFullFill?: any;
   onInvoiceGenerate: () => void;
   onInvoiceClick: (invoiceId: string) => void;
   onInvoiceSend: (invoiceId: string) => void;
 }
 
 const OrderInvoiceList: React.FC<OrderInvoiceListProps> = props => {
-  const { invoices, onInvoiceGenerate, onInvoiceClick, onInvoiceSend } = props;
+  const {
+    invoices,
+    onInvoiceGenerate,
+    onInvoiceClick,
+    onInvoiceSend,
+    orderFullFill
+  } = props;
 
   const classes = useStyles(props);
 
@@ -68,6 +80,9 @@ const OrderInvoiceList: React.FC<OrderInvoiceListProps> = props => {
     invoice => invoice.status === "SUCCESS"
   );
 
+  const { data: myStore } = useGetMyStore({ variables: {} });
+
+  const componentRef = React.useRef<any>();
   return (
     <Card className={classes.card}>
       <CardTitle
@@ -137,6 +152,31 @@ const OrderInvoiceList: React.FC<OrderInvoiceListProps> = props => {
           </ResponsiveTable>
         )}
       </CardContent>
+      <>
+        <Hr />
+        <CardActions>
+          <ReactToPrint
+            trigger={() => (
+              <Button color="primary" onClick={() => null}>
+                <FormattedMessage
+                  defaultMessage="PRINT RECEIPT"
+                  description="refund button"
+                />
+              </Button>
+            )}
+            content={() => componentRef.current}
+          />
+          {/*  style={{ display: "none" }}*/}
+          <div style={{ display: "none" }}>
+            <div ref={componentRef}>
+              <OrderDetail
+                orderDetail={orderFullFill?.order || {}}
+                myStore={myStore}
+              />
+            </div>
+          </div>
+        </CardActions>
+      </>
     </Card>
   );
 };

@@ -8,14 +8,13 @@ import AppHeader from "@saleor/components/AppHeader";
 import AssignAttributeValueDialog from "@saleor/components/AssignAttributeValueDialog";
 import Attributes, { AttributeInput } from "@saleor/components/Attributes";
 import CardSpacer from "@saleor/components/CardSpacer";
-import ChannelsAvailabilityCard from "@saleor/components/ChannelsAvailabilityCard";
 import { ConfirmButtonTransitionState } from "@saleor/components/ConfirmButton";
 import Container from "@saleor/components/Container";
 import Grid from "@saleor/components/Grid";
-import Metadata from "@saleor/components/Metadata/Metadata";
+// import Metadata from "@saleor/components/Metadata/Metadata";
 import PageHeader from "@saleor/components/PageHeader";
 import SaveButtonBar from "@saleor/components/SaveButtonBar";
-import SeoForm from "@saleor/components/SeoForm";
+// import SeoForm from "@saleor/components/SeoForm";
 import { RefreshLimits_shop_limits } from "@saleor/components/Shop/types/RefreshLimits";
 import { ProductChannelListingErrorFragment } from "@saleor/fragments/types/ProductChannelListingErrorFragment";
 import { ProductErrorWithAttributesFragment } from "@saleor/fragments/types/ProductErrorWithAttributesFragment";
@@ -40,11 +39,9 @@ import {
   ListActions,
   ReorderAction
 } from "@saleor/types";
-import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
 
-import ChannelsWithVariantsAvailabilityCard from "../../../channels/ChannelsWithVariantsAvailabilityCard/ChannelsWithVariantsAvailabilityCard";
 import {
   ProductDetails_product,
   ProductDetails_product_media,
@@ -54,9 +51,8 @@ import { getChoices, ProductUpdatePageFormData } from "../../utils/data";
 import ProductDetailsForm from "../ProductDetailsForm";
 import ProductMedia from "../ProductMedia";
 import ProductOrganization from "../ProductOrganization";
-import ProductShipping from "../ProductShipping/ProductShipping";
-import ProductStocks, { ProductStockInput } from "../ProductStocks";
-import ProductTaxes from "../ProductTaxes";
+import { ProductStockInput } from "../ProductStocks";
+import ProductTypeAttributes from "../ProductTypeAttributes";
 import ProductVariants from "../ProductVariants";
 import ProductUpdateForm, {
   ProductUpdateData,
@@ -69,6 +65,8 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onChannelsChange: (data: ChannelData[]) => void;
   channelsData: ChannelData[];
   currentChannels: ChannelData[];
+  values?: any;
+  isCheckedOption?: any;
   allChannelsCount: number;
   channelsErrors: ProductChannelListingErrorFragment[];
   defaultWeightUnit: string;
@@ -109,7 +107,13 @@ export interface ProductUpdatePageProps extends ListActions, ChannelProps {
   onVariantReorder: ReorderAction;
   onImageDelete: (id: string) => () => void;
   onSubmit: (data: ProductUpdatePageSubmitData) => SubmitPromise;
+  onAttributeUnassignAll?: () => void;
+  onAttributeUnassign?: (id: string) => void;
+  onToggle?: (id: string) => void;
+  onToggleAll?: () => void;
+  onAttributeAdd?: () => void;
   openChannelsModal: () => void;
+  onProductOptionsReorder?: ReorderAction;
   onBack?();
   onDelete();
   onImageEdit?(id: string);
@@ -130,10 +134,10 @@ export interface ProductUpdatePageSubmitData extends ProductUpdatePageFormData {
   description: OutputData;
   removeStocks: string[];
   updateStocks: ProductStockInput[];
+  options: string[];
 }
 
 export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
-  defaultWeightUnit,
   disabled,
   categories: categoryChoiceList,
   channelsErrors,
@@ -160,15 +164,13 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   referenceProducts = [],
   onBack,
   onDelete,
-  allChannelsCount,
   currentChannels,
   onImageDelete,
   onImageEdit,
   onImageReorder,
   onImageUpload,
   onMediaUrlUpload,
-  openChannelsModal,
-  onSeoClick,
+  // onSeoClick,
   onSubmit,
   onVariantAdd,
   channelsData,
@@ -176,7 +178,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   onSetDefaultVariant,
   onVariantShow,
   onVariantReorder,
-  onWarehouseConfigure,
   isChecked,
   isMediaUrlModalVisible,
   selected,
@@ -192,9 +193,17 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
   fetchMoreReferenceProducts,
   fetchAttributeValues,
   fetchMoreAttributeValues,
+  values,
   onCloseDialog,
   channelsWithVariantsData,
-  onChannelsChange
+  onChannelsChange,
+  onAttributeAdd,
+  onAttributeUnassign,
+  onAttributeUnassignAll,
+  onToggle,
+  onToggleAll,
+  onProductOptionsReorder,
+  isCheckedOption
 }) => {
   const intl = useIntl();
 
@@ -208,10 +217,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
 
   const [selectedCollections, setSelectedCollections] = useStateFromProps(
     getChoices(maybe(() => product.collections, []))
-  );
-
-  const [selectedTaxType, setSelectedTaxType] = useStateFromProps(
-    product?.taxType.description
   );
 
   const categories = getChoices(categoryChoiceList);
@@ -255,10 +260,11 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
       selectedCollections={selectedCollections}
       setSelectedCategory={setSelectedCategory}
       setSelectedCollections={setSelectedCollections}
-      setSelectedTaxType={setSelectedTaxType}
+      setSelectedTaxType={null}
       setChannels={onChannelsChange}
       taxTypes={taxTypeChoices}
       warehouses={warehouses}
+      options={values.map(value => value.id)}
       hasVariants={hasVariants}
       referencePages={referencePages}
       referenceProducts={referenceProducts}
@@ -271,7 +277,7 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
       {({
         change,
         data,
-        disabled: formDisabled,
+        // disabled: formDisabled,
         handlers,
         hasChanged,
         submit
@@ -290,6 +296,26 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   errors={errors}
                   onDescriptionChange={handlers.changeDescription}
                   onChange={change}
+                />
+                <CardSpacer />
+                <ProductTypeAttributes
+                  attributes={maybe(() => values)}
+                  isChecked={isCheckedOption}
+                  toggle={onToggle}
+                  toggleAll={onToggleAll}
+                  onAttributeAssign={() => {
+                    onAttributeAdd();
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeUnassign={(id: string) => {
+                    onAttributeUnassign(id);
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeUnassignAll={() => {
+                    onAttributeUnassignAll();
+                    handlers.handlerAttribute();
+                  }}
+                  onAttributeReorder={onProductOptionsReorder}
                 />
                 <CardSpacer />
                 <ProductMedia
@@ -350,32 +376,10 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     toggleAll={toggleAll}
                   />
                 ) : (
-                  <>
-                    <ProductShipping
-                      data={data}
-                      disabled={disabled}
-                      errors={errors}
-                      weightUnit={product?.weight?.unit || defaultWeightUnit}
-                      onChange={change}
-                    />
-                    <CardSpacer />
-                    <ProductStocks
-                      data={data}
-                      disabled={disabled}
-                      hasVariants={false}
-                      errors={errors}
-                      stocks={data.stocks}
-                      warehouses={warehouses}
-                      onChange={handlers.changeStock}
-                      onFormDataChange={change}
-                      onWarehouseStockAdd={handlers.addStock}
-                      onWarehouseStockDelete={handlers.deleteStock}
-                      onWarehouseConfigure={onWarehouseConfigure}
-                    />
-                  </>
+                  <></>
                 )}
                 <CardSpacer />
-                <SeoForm
+                {/* <SeoForm
                   errors={errors}
                   title={data.seoTitle}
                   titlePlaceholder={data.name}
@@ -390,9 +394,9 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                     defaultMessage:
                       "Add search engine title and description to make this product easier to find"
                   })}
-                />
-                <CardSpacer />
-                <Metadata data={data} onChange={handlers.changeMetadata} />
+                /> */}
+                {/* <CardSpacer />
+                <Metadata data={data} onChange={handlers.changeMetadata} /> */}
               </div>
               <div>
                 <ProductOrganization
@@ -413,60 +417,6 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
                   onCollectionChange={handlers.selectCollection}
                 />
                 <CardSpacer />
-                {isSimpleProduct ? (
-                  <ChannelsAvailabilityCard
-                    managePermissions={[PermissionEnum.MANAGE_PRODUCTS]}
-                    messages={{
-                      hiddenLabel: intl.formatMessage({
-                        defaultMessage: "Not published",
-                        description: "product label"
-                      }),
-
-                      visibleLabel: intl.formatMessage({
-                        defaultMessage: "Published",
-                        description: "product label"
-                      })
-                    }}
-                    errors={channelsErrors}
-                    selectedChannelsCount={data.channelListings.length}
-                    allChannelsCount={allChannelsCount}
-                    channels={data.channelListings}
-                    disabled={disabled}
-                    onChange={handlers.changeChannels}
-                    openModal={openChannelsModal}
-                  />
-                ) : (
-                  <ChannelsWithVariantsAvailabilityCard
-                    messages={{
-                      hiddenLabel: intl.formatMessage({
-                        defaultMessage: "Not published",
-                        description: "product label",
-                        id: "not published channel"
-                      }),
-
-                      visibleLabel: intl.formatMessage({
-                        defaultMessage: "Published",
-                        description: "product label",
-                        id: "published channel"
-                      })
-                    }}
-                    errors={channelsErrors}
-                    channels={data.channelsData}
-                    channelsWithVariantsData={channelsWithVariantsData}
-                    variants={variants}
-                    onChange={handlers.changeChannels}
-                    openModal={openChannelsModal}
-                  />
-                )}
-                <CardSpacer />
-                <ProductTaxes
-                  data={data}
-                  disabled={disabled}
-                  selectedTaxTypeDisplayName={selectedTaxType}
-                  taxTypes={taxTypes}
-                  onChange={change}
-                  onTaxTypeChange={handlers.selectTaxRate}
-                />
               </div>
             </Grid>
             <SaveButtonBar
@@ -474,9 +424,8 @@ export const ProductUpdatePage: React.FC<ProductUpdatePageProps> = ({
               onDelete={onDelete}
               onSave={submit}
               state={saveButtonBarState}
-              disabled={
-                disabled || formDisabled || (!hasChanged && !hasChannelChanged)
-              }
+              // disabled={false}
+              disabled={disabled || (!hasChanged && !hasChannelChanged)}
             />
             {canOpenAssignReferencesAttributeDialog && (
               <AssignAttributeValueDialog

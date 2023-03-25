@@ -73,6 +73,11 @@ export enum AppTypeEnum {
   THIRDPARTY = "THIRDPARTY",
 }
 
+export enum OptionInputTypeEnum{
+  SINGLE = "single",
+  MULTIPLE = "multiple" 
+}
+
 export enum AttributeEntityTypeEnum {
   PAGE = "PAGE",
   PRODUCT = "PRODUCT",
@@ -788,6 +793,11 @@ export enum PermissionEnum {
   MANAGE_STAFF = "MANAGE_STAFF",
   MANAGE_TRANSLATIONS = "MANAGE_TRANSLATIONS",
   MANAGE_USERS = "MANAGE_USERS",
+  MANAGE_NOTIFICATION = "MANAGE_NOTIFICATION",
+  MANAGE_SERVICE_TIME = "MANAGE_SERVICE_TIME",
+  MANAGE_TABLE_SERVICE = "MANAGE_TABLE_SERVICE",
+  MANAGE_STORES = "MANAGE_STORES",
+
 }
 
 export enum PermissionGroupErrorCode {
@@ -971,6 +981,10 @@ export enum UserSortField {
   ORDER_COUNT = "ORDER_COUNT",
 }
 
+export enum TableSortField {
+ NAME="NAME"
+}
+
 export enum VoucherDiscountType {
   FIXED = "FIXED",
   PERCENTAGE = "PERCENTAGE",
@@ -1098,7 +1112,15 @@ export interface AppTokenInput {
   name?: string | null;
   app: string;
 }
+//Option
+export interface OptionCreateInput {
+  name: string;
+  type: AttributeTypeEnum;
+  required?: boolean | null;
+  values?: (AttributeValueCreateInput | null)[] | null;
+  }
 
+//
 export interface AttributeCreateInput {
   inputType?: AttributeInputTypeEnum | null;
   entityType?: AttributeEntityTypeEnum | null;
@@ -1202,6 +1224,7 @@ export interface CategoryInput {
   name?: string | null;
   slug?: string | null;
   seo?: SeoInput | null;
+  enable?: boolean;
   backgroundImage?: any | null;
   backgroundImageAlt?: string | null;
 }
@@ -1655,12 +1678,14 @@ export interface ProductCreateInput {
   collections?: string[] | null;
   description?: any | null;
   name?: string | null;
+  options?: any | null;
   slug?: string | null;
   taxCode?: string | null;
   seo?: SeoInput | null;
   weight?: any | null;
   rating?: number | null;
   productType: string;
+  enable?: boolean;
 }
 
 export interface ProductFilterInput {
@@ -1684,6 +1709,7 @@ export interface ProductInput {
   attributes?: AttributeValueInput[] | null;
   category?: string | null;
   chargeTaxes?: boolean | null;
+  enable?: boolean;
   collections?: string[] | null;
   description?: any | null;
   name?: string | null;
@@ -1692,6 +1718,7 @@ export interface ProductInput {
   seo?: SeoInput | null;
   weight?: any | null;
   rating?: number | null;
+  options?: string[] | null;
 }
 
 export interface ProductOrder {
@@ -1988,6 +2015,7 @@ export interface VoucherInput {
   applyOncePerCustomer?: boolean | null;
   onlyForStaff?: boolean | null;
   usageLimit?: number | null;
+  active?: boolean | null;
 }
 
 export interface VoucherSortingInput {

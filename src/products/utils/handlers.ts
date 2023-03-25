@@ -1,10 +1,11 @@
+import { checkSlug } from "@saleor/auth";
 import {
   ChannelData,
   ChannelPriceArgs,
   ChannelPriceData
 } from "@saleor/channels/utils";
 import { FormChange } from "@saleor/hooks/useForm";
-
+import moment from "moment-timezone";
 export function createChannelsPriceChangeHandler(
   channelListings: ChannelData[],
   updateChannels: (data: ChannelData[]) => void,
@@ -15,6 +16,7 @@ export function createChannelsPriceChangeHandler(
     const channelIndex = channelListings.findIndex(
       channel => channel.id === id
     );
+
     const channel = channelListings[channelIndex];
 
     const updatedChannels = [
@@ -22,7 +24,12 @@ export function createChannelsPriceChangeHandler(
       {
         ...channel,
         costPrice,
-        price
+        price,
+        availableForPurchase: moment(new Date().getDate()).format("YYYY-MM-DD"),
+        publicationDate: moment(new Date().getDate()).format("YYYY-MM-DD"),
+        isAvailableForPurchase: false,
+        isPublished: true,
+        visibleInListings: true
       },
       ...channelListings.slice(channelIndex + 1)
     ];
@@ -127,3 +134,14 @@ export const getAvailabilityVariables = (channels: ChannelData[]) =>
       visibleInListings: channel.visibleInListings
     };
   });
+
+export const genarateSlug = (storeName: any, productName) => {
+  const tempSlug = (checkSlug(storeName) + " " + checkSlug(productName))
+    .split(" ")
+    .join("-");
+  // const tempProductName = productName.split(" ").join("-");
+  if (!tempSlug) {
+    return "";
+  }
+  return tempSlug;
+};

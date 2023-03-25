@@ -4,7 +4,7 @@ import { defineMessages, IntlShape } from "react-intl";
 import urlJoin from "url-join";
 
 import { ConfirmButtonTransitionState } from "./components/ConfirmButton/ConfirmButton";
-import { StatusType } from "./components/StatusChip/types";
+import { OrderType, StatusType } from "./components/StatusChip/types";
 import { APP_MOUNT_URI } from "./config";
 import { AddressType, AddressTypeInput } from "./customers/types";
 import {
@@ -162,6 +162,48 @@ export const orderStatusMessages = defineMessages({
     description: "order status"
   }
 });
+
+export const orderTypeMessages = defineMessages({
+  pickup: {
+    defaultMessage: "Pickup",
+    description: "order pickup"
+  },
+  delivery: {
+    defaultMessage: "Delivery",
+    description: "order delivery"
+  },
+  dinein: {
+    defaultMessage: "Dine-in",
+    description: "order dine-in"
+  }
+});
+
+export const transformOrderType = (
+  status: string,
+  intl: IntlShape
+): { localized: string; status: StatusType } => {
+  switch (status) {
+    case OrderType.PICKUP:
+      return {
+        localized: intl.formatMessage(orderTypeMessages.pickup),
+        status: StatusType.SUCCESS
+      };
+    case OrderType.DELIVERY:
+      return {
+        localized: intl.formatMessage(orderTypeMessages.delivery),
+        status: StatusType.SUCCESS
+      };
+    case OrderType.DINEIN:
+      return {
+        localized: intl.formatMessage(orderTypeMessages.dinein),
+        status: StatusType.SUCCESS
+      };
+  }
+  return {
+    localized: status,
+    status: StatusType.ERROR
+  };
+};
 
 export const transformOrderStatus = (
   status: string,
