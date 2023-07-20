@@ -43,3 +43,5 @@ webpack-bundle.json
 
 # Exported results file
 django-queries-results.html
+node_modules.zip
+.env

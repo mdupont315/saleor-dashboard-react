@@ -40,7 +40,7 @@ function setupApi() {
     fetch,
     uri: process.env.API_URI || "http://localhost:8000/graphql/"
   });
-  const apolloClient = new ApolloClient({
+  const Client = new ApolloClient({
     cache,
     link
   });
