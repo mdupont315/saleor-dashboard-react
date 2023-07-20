@@ -45,7 +45,7 @@ function setupApi() {
     link
   });
 
-  return apolloClient;
+  return Client;
 }
 
 export default setupApi;
